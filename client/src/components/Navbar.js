@@ -184,7 +184,7 @@ const Navbar = () => {
                 <Link to="/tax-news">Tax News</Link>
               </li>
               <li className="nav-phone">
-                <a href="tel:+18663796253">Call: (866) 379-6253</a>
+                <a href="tel:+18663796253">Call: (844) 996-6829</a>
               </li>
             </ul>
           </nav>

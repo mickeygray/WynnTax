@@ -44,7 +44,8 @@ const Footer = () => {
           <p>21625 Prairie Street, Suite #200</p>
           <p>Chatsworth, CA 91331</p>
           <p>
-            <i className="fa fa-phone-alt"></i> (866) 379-6253
+            <i className="fa fa-phone-alt"></i>
+            (844) 996-6829
           </p>{" "}
         </div>
 

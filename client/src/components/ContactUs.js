@@ -58,11 +58,11 @@ const ContactUs = () => {
           <i className="fas fa-phone-alt"></i>
           <h3>Contacts</h3>
           <p>
-            <a href="tel:+18663796253">(866) 379-6253</a>
+            <a href="tel:+18663796253">(844) 996-6829</a>
           </p>
           <p>
             <a href="mailto:inquiry@Wynn Tax Solutionstaxgroup.com">
-              inquiry@Wynn Tax Solutionstaxgroup.com
+              inquiry@WynnTaxSolutions.com
             </a>
           </p>
         </div>
