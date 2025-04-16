@@ -19,7 +19,7 @@ import TaxNewsArticle from "./components/TaxNewsArticle";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import LeadState from "./context/LeadState";
-
+import ScheduleMyCall from "./components/ScheduleMyCall";
 const App = () => {
   return (
     <LeadState>

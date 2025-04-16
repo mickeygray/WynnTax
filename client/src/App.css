@@ -3289,3 +3289,310 @@ body {
     font-size: 16px;
   }
 }
+/* === Schedule My Call === */
+
+.schedule-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px 20px 20px; /* top padding gives space under the navbar */
+}
+
+/* === CaseCheckForm === */
+
+.case-check-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.case-check-form h2 {
+  margin-bottom: 20px;
+  color: #004080;
+  font-size: 1.8rem;
+}
+
+.case-check-form input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.case-check-form button {
+  padding: 10px 20px;
+  background: #009ed8;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.case-check-form button:hover {
+  background: #007bb5;
+}
+
+/* === CalendarForm === */
+
+.calendar-form {
+  padding: 30px;
+  background: #eef5f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-form h3 {
+  margin-bottom: 20px;
+  color: #222;
+  font-size: 1.6rem;
+}
+
+.calendar-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.calendar-form input,
+.calendar-form textarea {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.calendar-form button {
+  padding: 10px 20px;
+  background-color: #009ed8;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calendar-form button:hover {
+  background-color: #007bb5;
+}
+
+/* === SuccessMessage === */
+
+.success-message {
+  text-align: center;
+  background-color: #e6f7e6;
+  padding: 30px;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* === AlreadySubmitted === */
+
+.already-submitted {
+  text-align: center;
+  background-color: #fff3cd;
+  padding: 30px;
+  border-radius: 8px;
+  color: #856404;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.schedule-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 30px 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.schedule-header h1 {
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.schedule-header p {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.case-check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.case-check-form input {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.case-check-form button {
+  background: #009ed8;
+  color: white;
+  font-size: 1rem;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.case-check-form button:hover {
+  background: #007bb5;
+}
+
+.schedule-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #e67300;
+  margin-top: 10px;
+}
+/* === Schedule Container === */
+.schedule-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+/* === Header & Intro Text === */
+.schedule-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.schedule-header h1 {
+  font-size: 2.2rem;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.schedule-header p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* === Case Input === */
+.case-input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.case-input-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.case-input-group input {
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* === Agent Selector === */
+.agent-select {
+  margin-bottom: 25px;
+}
+
+.agent-select label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.agent-select select {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* === Calendar Styling === */
+.react-calendar {
+  margin: 20px auto;
+  width: 100%;
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile--active {
+  background: #009ed8 !important;
+  color: #fff !important;
+  border-radius: 6px;
+}
+
+/* === Time Selector === */
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.time-slot {
+  padding: 10px 18px;
+  border: 1px solid #007bb5;
+  border-radius: 6px;
+  background: #f0faff;
+  color: #007bb5;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.time-slot:hover {
+  background: #007bb5;
+  color: white;
+}
+
+.time-slot.selected {
+  background: #004080;
+  color: white;
+  border-color: #004080;
+}
+
+/* === Submit Button === */
+.schedule-submit-button {
+  background-color: #f8a440;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto 0;
+  transition: background 0.3s ease;
+}
+
+.schedule-submit-button:hover {
+  background-color: #e08b36;
+}
