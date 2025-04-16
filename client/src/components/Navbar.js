@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className="logo">
           <a href="/">
             <img
-              src="/images/logo-wynn.png"
+              src="/images/logo-wynn-final.png"
               alt="Wynn Tax Solutions Logo"
               width="166"
               height="93"

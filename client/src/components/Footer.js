@@ -34,7 +34,7 @@ const Footer = () => {
         {/* Column 2: Logo & Address */}
         <div className="footer-column center">
           <img
-            src="/images/logo-wynn.png"
+            src="/images/logo-wynn-final.png"
             alt="Wynn Tax Solutions Logo"
             className="footer-logo"
           />
