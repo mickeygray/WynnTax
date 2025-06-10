@@ -7,7 +7,7 @@ const VideoSection = () => {
       <div className="video-container">
         <iframe
           loading="lazy"
-          src="https://www.youtube.com/embed/9N_KN7qeFvQ"
+          src="https://www.youtube.com/embed/NtVYBYELwJI?enablejsapi=1&wmode=opaque"
           width="940"
           height="529"
           frameBorder="0"
