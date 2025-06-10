@@ -42,7 +42,7 @@ const OurTaxServices = () => {
       <section
         className="hero our-tax-services-hero"
         style={{
-          backgroundImage: `url("/images/hero-3.jpg")`,
+          backgroundImage: `url("/images/hero-3.png")`,
         }}
       >
         <div className="hero-overlay"></div>
@@ -121,7 +121,7 @@ const OurTaxServices = () => {
         <div className="services-cta-container">
           <p className="services-cta-text">Contact To Book an Appointment</p>
           <a href="tel:+18663796253" className="services-cta-button">
-            <i className="fas fa-phone-alt"></i> (866) 379-6253
+            <i className="fas fa-phone-alt"></i>(844) 996-6829
           </a>
         </div>
       </section>

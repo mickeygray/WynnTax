@@ -4,7 +4,7 @@ const useSubPageData = () => {
   return useMemo(
     () => ({
       "tax-relief/tax-consultation": {
-        heroImage: "/images/hero-1.jpg", // Replace with actual image URL
+        heroImage: "/images/hero-1.png", // Replace with actual image URL
         heroTitle: "Tax Consultation",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -21,7 +21,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-relief/tax-preparation": {
-        heroImage: "/images/hero-2.jpg", // Replace with actual image URL
+        heroImage: "/images/hero-2.png", // Replace with actual image URL
         heroTitle: "Tax Preparation",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -37,7 +37,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-relief/tax-settlement": {
-        heroImage: "/images/hero-3.jpg",
+        heroImage: "/images/hero-3.png",
         heroTitle: "Tax Settlement Services",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -57,7 +57,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/tax-representation": {
-        heroImage: "/images/hero-4.jpg",
+        heroImage: "/images/hero-4.png",
         heroTitle: "Tax Representation",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -76,7 +76,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/dealing-with-the-irs": {
-        heroImage: "/images/hero-5.jpg",
+        heroImage: "/images/hero-5.png",
         heroTitle: "Dealing with the IRS",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -94,7 +94,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/irs-innocent-spouse": {
-        heroImage: "/images/hero-6.jpg",
+        heroImage: "/images/hero-6.png",
         heroTitle: "Innocent Spouse Relief",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -116,7 +116,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/state-tax-relief": {
-        heroImage: "/images/hero-7.jpg",
+        heroImage: "/images/hero-7.png",
         heroTitle: "State Tax Relief",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -137,7 +137,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/statute-of-limitations": {
-        heroImage: "/images/hero-8.jpg",
+        heroImage: "/images/hero-8.png",
         heroTitle: "Statute of Limitations",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -153,7 +153,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/tax-prep-and-planning": {
-        heroImage: "/images/hero-9.jpg",
+        heroImage: "/images/hero-9.png",
         heroTitle: "Tax Preparation and Planning",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -170,7 +170,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/unified-tax-returns": {
-        heroImage: "/images/hero-10.jpg",
+        heroImage: "/images/hero-10.png",
         heroTitle: "Unified Tax Returns",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -187,7 +187,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/irs-tax-discharge": {
-        heroImage: "/images/hero-13.jpg",
+        heroImage: "/images/hero-13.png",
         heroTitle: "IRS Tax Discharge",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -205,7 +205,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/payroll-tax-relief": {
-        heroImage: "/images/hero-14.jpg",
+        heroImage: "/images/hero-14.png",
         heroTitle: "Payroll Tax Relief",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -223,7 +223,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-resolution/wage-garnishment-relief": {
-        heroImage: "/images/hero-15.jpg",
+        heroImage: "/images/hero-15.png",
         heroTitle: "Wage Garnishment Relief",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -241,7 +241,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-negotiation/currently-not-collectible": {
-        heroImage: "/images/hero-17.jpg",
+        heroImage: "/images/hero-17.png",
         heroTitle: "Currently Not Collectible Status",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -259,7 +259,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-negotiation/irs-installment-plans": {
-        heroImage: "/images/hero-18.jpg",
+        heroImage: "/images/hero-18.png",
         heroTitle: "IRS Installment Plans",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -278,7 +278,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-negotiation/penalty-abatement": {
-        heroImage: "/images/hero-19.jpg",
+        heroImage: "/images/hero-19.png",
         heroTitle: "Penalty Abatement",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -298,7 +298,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-negotiation/offer-in-compromise": {
-        heroImage: "/images/hero-22.jpg",
+        heroImage: "/images/hero-22.png",
         heroTitle: "Offer in Compromise",
         breadcrumb: [
           { label: "Home", link: "/" },
@@ -315,7 +315,7 @@ const useSubPageData = () => {
         ],
       },
       "tax-negotiation/offer-in-compromise": {
-        heroImage: "/images/hero-23.jpg",
+        heroImage: "/images/hero-23.png",
         heroTitle: "Offer in Compromise",
         breadcrumb: [
           { label: "Home", link: "/" },

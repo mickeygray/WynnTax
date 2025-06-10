@@ -33,7 +33,7 @@ const Services = () => {
     <section className="services-section">
       <div className="parallax-background"></div>
       <div className="services-content">
-        <h2 className="services-title">Our Tax Services</h2>
+        <h2 className="services-title">Business and Personal Tax Services</h2>
         <p className="services-description">
           We will keep you informed and support you throughout the entire
           process, shouldering most of the work and guiding your tax situation

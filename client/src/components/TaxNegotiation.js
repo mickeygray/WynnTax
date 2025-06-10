@@ -7,7 +7,7 @@ const TaxNegotiation = () => {
       <section
         className="tax-negotiation-hero"
         style={{
-          backgroundImage: `url("/images/hero-4.jpg")`,
+          backgroundImage: `url("/images/hero-4.png")`,
         }}
       >
         <div className="tax-negotiation-overlay"></div>

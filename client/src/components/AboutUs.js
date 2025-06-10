@@ -7,7 +7,7 @@ const AboutUs = () => {
       <section
         className="about-hero"
         style={{
-          backgroundImage: `url("/images/contact-hero.jpg")`,
+          backgroundImage: `url("/images/contact-hero.png")`,
         }}
       >
         {" "}

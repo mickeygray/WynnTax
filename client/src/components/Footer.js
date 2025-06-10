@@ -26,7 +26,7 @@ const Footer = () => {
               <Link to="/tax-news">Tax News</Link>
             </li>
             <li>
-              <Link to="/contact">Contact Us</Link>
+              <Link to="/contact-us">Contact Us</Link>
             </li>
           </ul>
         </div>
@@ -34,7 +34,7 @@ const Footer = () => {
         {/* Column 2: Logo & Address */}
         <div className="footer-column center">
           <img
-            src="/images/logo-wynn-final.png"
+            src="/images/logo-wynn.png"
             alt="Wynn Tax Solutions Logo"
             className="footer-logo"
           />
@@ -44,9 +44,9 @@ const Footer = () => {
           <p>21625 Prairie Street, Suite #200</p>
           <p>Chatsworth, CA 91331</p>
           <p>
-            <i className="fa fa-phone-alt"></i>
-            (844) 996-6829
-          </p>{" "}
+            <i className="fa-solid fa-phone"></i>
+            {"   "}(844) 996-6829
+          </p>
         </div>
 
         {/* Column 4: Recent Posts */}
@@ -71,8 +71,8 @@ const Footer = () => {
       {/* Bottom Disclaimer */}
       <div className="footer-bottom">
         <p className="footer-disclaimer">
-          By clicking “SUBSCRIBE” or “SUBMIT,” I agree to be contacted by Tax
-          Advocate Group and its affiliates via prerecorded and/or telemarketing
+          By clicking “SUBSCRIBE” or “SUBMIT,” I agree to be contacted by Wynn
+          Tax Solutions and its affiliates via prerecorded and/or telemarketing
           calls and/or SMS/MMS text messages...
         </p>
         <p className="footer-copyright">

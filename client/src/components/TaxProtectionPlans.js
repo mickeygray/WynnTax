@@ -7,7 +7,7 @@ const TaxProtectionPlans = () => {
       <section
         className="tax-protection-hero"
         style={{
-          backgroundImage: `url("/images/hero-6.jpg")`,
+          backgroundImage: `url("/images/hero-6.png")`,
         }}
       >
         <div className="tax-protection-overlay"></div>

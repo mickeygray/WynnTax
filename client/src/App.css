@@ -31,9 +31,6 @@ body {
   padding: 20px;
 }
 
-.testimonials-section {
-  padding-bottom: 50px;
-}
 /* Hero Section */
 .hero-section {
   text-align: center;
@@ -139,6 +136,7 @@ body {
 .testimonials-section {
   margin: 50px 0;
   text-align: center;
+  padding-bottom: 50px;
 }
 
 .testimonials-section h2 {
@@ -154,7 +152,7 @@ body {
 }
 
 .testimonial-card {
-  background: #fff;
+  background: gray;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -163,8 +161,7 @@ body {
 
 .testimonial-card p {
   font-size: 16px;
-  font-style: italic;
-  color: #555;
+  color: #f8f8f8;
 }
 
 .testimonial-card h4 {
@@ -204,6 +201,7 @@ body {
   position: absolute; /* Overlays the hero section */
   top: 0;
   left: 0;
+  height: 125px;
   width: 100%;
   background: rgba(241, 237, 237, 0.6); /* Transparent Black */
   padding: 15px 20px;
@@ -215,7 +213,7 @@ body {
 }
 
 .navbar a {
-  color: white;
+  color: black;
   text-decoration: none;
   font-size: 18px !important;
   font-weight: bold;
@@ -230,25 +228,27 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 20px;
 }
 
 /* Logo */
-.logo img {
-  max-height: 60px;
-}
 
 /* Desktop Navigation */
 .nav-menu {
   display: flex;
+  width: 1400px;
+  position: absolute;
+  left: 55%;
+  transform: translateX(-50%);
 }
 
 .nav-list {
   list-style: none;
   display: flex;
-  gap: 20px;
+
+  gap: 30px;
 }
 
 .nav-list li {
@@ -257,8 +257,8 @@ body {
 
 .nav-list a {
   text-decoration: none;
-  color: white;
-  font-size: 16px;
+  color: #132e55;
+  font-size: 22px !important;
   padding: 8px 12px;
   transition: color 0.3s ease-in-out;
 }
@@ -298,7 +298,12 @@ body {
 
 .nav-phone {
   font-weight: bold;
-  color: #0073e6;
+  color: #0073e6 !important;
+}
+
+.nav-phone a {
+  display: block;
+  font-size: 1.2rem;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -318,20 +323,38 @@ body {
 .dropdown-menu a:hover {
   background: #f8f8f8;
 }
-
+.nav-list li:not(.nav-phone) {
+  padding-top: 8px;
+}
 /* Call to Action Phone */
 .nav-phone a {
-  background-color: #f8a440;
+  background-color: #0073e6;
   padding: 8px 12px;
   border-radius: 5px;
   font-weight: bold;
+  position: relative;
+  top: -8px;
 }
 
-.nav-phone a:hover {
-  background-color: #e08b36;
+.logo-slogan-row {
+  display: flex;
+  margin-left: 15px;
+  align-items: center;
+  gap: 5px;
+  /* Adjust spacing between logo and text */
 }
 
-/* Mobile Menu */
+.logo-link {
+  display: inline-block;
+}
+
+.slogan-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #132e55; /* Change if needed */
+  white-space: nowrap; /* Keeps it in one line */
+} /* Mobile Menu */
 .mobile-menu-icon {
   display: none;
   font-size: 24px;
@@ -377,6 +400,44 @@ body {
     display: flex;
   }
 }
+
+@media (min-width: 1600px) {
+  .nav-menu {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* --- LAPTOP-SIZED MONITORS (smaller desktop) --- */
+@media (max-width: 1600px) and (min-width: 769px) {
+  .nav-list a {
+    font-size: 16px !important;
+    padding: 6px 6px;
+  }
+
+  .nav-list {
+    gap: 20px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    width: 100%;
+    position: static;
+    transform: none;
+    justify-content: center;
+  }
+
+  .nav-phone a {
+    font-size: 15px;
+    padding: 6px 10px;
+    top: 0;
+  }
+}
+
+/* --- MOBILE (Already handled in your current styles) --- */
+
 /* Hero Section Styling */
 .hero-container {
   position: relative;
@@ -420,7 +481,7 @@ body {
 
 /* Subtitle: Adjusting Size and Shadow */
 .hero-subtitle {
-  font-size: 2vw;
+  font-size: 60px;
   margin: 20px auto;
   max-width: 60%;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
@@ -434,7 +495,7 @@ body {
 .hero-btn {
   display: inline-block;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   padding: 12px 24px;
   margin: 10px;
@@ -453,6 +514,78 @@ body {
 .hero-btn:hover {
   background: white;
   color: #009ed8;
+  border-color: #009ed8;
+}
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.hero-content {
+  padding-top: 140px; /* give space below navbar */
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 32px !important;
+  }
+
+  .hero-content h1 {
+    font-size: 25px;
+  }
+
+  .hero-heading-secondary {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    max-width: 90%;
+    margin: 10px auto;
+  }
+
+  .hero-btn {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .hero-content {
+    padding: 100px 20px 40px;
+  }
+}
+.nav-btn {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+
+  border-radius: 4px;
+  color: white !important;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 158, 216, 1) 0%,
+    rgba(0, 187, 255, 1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-btn:hover {
+  background: white;
+  color: #009ed8 !important;
   border-color: #009ed8;
 }
 /* Main Container */
@@ -504,82 +637,170 @@ body {
 
 /* Welcome Section */
 .welcome-section {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 40px;
+  width: 100vw;
   background: linear-gradient(180deg, #009ed8 0%, #007bb5 80%);
   color: white;
-  text-align: center;
-  flex-wrap: wrap;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
 }
 
-.welcome-text {
-  flex: 1 1 100%;
-  margin-bottom: 20px;
+.welcome-grid {
+  width: 1200px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: center;
 }
 
 .welcome-text h2 {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 35px;
   margin-bottom: 10px;
 }
 
 .welcome-text p {
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0;
 }
 
-.consultation-box {
-  font-size: 22px;
-  font-weight: 600;
-  margin-top: 15px;
+.consultation-card {
+  background: white;
+  color: #007bb5;
+  border-radius: 12px;
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.consultation-content {
+  width: 100%;
+  text-align: center;
+}
+
+.call-text {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .call-button {
   display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: white;
-  color: #009ed8;
-  border-radius: 5px;
-  font-size: 18px;
+  width: 100%;
+  padding: 14px;
+  background: #007bb5;
+  color: white;
+  font-size: 40px;
   text-decoration: none;
+  border-radius: 8px;
   transition: background 0.3s ease;
 }
 
 .call-button:hover {
   background: #e08b36;
-  color: white;
 }
-
 /* Mobile styling */
-@media (max-width: 768px) {
+@media (max-width: 1200px) and (min-width: 765px) {
   .welcome-section {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .welcome-grid {
+    display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 20px;
+    max-width: 100%;
   }
 
-  .welcome-text h2 {
-    font-size: 26px;
-  }
-
-  .welcome-text p {
-    font-size: 18px;
-  }
-
-  .consultation-box {
-    font-size: 20px;
+  .welcome-text,
+  .consultation-card {
+    width: 100%;
+    max-width: 600px;
   }
 
   .call-button {
-    font-size: 16px;
-    padding: 8px 16px;
-    margin-top: 15px;
+    font-size: 20px;
+    padding: 12px 20px;
+    display: inline-block;
+    width: auto;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .consultation-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .call-text {
+    margin-bottom: 12px;
+    font-size: 18px;
   }
 }
+@media (max-width: 764px) {
+  .welcome-section {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 30px 16px;
+  }
 
+  .welcome-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .welcome-text,
+  .consultation-card {
+    width: 100%;
+    max-width: 90%;
+  }
+
+  .welcome-text h2 {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  .welcome-text p {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .call-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .call-button {
+    font-size: 18px;
+    padding: 10px 16px;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .consultation-content {
+    width: 100%;
+    align-items: center;
+  }
+}
 /* About Section */
 
 .about-text {
@@ -946,7 +1167,7 @@ body {
 
 /* Description */
 .testimonials-description {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   max-width: 800px;
   margin: 0 auto 40px;
 }
@@ -961,7 +1182,7 @@ body {
 
 /* Testimonial Card */
 .testimonial-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.5);
   padding: 20px;
   border-radius: 10px;
   width: 45%;
@@ -973,27 +1194,24 @@ body {
   transition: transform 0.3s ease-in-out;
   color: white !important;
 }
-.testimonial-card * {
-  color: white !important; /* Force white for all child elements */
-}
+
 .testimonial-card:hover {
   transform: scale(1.05);
 }
 
 /* Testimonial Quote */
 .testimonial-quote {
-  font-size: 1.2rem;
-  font-style: italic;
+  font-size: 300px;
   margin-bottom: 10px;
-  color: white !important; /* Ensuring readability */
+  color: #fff; /* Ensuring readability */
 }
 
 /* Testimonial Author */
 .testimonial-author {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: bold;
   text-align: right;
-  color: white !important; /* Ensuring readability */
+  color: white; /* Ensuring readability */
 }
 
 /* Read More */
@@ -1703,7 +1921,7 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 20px;
+  font-size: 24px;
   margin-top: 10px;
 }
 

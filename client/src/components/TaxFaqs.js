@@ -64,7 +64,7 @@ const TaxFaqs = () => {
         className="faq-hero-section"
         aria-label="Page Title Bar"
         style={{
-          backgroundImage: `url("/images/hero-2.jpg")`,
+          backgroundImage: `url("/images/hero-2.png")`,
         }}
       >
         <div className="faq-hero-content">
@@ -121,7 +121,7 @@ const TaxFaqs = () => {
           Contact us for a personalized consultation. Our experts are here to
           help you navigate your tax challenges.
         </p>
-        <Link to="/contact" className="contact-button">
+        <Link to="/contact-us" className="contact-button">
           Contact Us
         </Link>
       </div>

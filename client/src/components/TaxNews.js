@@ -10,7 +10,7 @@ const TaxNews = () => {
       <header
         className="tax-news-hero"
         style={{
-          backgroundImage: `url("/images/contact-hero.jpg")`,
+          backgroundImage: `url("/images/contact-hero.png")`,
         }}
       >
         <div className="tax-news-overlay"></div>

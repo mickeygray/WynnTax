@@ -25,19 +25,17 @@ const Navbar = () => {
 
   return (
     <header className="navbar">
+      {/* Logo + Slogan Wrapper */}
+      <div className="logo-slogan-row">
+        <a href="/" className="logo-link">
+          <img
+            src="/images/logo-wynn-small.png"
+            alt="Wynn Tax Solutions Logo"
+            height="150"
+          />
+        </a>
+      </div>
       <div className="navbar-container">
-        {/* Logo */}
-        <div className="logo">
-          <a href="/">
-            <img
-              src="/images/logo-wynn-final.png"
-              alt="Wynn Tax Solutions Logo"
-              width="166"
-              height="93"
-            />
-          </a>
-        </div>
-
         {/* Desktop Navigation */}
         {!isMobile && (
           <nav className="nav-menu">
@@ -184,7 +182,10 @@ const Navbar = () => {
                 <Link to="/tax-news">Tax News</Link>
               </li>
               <li className="nav-phone">
-                <a href="tel:+18663796253">Call: (844) 996-6829</a>
+                <a href="tel:+18669643565" className="nav-btn">
+                  <i className="fa-solid fa-phone"></i>
+                  {"  "} CALL:(844) 996-6829
+                </a>
               </li>
             </ul>
           </nav>
@@ -230,8 +231,8 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="nav-phone">
-                    <a href="tel:+18663796253" onClick={toggleMenu}>
-                      Call: (866) 379-6253
+                    <a href="tel:+18669643565" onClick={toggleMenu}>
+                      Call:(844) 996-6829
                     </a>
                   </li>
                 </ul>

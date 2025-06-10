@@ -58,10 +58,10 @@ const TermsOfService = () => {
 
         <h2>Disclaimer</h2>
         <p>
-          The materials on this website are provided “as is.” Wynn Tax Solutions
-          makes no warranties, expressed or implied, and disclaims all other
-          warranties, including but not limited to merchantability, fitness for
-          a particular purpose, or non-infringement.
+          The materials on this website are provided “as is.” Tax Group
+          Consultants makes no warranties, expressed or implied, and disclaims
+          all other warranties, including but not limited to merchantability,
+          fitness for a particular purpose, or non-infringement.
         </p>
 
         <h2>Limitations</h2>
@@ -82,8 +82,8 @@ const TermsOfService = () => {
           <li>Using this website for advertising or marketing</li>
         </ul>
         <p>
-          Certain areas of this website are restricted, and Wynn Tax Solutions
-          may further restrict access at its discretion.
+          Certain areas of this website are restricted, and Tax Group
+          Consultants may further restrict access at its discretion.
         </p>
 
         <h2>Accuracy of Materials</h2>

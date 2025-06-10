@@ -4,7 +4,7 @@ import React from "react";
 const testimonials = [
   {
     quote:
-      "I went to Wynn Tax Solutions in order to finish my tax problem. I had a few different people try to complete my issues with the IRS, but all they did was push paper around and keep me guessing. The Wynn Tax Solutions really went to work straight away, got me a deal I could afford, and made the whole thing an understandable process.",
+      "I went to Wynn Tax Solutions for my tax problem. I had a few different people try, but all they did was push paper around and keep me guessing. The Wynn Tax Solutions  got me a deal I could afford with the IRS, and made the whole thing an understandable process.",
     author: "Rex W.",
   },
   {
@@ -43,7 +43,9 @@ const Testimonials = () => {
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="testimonial-card">
-              <p className="testimonial-quote">“{testimonial.quote}”</p>
+              <p className="testimonial-quote" style={{ fontSize: "1.3rem" }}>
+                “{testimonial.quote}”
+              </p>
               <p className="testimonial-author">– {testimonial.author}</p>
             </div>
           ))}

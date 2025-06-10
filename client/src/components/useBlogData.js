@@ -9,7 +9,7 @@ const useBlogData = () => {
       {
         id: "understanding-tax-relief",
         title: "Understanding Tax Relief",
-        image: "/images/tax-relief.jpg",
+        image: "/images/tax-relief.png",
         teaser:
           "Tax relief can help individuals and businesses reduce their tax burdens through deductions, credits, settlements, and negotiations with the IRS. Understanding your options and the steps involved is key to securing the best outcome for your financial situation...",
         contentTitle:
@@ -59,7 +59,7 @@ const useBlogData = () => {
       {
         id: "irs-negotiation-tips",
         title: "How to Really Negotiate with the IRS",
-        image: "/images/tax-negotiation.jpg",
+        image: "/images/tax-negotiation.png",
         teaser:
           "Negotiating with the IRS doesn’t have to be overwhelming. With the right strategy, you can reduce penalties, set up manageable payment plans, or even settle your debt for less than you owe. Learn the key strategies to protect your financial future and get back on track...",
         contentTitle:

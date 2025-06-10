@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       <section
         className="privacy-hero"
         style={{
-          backgroundImage: `url("/images/privacy-hero.jpg")`,
+          backgroundImage: `url("/images/privacy-hero.png")`,
         }}
       >
         <div className="privacy-hero-overlay"></div>
@@ -164,7 +164,7 @@ const PrivacyPolicy = () => {
         <h2>Contact Us</h2>
         <p>
           For questions or complaints, contact us via email at{" "}
-          <a href="mailto:inquiry@taxadvocategroup.com">
+          <a href="mailto:inquiry@WynnTaxSolutions.com">
             inquiry@Wynn Tax Solutionstaxgroup.com
           </a>{" "}
           or by mail:

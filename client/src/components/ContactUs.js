@@ -40,7 +40,7 @@ const ContactUs = () => {
       <section
         className="contact-hero"
         style={{
-          backgroundImage: `url("/images/contact-hero.jpg")`,
+          backgroundImage: `url("/images/contact-hero.png")`,
         }}
       >
         <div className="contact-hero-overlay"></div>
@@ -58,11 +58,11 @@ const ContactUs = () => {
           <i className="fas fa-phone-alt"></i>
           <h3>Contacts</h3>
           <p>
-            <a href="tel:+18663796253">(844) 996-6829</a>
+            <a href="tel:+18669643565">800-517-1807</a>
           </p>
           <p>
             <a href="mailto:inquiry@Wynn Tax Solutionstaxgroup.com">
-              inquiry@WynnTaxSolutions.com
+              inquiry@TaxGroupConsultants.com
             </a>
           </p>
         </div>
