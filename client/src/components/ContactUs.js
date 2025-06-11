@@ -61,7 +61,7 @@ const ContactUs = () => {
             <a href="tel:+18669643565">800-517-1807</a>
           </p>
           <p>
-            <a href="mailto:inquiry@Wynn Tax Solutionstaxgroup.com">
+            <a href="mailto:inquiry@WynnTaxSolutions.com">
               inquiry@TaxGroupConsultants.com
             </a>
           </p>

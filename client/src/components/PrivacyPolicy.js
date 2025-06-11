@@ -26,7 +26,7 @@ const PrivacyPolicy = () => {
         <p>
           This Privacy Policy describes how your personal information is
           collected, used, and shared when you visit or make a purchase from{" "}
-          <strong>Wynn Tax SolutionsTaxGroup.com</strong> (the “Site”).
+          <strong>WynnTaxSolutions.com</strong> (the “Site”).
         </p>
 
         <h2>Information We Collect</h2>
@@ -165,7 +165,7 @@ const PrivacyPolicy = () => {
         <p>
           For questions or complaints, contact us via email at{" "}
           <a href="mailto:inquiry@WynnTaxSolutions.com">
-            inquiry@Wynn Tax Solutionstaxgroup.com
+            inquiry@WynnTaxSolutions.com
           </a>{" "}
           or by mail:
         </p>

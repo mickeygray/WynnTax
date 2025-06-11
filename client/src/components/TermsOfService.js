@@ -22,11 +22,11 @@ const TermsOfService = () => {
         <p>
           By accessing the website at{" "}
           <a
-            href="https://Wynn Tax Solutionstaxgroup.com/"
+            href="https://WynnTaxSolutions.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Wynn Tax Solutionstaxgroup.com
+            WynnTaxSolutions.com
           </a>
           , you agree to be bound by these terms of service, all applicable
           laws, and regulations, and acknowledge that you are responsible for

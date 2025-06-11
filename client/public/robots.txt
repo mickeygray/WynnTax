@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-Sitemap: https://www.Wynn Tax Solutionstaxgroup.com/sitemap.xml
+Sitemap: https://www.WynnTaxSolutions.com/sitemap.xml
