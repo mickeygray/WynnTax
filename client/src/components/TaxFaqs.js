@@ -88,7 +88,7 @@ const TaxFaqs = () => {
             At Wynn Tax Solutions, we understand that navigating tax challenges
             can be confusing. Below, you’ll find answers to some of the most
             common questions we receive. If you don’t see your question listed,
-            feel free to <Link to="/contact">contact us</Link> for more
+            feel free to <Link to="/contact-us">contact us</Link> for more
             information.
           </p>
         </div>

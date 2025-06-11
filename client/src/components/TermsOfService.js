@@ -121,9 +121,9 @@ const TermsOfService = () => {
 
         <h2>Your Content</h2>
         <p>
-          By displaying your content on this website, you grant Tax Advocate
-          Group a non-exclusive, worldwide, irrevocable license to use,
-          reproduce, publish, and distribute it.
+          By displaying your content on this website, you grant Wynn Tax Group a
+          non-exclusive, worldwide, irrevocable license to use, reproduce,
+          publish, and distribute it.
         </p>
         <p>
           Your content must not be defamatory, infringe on third-party rights,
