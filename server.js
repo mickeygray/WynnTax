@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: "apikey",
-    pass: process.env.TAXAD_API_KEY,
+    pass: process.env.WYNN_API_KEY,
   },
 });
 
