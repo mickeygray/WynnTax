@@ -8,10 +8,7 @@ const HeroSection = () => {
       {/* Background Video */}
       {!isMobile ? (
         <video autoPlay muted loop className="hero-video">
-          <source
-            src="images/Cover-Video-by-Shutterstock-1111048265-compressed.mp4"
-            type="video/mp4"
-          />
+          <source src="images/Wynn-Hero-01.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       ) : (

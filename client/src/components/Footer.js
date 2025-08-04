@@ -34,8 +34,8 @@ const Footer = () => {
         {/* Column 2: Logo & Address */}
         <div className="footer-column center">
           <img
-            src="/images/logo-wynn.png"
-            alt="Wynn Tax Solutions Logo"
+            src="/images/logo-wynn-small.png"
+            alt="Tax Advocate Group Logo"
             className="footer-logo"
           />
           <p>
@@ -45,7 +45,7 @@ const Footer = () => {
           <p>Chatsworth, CA 91331</p>
           <p>
             <i className="fa-solid fa-phone"></i>
-            {"   "}(844) 996-6829
+            {"   "} (844) 996-6829
           </p>
         </div>
 
@@ -53,15 +53,35 @@ const Footer = () => {
         <div className="footer-column">
           <h4>Recent Posts</h4>
           <ul>
+            {" "}
             <li>
-              <a href="/tax-news/understanding-tax-relief">
-                Understanding Tax Relief: Solutions to Ease Your Financial
-                Burden
+              <a href="/tax-news/small-business-tax-pitfalls">
+                Small Business Tax Pitfalls
               </a>
             </li>
             <li>
-              <a href="/tax-news/irs-negotiation-tips">
-                Tax Resolution Truth: How to Really Negotiate with the IRS
+              <a href="/tax-news/irs-cp503-notice-guide">
+                IRS Notice CP 503 - Your Second Warning
+              </a>
+            </li>
+            <li>
+              <a href="/tax-news/irs-cp501-notice-guide">
+                IRS Notice CP 501 - What does it means?
+              </a>
+            </li>
+            <li>
+              <a href="/tax-news/tax-advocate-bill-of-rights">
+                Your Rights as a Taxpayer and How We Embody Them
+              </a>
+            </li>
+            <li>
+              <a href="/tax-news/irs-wage-garnishment-guide">
+                IRS Wage Garnishment: What It Is and How To Stop It
+              </a>
+            </li>{" "}
+            <li>
+              <a href="/tax-news/irs-bank-levy-guide">
+                Bank Levy: What It Means When the IRS Freezes Your Account
               </a>
             </li>
           </ul>

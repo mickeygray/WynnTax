@@ -830,6 +830,7 @@ body {
   flex: 1;
   text-align: center;
   width: 500px;
+  margin-top: 200px;
 }
 @media (max-width: 768px) {
   .main-about-section {
@@ -888,7 +889,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_137911247.jpg");
+  background-image: url("../public/images/wynn-parallax.png");
   background-size: cover;
   background-position: center bottom;
   background-attachment: fixed;
@@ -1040,7 +1041,9 @@ body {
 }
 
 .save-time-image img {
-  max-width: 100%;
+  width: 400px;
+  height: 800px;
+
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -1141,7 +1144,7 @@ body {
       rgba(0, 0, 0, 0.8) 0%,
       rgba(0, 0, 0, 0.4) 100%
     ),
-    url("https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_130099706.jpg");
+    url("../public/images/wynn-parallax.png");
   background-size: cover;
   background-position: left center;
   background-attachment: fixed;
@@ -1278,9 +1281,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: (
-    "https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_275808290.jpg"
-  );
+  background-image: url("../public/images/wynn-parallax.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

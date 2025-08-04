@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8330aa06.css",
+    "main.js": "/static/js/main.b55767d7.js",
+    "static/media/wynn-parallax.png": "/static/media/wynn-parallax.aa00e5914f80e0e3a2d3.png",
+    "index.html": "/index.html",
+    "main.8330aa06.css.map": "/static/css/main.8330aa06.css.map",
+    "main.b55767d7.js.map": "/static/js/main.b55767d7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8330aa06.css",
+    "static/js/main.b55767d7.js"
+  ]
+}

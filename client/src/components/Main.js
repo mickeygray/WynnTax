@@ -59,7 +59,7 @@ const Main = () => {
         </div>
         <div className="about-image">
           <img
-            src="/images/TAG-Home-Page-Image-1.png"
+            src="/images/wynn-home-page-image-1.png"
             alt="Wynn Tax Solutions"
           />
         </div>
