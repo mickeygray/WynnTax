@@ -13,7 +13,7 @@ const Main = () => {
           <div className="consultation-card">
             <div className="consultation-content">
               <span className="call-text">Get a FREE Consultation Today</span>
-              <a href="tel:+18449966829" class="call-button">
+              <a href="tel:+18449966829" className="call-button">
                 <i className="fa-solid fa-phone"></i>(844) 996-6829
               </a>
             </div>

@@ -31,7 +31,12 @@ const services = [
 const Services = () => {
   return (
     <section className="services-section">
-      <div className="parallax-background"></div>
+      <div
+        className="parallax-background"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/images/wynn-parallax.png)`,
+        }}
+      ></div>
       <div className="services-content">
         <h2 className="services-title">Business and Personal Tax Services</h2>
         <p className="services-description">
