@@ -6,6 +6,10 @@ const ThankYou = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   useEffect(() => {
+    window.gtag &&
+      window.gtag("event", "conversion", {
+        send_to: "AW-16728121004/abc123",
+      });
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };

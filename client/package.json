@@ -24,11 +24,8 @@
   },
   "reactSnap": {
     "inlineCss": false,
-    "fixWebpackChunksIssue": "CRA2",
+    "fixWebpackChunksIssue": true,
     "minifyCss": true,
-    "puppeteerArgs": [
-      "--no-sandbox"
-    ],
     "include": [
       "/thank-you",
       "/qualify-now"
