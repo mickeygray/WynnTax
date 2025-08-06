@@ -8,7 +8,9 @@ const ThankYou = () => {
   useEffect(() => {
     window.gtag &&
       window.gtag("event", "conversion", {
-        send_to: "AW-16728121004/abc123",
+        send_to: "AW-16728121004/alH8CODZhIEbEKy9y6g-",
+        value: 1.0,
+        currency: "USD",
       });
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
