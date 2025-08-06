@@ -27,7 +27,8 @@
     "fixWebpackChunksIssue": true,
     "minifyCss": true,
     "include": [
-      "/qualify-now"
+      "/qualify-now",
+      "thank-you"
     ]
   },
   "eslintConfig": {

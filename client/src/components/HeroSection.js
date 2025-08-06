@@ -41,6 +41,7 @@ const HeroSection = () => {
           </Link>
         </div>
       </div>
+      <div className="hero-overlay"></div>
     </div>
   );
 };

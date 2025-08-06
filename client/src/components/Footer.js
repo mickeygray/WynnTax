@@ -46,9 +46,7 @@ const Footer = () => {
             alt="Tax Advocate Group Logo"
             className="footer-logo"
           />
-          <p>
-            <strong>Wynn Tax Solutions</strong>
-          </p>
+
           <p>21625 Prairie Street, Suite #200</p>
           <p>Chatsworth, CA 91331</p>
           <p>

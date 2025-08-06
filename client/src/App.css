@@ -3502,13 +3502,14 @@ body {
 
 /* Form Button - smaller and neutral */
 .hero-form-button {
-  background-color: #e0e0e0;
-  color: #333;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
+  background-color: #333;
+  color: #f4f4f4;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
   transition: background 0.2s ease;
 }
 
