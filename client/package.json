@@ -24,8 +24,8 @@
   },
   "reactSnap": {
     "inlineCss": false,
-    "fixWebpackChunksIssue": "CRA2",
-    "minifyCss": true,
+    "fixWEbpackChunksIssue": "CRA2",
+    "minifyCss": false,
     "include": [
       "/thank-you",
       "/qualify-now"
