@@ -28,7 +28,7 @@
     "minifyCss": true,
     "include": [
       "/qualify-now",
-      "thank-you"
+      "/thank-you"
     ]
   },
   "eslintConfig": {
