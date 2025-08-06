@@ -889,6 +889,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  background-image: url("https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_137911247.jpg");
   background-size: cover;
   background-position: center bottom;
   background-attachment: fixed;
@@ -1136,12 +1137,14 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+
   height: 100%;
   background-image: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
+      90deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    url("https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_137911247.jpg");
   background-size: cover;
   background-position: left center;
   background-attachment: fixed;
@@ -1278,6 +1281,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  background-image: url("https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_137911247.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -3433,6 +3437,576 @@ body {
   margin-bottom: 20px;
 }
 
+/*Landing Page*/
+/* Root Container */
+
+.landing-page-root {
+  position: relative;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Full-width Hero */
+.landing-page-hero {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.hero-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex; /* enable flexbox */
+  align-items: center; /* vertical center (already matched height) */
+  justify-content: center; /* horizontal center */
+}
+.landing-hero-company-name {
+  font-size: 3vw !important; /* Responsive font size */
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #00afef !important;
+  text-shadow: 2px 2px 0px #cfcfcf, 4px 4px 0px black;
+  letter-spacing: 2px;
+}
+.hero-image-container img {
+  width: 100vw; /* stretch to full width */
+  height: 100vh; /* stretch to full height */
+  /* ignore aspect ratio */
+}
+
+/* Container for hero buttons */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Call Now Button - bold and blocky */
+.hero-call-button {
+  background-color: #0066cc;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s ease;
+}
+
+.hero-call-button:hover {
+  background-color: #004999;
+}
+
+/* Form Button - smaller and neutral */
+.hero-form-button {
+  background-color: #e0e0e0;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hero-form-button:hover {
+  background-color: #c2c2c2;
+}
+/* Overlay text (not limited by content container) */
+.hero-text-overlay {
+  position: absolute;
+  top: 40%; /* adjust vertical position */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%;
+  max-width: 1200px;
+  color: #333;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: #555; /* or #fff or any color */
+  opacity: 0.3; /* <--- adjust this to blend */
+  z-index: 2;
+  pointer-events: none;
+}
+/* Heading & subheading */
+.landing-hero-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.landing-hero-subtitle {
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.badge-image img,
+.seal-image img {
+  max-width: 120px;
+  margin: 1rem auto;
+  display: block;
+}
+
+/* Steps Layout (3 columns) */
+.steps-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+.landing-container {
+  max-width: 1200px; /* keeps content from getting too wide */
+  margin: 0 auto; /* centers content */
+  padding: 2rem 1rem; /* consistent padding */
+}
+/* Step Card */
+.step {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+/* Hover Effect */
+.step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+.features-section {
+  background-color: #0066cc; /* blue background */
+  color: #ffffff;
+  padding: 4rem 1rem;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.features-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.features-subtitle {
+  font-size: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Grid: 75% image, 25% text */
+.features-grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* 75% : 25% */
+  align-items: start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Feature Boxes */
+.features-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.feature-box {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.feature-icon {
+  color: #00ffcc; /* bright blue check mark */
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  flex: 1;
+}
+
+.feature-title {
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+.footer-section {
+  background: #f8f8f8;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+}
+
+.landing-testimonials-section {
+  background-color: #e6f3ff; /* light blue background */
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.landing-testimonials-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+}
+
+.landing-testimonial-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.landing-testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.landing-testimonial-stars {
+  color: #ffc107; /* gold star color */
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.landing-testimonial-text {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.landing-testimonial-author {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #0066cc;
+}
+
+.landing-bbb-logo img {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Full-width image background */
+.landing-callout-section {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark blue overlay */
+.landing-callout-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 51, 102, 0.85); /* dark blue, high opacity */
+  z-index: 1;
+}
+
+/* Content above overlay */
+.landing-callout-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 1rem;
+  max-width: 800px;
+}
+
+/* Title & Subtitle */
+.landing-callout-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.landing-callout-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* Button */
+.landing-callout-button {
+  background-color: #0066cc;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s ease;
+}
+
+.landing-callout-button:hover {
+  background-color: #004999;
+}
+
+/* Overlay */
+.landing-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Form container */
+.landing-popup-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.guarantee-icon {
+  font-size: 3rem;
+  color: #0066cc; /* brand color */
+  margin-bottom: 1rem;
+}
+/* Close button */
+.landing-popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Inputs */
+.landing-popup-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+.landing-popup-next,
+.landing-popup-submit {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.landing-popup-next:hover,
+.landing-popup-submit:hover {
+  background: #004999;
+}
+.landing-popup-form select {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Centers and stacks radio options */
+.landing-popup-radio-group {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center; /* center horizontally */
+  gap: 1rem; /* space between Yes and No */
+  margin-bottom: 1.5rem;
+}
+
+.landing-popup-radio-group label {
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between radio and label text */
+}
+
+.landing-popup-radio-group input[type="radio"] {
+  accent-color: #0066cc; /* modern browsers only */
+  transform: scale(1.2); /* make radio a little bigger */
+}
+/*Landing Page*/
+/* -------------------- MOBILE FRIENDLY -------------------- */
+@media (max-width: 768px) {
+  /* Hero */
+  .landing-page-hero {
+    height: 70vh; /* shorter hero on mobile */
+  }
+
+  .hero-image-container img {
+    width: 100%;
+    height: 70vh;
+    object-fit: cover; /* maintain image content */
+  }
+
+  .hero-text-overlay {
+    top: 35%; /* shift text up */
+    width: 95%;
+  }
+
+  .landing-hero-title {
+    font-size: 2rem;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .landing-hero-company-name {
+    font-size: 6vw !important; /* smaller text scaling */
+  }
+
+  /* Hero Buttons stacked vertically */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-call-button,
+  .hero-form-button {
+    width: 80%;
+    text-align: center;
+  }
+
+  /* Steps Section */
+  .steps-section {
+    grid-template-columns: 1fr; /* single column */
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  .step {
+    padding: 1.5rem;
+  }
+
+  /* Features Section grid changes */
+  .features-grid {
+    grid-template-columns: 1fr; /* stack image and text */
+    gap: 2rem;
+  }
+
+  .features-title {
+    font-size: 2rem;
+  }
+
+  .features-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Testimonials grid change */
+  .landing-testimonials-cards {
+    grid-template-columns: 1fr; /* single card column */
+  }
+
+  .landing-testimonial-card {
+    padding: 1.5rem;
+  }
+
+  /* Callout Section */
+  .landing-callout-section {
+    height: 40vh;
+    padding: 2rem 1rem;
+  }
+
+  .landing-callout-title {
+    font-size: 1.8rem;
+  }
+
+  .landing-callout-subtitle {
+    font-size: 1rem;
+  }
+
+  .landing-callout-button {
+    width: 80%;
+    padding: 0.75rem;
+  }
+
+  /* Popup form full width on mobile */
+  .landing-popup-form {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .landing-popup-next,
+  .landing-popup-submit {
+    font-size: 1rem;
+  }
+}
+
+/* Even smaller devices */
+@media (max-width: 480px) {
+  .landing-hero-title {
+    font-size: 1.5rem;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .hero-call-button,
+  .hero-form-button {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+}
 /* Responsive */
 @media (max-width: 768px) {
   .subpage-container {

@@ -20,9 +20,19 @@ const LeadState = (props) => {
       dispatch({ type: "EMAILS_ERROR", payload: "Failed to send emails." });
     }
   };
-
+  const sendLeadForm = async (formData) => {
+    dispatch({ type: "SENDING_FORM" });
+    try {
+      const response = await axios.post("/lead-form", formData);
+      console.log("Form Data:", formData);
+      dispatch({ type: "FORM_SENT", payload: response.data.message });
+    } catch (error) {
+      console.error("Error sending lead form:", error);
+      dispatch({ type: "FORM_ERROR", payload: "Failed to send form data." });
+    }
+  };
   return (
-    <LeadContext.Provider value={{ sendEmail }}>
+    <LeadContext.Provider value={{ sendEmail, sendLeadForm }}>
       {props.children}
     </LeadContext.Provider>
   );

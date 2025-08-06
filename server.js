@@ -48,6 +48,43 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
+app.post("/lead-form", async (req, res) => {
+  const { debtAmount, filedAllTaxes, name, phone, email, bestTime } = req.body;
+
+  console.log("Lead Form Submission:", req.body);
+
+  // Simple validation
+  if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
+    return res
+      .status(400)
+      .json({ error: "All required fields must be provided!" });
+  }
+
+  const mailOptions = {
+    from: "inquiry@WynnTaxSolutions.com",
+    to: "office@WynnTaxSolutions.com",
+    subject: `New Lead Form Submission from ${name}`,
+    text: `
+      Name: ${name}
+      Phone: ${phone}
+      Email: ${email}
+      Best Time to Contact: ${bestTime || "Not specified"}
+      Debt Amount: ${debtAmount}
+      Filed All Taxes: ${filedAllTaxes}
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: "Lead form email sent successfully!" });
+  } catch (error) {
+    console.error("Error sending lead form email:", error);
+    res
+      .status(500)
+      .json({ error: "Error sending lead form email. Try again later." });
+  }
+});
+
 // Serve Dynamic Sitemap
 app.get("/sitemap.xml", async (req, res) => {
   const links = [

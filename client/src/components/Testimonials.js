@@ -28,12 +28,7 @@ const Testimonials = () => {
   return (
     <section className="testimonials-section">
       {/* Parallax Background */}
-      <div
-        className="parallax-background"
-        style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL}/images/wynn-parallax.png)`,
-        }}
-      ></div>
+      <div className="parallax-background"></div>
 
       <div className="testimonials-content">
         <h2 className="testimonials-title">Client’s Feedback</h2>

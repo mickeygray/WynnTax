@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // Ensure you have a separate CSS file
 
 const Footer = () => {
+  const location = useLocation();
+
+  // Check if the current path is /qualify-now
+  const isQualifyNow = location.pathname === "/qualify-now";
+
+  const phoneNumber = isQualifyNow ? "+18667163921" : "+18449966829";
+  const phoneDisplay = isQualifyNow ? "866-716-3921" : "(844) 996-6829";
+  // Detect screen width changes for responsive behavior
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -45,7 +53,7 @@ const Footer = () => {
           <p>Chatsworth, CA 91331</p>
           <p>
             <i className="fa-solid fa-phone"></i>
-            {"   "} (844) 996-6829
+            {phoneDisplay}
           </p>
         </div>
 

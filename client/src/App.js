@@ -19,6 +19,7 @@ import TaxNewsArticle from "./components/TaxNewsArticle";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsOfService from "./components/TermsOfService";
 import LeadState from "./context/LeadState";
+import LandingPage1 from "./components/LandingPage1";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           {/* Controls spacing */}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/qualify-now" element={<LandingPage1 />} />
             <Route path="/tax-faqs" element={<TaxFaqs />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/our-tax-services" element={<OurTaxServices />} />
