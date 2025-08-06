@@ -9,11 +9,11 @@ const LeadState = (props) => {
   const [state, dispatch] = useReducer(leadReducer, initialState);
 
   const sendEmail = async (emailPayload) => {
+    console.log(emailPayload);
     dispatch({ type: "SENDING_EMAILS" });
     try {
       const response = await axios.post("/send-email", emailPayload);
 
-      console.log(emailPayload);
       dispatch({ type: "EMAILS_SENT", payload: response.data.message });
     } catch (error) {
       console.error("Error sending emails:", error);

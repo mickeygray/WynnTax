@@ -32,6 +32,7 @@ const ContactUs = () => {
       phone: "",
       message: "",
     });
+    console.log(emailPayload);
     sendEmail(emailPayload);
   };
   return (
@@ -58,11 +59,11 @@ const ContactUs = () => {
           <i className="fas fa-phone-alt"></i>
           <h3>Contacts</h3>
           <p>
-            <a href="tel:+18669643565">800-517-1807</a>
+            <a href="tel:+18449966829">(844) 996-6829</a>
           </p>
           <p>
             <a href="mailto:inquiry@WynnTaxSolutions.com">
-              inquiry@TaxGroupConsultants.com
+              inquiry@WynnTaxSolutions.com
             </a>
           </p>
         </div>
