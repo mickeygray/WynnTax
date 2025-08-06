@@ -122,8 +122,8 @@ const ThankYou = () => {
                 <div className="feature-text">
                   <h4 className="feature-title">Quick and Accurate Results</h4>
                   <p className="feature-description">
-                    . We will help you fix your state and federal tax
-                    liabilities starting on day one.
+                    We will help you fix your state and federal tax liabilities
+                    starting on day one.
                   </p>
                 </div>
               </div>
