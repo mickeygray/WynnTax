@@ -24,7 +24,7 @@
   },
   "reactSnap": {
     "inlineCss": false,
-    "fixWEbpackChunksIssue": "CRA2",
+    "fixWebpackChunksIssue": "CRA2",
     "minifyCss": false,
     "include": [
       "/thank-you",
