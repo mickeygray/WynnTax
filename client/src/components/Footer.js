@@ -7,10 +7,12 @@ const Footer = () => {
 
   // Check if the current path is /qualify-now
   const isQualifyNow = location.pathname === "/qualify-now";
+  const isThankYou = location.pathname === "/thank-you";
 
-  const phoneNumber = isQualifyNow ? "+18667163921" : "+18449966829";
-  const phoneDisplay = isQualifyNow ? "866-716-3921" : "(844) 996-6829";
-  // Detect screen width changes for responsive behavior
+  const phoneNumber =
+    isQualifyNow || isThankYou ? "+18667163921" : "+18449966829";
+  const phoneDisplay =
+    isQualifyNow || isThankYou ? "866-716-3921" : "(844) 996-6829";
   return (
     <footer className="footer">
       <div className="footer-container">
