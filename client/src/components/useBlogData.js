@@ -6,11 +6,55 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "retirement-tax-guide",
+        title: "How Retirement Accounts Affect Your Taxes at Every Stage",
+        image: "/images/Retirement-Tax-Guide.png",
+        teaser:
+          "Retirement accounts like 401(k)s and IRAs are powerful savings tools, but they also come with important tax implications. This guide walks you through the impact of taxes at each stage—from contributing to withdrawing—so you can plan better and avoid costly surprises.",
+        contentTitle:
+          "How Retirement Accounts Affect Your Taxes at Every Stage",
+        contentBody: [
+          "<h2>When and How to Start Saving for Retirement</h2>",
+          "<p><strong>“I’ll start saving for retirement when I make more money.”</strong></p>",
+          "<p>Many people delay saving because they believe retirement planning only matters once you're earning six figures. But in reality, time is a bigger factor than income. Starting at age 25 with $100/month in contributions can result in a dramatically larger retirement fund than starting at 40 with $300/month.</p>",
+          "<p>Depending on your income, the right account varies:</p>",
+          "<ul>",
+          "<li><strong>Under $50k/year:</strong> A Roth IRA can offer post-tax growth with no taxes due on withdrawal.</li>",
+          "<li><strong>$50k–$150k:</strong> Consider both traditional and Roth options depending on your deductions.</li>",
+          "<li><strong>Over $150k:</strong> Traditional 401(k)s can reduce taxable income significantly.</li>",
+          "</ul>",
+          "<p>Misunderstanding the benefits of tax-deferred vs. tax-free growth leads many to miss out on deductions or pay unnecessary taxes later. The key is consistent saving and making tax-smart choices up front.</p>",
+
+          "<h2>What Happens When You Withdraw Early</h2>",
+          "<p><strong>“It’s my money—I’ll take it out if I need it.”</strong></p>",
+          "<p>Emergencies happen—medical bills, job loss, unexpected expenses. But dipping into your retirement account early (before age 59½) comes at a steep cost. You’ll typically pay both ordinary income tax and a 10% early withdrawal penalty. That penalty goes to the IRS—not your retirement provider—and is due at tax time. State taxes may also apply.</p>",
+          "<p>If you're already behind on taxes, an early withdrawal can make things worse by increasing your balance due, potentially triggering liens or collections. <strong>Wynn Tax Solutions</strong> helps clients navigate situations where early withdrawals are necessary, minimizing risk and working to prevent double-penalty situations.</p>",
+
+          "<h2>How to Avoid Tax Trouble When Life Gets Messy</h2>",
+          "<p>If you're considering a withdrawal to pay off other tax debts, remember: the IRS sees your retirement account as an asset. You’ll need to follow strict rules to avoid adding new liabilities while trying to pay off old ones. We help clients structure withdrawals—when necessary—in a way that limits exposure and ensures the IRS or state doesn’t penalize them twice.</p>",
+          "<p>Even when withdrawals are exempt from the 10% penalty (like for first-time home purchases or medical hardship), taxes still apply. You must report the income properly and often withhold at the time of distribution. If no tax is withheld, you’ll need to budget for it when you file.</p>",
+
+          "<h2>Managing Retirement Distributions After Age 59½</h2>",
+          "<p><strong>“Now that I’m retired, I can use the money tax-free, right?”</strong></p>",
+          "<p>After 59½, you can withdraw from most retirement accounts without the 10% penalty, but that doesn't mean it's tax-free. Traditional 401(k) and IRA withdrawals are treated as ordinary income and may push you into a higher tax bracket. Large lump sum withdrawals can also affect Social Security taxability and Medicare premiums.</p>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help retired clients understand how to manage monthly drawdowns and plan their tax payments properly. If you don’t have tax automatically withheld, you'll need to make estimated payments quarterly. Failing to do so can lead to penalties—even in retirement.</p>",
+
+          "<h2>What to Watch Out for When No One’s Withholding</h2>",
+          "<p>If you’re managing withdrawals yourself or using a less hands-on financial provider, you may forget to set up tax withholding. That means you’re responsible for sending payments to the IRS and possibly your state tax board throughout the year. If you fall behind, penalties for underpayment can accumulate quickly.</p>",
+          "<p><strong>Wynn Tax Solutions</strong> helps you stay compliant by reviewing tax history and planning for upcoming liabilities—before they cause problems. We often work with retirees and self-directed savers who overlooked taxes until it became a crisis. You don’t have to go it alone.</p>",
+
+          "<h2>Final Thoughts</h2>",
+          "<p>From the day you open a retirement account to the day you spend your last dollar, taxes play a role. Understanding how and when those taxes hit is the first step to avoiding surprises—and trouble.</p>",
+          "<p><strong>Wynn Tax Solutions</strong> is here to help when tax issues arise, whether it's resolving back taxes, mitigating IRS actions, or guiding clients who made costly retirement account decisions. If you're facing tax trouble related to your savings, <a href='/contact-us'>contact us today</a> for a confidential consultation.</p>",
+        ],
+      },
+
+      {
         id: "small-business-tax-pitfalls",
         title: "7 Tax Pitfalls Small Businesses Face and How to Avoid Them",
         image: "/images/small-business-taxes.jpg", // Replace with your actual image path
         teaser:
-          "Many small businesses fall into common tax traps that cost time, money, and peace of mind. Learn what they are, how they affect you, and how Tax Advocate Group helps you stay compliant and confident.",
+          "Many small businesses fall into common tax traps that cost time, money, and peace of mind. Learn what they are, how they affect you, and how Wynn Tax Solutions helps you stay compliant and confident.",
         contentTitle:
           "7 Tax Pitfalls Small Businesses Face and How to Avoid Them",
         contentBody: [
@@ -19,52 +63,52 @@ const useBlogData = () => {
           "<h3>The Reality</h3>",
           "<p>Business finances should be separate from personal spending. When accounts and cards are mixed, it becomes difficult to track true business performance, document deductions, and protect yourself in an audit. Blended finances also weaken liability protection for some business structures.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Keep business accounts separate and maintain clear expense records. <strong>Tax Advocate Group</strong> helps set up systems that keep finances clean and deductions easy to document, reducing stress and audit risk.</p>",
+          "<p>Keep business accounts separate and maintain clear expense records. <strong>Wynn Tax Solutions</strong> helps set up systems that keep finances clean and deductions easy to document, reducing stress and audit risk.</p>",
 
           "<h2>2. Ignoring Quarterly Estimated Taxes</h2>",
           "<p><em>“I’ll just pay everything when I file my taxes next year.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Quarterly tax payments cover income not subject to withholding. Skipping them often leads to IRS penalties and a large, unexpected tax bill at year-end, which can strain cash flow and disrupt operations.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Plan ahead with accurate quarterly estimates to avoid penalties. <strong>Tax Advocate Group</strong> calculates estimates and helps you manage cash flow so taxes are handled smoothly and on time.</p>",
+          "<p>Plan ahead with accurate quarterly estimates to avoid penalties. <strong>Wynn Tax Solutions</strong> calculates estimates and helps you manage cash flow so taxes are handled smoothly and on time.</p>",
 
           "<h2>3. Poor Record-Keeping</h2>",
           "<p><em>“I’ll just keep my receipts and figure it out later.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Record keeping is more than saving receipts—it’s tracking every dollar in and out. Without organized records, you risk missed deductions, filing errors, and limited insight into your business’s financial health. Audits become harder to defend and financial decisions become guesswork.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Maintain accurate, year-round records to support tax filings and business planning. <strong>Tax Advocate Group</strong> helps implement simple, reliable systems that keep your books accurate and audit-ready.</p>",
+          "<p>Maintain accurate, year-round records to support tax filings and business planning. <strong>Wynn Tax Solutions</strong> helps implement simple, reliable systems that keep your books accurate and audit-ready.</p>",
 
           "<h2>4. Misclassifying Workers</h2>",
           "<p><em>“It’s easier to call everyone a contractor and skip payroll headaches.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Worker classification determines how taxes are handled and who bears responsibility for payroll. Misclassifying employees as contractors can lead to penalties, back taxes, and legal disputes.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Classify workers correctly based on IRS guidelines. <strong>Tax Advocate Group</strong> reviews your workforce and helps ensure compliance to avoid costly mistakes.</p>",
+          "<p>Classify workers correctly based on IRS guidelines. <strong>Wynn Tax Solutions</strong> reviews your workforce and helps ensure compliance to avoid costly mistakes.</p>",
 
           "<h2>5. Waiting Until Tax Season to Think About Taxes</h2>",
           "<p><em>“Taxes are a once-a-year problem.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Taxes affect every business decision, from purchases to hiring. Waiting until filing season misses planning opportunities and often leads to higher taxes and more stress.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Take a year-round approach to tax planning. <strong>Tax Advocate Group</strong> monitors your business throughout the year and adjusts strategies proactively so you save money and avoid last-minute scrambling.</p>",
+          "<p>Take a year-round approach to tax planning. <strong>Wynn Tax Solutions</strong> monitors your business throughout the year and adjusts strategies proactively so you save money and avoid last-minute scrambling.</p>",
 
           "<h2>6. Missing Deductions and Credits</h2>",
           "<p><em>“Small deductions don’t make much difference.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Deductions and credits reduce your tax bill, and small ones add up quickly. Ignoring them or assuming they’re not worth tracking can cost thousands over time.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Document and claim every eligible deduction and credit. <strong>Tax Advocate Group</strong> identifies opportunities and ensures you claim all benefits legally available to your business.</p>",
+          "<p>Document and claim every eligible deduction and credit. <strong>Wynn Tax Solutions</strong> identifies opportunities and ensures you claim all benefits legally available to your business.</p>",
 
           "<h2>7. Using the Wrong Business Entity Structure</h2>",
           "<p><em>“I started as a sole proprietor; changing is too complicated.”</em></p>",
           "<h3>The Reality</h3>",
           "<p>Your business entity determines how taxes are calculated and how much liability protection you have. An incorrect structure can mean higher taxes and unnecessary personal risk.</p>",
           "<h3>The Right Approach</h3>",
-          "<p>Select the right structure to optimize taxes and protect assets. <strong>Tax Advocate Group</strong> reviews your goals and finances and helps implement entity changes that work best for you.</p>",
+          "<p>Select the right structure to optimize taxes and protect assets. <strong>Wynn Tax Solutions</strong> reviews your goals and finances and helps implement entity changes that work best for you.</p>",
 
           "<h2>Take Control of Your Taxes</h2>",
-          "<p>These pitfalls don’t just cause paperwork—they create stress, financial risk, and lost opportunities. <strong>Tax Advocate Group</strong> helps small businesses stay organized, compliant, and confident year-round. <a href='#'>Contact us today</a> to schedule your free consultation and take control of your business finances.</p>",
+          "<p>These pitfalls don’t just cause paperwork—they create stress, financial risk, and lost opportunities. <strong>Wynn Tax Solutions</strong> helps small businesses stay organized, compliant, and confident year-round. <a href='#'>Contact us today</a> to schedule your free consultation and take control of your business finances.</p>",
         ],
       },
       {
@@ -115,8 +159,8 @@ const useBlogData = () => {
           "<h2>Why Early Action Matters</h2>",
           "<p>CP503 is not a levy or seizure notice, but it shows the IRS is escalating. If ignored, the next step (CP504) is often sent by certified mail and can lead to liens and levies. Early action preserves your options and prevents more aggressive collection measures.</p>",
 
-          "<h2>Tax Advocate Group Can Help</h2>",
-          "<p>At <strong>Tax Advocate Group</strong>, we help taxpayers navigate IRS notices and resolve tax debt before it escalates. Whether it’s verifying your balance, stopping penalty growth, or negotiating payment plans, our team is ready to help.</p>",
+          "<h2>Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help taxpayers navigate IRS notices and resolve tax debt before it escalates. Whether it’s verifying your balance, stopping penalty growth, or negotiating payment plans, our team is ready to help.</p>",
           "<p><strong>Received a CP503?</strong> Contact us today for a <em>free consultation</em> and get ahead of IRS collections.</p>",
         ],
       },
@@ -185,8 +229,8 @@ const useBlogData = () => {
           "<h2>Why Early Action Matters</h2>",
           "<p>The <strong>CP501 won’t lead to a levy</strong> or garnishment on its own, but <strong>ignoring it will trigger more serious notices</strong> like the <strong>CP503</strong>, <strong>CP504</strong>, or <strong>LT11</strong>. Each step increases your enforcement risk. Acting early preserves your options and can help you avoid IRS collections altogether.</p>",
 
-          "<h2>Tax Advocate Group Can Help</h2>",
-          "<p>At <strong>Tax Advocate Group</strong>, we help taxpayers understand IRS letters and resolve their tax debt quickly and affordably. Whether you're trying to verify your balance or explore settlement options, we’re here to help you respond confidently to the IRS.</p>",
+          "<h2>Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help taxpayers understand IRS letters and resolve their tax debt quickly and affordably. Whether you're trying to verify your balance or explore settlement options, we’re here to help you respond confidently to the IRS.</p>",
           "<p><strong>Received a CP501?</strong> Contact us today to schedule a <em>free consultation</em> and learn your options.</p>",
         ],
       },
@@ -213,37 +257,37 @@ const useBlogData = () => {
           "</ul>",
 
           "<h3>1. The Right to Be Informed</h3>",
-          "<p><strong>The Tax Advocate</strong> ensures that taxpayers understand their obligations and rights by producing plain-language notices, educational tools, and online resources. The principle here is that knowledge is the foundation of fairness. At <strong>Tax Advocate Group</strong>, we carry that forward by explaining every step of the resolution process to our clients—translating IRS language into plain English and giving them the clarity they need to act confidently.</p>",
+          "<p><strong>The Tax Advocate</strong> ensures that taxpayers understand their obligations and rights by producing plain-language notices, educational tools, and online resources. The principle here is that knowledge is the foundation of fairness. At <strong>Wynn Tax Solutions</strong>, we carry that forward by explaining every step of the resolution process to our clients—translating IRS language into plain English and giving them the clarity they need to act confidently.</p>",
 
           "<h3>2. The Right to Quality Service</h3>",
-          "<p><strong>The Tax Advocate</strong> provides dedicated assistance to taxpayers facing economic harm, offering a human touch in a bureaucratic system. The spirit behind this is dignity and professionalism. At <strong>Tax Advocate Group</strong>, our consultants, CPAs, attorneys, and enrolled agents make it a point to treat every client with care and urgency, providing honest timelines and empathetic counsel.</p>",
+          "<p><strong>The Tax Advocate</strong> provides dedicated assistance to taxpayers facing economic harm, offering a human touch in a bureaucratic system. The spirit behind this is dignity and professionalism. At <strong>Wynn Tax Solutions</strong>, our consultants, CPAs, attorneys, and enrolled agents make it a point to treat every client with care and urgency, providing honest timelines and empathetic counsel.</p>",
 
           "<h3>3. The Right to Pay No More than the Correct Amount of Tax</h3>",
-          "<p><strong>The Tax Advocate</strong> helps taxpayers correct account errors and delays that result in overpayment. This is rooted in fairness and accuracy. At <strong>Tax Advocate Group</strong>, we often conduct deep reviews of wage garnishments or levies and uncover instances where our clients were overcharged—helping them get relief or refunds they might not have known they were entitled to.</p>",
+          "<p><strong>The Tax Advocate</strong> helps taxpayers correct account errors and delays that result in overpayment. This is rooted in fairness and accuracy. At <strong>Wynn Tax Solutions</strong>, we often conduct deep reviews of wage garnishments or levies and uncover instances where our clients were overcharged—helping them get relief or refunds they might not have known they were entitled to.</p>",
 
           "<h3>4. The Right to Challenge the IRS’s Position and Be Heard</h3>",
-          "<p><strong>The Tax Advocate</strong> supports taxpayers who dispute IRS notices or have been denied a voice. The principle here is due process. At <strong>Tax Advocate Group</strong>, we prepare detailed responses, appeals, and support documentation that ensure our clients' side of the story is taken seriously. We take pride in helping people be heard.</p>",
+          "<p><strong>The Tax Advocate</strong> supports taxpayers who dispute IRS notices or have been denied a voice. The principle here is due process. At <strong>Wynn Tax Solutions</strong>, we prepare detailed responses, appeals, and support documentation that ensure our clients' side of the story is taken seriously. We take pride in helping people be heard.</p>",
 
           "<h3>5. The Right to Appeal an IRS Decision in an Independent Forum</h3>",
-          "<p><strong>The Tax Advocate</strong> ensures access to appeals and oversight when a taxpayer disagrees with a determination. This speaks to transparency and checks on power. At <strong>Tax Advocate Group</strong>, we guide our clients through IRS Appeals or Tax Court when needed, and make sure no one has to go it alone in front of the federal government.</p>",
+          "<p><strong>The Tax Advocate</strong> ensures access to appeals and oversight when a taxpayer disagrees with a determination. This speaks to transparency and checks on power. At <strong>Wynn Tax Solutions</strong>, we guide our clients through IRS Appeals or Tax Court when needed, and make sure no one has to go it alone in front of the federal government.</p>",
 
           "<h3>6. The Right to Finality</h3>",
-          "<p><strong>The Tax Advocate</strong> works to resolve cases efficiently and protect taxpayers from lingering uncertainty. The principle is closure and certainty. At <strong>Tax Advocate Group</strong>, we focus on giving clients timelines, realistic expectations, and clear endpoints. No one deserves to live under the shadow of tax debt forever.</p>",
+          "<p><strong>The Tax Advocate</strong> works to resolve cases efficiently and protect taxpayers from lingering uncertainty. The principle is closure and certainty. At <strong>Wynn Tax Solutions</strong>, we focus on giving clients timelines, realistic expectations, and clear endpoints. No one deserves to live under the shadow of tax debt forever.</p>",
 
           "<h3>7. The Right to Privacy</h3>",
-          "<p><strong>The Tax Advocate</strong> makes sure IRS investigations and enforcement respect legal boundaries and minimize intrusion. The core idea is respect for personal and financial boundaries. At <strong>Tax Advocate Group</strong>, we advocate for protection from overreach and ensure that enforcement actions are proportional and legally grounded.</p>",
+          "<p><strong>The Tax Advocate</strong> makes sure IRS investigations and enforcement respect legal boundaries and minimize intrusion. The core idea is respect for personal and financial boundaries. At <strong>Wynn Tax Solutions</strong>, we advocate for protection from overreach and ensure that enforcement actions are proportional and legally grounded.</p>",
 
           "<h3>8. The Right to Confidentiality</h3>",
-          "<p><strong>The Tax Advocate</strong> upholds strict safeguards against the misuse of personal information. Trust and discretion are the key values here. At <strong>Tax Advocate Group</strong>, every client record is treated with the highest degree of confidentiality—we understand that resolving your tax issues shouldn’t come at the cost of your privacy.</p>",
+          "<p><strong>The Tax Advocate</strong> upholds strict safeguards against the misuse of personal information. Trust and discretion are the key values here. At <strong>Wynn Tax Solutions</strong>, every client record is treated with the highest degree of confidentiality—we understand that resolving your tax issues shouldn’t come at the cost of your privacy.</p>",
 
           "<h3>9. The Right to Retain Representation</h3>",
-          "<p><strong>The Tax Advocate</strong> makes sure taxpayers know they can be represented at every stage of dealing with the IRS. This right stands for agency and protection. At <strong>Tax Advocate Group</strong>, we offer representation by licensed professionals who not only understand tax law but also protect clients from intimidation or procedural errors.</p>",
+          "<p><strong>The Tax Advocate</strong> makes sure taxpayers know they can be represented at every stage of dealing with the IRS. This right stands for agency and protection. At <strong>Wynn Tax Solutions</strong>, we offer representation by licensed professionals who not only understand tax law but also protect clients from intimidation or procedural errors.</p>",
 
           "<h3>10. The Right to a Fair and Just Tax System</h3>",
-          "<p><strong>The Tax Advocate</strong> helps taxpayers in hardship situations and works to reform systemic issues. The idea here is that justice must adapt to context. At <strong>Tax Advocate Group</strong>, we specialize in helping people whose tax problems stem from real financial strain—crafting solutions that restore balance, not just collect money.</p>",
+          "<p><strong>The Tax Advocate</strong> helps taxpayers in hardship situations and works to reform systemic issues. The idea here is that justice must adapt to context. At <strong>Wynn Tax Solutions</strong>, we specialize in helping people whose tax problems stem from real financial strain—crafting solutions that restore balance, not just collect money.</p>",
 
           "<h2>What It Means to Be a True <strong>Tax Advocate</strong></h2>",
-          "<p>The principles laid out in the Taxpayer Bill of Rights—fairness, transparency, accountability, respect, and the opportunity to be heard—are the foundation of what it means to serve people facing challenges with the Internal Revenue Service. At <strong>Tax Advocate Group</strong>, we strive every day to embody these values. Whether it's providing clear guidance, helping clients understand their options, or standing by them during tough times, our goal is to deliver the kind of support every taxpayer deserves. Being a true <strong>Tax Advocate</strong> means making sure people aren’t just represented—it means making sure they’re respected.</p>",
+          "<p>The principles laid out in the Taxpayer Bill of Rights—fairness, transparency, accountability, respect, and the opportunity to be heard—are the foundation of what it means to serve people facing challenges with the Internal Revenue Service. At <strong>Wynn Tax Solutions</strong>, we strive every day to embody these values. Whether it's providing clear guidance, helping clients understand their options, or standing by them during tough times, our goal is to deliver the kind of support every taxpayer deserves. Being a true <strong>Tax Advocate</strong> means making sure people aren’t just represented—it means making sure they’re respected.</p>",
         ],
       },
       {
@@ -257,7 +301,6 @@ const useBlogData = () => {
         contentBody: [
           "<h2>Understanding Tax Relief</h2>",
           "<p>Tax relief can help individuals and businesses reduce their tax burdens through deductions, credits, settlements, and negotiations with the IRS. Understanding your options and the steps involved is key to securing the best outcome for your financial situation.</p>",
-
           "<h3>Common Forms of Tax Relief</h3>",
           "<p>There are several forms of tax relief available, each designed to address different financial hardships:</p>",
           "<ul>",
@@ -268,8 +311,8 @@ const useBlogData = () => {
           "<li><strong>Currently Not Collectible (CNC) status:</strong> Temporarily halts IRS collection efforts for those who cannot afford to pay at all.</li>",
           "</ul>",
 
-          "<h3>How Tax Advocate Group Helps</h3>",
-          "<p>At <strong>Tax Advocate Group</strong>, we specialize in negotiating with the IRS on behalf of our clients. Whether you're facing a significant tax debt, struggling with unfiled tax returns, or dealing with wage garnishments, our experienced tax professionals assess your financial situation, determine the best relief options, and handle all communications with the IRS to minimize your stress and financial burden.</p>",
+          "<h3>How Wynn Tax Solutions Helps</h3>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we specialize in negotiating with the IRS on behalf of our clients. Whether you're facing a significant tax debt, struggling with unfiled tax returns, or dealing with wage garnishments, our experienced tax professionals assess your financial situation, determine the best relief options, and handle all communications with the IRS to minimize your stress and financial burden.</p>",
 
           "<h3>What to Expect When Starting the Process</h3>",
           "<p>The tax relief process begins with an in-depth review of your financial situation, including income, expenses, assets, and liabilities. Our team will assess whether you qualify for specific relief programs, explain your options, and develop a strategy tailored just for you.</p>",
@@ -289,10 +332,10 @@ const useBlogData = () => {
           "<li><strong>Installment agreements:</strong> Require proof of income and a proposed repayment plan.</li>",
           "<li><strong>Tax credits and deductions:</strong> Vary based on eligibility criteria such as income level, expenses, and specific qualifying events.</li>",
           "</ul>",
-          "<p>At Tax Advocate Group, we ensure all necessary documentation is prepared accurately and submitted correctly to improve your chances of approval.</p>",
+          "<p>At Wynn Tax Solutions, we ensure all necessary documentation is prepared accurately and submitted correctly to improve your chances of approval.</p>",
 
           "<h3>Take Action Today</h3>",
-          "<p>If you're struggling with tax debt, <strong>Tax Advocate Group</strong> is here to help. With years of experience assisting clients in reducing their tax burdens, we can guide you through the process and ensure you take advantage of every available relief option. <a href='/contact-us'>Contact us today</a> to get started on the path to financial freedom.</p>",
+          "<p>If you're struggling with tax debt, <strong>Wynn Tax Solutions</strong> is here to help. With years of experience assisting clients in reducing their tax burdens, we can guide you through the process and ensure you take advantage of every available relief option. <a href='/contact-us'>Contact us today</a> to get started on the path to financial freedom.</p>",
         ],
       },
 
@@ -325,8 +368,8 @@ const useBlogData = () => {
           "<h3>4. Penalty Abatement</h3>",
           "<p>If you have a history of compliance but faced unavoidable financial hardship, you may qualify for penalty relief. First-time penalty abatement and reasonable cause arguments can help reduce additional fees and interest charges.</p>",
 
-          "<h2>How Tax Advocate Group Helps with IRS Negotiations</h2>",
-          "<p>At Tax Advocate Group, we specialize in navigating complex IRS negotiations. Our team of tax professionals assesses your situation, identifies the best relief options, and directly communicates with the IRS on your behalf. Whether you need an <strong>Offer in Compromise</strong>, a <strong>payment plan</strong>, or <strong>penalty relief</strong>, we ensure that your case is presented effectively to secure the best possible outcome.</p>",
+          "<h2>How Wynn Tax Solutions Helps with IRS Negotiations</h2>",
+          "<p>At Wynn Tax Solutions, we specialize in navigating complex IRS negotiations. Our team of tax professionals assesses your situation, identifies the best relief options, and directly communicates with the IRS on your behalf. Whether you need an <strong>Offer in Compromise</strong>, a <strong>payment plan</strong>, or <strong>penalty relief</strong>, we ensure that your case is presented effectively to secure the best possible outcome.</p>",
 
           "<h2>What to Expect When Negotiating with the IRS</h2>",
           "<p>The process starts with an in-depth financial review. You’ll need to provide details about your income, expenses, assets, and liabilities. From there, we determine the best course of action and submit necessary paperwork to the IRS. Throughout the process, we handle all IRS correspondence and negotiations to minimize stress and ensure a smooth resolution.</p>",
@@ -344,7 +387,7 @@ const useBlogData = () => {
           "</ul>",
 
           "<h2>Final Thoughts: Regain Control of Your Tax Situation</h2>",
-          "<p>Whether you're facing mounting tax debt, penalties, or IRS collection actions, there are solutions available. With the right guidance and a strategic approach, you can resolve your tax challenges and move forward with financial confidence. Contact <a href='/contact-us'>Tax Advocate Group</a> today to explore your options and start the negotiation process.</p>",
+          "<p>Whether you're facing mounting tax debt, penalties, or IRS collection actions, there are solutions available. With the right guidance and a strategic approach, you can resolve your tax challenges and move forward with financial confidence. Contact <a href='/contact-us'>Wynn Tax Solutions</a> today to explore your options and start the negotiation process.</p>",
         ],
       },
       {
@@ -352,7 +395,7 @@ const useBlogData = () => {
         title: "IRS Wage Garnishment: What It Is and How To Stop It",
         image: "/images/IRS-Wage-Garnishment.png",
         teaser:
-          "The IRS can legally garnish your wages if you owe back taxes and don’t take action. Learn how the garnishment process works, what signs to look for, and how Tax Advocate Group can help you stop it before your paycheck is affected.",
+          "The IRS can legally garnish your wages if you owe back taxes and don’t take action. Learn how the garnishment process works, what signs to look for, and how Wynn Tax Solutions can help you stop it before your paycheck is affected.",
         contentTitle: "IRS Wage Garnishment: What It Is and How To Stop It",
         contentBody: [
           "<p>Wage garnishment is one of the most serious tools the IRS uses to collect unpaid taxes. If you ignore IRS notices or fail to address your tax debt, the agency can legally instruct your employer to withhold a portion of your paycheck and send it directly to the government. This process can begin with little warning and have a significant impact on your finances—and your workplace reputation.</p>",
@@ -386,7 +429,7 @@ const useBlogData = () => {
           "<p>If you’re facing financial hardship, the IRS may classify your account as <strong>Currently Not Collectible</strong>. This halts collection while you recover financially. You'll still owe the debt, but garnishment will stop.</p>",
 
           "<h3>4. Seek Help from a Tax Professional</h3>",
-          "<p>At <a href='/contact-us'>Tax Advocate Group</a>, we specialize in protecting taxpayers from IRS wage garnishments. Our team reviews your situation, communicates directly with the IRS, and helps you explore all available legal remedies to stop or lift the garnishment.</p>",
+          "<p>At <a href='/contact-us'>Wynn Tax Solutions</a>, we specialize in protecting taxpayers from IRS wage garnishments. Our team reviews your situation, communicates directly with the IRS, and helps you explore all available legal remedies to stop or lift the garnishment.</p>",
 
           "<h2>What You Need to Provide</h2>",
           "<p>To stop or negotiate wage garnishment, be prepared to gather:</p>",
@@ -400,7 +443,7 @@ const useBlogData = () => {
           "<h2>Final Thoughts</h2>",
           "<p>IRS wage garnishments are stressful and financially damaging—but they are not the end of the road. By acting quickly and consulting a qualified professional, you can stop garnishment, reduce your tax debt, and regain control of your paycheck and your peace of mind.</p>",
 
-          "<p>Start by scheduling a free consultation with <a href='/contact-us'>Tax Advocate Group</a>. We’ll help you assess your options and take the first step toward relief.</p>",
+          "<p>Start by scheduling a free consultation with <a href='/contact-us'>Wynn Tax Solutions</a>. We’ll help you assess your options and take the first step toward relief.</p>",
         ],
       },
       {
@@ -408,7 +451,7 @@ const useBlogData = () => {
         title: "Bank Levy: What It Means When the IRS Freezes Your Account",
         image: "/images/Bank-Levy.png",
         teaser:
-          "A bank levy is one of the most aggressive IRS collection actions—and it can drain your account with no warning. Learn the signs, your rights, and how to stop or reverse a levy before it’s too late. This guide walks you through what to expect and how Tax Advocate Group can help.",
+          "A bank levy is one of the most aggressive IRS collection actions—and it can drain your account with no warning. Learn the signs, your rights, and how to stop or reverse a levy before it’s too late. This guide walks you through what to expect and how Wynn Tax Solutions can help.",
         contentTitle:
           "IRS Bank Levies: What They Are and How to Protect Yourself",
         contentBody: [
@@ -446,8 +489,8 @@ const useBlogData = () => {
           "<h2>Can You Get a Bank Levy Reversed?</h2>",
           "<p>In some cases, yes. If the levy creates severe financial hardship, the IRS may release it. You may also qualify for hardship relief, but timing is critical. Once the 21-day freeze passes, your funds are gone.</p>",
 
-          "<h2>How Tax Advocate Group Helps</h2>",
-          "<p>At <a href='/contact-us'>Tax Advocate Group</a>, we help clients respond immediately to levy notices. Our tax professionals contact the IRS, request holds, and negotiate on your behalf. Whether you need to stop the levy, request penalty abatement, or restructure your tax debt, we help protect your assets and regain control of your finances.</p>",
+          "<h2>How Wynn Tax Solutions Helps</h2>",
+          "<p>At <a href='/contact-us'>Wynn Tax Solutions</a>, we help clients respond immediately to levy notices. Our tax professionals contact the IRS, request holds, and negotiate on your behalf. Whether you need to stop the levy, request penalty abatement, or restructure your tax debt, we help protect your assets and regain control of your finances.</p>",
 
           "<h2>Documents You’ll Need</h2>",
           "<ul>",
@@ -458,7 +501,7 @@ const useBlogData = () => {
           "</ul>",
 
           "<h2>Final Thoughts</h2>",
-          "<p>IRS bank levies are serious. If you’ve received a notice or suspect your account may be frozen, you need to act now. Contact <a href='/contact-us'>Tax Advocate Group</a> to explore your options and avoid losing access to your money.</p>",
+          "<p>IRS bank levies are serious. If you’ve received a notice or suspect your account may be frozen, you need to act now. Contact <a href='/contact-us'>Wynn Tax Solutions</a> to explore your options and avoid losing access to your money.</p>",
         ],
       },
     ]);

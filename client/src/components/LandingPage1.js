@@ -280,7 +280,8 @@ const LandingPage1 = () => {
               <p className="step-description">
                 Whether you have business or personal tax issues we will provide
                 you industry leading expert guidance. We help with state and
-                federal taxes for individuals, payroll taxes
+                federal taxes for individuals, payroll taxes and entity
+                formation for small businesses.
               </p>
             </div>
             <div className="step">

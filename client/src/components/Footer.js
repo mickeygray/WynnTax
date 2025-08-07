@@ -61,6 +61,11 @@ const Footer = () => {
           <ul>
             {" "}
             <li>
+              <a href="/tax-news/retirement-tax-guide">
+                Retirement Account Tax Concerns
+              </a>
+            </li>
+            <li>
               <a href="/tax-news/small-business-tax-pitfalls">
                 Small Business Tax Pitfalls
               </a>
