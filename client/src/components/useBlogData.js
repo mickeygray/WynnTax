@@ -10,7 +10,7 @@ const useBlogData = () => {
         title: "How Retirement Accounts Affect Your Taxes at Every Stage",
         image: "/images/Retirement-Tax-Guide.png",
         teaser:
-          "Retirement accounts like 401(k)s and IRAs are powerful savings tools, but they also come with important tax implications. This guide walks you through the impact of taxes at each stage—from contributing to withdrawing—so you can plan better and avoid costly surprises.",
+          "Retirement accounts like 401(k)s and IRAs are powerful tools for financial freedom, but they also come with important tax implications. This guide walks you through the impact of taxes at each stage—from contributing to withdrawing—so you can plan better and avoid costly surprises.",
         contentTitle:
           "How Retirement Accounts Affect Your Taxes at Every Stage",
         contentBody: [
