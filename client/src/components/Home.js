@@ -1,5 +1,3 @@
-import React from "react";
-
 import HeroSection from "./HeroSection";
 import Main from "./Main";
 import Services from "./Services";

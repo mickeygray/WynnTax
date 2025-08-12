@@ -59,7 +59,7 @@ const Main = () => {
         </div>
         <div className="about-image">
           <img
-            src="/images/wynn-home-page-image-1.png"
+            src="images/wynn-home-page-image-1.png"
             alt="Wynn Tax Solutions"
           />
         </div>
@@ -69,28 +69,28 @@ const Main = () => {
           <div className="image-row-container">
             {/* Image 1 - BBB Accredited Business */}
             <img
-              src="/images/bbb-accredited-business.png"
+              src="images/bbb-accredited-business.png"
               alt="BBB Accredited Business"
               className="image-item"
             />
 
             {/* Image 2 - SuperMoney Best Rated Firm */}
             <img
-              src="/images/trust-builder-supermoney.png"
+              src="images/trust-builder-supermoney.png"
               alt="SuperMoney Best Rated Firm"
               className="image-item"
             />
 
             {/* Image 3 - IRS Power of Attorney */}
             <img
-              src="/images/trust-builder-IRS-power-of-atty-1.png"
+              src="images/trust-builder-IRS-power-of-atty-1.png"
               alt="IRS Power of Attorney"
               className="image-item"
             />
 
             {/* Image 4 - Approved IRS Provider */}
             <img
-              src="/images/trust-builder-IRS-Provider.png"
+              src="images/trust-builder-IRS-Provider.png"
               alt="Approved IRS Provider"
               className="image-item"
             />

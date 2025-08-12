@@ -6,6 +6,54 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "questions-about-my-1099-truck-driver-edition",
+        title: "Questions About My 1099 – Truck Driver Edition",
+        image: "/images/1099-trucker-hero.png",
+        teaser:
+          "If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. This guide walks you through what to expect, common pitfalls, and how Tax Advocate Group can step in when life throws curveballs.",
+        contentTitle: "Questions About My 1099 – Truck Driver Edition",
+        contentBody: [
+          "<h2>Questions About My 1099 – Truck Driver Edition</h2>",
+          "<p>If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. That means you need good records, know-the-law knowledge, and a plan. This guide walks you through what to expect, what commonly trips up drivers, and how <strong>Tax Advocate Group</strong> steps in when life throws curveballs.</p>",
+
+          "<h3>1. Getting Your 1099 on Time</h3>",
+          "<blockquote>“I’ll just wait for whatever they send—eventually.”</blockquote>",
+          "<p><strong>Reality:</strong> Payers must issue Form 1099-NEC by <strong>January 31</strong> (<a href='https://www.irs.gov/newsroom/irs-reminder-wage-statements-and-certain-information-returns-due-by-jan-31'>IRS rules</a>). This form reports your gross income—not your profit—and the IRS receives a copy too. If it's missing, your report might not match theirs.</p>",
+          "<p><strong>Trucker Tip:</strong> As an owner-operator dealing with multiple brokers, verify each form against your settlement records. Keep digital logs via tools like <em>QuickBooks Self-Employed</em> to back yourself up.</p>",
+
+          "<h3>2. Deducting Your Trucking Expenses</h3>",
+          "<blockquote>“I’ll just write off everything I spend.”</blockquote>",
+          "<p><strong>Reality:</strong> You can deduct <em>ordinary and necessary</em> business expenses under <a href='https://apps.irs.gov/app/understandingTaxes/hows/mod14/media/fs_mod14.pdf'>IRC §162</a>. For drivers, that includes fuel, maintenance, per diem meals, lease interest, insurance, and licensing. But every expense must be documented.</p>",
+          "<p><strong>Trucker Details:</strong> Per diem meals follow specific IRS rates (see IRS guidelines §162(a)(2)). Use mileage apps like <em>MileIQ</em> and receipt apps like <em>Expensify</em> for compliant tracking.</p>",
+
+          "<h3>3. Paying Self-Employment Taxes</h3>",
+          "<blockquote>“I only owe income tax, right?”</blockquote>",
+          "<p><strong>Reality:</strong> As a self-employed person, you owe both the employee and employer portions of Social Security and Medicare—totaling <strong>15.3%</strong>—via Schedule SE (<a href='https://www.law.cornell.edu/uscode/text/26/1401'>IRC §1401</a>). You also deduct half of that on Form 1040. <a href='https://www.irs.gov/pub/irs-pdf/f1099nec.pdf'>See form details</a>.</p>",
+          "<p><strong>Best Practice:</strong> Set aside 25–30% of each payment and make quarterly estimated payments if you’ll owe over $1,000 (<a href='https://www.irs.gov/businesses/small-businesses-self-employed/information-return-reporting'>IRS guide</a>).</p>",
+
+          "<h3>4. Managing Healthcare on a 1099 Income</h3>",
+          "<blockquote>“I’ll skip health insurance for now and save some cash.”</blockquote>",
+          "<p><strong>Reality:</strong> If you're self-employed and not covered by an employer’s plan, you may deduct your health insurance premiums under <a href='https://www.law.cornell.edu/uscode/text/26/162'>IRC §162(l)</a>. But uninsured emergencies can force you into early retirement withdrawals, triggering penalties.</p>",
+          "<p><strong>Tip for Drivers:</strong> Look into marketplace plans or programs through industry associations.</p>",
+
+          "<h3>5. What to Do If Income Doesn't Match Your 1099</h3>",
+          "<blockquote>“If they report too much income, I'll just go with what they say.”</blockquote>",
+          "<p><strong>Reality:</strong> The IRS matches 1099s against your return. Overreported income can lead to penalties unless you challenge it with documentation.</p>",
+          "<p><strong>Trucker Note:</strong> Fuel card reimbursements or advances can be misclassified. Keep settlement statements and request corrections.</p>",
+
+          "<h3>How Tax Advocate Group Can Help</h3>",
+          "<p>Mistakes, missed deadlines, or surprise tax bills can snowball fast. <strong>Tax Advocate Group</strong> specializes in:</p>",
+          "<ul>",
+          "<li>Fixing mismatches between your records and IRS data.</li>",
+          "<li>Settling unpaid self-employment tax debts.</li>",
+          "<li>Negotiating to stop wage garnishments or bank levies.</li>",
+          "<li>Helping you rebuild a tax plan that protects your income—and your future.</li>",
+          "</ul>",
+          "<p>If your 1099 income has left you stuck or confused, <strong>we can help you clean it up and keep it from happening again.</strong></p>",
+        ],
+      },
+
+      {
         id: "retirement-tax-guide",
         title: "How Retirement Accounts Affect Your Taxes at Every Stage",
         image: "/images/Retirement-Tax-Guide.png",
