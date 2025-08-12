@@ -13,7 +13,6 @@ const useBlogData = () => {
           "If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. This guide walks you through what to expect, common pitfalls, and how Tax Advocate Group can step in when life throws curveballs.",
         contentTitle: "Questions About My 1099 – Truck Driver Edition",
         contentBody: [
-          "<h2>Questions About My 1099 – Truck Driver Edition</h2>",
           "<p>If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. That means you need good records, know-the-law knowledge, and a plan. This guide walks you through what to expect, what commonly trips up drivers, and how <strong>Tax Advocate Group</strong> steps in when life throws curveballs.</p>",
 
           "<h3>1. Getting Your 1099 on Time</h3>",
