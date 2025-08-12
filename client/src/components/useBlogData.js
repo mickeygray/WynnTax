@@ -10,10 +10,10 @@ const useBlogData = () => {
         title: "Questions About My 1099 – Truck Driver Edition",
         image: "/images/1099-trucker-hero.png",
         teaser:
-          "If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. This guide walks you through what to expect, common pitfalls, and how Tax Advocate Group can step in when life throws curveballs.",
+          "If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. This guide walks you through what to expect, common pitfalls, and how Wynn Tax Solutions can step in when life throws curveballs.",
         contentTitle: "Questions About My 1099 – Truck Driver Edition",
         contentBody: [
-          "<p>If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. That means you need good records, know-the-law knowledge, and a plan. This guide walks you through what to expect, what commonly trips up drivers, and how <strong>Tax Advocate Group</strong> steps in when life throws curveballs.</p>",
+          "<p>If you're a truck driver—or any 1099 contractor—taxes don't auto-deduct from your paycheck. You're both the worker and the accountant. That means you need good records, know-the-law knowledge, and a plan. This guide walks you through what to expect, what commonly trips up drivers, and how <strong>Wynn Tax Solutions</strong> steps in when life throws curveballs.</p>",
 
           "<h3>1. Getting Your 1099 on Time</h3>",
           "<blockquote>“I’ll just wait for whatever they send—eventually.”</blockquote>",
@@ -40,8 +40,8 @@ const useBlogData = () => {
           "<p><strong>Reality:</strong> The IRS matches 1099s against your return. Overreported income can lead to penalties unless you challenge it with documentation.</p>",
           "<p><strong>Trucker Note:</strong> Fuel card reimbursements or advances can be misclassified. Keep settlement statements and request corrections.</p>",
 
-          "<h3>How Tax Advocate Group Can Help</h3>",
-          "<p>Mistakes, missed deadlines, or surprise tax bills can snowball fast. <strong>Tax Advocate Group</strong> specializes in:</p>",
+          "<h3>How Wynn Tax Solutions Can Help</h3>",
+          "<p>Mistakes, missed deadlines, or surprise tax bills can snowball fast. <strong>Wynn Tax Solutions</strong> specializes in:</p>",
           "<ul>",
           "<li>Fixing mismatches between your records and IRS data.</li>",
           "<li>Settling unpaid self-employment tax debts.</li>",
