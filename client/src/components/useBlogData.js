@@ -6,6 +6,69 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-cp504-final-notice-guide",
+        title: "What to Do If You Receive an IRS CP504 Final Notice",
+        image: "/images/CP504.png",
+        teaser:
+          "The IRS CP504 Final Notice is a serious warning: you have 30 days to act before the IRS can seize your income, bank accounts, or property. Learn what it means, what’s at risk based on your balance and assets, and how to protect yourself.",
+        contentTitle: "What to Do If You Receive an IRS CP504 Final Notice",
+        contentBody: [
+          "<h2>What Is an IRS CP504 Final Notice?</h2>",
+          "<p>The <strong>IRS CP504 Final Notice of Intent to Levy</strong> is one of the most serious collection letters the IRS sends. It warns that you have <strong>30 days</strong> to take action before they can begin seizing wages, bank accounts, tax refunds, or even certain assets. By the time you receive this notice, the IRS has already sent earlier letters (like CP501 and CP503) without sufficient response from you.</p>",
+
+          "<h2>Why the CP504 Is Different</h2>",
+          "<p>Unlike earlier notices, CP504 gives the IRS legal authority to move forward with enforced collection actions after the 30-day deadline passes. In smaller cases, this may mean wage garnishment or bank levies. In larger or more complex cases, it can lead to the assignment of a Revenue Officer with expanded powers, including seizing or forcing the sale of property.</p>",
+
+          "<h2>How Much You Owe Matters</h2>",
+          "<ul>",
+          "<li><strong>Under $50,000:</strong> Cases are usually handled by the IRS Automated Collection System (ACS). Expect wage garnishments, bank account levies, and refund seizures if you do not act.</li>",
+          "<li><strong>Over $50,000:</strong> Your account can be assigned to a <strong>Revenue Officer</strong>, who has the power to seize assets such as savings, retirement funds, multiple vehicles, or vacation properties.</li>",
+          "</ul>",
+          "<p>The larger your balance, the broader the range of collection tools the IRS can use against you.</p>",
+
+          "<h2>Income Sources at Risk</h2>",
+          "<p>The IRS targets steady, accessible income streams first. Wage earners may lose a large portion of each paycheck. Social Security recipients can have up to 15% withheld. Pension income is also vulnerable. If you are self-employed, the IRS may levy your business bank accounts or instruct clients to send payments directly to them until the debt is resolved.</p>",
+
+          "<h2>Asset Seizure Risks</h2>",
+          "<p>With a Revenue Officer involved, asset seizure is more likely — especially if you own multiple properties or high-value assets beyond basic needs. Vehicles, boats, secondary homes, and in rare cases even primary residences can be targeted if the debt is significant and unresolved. Retirement accounts, while harder to access, are not entirely protected.</p>",
+
+          "<h2>Unfiled vs. Late-Filed Returns</h2>",
+          "<p>If you have unfiled returns, the IRS may have created a <strong>Substitute for Return (SFR)</strong> using income reported to them, often overstating your liability by excluding deductions. Filing accurate returns can reduce your balance and may slow collection activity, but with a CP504 in hand, the clock is still ticking.</p>",
+
+          "<h2>What Happens if You Ignore the CP504?</h2>",
+          "<ul>",
+          "<li>Wage garnishment, often leaving only a small exempt amount per paycheck.</li>",
+          "<li>Bank account levies that can freeze and remove funds overnight.</li>",
+          "<li>Asset seizures, especially for high-value or non-essential property.</li>",
+          "<li>Interception of federal and state tax refunds.</li>",
+          "</ul>",
+
+          "<h2>Steps to Take Immediately</h2>",
+          "<ol>",
+          "<li><strong>Review your notice date</strong> — you have 30 days from that date to act.</li>",
+          "<li><strong>Confirm the balance</strong> by checking your IRS account or speaking with a tax professional.</li>",
+          "<li><strong>Consider resolution options</strong> like an installment agreement, Offer in Compromise, or hardship status.</li>",
+          "<li><strong>Address unfiled returns</strong> to ensure the IRS is using accurate figures.</li>",
+          "<li><strong>Get professional help immediately</strong> to protect income and assets before enforced collection begins.</li>",
+          "</ol>",
+
+          "<h2>Don’t Panic — But Don’t Hesitate</h2>",
+          "<p>The CP504 Final Notice is a warning shot — you still have time to protect yourself, but every day counts. Acting quickly preserves more resolution options and can prevent the IRS from taking control of your paycheck, bank accounts, or property.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help clients respond to CP504 notices before it’s too late. Our team can:</p>",
+          "<ul>",
+          "<li>Stop or prevent wage garnishments and bank levies</li>",
+          "<li>Negotiate affordable payment plans</li>",
+          "<li>Pursue settlements that may reduce your total debt</li>",
+          "<li>Protect your assets from unnecessary seizure</li>",
+          "</ul>",
+          "<p><strong>Your first step:</strong> Contact us today with a copy of your notice. We’ll review your situation, explain your options, and begin communicating with the IRS on your behalf — often within 24 hours.</p>",
+          "<p><em>Don’t panic, but don’t delay. The CP504 is your chance to take control before the IRS acts.</em></p>",
+        ],
+      },
+
+      {
         id: "questions-about-my-1099-truck-driver-edition",
         title: "Questions About My 1099 – Truck Driver Edition",
         image: "/images/1099-trucker-hero.png",
