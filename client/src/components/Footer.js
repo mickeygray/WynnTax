@@ -62,6 +62,11 @@ const Footer = () => {
           <h4>Recent Posts</h4>
           <ul>
             <li>
+              <a href="/tax-news/irs-cp504-final-notice-guide">
+                Questions About My 1099: Truck Driver Edition
+              </a>
+            </li>
+            <li>
               <a href="/tax-news/questions-about-my-1099-truck-driver-edition">
                 Questions About My 1099: Truck Driver Edition
               </a>

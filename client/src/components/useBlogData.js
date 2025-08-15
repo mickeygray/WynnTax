@@ -8,7 +8,7 @@ const useBlogData = () => {
       {
         id: "irs-cp504-final-notice-guide",
         title: "What to Do If You Receive an IRS CP504 Final Notice",
-        image: "/images/CP504.png",
+        image: "/images/cp504.png",
         teaser:
           "The IRS CP504 Final Notice is a serious warning: you have 30 days to act before the IRS can seize your income, bank accounts, or property. Learn what it means, what’s at risk based on your balance and assets, and how to protect yourself.",
         contentTitle: "What to Do If You Receive an IRS CP504 Final Notice",
