@@ -21,11 +21,12 @@ import TermsOfService from "./components/TermsOfService";
 import LeadState from "./context/LeadState";
 import LandingPage1 from "./components/LandingPage1";
 import ThankYou from "./components/ThankYou";
-
+import PageViewTracker from "./components/PageViewTracker";
 const App = () => {
   return (
     <LeadState>
       <Router>
+        <PageViewTracker />
         <Navbar />
         <div className="page-wrapper">
           {" "}
