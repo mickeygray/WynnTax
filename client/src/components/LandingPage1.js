@@ -310,7 +310,7 @@ const LandingPage1 = () => {
             <div className="landing-testimonial-card">
               <div className="landing-testimonial-stars">★★★★★</div>
               <p className="landing-testimonial-text">
-                "They went above and beyond to help me through my IRS debt. I
+                "They went above and beyond to help me through my tax debt. I
                 have and will continue to recommend your company to everyone."
               </p>
               <div className="landing-testimonial-author">Anedia R.</div>
