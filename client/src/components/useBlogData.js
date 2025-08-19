@@ -6,6 +6,51 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-revenue-officer-guide",
+        title: "What to Do If the IRS Assigns a Revenue Officer to Your Case",
+        image: "/images/revenue-officer.png", // Replace with your actual image path
+        teaser:
+          "An IRS Revenue Officer is a local field collector with broad enforcement power. Learn who they are, how they differ from ACS, how they contact you, what to do when assigned, and why Wynn Tax Solutions is uniquely equipped to protect your income and assets.",
+        contentTitle:
+          "What to Do If the IRS Assigns a Revenue Officer to Your Case",
+        contentBody: [
+          "<h2>Overview: What a Revenue Officer Means for Your Case</h2>",
+          "<p>When the IRS assigns a <strong>Revenue Officer (RO)</strong>, your case has moved beyond routine, automated letters. Unlike the <strong>Automated Collection System (ACS)</strong>, which works by mail and call centers, a Revenue Officer is a <strong>local field agent</strong> empowered to investigate your finances, contact you directly (including in person), and push collection through <strong>wage and bank levies, liens, and asset seizures</strong>. Their mandate is simple: secure compliance and collect what the IRS believes is owed—fast.</p>",
+
+          "<h2>Who Are Revenue Officers?</h2>",
+          "<p>Revenue Officers are IRS employees trained to handle <strong>serious or complex collection cases</strong>, often involving <strong>balances over $50,000</strong>, <strong>unfiled or repeatedly late returns</strong>, <strong>business/payroll tax issues</strong>, or <strong>significant assets</strong>. Because ROs work in your region, you’re dealing with a named agent who can set deadlines, request documents, and coordinate enforcement with other IRS functions until your case is resolved.</p>",
+
+          "<h2>How They Differ from ACS</h2>",
+          "<p>ACS relies on standardized notices and phone support, and typically handles earlier-stage or smaller balances. By contrast, an RO can <strong>issue summons for records</strong>, <strong>recommend levies and seizures</strong>, and <strong>directly evaluate your income, assets, and ability to pay</strong>. In short: if your case has an RO, the IRS has decided automated letters are no longer enough.</p>",
+
+          "<h2>How Revenue Officers Contact You</h2>",
+          "<p>Expect contact by <strong>letter</strong> (with the RO’s direct line), <strong>phone</strong>, and in some situations an <strong>in-person visit</strong> to your home or business. Their letters carry firm deadlines. Ignoring an RO invites rapid escalation—much faster than ACS—because they have broader authority and a focused caseload.</p>",
+
+          "<h2>What to Do When an RO Is Assigned</h2>",
+          "<ol>",
+          "<li><strong>Don’t panic—but don’t delay.</strong> You still have options, but time works against you once an RO is involved.</li>",
+          "<li><strong>Get professional representation.</strong> Have a qualified tax professional or attorney communicate for you; an RO is trained in procedure and will test your claims.</li>",
+          "<li><strong>File missing returns immediately.</strong> Compliance is often required before any agreement (payment plan, settlement, or hardship) will be considered.</li>",
+          "<li><strong>Assemble financials.</strong> Be ready with income, expenses, assets, liabilities, and bank statements—an RO will verify with IRS databases and third parties.</li>",
+          "<li><strong>Discuss resolution options early.</strong> Installment agreements, Offers in Compromise, penalty relief, or <em>Currently Not Collectible</em> status may be available depending on your facts.</li>",
+          "</ol>",
+
+          "<h2>Worst-Case Scenarios: What They Can Take</h2>",
+          "<p><strong>Below $50,000 owed:</strong> Cases often remain in ACS, but an RO may still push <strong>wage garnishment</strong>, <strong>Social Security/pension levies</strong> (up to 15% for federal payments), and <strong>bank account levies</strong>. Cash flow can be hit quickly if you wait.</p>",
+          "<p><strong>Over $50,000 owed:</strong> RO involvement and aggression increase. Beyond wages and bank accounts, they may target <strong>savings and investment accounts</strong>, pursue <strong>retirement accounts</strong> (case-dependent), and recommend <strong>seizure and liquidation</strong> of <strong>non-essential assets</strong>—vehicles, equipment, and <strong>secondary properties</strong>. If you own multiple homes or high-value assets, exposure to liquidation is real.</p>",
+
+          "<h2>How to Avoid Extra Penalties While Working with an RO</h2>",
+          "<p>Respond on time, provide accurate information, and keep up with any interim payments you agree to. Late or incomplete responses can trigger additional penalties and interest, and can convince an RO that tougher enforcement is necessary. Staying compliant—especially by filing overdue returns—often opens the door to more manageable solutions.</p>",
+
+          "<h2>Why Many Firms Struggle—And How Wynn Tax Solutions Is Different</h2>",
+          "<p>Many tax relief outfits are built for ACS phone negotiations, not field enforcement. With a Revenue Officer, inexperience can mean <strong>overpaying</strong>, <strong>missed defenses</strong>, or <strong>avoidable seizures</strong>. <strong>Wynn Tax Solutions</strong> fields seasoned tax attorneys and enrolled agents who regularly confront ROs, assert your rights, and structure resolutions that protect income and assets while satisfying IRS demands.</p>",
+
+          "<h2>Take Action Now</h2>",
+          "<p>If a Revenue Officer has contacted you, the situation is serious—but manageable with the right steps. <a href='/contact-us'>Contact Wynn Tax Solutions</a> for a confidential review. We’ll engage the RO on your behalf, prioritize compliance, and move quickly toward the <strong>least invasive</strong> resolution available for your facts and budget.</p>",
+        ],
+      },
+
+      {
         id: "irs-cp504-final-notice-guide",
         title: "What to Do If You Receive an IRS CP504 Final Notice",
         image: "/images/cp504.png",
