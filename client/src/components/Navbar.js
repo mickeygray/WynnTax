@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import PhoneLink from "./PhoneLink";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const location = useLocation();
 
   // Check if the current path is /qualify-now
-  const isQualifyNow = location.pathname === "/qualify-now";
-  const isThankYou = location.pathname === "/thank-you";
 
-  const phoneNumber =
-    isQualifyNow || isThankYou ? "+18667163921" : "+18449966829";
-  const phoneDisplay =
-    isQualifyNow || isThankYou ? "866-716-3921" : "(844) 996-6829";
   // Detect screen width changes for responsive behavior
   useEffect(() => {
     const handleResize = () => {
@@ -191,10 +185,7 @@ const Navbar = () => {
                 <Link to="/tax-news">Tax News</Link>
               </li>
               <li className="nav-phone">
-                <a href={`tel:${phoneNumber}`} className="nav-btn">
-                  <i className="fa-solid fa-phone"></i> {"  "} CALL:{" "}
-                  {phoneDisplay}
-                </a>
+                <PhoneLink rawNumber="18449966829" className="nav-btn" />
               </li>
             </ul>
           </nav>
@@ -240,9 +231,7 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="nav-phone">
-                    <a href="tel:+18669643565" onClick={toggleMenu}>
-                      Call:(844) 996-6829
-                    </a>
+                    <PhoneLink rawNumber="18449966829" className="nav-btn" />
                   </li>
                 </ul>
               </div>

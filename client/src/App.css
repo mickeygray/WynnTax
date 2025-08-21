@@ -583,6 +583,23 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
+.footer-btn {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  height: 50px;
+  border-radius: 4px;
+  color: white !important;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 158, 216, 1) 0%,
+    rgba(0, 187, 255, 1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
 .nav-btn:hover {
   background: white;
   color: #009ed8 !important;

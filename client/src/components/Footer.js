@@ -1,18 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import PhoneLink from "./PhoneLink";
 // Ensure you have a separate CSS file
 
 const Footer = () => {
-  const location = useLocation();
-
-  // Check if the current path is /qualify-now
-  const isQualifyNow = location.pathname === "/qualify-now";
-  const isThankYou = location.pathname === "/thank-you";
-
-  const phoneNumber =
-    isQualifyNow || isThankYou ? "+18667163921" : "+18449966829";
-  const phoneDisplay =
-    isQualifyNow || isThankYou ? "866-716-3921" : "(844) 996-6829";
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -52,8 +43,10 @@ const Footer = () => {
           <p>21625 Prairie Street, Suite #200</p>
           <p>Chatsworth, CA 91331</p>
           <p>
-            <i className="fa-solid fa-phone"></i>
-            {phoneDisplay}
+            <PhoneLink
+              className="footer-btn nav-phone"
+              rawNumber="18449966829"
+            />
           </p>
         </div>
 
