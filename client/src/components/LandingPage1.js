@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { useNavigate } from "react-router-dom";
+import PhoneLink from "./PhoneLink";
 const LandingPopupForm = ({ onClose }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
@@ -163,9 +164,7 @@ const LandingPage1 = () => {
               million in tax debt with comprehensive tax resolution services.
             </p>
             <div className="hero-buttons">
-              <a href="tel:+18667163921" className="hero-call-button">
-                CALL 866-716-3921
-              </a>
+              <PhoneLink rawNumber="18449966829" className="nav-btn" />
               <button
                 className="hero-form-button"
                 onClick={() => setShowPopup(true)}
