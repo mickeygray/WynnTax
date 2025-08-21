@@ -185,7 +185,7 @@ const Navbar = () => {
                 <Link to="/tax-news">Tax News</Link>
               </li>
               <li className="nav-phone">
-                <PhoneLink rawNumber="18449966829" className="nav-btn" />
+                <PhoneLink rawNumber="18449966829" />
               </li>
             </ul>
           </nav>

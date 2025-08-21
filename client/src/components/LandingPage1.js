@@ -164,13 +164,15 @@ const LandingPage1 = () => {
               million in tax debt with comprehensive tax resolution services.
             </p>
             <div className="hero-buttons">
-              <PhoneLink rawNumber="18449966829" className="nav-btn" />
-              <button
-                className="hero-form-button"
+              <PhoneLink rawNumber="18449966829" />
+
+              <a
+                className="phone-button"
+                style={{ background: "#333" }}
                 onClick={() => setShowPopup(true)}
               >
                 Get Free Consultation
-              </button>
+              </a>
             </div>
           </div>
           <div className="hero-overlay"></div>
@@ -355,9 +357,7 @@ const LandingPage1 = () => {
               Our experts are ready to help you reduce and resolve your IRS tax
               liability.
             </p>
-            <a href="tel:+18667163921" className="landing-callout-button">
-              CALL NOW
-            </a>
+            <PhoneLink rawNumber="18449966829" />
           </div>
         </section>
 

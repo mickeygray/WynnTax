@@ -43,10 +43,7 @@ const Footer = () => {
           <p>21625 Prairie Street, Suite #200</p>
           <p>Chatsworth, CA 91331</p>
           <p>
-            <PhoneLink
-              className="footer-btn nav-phone"
-              rawNumber="18449966829"
-            />
+            <PhoneLink rawNumber="18449966829" />
           </p>
         </div>
 
