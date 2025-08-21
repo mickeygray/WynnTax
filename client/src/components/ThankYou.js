@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import leadContext from "../context/leadContext";
+import PhoneLink from "./PhoneLink";
 
 const ThankYou = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -40,10 +41,12 @@ const ThankYou = () => {
             </h1>
 
             <div className="hero-buttons">
-              <a href="tel:+18667163921" className="hero-call-button">
-                CALL 866-716-3921
-              </a>
-              <Link to="/" className="hero-form-button">
+              <PhoneLink rawNumber="18449966829" />
+              <Link
+                to="/"
+                className="phone-button"
+                style={{ background: "#333" }}
+              >
                 Learn More About Wynn Tax
               </Link>
             </div>
