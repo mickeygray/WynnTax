@@ -6,6 +6,54 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "w2-standard-vs-itemized-guide",
+        title:
+          "Labor Day Spotlight: Standard vs. Itemized Deductions for W-2 Workers",
+        image: "/images/itemizedvsstandard.png",
+        teaser:
+          "W-2 workers face an important tax decision each year: take the standard deduction or itemize. Learn the differences, pitfalls, advantages, and how to protect yourself from audit risk — all with a Labor Day focus on the value of your work.",
+        contentTitle:
+          "Labor Day Spotlight: Standard vs. Itemized Deductions for W-2 Workers",
+        contentBody: [
+          "<h2>What Is the Standard Deduction?</h2>",
+          "<p>The <strong>standard deduction</strong> is a flat amount the IRS allows you to subtract from your income, with no documentation required. For 2024, the deduction is $14,600 for single filers, $29,200 for married couples filing jointly, and $21,900 for heads of household. The advantage is simplicity: no receipts or logs needed. For most W-2 workers, the standard deduction provides the biggest benefit with the least hassle.</p>",
+
+          "<h2>What Does It Mean to Itemize?</h2>",
+          "<p><strong>Itemized deductions</strong> let you subtract specific expenses from your taxable income instead of taking the flat standard deduction. Common itemized deductions include:</p>",
+          "<ul>",
+          "<li>Mortgage interest</li>",
+          "<li>State and local taxes (up to $10,000)</li>",
+          "<li>Medical expenses above 7.5% of adjusted gross income</li>",
+          "<li>Charitable contributions</li>",
+          "<li>Job-related expenses (in limited cases)</li>",
+          "</ul>",
+          "<p>Itemizing can sometimes save you more money, but you must prove every deduction with receipts, logs, or statements. It also comes with greater audit exposure if your deductions seem unusual compared to your income.</p>",
+
+          "<h2>Pitfalls of Standard vs. Itemized</h2>",
+          "<p><strong>Standard deduction pitfall:</strong> You may miss out on bigger savings if your deductible expenses exceed the flat amount. Homeowners with large mortgages and property taxes often benefit more from itemizing.</p>",
+          "<p><strong>Itemized deduction pitfall:</strong> Claiming expenses without documentation, or attempting deductions that don’t qualify, can raise red flags with the IRS and potentially lead to audits.</p>",
+
+          "<h2>Which Option Is Best for W-2 Workers?</h2>",
+          "<p>Most W-2 employees benefit most from the standard deduction, but itemizing makes sense if you have significant expenses like high medical bills, major charitable contributions, or mortgage interest. It’s always worth comparing both options to see which results in lower taxable income.</p>",
+
+          "<h2>Audit Red Flags with Itemized Deductions</h2>",
+          "<p>Some itemized deductions are more closely scrutinized by the IRS. These include:</p>",
+          "<ul>",
+          "<li>Charitable contributions that seem large compared to income</li>",
+          "<li>Home office deductions claimed by W-2 workers</li>",
+          "<li>High unreimbursed job expenses without proof</li>",
+          "</ul>",
+          "<p>The key is documentation. Receipts, bank statements, or acknowledgment letters from charities can protect you if your return is reviewed.</p>",
+
+          "<h2>The Labor Day Takeaway</h2>",
+          "<p>Labor Day celebrates the value of your hard work. When it comes to taxes, protecting that work means making smart choices. The <strong>standard deduction</strong> offers simplicity and protection, while <strong>itemizing</strong> can bring bigger savings if you keep thorough records. Either way, preparation ensures your work translates into maximum financial benefit.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help workers make the most of their deductions while staying clear of audit risks. Our team compares standard vs. itemized outcomes, reviews your records, and ensures you claim every deduction you deserve. We focus on protecting your income and minimizing your liability, so your labor truly pays off.</p>",
+          "<p>If you’re unsure whether to take the standard deduction or itemize, contact us today for a free consultation. This Labor Day, take control of your taxes and safeguard the results of your hard work.</p>",
+        ],
+      },
+      {
         id: "irs-revenue-officer-guide",
         title: "What to Do If the IRS Assigns a Revenue Officer to Your Case",
         image: "/images/revenue-officer.png", // Replace with your actual image path

@@ -52,6 +52,16 @@ const Footer = () => {
           <h4>Recent Posts</h4>
           <ul>
             <li>
+              <a href="/tax-news/w2-standard-vs-itemized-guide">
+                Labor Day Spotlight - Standard Vs Itemized Deductions
+              </a>
+            </li>{" "}
+            <li>
+              <a href="/tax-news/irs-revenue-officer-guide">
+                What To Do If The IRS Assigns A Revenue Officer
+              </a>
+            </li>
+            <li>
               <a href="/tax-news/irs-cp504-final-notice-guide">
                 IRS Notice CP-504 - The Final Notice
               </a>
@@ -84,16 +94,6 @@ const Footer = () => {
             <li>
               <a href="/tax-news/tax-advocate-bill-of-rights">
                 Your Rights as a Taxpayer and How We Embody Them
-              </a>
-            </li>
-            <li>
-              <a href="/tax-news/irs-wage-garnishment-guide">
-                IRS Wage Garnishment: What It Is and How To Stop It
-              </a>
-            </li>{" "}
-            <li>
-              <a href="/tax-news/irs-bank-levy-guide">
-                Bank Levy: What It Means When the IRS Freezes Your Account
               </a>
             </li>
           </ul>
