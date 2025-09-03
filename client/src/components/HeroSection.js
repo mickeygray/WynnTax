@@ -13,7 +13,7 @@ const HeroSection = () => {
         </video>
       ) : (
         <img
-          src="/images/Cover-Video-by-Shutterstock-1111048265-compressed_9.jpeg"
+          src="/images/hero-8.png"
           alt="Wynn Tax Solutions"
           className="hero-image"
         />
