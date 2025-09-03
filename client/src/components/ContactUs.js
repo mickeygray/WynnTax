@@ -34,6 +34,13 @@ const ContactUs = () => {
     });
     console.log(emailPayload);
     sendEmail(emailPayload);
+
+    // Only this form counts as a "Lead"
+    window.fbq?.("track", "Lead", {
+      value: 0,
+      currency: "USD",
+      lead_type: "Contact Form",
+    });
   };
   return (
     <div>

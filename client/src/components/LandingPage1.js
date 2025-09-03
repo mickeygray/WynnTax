@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { useNavigate } from "react-router-dom";
 import PhoneLink from "./PhoneLink";
+
 const LandingPopupForm = ({ onClose }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
