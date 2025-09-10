@@ -34,7 +34,7 @@ app.post("/send-email", async (req, res) => {
 
   const mailOptions = {
     from: "inquiry@WynnTaxSolutions.com",
-    to: "office@WynnTaxSolutions.com",
+    to: "mgray@taxadvocategroup.com",
     subject: `New Inquiry from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage:\n${message}`,
   };
