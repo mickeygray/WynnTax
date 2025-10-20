@@ -68,11 +68,6 @@ const ContactUs = () => {
           <p>
             <a href="tel:+18449966829">(844) 996-6829</a>
           </p>
-          <p>
-            <a href="mailto:inquiry@WynnTaxSolutions.com">
-              inquiry@WynnTaxSolutions.com
-            </a>
-          </p>
         </div>
         <div className="contact-info-box">
           <i className="fas fa-home"></i>
