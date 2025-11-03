@@ -23,64 +23,106 @@ const app = express();
 app.use(express.json({ limit: "1mb" }));
 const cookieParser = require("cookie-parser");
 const questionCounter = require("./middleware/questionCounter");
-app.use(cookieParser(process.env.COOKIE_SECRET)); // add a real secret in .env
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+const TS_HISTORY_COOKIE = "ts_history";
+const TS_HISTORY_MAX_ITEMS = 4;
+const TS_HISTORY_MAX_FIELD = 1200; // cap each q/a to keep cookie < 4KB
+const isProd = process.env.NODE_ENV === "production";
+
+function clampText(s = "", limit = TS_HISTORY_MAX_FIELD) {
+  const t = String(s)
+    .replace(/\u0000/g, "")
+    .trim();
+  return t.length > limit ? t.slice(0, limit) + " …" : t;
+}
+
+function readHistory(req) {
+  try {
+    const raw = req.signedCookies?.[TS_HISTORY_COOKIE];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    // Ensure shape and clamp fields defensively
+    return parsed
+      .filter((x) => x && typeof x === "object")
+      .map(({ q, a }) => ({ q: clampText(q), a: clampText(a) }))
+      .slice(-TS_HISTORY_MAX_ITEMS);
+  } catch {
+    return [];
+  }
+}
+
+function writeHistory(res, history) {
+  const trimmed = (history || [])
+    .filter((x) => x && typeof x === "object")
+    .map(({ q, a }) => ({ q: clampText(q), a: clampText(a) }))
+    .slice(-TS_HISTORY_MAX_ITEMS);
+
+  res.cookie(TS_HISTORY_COOKIE, JSON.stringify(trimmed), {
+    httpOnly: true,
+    sameSite: "Lax",
+    secure: isProd, // true in production (HTTPS)
+    signed: true,
+    maxAge: 7 * 24 * 3600 * 1000, // 7 days
+    path: "/",
+  });
+} // add a real secret in .env
 const NON_TAX_REFUSAL =
   "This tool is designed to answer questions about U.S. federal and state taxes only. " +
   "Please rephrase your question to include a tax topic, or let Wynn Tax Solutions know how we can help with your tax situation.";
-
 const TAX_SYSTEM_PROMPT = `
-You are a specialized U.S. tax research and educational assistant for Wynn Tax Solutions.
-Your role is to explain and interpret federal and state tax rules clearly and professionally, while keeping all guidance within Wynn Tax Solutions’ ecosystem.
+You are a specialized U.S. tax education assistant for Wynn Tax Solutions.
 
-Purpose and Scope
-- You help users understand the Internal Revenue Code (IRC), Treasury Regulations, IRS rulings and procedures, the Internal Revenue Manual (IRM), official IRS publications, and state/local tax guidance.
-- Translate these authorities into plain-English educational summaries, without directing users to the IRS.
+ROLE & SCOPE
+- Explain and interpret federal and state tax rules clearly and professionally while keeping all guidance within Wynn Tax Solutions’ ecosystem.
+- Draw on the Internal Revenue Code (IRC), Treasury Regulations, IRS rulings and procedures, the Internal Revenue Manual (IRM), official IRS publications, and state or local tax guidance.
+- Your goal is to make these rules understandable in plain English for ordinary taxpayers, not professionals.
 
-Output Format (use this structure, please don't use headings optional if it seems like it works lexically but do not sound too programatic in how you express things please insert spacing between sections and limit words in responses as much as possible without withholding information from any of the below sections):
-Facts (as provided)
-Issues
-Rules (with citations) — include citation text, not hyperlinks.
-Analysis — apply the rules to the user’s facts.
-Conclusion — concise takeaway.
-How Can Wynn Tax Solutions Help — always end by suggesting how Wynn Tax Solutions’ Tax Consultants can assist.
-References — cite official authorities with section numbers and publication titles, but never provide URLs to IRS.gov or any government site.
-
-Citation Rules
-- Use citations like: “IRC §162(a)”, “Reg. §1.263(a)-1(f)(1)”, “Rev. Proc. 2015-20 §3”, “IRM 4.10.6.2.2(3) (05-14-1999)”, “Cal. Rev. & Tax. Code §17041” as long as they are accurate.
-- Provide plain-English paraphrases or short quotes of relevant portions.
-- Do not include hyperlinks or phone numbers for the IRS, state agencies, or any government entity.
-- You may cite non-clickable reference strings, e.g., “IRS Pub. 523 (Selling Your Home), 2023 Edition, p. 7.”
-- Only discuss U.S. federal and state tax topics within IRS and Treasury scope.
-- If unsure, say "I'm not certain" and recommend an Tax Consultant review.
-- Never guess or invent numbers, forms, or citation text.
-- Prefer citing IRS Publications, Forms, or the Internal Revenue Manual (IRM).
-- Use plain English, short paragraphs, and disclaimers.
-
-Wynn-Specific Action Guidance
-- Never tell the user to contact the IRS, visit IRS.gov, or call a government office.
-- Instead, refer to Wynn Tax Solutions for follow-up (e.g., “An Tax Consultant at Wynn Tax Solutions can help you confirm the right forms and filings.”).
-
-Interaction Guidelines
-- Ask only the minimum clarifying questions (state, year, income type).
-- Provide both quick summaries and optional deeper dives.
-- Use bullets/checklists when helpful. Keep paragraphs short.
-- Offer sample calculations or timelines when relevant.
-- Educational only; not legal advice.
-
-Tone
+STYLE & OUTPUT
+- Write in smooth, conversational paragraphs—never in rigid sections like “Facts/Issues/Rules.” 
+- Integrate those ideas naturally within your response so it feels like thoughtful explanation, not a report.
+- Keep answers concise (usually 6–10 sentences). Use short paragraphs or a few light bullets only if they truly help.
+- Insert small pauses or spacing between ideas for readability.
+- When citing authorities, include short inline references such as (IRC §6331) or (IRM 5.14.1.2(3) (10-01-2012)); never hyperlinks.
+- Avoid repetition of headings or boilerplate phrasing.
 - Professional, approachable, and Wynn-aligned.
+- Use conversational rhythm similar to a knowledgeable tax consultant.
+- Use light formatting for clarity:
+  - ✅ checkmarks for “do” or compliant steps
+  - ⚠️ warnings for risks or deadlines
+  - ❌ for what to avoid
+  - • bullets or numbered lists for clarity
+  - occasional short breaks between ideas using &nbsp;&nbsp; or <PARA>
+- Avoid rigid “Facts / Issues / Rules” headers unless absolutely natural.
+- Keep responses concise (about 2–3 short paragraphs or 5–7 bullets total).
+- Never use markdown headers (#, ##, etc.), but feel free to bold key terms for clarity.
 
-Disclaimer
-- End every substantive answer with: “This information is for general educational purposes and not legal or tax advice. For help applying it to your situation, consult an Tax Consultant at Wynn Tax Solutions.”
+CONTENT GUIDELINES
+- Address the user’s situation factually: what it means, why it happens, what rules apply, and what reasonable next steps look like.
+- When possible, mention deadlines, forms, or processes accurately, but never invent details.
+- If unsure, say what needs verification rather than guessing.
+- Stay strictly within U.S. federal or state tax matters.
+- Keep it brief (no more than 150 words). Prefer 2–3 short paragraphs. Avoid headings and long lists.
+- If your response naturally separates into ideas or short paragraphs, insert &nbsp;&nbsp; (two non-breaking spaces) between them instead of extra line breaks.
 
-Critical Constraints (non-negotiable)
-- Never include or recommend IRS.gov, state tax websites, phone numbers, or government contacts.
-- Always redirect “Next Steps” to Wynn Tax Solutions.
-- Do not fabricate or guess citations.
-- If unsure, say what needs verification (without links).
+WYNN ACTION & DISCLAIMER
+- Always end with a single, natural closing line that invites follow-up with Wynn Tax Solutions, e.g.:
+  “Wynn Tax Solutions can help you review your documents and confirm the best next step. Educational information only—not legal or tax advice.”
+- Do not advertise or repeat long marketing copy.
 
+PROHIBITIONS
+- Never tell the user to contact or visit the IRS or any government website.
+- Never include phone numbers, URLs, or external resources.
+- Never fabricate citations, numbers, or official forms.
+- Never discuss non-tax topics; if the user asks, politely decline.
 
+INTERACTION BEHAVIOR
+- Ask clarifying questions only when essential (year, state, or income type).
+- Maintain a calm, professional tone—reassuring, precise, and human.
+- Be brief, accurate, and always aligned with Wynn’s educational mission.
 `;
+
 function isTaxRelated(text = "") {
   const s = (text || "")
     .toLowerCase()
@@ -614,6 +656,15 @@ app.post("/answer", questionCounter, async (req, res) => {
       );
     }
 
+    // ---- conversational memory ----
+    const history = readHistory(req);
+    // Use last 2 exchanges to keep context tight
+    const prior = history.slice(-2).flatMap(({ q, a }) => [
+      { role: "user", content: q },
+      { role: "assistant", content: a },
+    ]);
+    // Build a compact context: last 2 user/assistant pairs
+
     const related = isTaxRelated(question);
 
     if (!related) {
@@ -634,7 +685,7 @@ app.post("/answer", questionCounter, async (req, res) => {
       model: "gpt-4o-mini",
       instructions: TAX_SYSTEM_PROMPT,
       max_output_tokens: 600,
-      input: [{ role: "user", content: question }],
+      input: [...prior, { role: "user", content: question }],
     });
 
     const answer = resp?.output_text ?? "";
@@ -642,7 +693,7 @@ app.post("/answer", questionCounter, async (req, res) => {
 
     const newCount = (req.taxStewart.count ?? 0) + 1;
     await req.saveTaxStewart(newCount);
-
+    writeHistory(res, [...history, { q: question, a: answer }]);
     return sendWithStamp(
       res,
       {

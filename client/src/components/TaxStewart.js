@@ -38,6 +38,49 @@ export default function TaxStewart() {
       phone: phoneMatch ? phoneMatch[0] : "",
     };
   };
+
+  function beautifyResponse(text = "") {
+    // 1) normalize markers to double newlines
+    let s = String(text)
+      .replace(/&nbsp;+/g, "\n\n")
+      .replace(/<PARA>/g, "\n\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
+    // 2) escape HTML so user content can’t inject tags
+    s = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    // 3) very light markdown: **bold**
+    s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+    // 4) turn simple lists into <ul>
+    // blocks separated by blank lines
+    s = s.replace(/(^|\n\n)(?:[-•]\s.+(\n|$))+?/g, (block) => {
+      const items = block
+        .trim()
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => /^[-•]\s+/.test(l))
+        .map((l) => `<li>${l.replace(/^[-•]\s+/, "")}</li>`)
+        .join("");
+      return `\n<ul>${items}</ul>\n`;
+    });
+
+    // 5) paragraphs
+    s = s
+      .split(/\n\n/)
+      .map((chunk) => (/^\s*<ul>/.test(chunk) ? chunk : `<p>${chunk}</p>`))
+      .join("");
+
+    return s;
+  }
+
+  function renderMessage(m) {
+    const html = beautifyResponse(m.content);
+    // const safe = DOMPurify.sanitize(html); // uncomment if using DOMPurify
+    // return safe;
+    return html;
+  }
   // turn messages into a plaintext transcript
   const toTranscript = (msgs) =>
     msgs
@@ -207,9 +250,13 @@ export default function TaxStewart() {
               <div style={styles.role}>
                 {m.role === "user" ? "You" : "Tax Stewart"}
               </div>
-              <div style={styles.bubble}>{m.content}</div>
+              <div
+                style={styles.bubble}
+                dangerouslySetInnerHTML={{ __html: renderMessage(m) }}
+              />
             </div>
           ))}
+
           {loading && (
             <div style={{ ...styles.msg, ...styles.bot }}>
               <div style={styles.bubble}>Thinking…</div>
@@ -347,5 +394,15 @@ const styles = {
     fontSize: 13,
     color: "#666",
     textAlign: "center",
+  },
+  bubble: {
+    maxWidth: "100%",
+    background: "#f8fafc",
+    border: "1px solid #e2e8f0",
+    borderRadius: 12,
+    padding: "12px 14px",
+    lineHeight: 1.6,
+    fontSize: 15,
+    color: "#0f172a",
   },
 };
