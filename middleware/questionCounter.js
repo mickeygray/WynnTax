@@ -30,7 +30,7 @@ function questionCounter(req, res, next) {
     res.cookie("ts_qc", payload, {
       httpOnly: true,
       sameSite: "Lax", // use "None" + secure:true if crossing sites
-      secure: false, // set true in production w/ HTTPS
+      secure: true, // set true in production w/ HTTPS
       maxAge: WINDOW_MS,
       signed: true,
       path: "/",
