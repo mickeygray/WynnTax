@@ -23,7 +23,21 @@ body {
   color: #222;
   line-height: 1.6;
 }
+.tax-steward-context {
+  margin-bottom: 16px;
+}
 
+.tax-steward-title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.tax-steward-paragraph {
+  margin: 0;
+  color: #4b5563; /* neutral-600 */
+  line-height: 1.5;
+}
 /* Home Container */
 .home-container {
   max-width: 1200px;

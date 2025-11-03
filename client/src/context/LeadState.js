@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 import LeadContext from "./leadContext";
 import leadReducer from "./leadReducer";
@@ -31,8 +31,34 @@ const LeadState = (props) => {
       dispatch({ type: "FORM_ERROR", payload: "Failed to send form data." });
     }
   };
+  const sendQuestion = async (payload) => {
+    // payload: { name, email, phone, message: { nextQuestion, transcript } }
+    try {
+      const response = await axios.post("/send-question", payload);
+      console.log("SendQuestion:", response.data);
+      return response.data; // { success: "Question sent successfully!" }
+    } catch (error) {
+      console.error("Error sending question:", error);
+      throw error;
+    }
+  };
+  const askTaxQuestion = async (question) => {
+    try {
+      const res = await axios.post(
+        "/answer",
+        { question },
+        { withCredentials: true }
+      );
+      return res.data; // { ok, blocked, remaining, resetAt, answer }
+    } catch (err) {
+      console.error("askTaxQuestion failed:", err);
+      return { ok: false, error: "Network error" };
+    }
+  };
   return (
-    <LeadContext.Provider value={{ sendEmail, sendLeadForm }}>
+    <LeadContext.Provider
+      value={{ sendEmail, sendQuestion, sendLeadForm, askTaxQuestion }}
+    >
       {props.children}
     </LeadContext.Provider>
   );

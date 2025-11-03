@@ -22,6 +22,7 @@ import LeadState from "./context/LeadState";
 import LandingPage1 from "./components/LandingPage1";
 import ThankYou from "./components/ThankYou";
 import PageViewTracker from "./components/PageViewTracker";
+import StewartWidget from "./components/StewartWidget";
 const App = () => {
   return (
     <LeadState>
@@ -52,6 +53,7 @@ const App = () => {
               element={<TaxProtectionPlans />}
             />
           </Routes>
+          <StewartWidget />
         </div>
         <Footer /> {/* Footer Appears on All Pages */}
       </Router>
