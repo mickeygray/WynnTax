@@ -20,9 +20,13 @@ const formLimiter = rateLimit({
   },
 });
 const app = express();
+app.use(express.json({ limit: "1mb" }));
 const cookieParser = require("cookie-parser");
 const questionCounter = require("./middleware/questionCounter");
 app.use(cookieParser(process.env.COOKIE_SECRET)); // add a real secret in .env
+const NON_TAX_REFUSAL =
+  "This tool is designed to answer questions about U.S. federal and state taxes only. " +
+  "Please rephrase your question to include a tax topic, or let Wynn Tax Solutions know how we can help with your tax situation.";
 
 const TAX_SYSTEM_PROMPT = `
 You are a specialized U.S. tax research and educational assistant for Wynn Tax Solutions.
@@ -566,20 +570,6 @@ app.post("/answer", questionCounter, async (req, res) => {
           answer: NON_TAX_REFUSAL,
         },
         "early-empty"
-      );
-    }
-
-    if (req.taxStewart.remaining <= 0) {
-      return sendWithStamp(
-        res,
-        {
-          ok: true,
-          blocked: true,
-          remaining: 0,
-          resetAt: req.taxStewart.resetAt,
-          answer: "You’ve reached today’s question limit. ...",
-        },
-        "early-limit"
       );
     }
 
