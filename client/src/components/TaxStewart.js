@@ -50,7 +50,7 @@ export default function TaxStewart() {
       id: "sys-hello",
       role: "assistant",
       content:
-        "Hi my name is Stewart and I'm a tax expert! Ask me a U.S. tax question and I’ll give a short educational answer. You’ll have 3 questions, then I can connect you with a tax professional by email. Keep in mind my information was last updated in June of 2024, so if you'd like get more current information or have an urgent question, please type 'Ask EA'.",
+        "Hi my name is Stewart and I'm a tax expert! Ask me a U.S. tax question and I’ll give a short educational answer. You’ll have 3 questions, then I can connect you with a tax professional by email. Keep in mind my information was last updated in June of 2024, so if you'd like get more current information or have an urgent question, please type 'Ask Pro'.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -79,7 +79,7 @@ export default function TaxStewart() {
     // Always show user's entry
     push("user", trimmed);
     setInput("");
-    if (/^\s*ask\s*ea\s*$/i.test(trimmed)) {
+    if (/^\s*ask\s*pro\s*$/i.test(trimmed)) {
       // don't call backend, don't increment question count
       push(
         "assistant",
