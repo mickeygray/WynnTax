@@ -484,7 +484,7 @@ app.post("/lead-form", async (req, res) => {
 
   const mailOptions = {
     from: "inquiry@WynnTaxSolutions.com",
-    to: "office@WynnTaxSolutions.com",
+    to: "mgray@taxadvocategroup.com",
     subject: `New Lead Form Submission from ${name}`,
     text: `
       Name: ${name}
@@ -508,46 +508,87 @@ app.post("/lead-form", async (req, res) => {
 });
 app.post("/send-question", async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body;
+    const { name, email, phone, message } = req.body || {};
 
     if (!email || !message) {
       return res.status(400).json({ error: "Email and message are required." });
     }
 
-    const nextQuestion = message.nextQuestion || "No next question provided.";
-    const transcript =
-      typeof message.transcript === "string"
-        ? message.transcript
-        : JSON.stringify(message.transcript, null, 2);
+    // Accept message as object or string
+    let msgObj = {};
+    if (typeof message === "string") {
+      try {
+        msgObj = JSON.parse(message);
+      } catch {
+        msgObj = { transcript: message };
+      }
+    } else if (typeof message === "object" && message !== null) {
+      msgObj = message;
+    }
+
+    const nextQuestion =
+      typeof msgObj.nextQuestion === "string" && msgObj.nextQuestion.trim()
+        ? msgObj.nextQuestion.trim()
+        : "No next question provided.";
+
+    let transcript =
+      typeof msgObj.transcript === "string"
+        ? msgObj.transcript
+        : JSON.stringify(msgObj.transcript ?? {}, null, 2);
+
+    // Sanitize + cap size (big bodies can get filtered/quarantined)
+    transcript = safeText(transcript, 8000);
+    const nextQuestionText = safeText(nextQuestion, 2000);
 
     const mailOptions = {
-      from: "inquiry@WynnTaxSolutions.com",
-      to: "mgray@taxadvocategroup.com", // or whoever should receive these inquiries
+      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>", // same sender as the working route
+      replyTo: email, // so replies go to the user
+      to: "mgray@taxadvocategroup.com",
       subject: `New Ask-A-Professional Submission from ${email}`,
-      text: `
-A new inquiry was submitted through the Tax Stewart tool.
+      text: `A new inquiry was submitted through the Tax Stewart tool.
 
 Name: ${name || "Not provided"}
 Email: ${email}
 Phone: ${phone || "Not provided"}
 
 --- Next Question ---
-${nextQuestion}
+${nextQuestionText}
 
 --- Conversation Transcript ---
 ${transcript}
-      `,
+`,
+      headers: { "X-App-Route": "send-question" },
+      // Optional: explicit envelope if your provider prefers alignment
+      // envelope: { from: "bounce@WynnTaxSolutions.com", to: "mgray@taxadvocategroup.com" }
     };
 
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: "Question sent successfully!" });
+    const info = await transporter.sendMail(mailOptions);
+    console.log("[/send-question] sendMail result:", {
+      messageId: info?.messageId,
+      accepted: info?.accepted,
+      rejected: info?.rejected,
+      response: info?.response,
+      envelope: info?.envelope,
+    });
+
+    return res.status(200).json({ success: "Question sent successfully!" });
   } catch (error) {
-    console.error("Error sending question:", error);
-    res
+    console.error("[/send-question] error:", error?.stack || error);
+    return res
       .status(500)
       .json({ error: "Error sending question. Please try again later." });
   }
 });
+
+function safeText(s, max = 10000) {
+  if (!s) return "(empty)";
+  const cleaned = String(s)
+    .replace(/\r/g, "")
+    .replace(/\u0000/g, "");
+  return cleaned.length > max
+    ? cleaned.slice(0, max) + "\n\n[truncated]"
+    : cleaned;
+}
 function sendWithStamp(res, payload, stamp) {
   const body = { ...payload, _trace: stamp }; // visible in Network tab
   console.log("[/answer] RESP:", stamp, JSON.stringify(body).slice(0, 200));
