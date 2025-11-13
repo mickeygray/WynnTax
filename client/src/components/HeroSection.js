@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LandingPopupForm from "./LandingPopupForm";
 
-const HeroSection = () => {
+const HeroSection = ({ onConsultationClick }) => {
   const isMobile = window.innerWidth <= 768;
+
   return (
     <div className="hero-container">
       {/* Background Video */}
@@ -36,9 +38,13 @@ const HeroSection = () => {
             <i className="fa-solid fa-folder"></i> OUR TAX SERVICES
           </Link>
 
-          <Link to="/contact-us" className="hero-btn">
+          <button
+            onClick={onConsultationClick}
+            className="hero-btn hero-consultation-btn"
+            id="hero-consultation-btn"
+          >
             <i className="fa-solid fa-phone"></i> FREE CONSULTATION
-          </Link>
+          </button>
         </div>
       </div>
     </div>

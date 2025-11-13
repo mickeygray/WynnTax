@@ -1,231 +1,393 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Wynn Tax Solutions</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f1f5f9;">
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f1f5f9;">
-    <tr>
-      <td style="padding: 40px 20px;">
-        <!-- Main Container -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-          
-          <!-- Header with Logo -->
-          <tr>
-            <td style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
-              <img src="{{logoUrl}}" alt="Wynn Tax Solutions" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
-              {{#unless logoUrl}}
-              <div style="color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: 1px;">
-                WYNN TAX SOLUTIONS
-              </div>
-              {{/unless}}
-            </td>
-          </tr>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Wynn Tax Solutions</title>
+  </head>
+  <body
+    style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f1f5f9;"
+  >
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+      style="background-color: #f1f5f9;"
+    >
+      <tr>
+        <td style="padding: 40px 20px;">
+          <!-- Main Container -->
+          <table
+            role="presentation"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+            width="600"
+            style="margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+          >
 
-          <!-- Main Content -->
-          <tr>
-            <td style="padding: 40px 30px;">
-              <h1 style="margin: 0 0 20px; font-size: 26px; font-weight: 700; color: #0f172a;">Welcome, {{name}}!</h1>
-              
-              <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #475569;">
-                Thank you for your interest in Wynn Tax Solutions. We're excited to help you resolve your tax situation.
-              </p>
+            <!-- Header with Logo -->
+            <tr>
+              <td
+                style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;"
+              >
+                <img
+                  src="https://i.imgur.com/ARJqvml.png"
+                  alt="Wynn Tax Solutions"
+                  style="max-width: 200px; height: auto; display: block; margin: 0 auto;"
+                />
+              </td>
+            </tr>
 
-              <!-- AI Summary Box (if provided) -->
-              {{#if aiSummary}}
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 30px 0;">
-                <tr>
-                  <td style="padding: 25px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-radius: 6px;">
-                    <h3 style="margin: 0 0 12px; font-size: 16px; font-weight: 600; color: #0f172a;">Your Tax Situation</h3>
-                    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #475569;">
-                      {{aiSummary}}
-                    </p>
-                  </td>
-                </tr>
-              </table>
-              {{/if}}
+            <!-- Main Content -->
+            <tr>
+              <td style="padding: 40px 30px;">
+                <h1
+                  style="margin: 0 0 20px; font-size: 26px; font-weight: 700; color: #0f172a;"
+                >Welcome, {{name}}!</h1>
 
-              <!-- About Wynn Tax Solutions -->
-              <div style="margin: 30px 0;">
-                <h2 style="margin: 0 0 15px; font-size: 20px; font-weight: 700; color: #0f172a;">Why Choose Wynn Tax Solutions?</h2>
-                
-                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                  <tr>
-                    <td style="padding: 15px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td style="padding-right: 12px; vertical-align: top;">
-                            <div style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                              ✓
-                            </div>
-                          </td>
-                          <td style="vertical-align: top;">
-                            <div style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
-                              Thousands of Clients Served Annually
-                            </div>
-                            <div style="font-size: 14px; color: #64748b; line-height: 1.5;">
-                              We're one of America's top tax resolution firms with a proven track record.
-                            </div>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 15px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td style="padding-right: 12px; vertical-align: top;">
-                            <div style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                              ✓
-                            </div>
-                          </td>
-                          <td style="vertical-align: top;">
-                            <div style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
-                              Expert Tax Professionals
-                            </div>
-                            <div style="font-size: 14px; color: #64748b; line-height: 1.5;">
-                              Our team specializes in IRS negotiations, offers in compromise, and payment plans.
-                            </div>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 15px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td style="padding-right: 12px; vertical-align: top;">
-                            <div style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                              ✓
-                            </div>
-                          </td>
-                          <td style="vertical-align: top;">
-                            <div style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
-                              Personalized Solutions
-                            </div>
-                            <div style="font-size: 14px; color: #64748b; line-height: 1.5;">
-                              Every case is unique. We develop strategies tailored to your specific situation.
-                            </div>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- Next Steps -->
-              <div style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 8px;">
-                <h3 style="margin: 0 0 15px; font-size: 18px; font-weight: 700; color: #0f172a;">📋 Your Next Steps</h3>
-                <ol style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.8; color: #475569;">
-                  <li style="margin-bottom: 8px;">Review the attached comprehensive tax guide</li>
-                  <li style="margin-bottom: 8px;">Schedule your free consultation using the button below</li>
-                  <li style="margin-bottom: 8px;">Prepare any questions or documents for your consultation</li>
-                  <li style="margin-bottom: 0;">Our team will contact you within 24 hours</li>
-                </ol>
-              </div>
-
-              <!-- Reviews Section -->
-              <div style="margin: 30px 0; padding: 20px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-                <p style="margin: 0 0 15px; font-size: 15px; color: #475569; text-align: center;">
-                  Don't just take our word for it. See what our clients have to say:
+                <p
+                  style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #475569;"
+                >
+                  Thank you for your interest in Wynn Tax Solutions. We're
+                  excited to help you resolve your tax situation.
                 </p>
-                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+
+                <!-- AI Summary Box (if provided) -->
+                {{#if aiSummary}}
+                  <table
+                    role="presentation"
+                    cellspacing="0"
+                    cellpadding="0"
+                    border="0"
+                    width="100%"
+                    style="margin: 30px 0;"
+                  >
+                    <tr>
+                      <td
+                        style="padding: 25px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-radius: 6px;"
+                      >
+                        <h3
+                          style="margin: 0 0 12px; font-size: 16px; font-weight: 600; color: #0f172a;"
+                        >Your Tax Situation</h3>
+                        <p
+                          style="margin: 0; font-size: 15px; line-height: 1.6; color: #475569;"
+                        >
+                          {{aiSummary}}
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                {{/if}}
+
+                <!-- About Wynn Tax Solutions -->
+                <div style="margin: 30px 0;">
+                  <h2
+                    style="margin: 0 0 15px; font-size: 20px; font-weight: 700; color: #0f172a;"
+                  >Why Choose Wynn Tax Solutions?</h2>
+
+                  <table
+                    role="presentation"
+                    cellspacing="0"
+                    cellpadding="0"
+                    border="0"
+                    width="100%"
+                  >
+                    <tr>
+                      <td style="padding: 15px 0;">
+                        <table
+                          role="presentation"
+                          cellspacing="0"
+                          cellpadding="0"
+                          border="0"
+                        >
+                          <tr>
+                            <td
+                              style="padding-right: 12px; vertical-align: top;"
+                            >
+                              <div
+                                style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;"
+                              >
+                                ✓
+                              </div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <div
+                                style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;"
+                              >
+                                Thousands of Clients Served Annually
+                              </div>
+                              <div
+                                style="font-size: 14px; color: #64748b; line-height: 1.5;"
+                              >
+                                We're one of America's top tax resolution firms
+                                with a proven track record.
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px 0;">
+                        <table
+                          role="presentation"
+                          cellspacing="0"
+                          cellpadding="0"
+                          border="0"
+                        >
+                          <tr>
+                            <td
+                              style="padding-right: 12px; vertical-align: top;"
+                            >
+                              <div
+                                style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;"
+                              >
+                                ✓
+                              </div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <div
+                                style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;"
+                              >
+                                Expert Tax Professionals
+                              </div>
+                              <div
+                                style="font-size: 14px; color: #64748b; line-height: 1.5;"
+                              >
+                                Our team specializes in IRS negotiations, offers
+                                in compromise, and payment plans.
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px 0;">
+                        <table
+                          role="presentation"
+                          cellspacing="0"
+                          cellpadding="0"
+                          border="0"
+                        >
+                          <tr>
+                            <td
+                              style="padding-right: 12px; vertical-align: top;"
+                            >
+                              <div
+                                style="width: 32px; height: 32px; background-color: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;"
+                              >
+                                ✓
+                              </div>
+                            </td>
+                            <td style="vertical-align: top;">
+                              <div
+                                style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;"
+                              >
+                                Personalized Solutions
+                              </div>
+                              <div
+                                style="font-size: 14px; color: #64748b; line-height: 1.5;"
+                              >
+                                Every case is unique. We develop strategies
+                                tailored to your specific situation.
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- Next Steps -->
+                <div
+                  style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 8px;"
+                >
+                  <h3
+                    style="margin: 0 0 15px; font-size: 18px; font-weight: 700; color: #0f172a;"
+                  >📋 Your Next Steps</h3>
+                  <ol
+                    style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.8; color: #475569;"
+                  >
+                    <li style="margin-bottom: 8px;">Review the attached
+                      comprehensive tax guide</li>
+                    <li style="margin-bottom: 8px;">Schedule your free
+                      consultation using the button below</li>
+                    <li style="margin-bottom: 8px;">Prepare any questions or
+                      documents for your consultation</li>
+                    <li style="margin-bottom: 0;">Our team will contact you
+                      within 24 hours</li>
+                  </ol>
+                </div>
+
+                <!-- Reviews Section -->
+                <div
+                  style="margin: 30px 0; padding: 20px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;"
+                >
+                  <p
+                    style="margin: 0 0 15px; font-size: 15px; color: #475569; text-align: center;"
+                  >
+                    Don't just take our word for it. See what our clients have
+                    to say:
+                  </p>
+                  <table
+                    role="presentation"
+                    cellspacing="0"
+                    cellpadding="0"
+                    border="0"
+                    width="100%"
+                  >
+                    <tr>
+                      <td style="text-align: center; padding-right: 10px;">
+                        <a
+                          href="https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-1216-1000042121"
+                          style="display: inline-block; padding: 12px 20px; background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 6px; color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 600;"
+                        >
+                          <span
+                            style="font-size: 18px; margin-right: 6px;"
+                          >⭐</span>
+                          BBB Profile
+                        </a>
+                      </td>
+                      <td style="text-align: center; padding-left: 10px;">
+                        <a
+                          href="https://www.google.com/search?sca_esv=ad5d78fe25a26ce1&rlz=1C1VDKB_enUS1147US1147&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E0mUgMABd_sa-QGrBJsJVu0f8EGUfMfk2JHxLaxY5osGctvhug8xfXGe_ZbUoUs5sOe1CN9hLNvB3kwJAxPcb1LakGK6Y6CEeINfFQUCrsSAY96EbOcb6ghtYcNxJefayguW30oJfzTPdo2gweglbEDheiqV&q=Wynn+Tax+Solutions+%231+Tax+Resolution,+Tax+Relief+Company+Reviews&sa=X&ved=2ahUKEwi6z9yJ4O-QAxUcLEQIHc_4Gq8Q0bkNegQIIRAE&biw=2133&bih=1012&dpr=0.9"
+                          style="display: inline-block; padding: 12px 20px; background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 6px; color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 600;"
+                        >
+                          <span
+                            style="font-size: 18px; margin-right: 6px;"
+                          >⭐</span>
+                          Google Reviews
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- CTA Button (narrower, centered) -->
+                <table
+                  role="presentation"
+                  cellspacing="0"
+                  cellpadding="0"
+                  border="0"
+                  width="100%"
+                  style="margin: 30px 0;"
+                >
                   <tr>
-                    <td style="text-align: center; padding-right: 10px;">
-                      <a href="https://www.bbb.org/us/ca/los-angeles/profile/tax-consultant/wynn-tax-solutions" style="display: inline-block; padding: 12px 20px; background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 6px; color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 600;">
-                        <span style="font-size: 18px; margin-right: 6px;">⭐</span> BBB Profile
-                      </a>
-                    </td>
-                    <td style="text-align: center; padding-left: 10px;">
-                      <a href="https://g.page/r/wynntax" style="display: inline-block; padding: 12px 20px; background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 6px; color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 600;">
-                        <span style="font-size: 18px; margin-right: 6px;">⭐</span> Google Reviews
+                    <td style="text-align: center;">
+                      <a
+                        href="{{calendlyLink}}"
+                        style="display: inline-block; padding: 16px 24px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff; text-decoration: none; text-align: center; border-radius: 8px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); max-width: 340px;"
+                      >
+                        Schedule Your Free Consultation Now
                       </a>
                     </td>
                   </tr>
                 </table>
-              </div>
 
-              <!-- CTA Button -->
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 30px 0;">
-                <tr>
-                  <td>
-                    <a href="{{calendlyLink}}" style="display: block; width: 100%; padding: 16px 24px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff; text-decoration: none; text-align: center; border-radius: 8px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);">
-                      Schedule Your Free Consultation Now
-                    </a>
-                  </td>
-                </tr>
-              </table>
+                <p
+                  style="margin: 20px 0 0; font-size: 14px; color: #64748b; text-align: center;"
+                >
+                  Or call us directly at
+                  <a
+                    href="tel:+18449544780"
+                    style="color: #2563eb; text-decoration: none; font-weight: 600;"
+                  >
+                    844-954-4780
+                  </a>
+                </p>
+              </td>
+            </tr>
 
-              <p style="margin: 20px 0 0; font-size: 14px; color: #64748b; text-align: center;">
-                Or call us directly at <a href="tel:+18005551234" style="color: #2563eb; text-decoration: none; font-weight: 600;">(800) 555-1234</a>
-              </p>
-            </td>
-          </tr>
+            <!-- Divider -->
+            <tr>
+              <td style="padding: 0 30px;">
+                <div style="border-top: 1px solid #e2e8f0;"></div>
+              </td>
+            </tr>
 
-          <!-- Divider -->
-          <tr>
-            <td style="padding: 0 30px;">
-              <div style="border-top: 1px solid #e2e8f0;"></div>
-            </td>
-          </tr>
+            <!-- Signature Block -->
+            <tr>
+              <td style="padding: 30px;">
+                <p
+                  style="margin: 0 0 20px; font-size: 15px; line-height: 1.6; color: #475569;"
+                >
+                  We're here to help you every step of the way.
+                </p>
 
-          <!-- Signature Block -->
-          <tr>
-            <td style="padding: 30px;">
-              <p style="margin: 0 0 20px; font-size: 15px; line-height: 1.6; color: #475569;">
-                We're here to help you every step of the way.
-              </p>
-              
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-                <tr>
-                  <td style="padding-right: 15px; vertical-align: top;">
-                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">
-                      CP
-                    </div>
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <div style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
-                      Cameron Pierce
-                    </div>
-                    <div style="font-size: 14px; color: #64748b; margin-bottom: 2px;">
-                      Client Onboarding Representative
-                    </div>
-                    <div style="font-size: 14px; font-weight: 600; color: #2563eb;">
-                      Wynn Tax Solutions
-                    </div>
-                    <div style="margin-top: 8px; font-size: 13px; color: #64748b;">
-                      <a href="mailto:cpierce@wynntaxsolutions.com" style="color: #2563eb; text-decoration: none;">cpierce@wynntaxsolutions.com</a>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+                <table
+                  role="presentation"
+                  cellspacing="0"
+                  cellpadding="0"
+                  border="0"
+                >
+                  <tr>
+                    <td style="padding-right: 15px; vertical-align: top;">
+                      <div
+                        style="width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;"
+                      >
+                        CP
+                      </div>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <div
+                        style="font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px;"
+                      >
+                        Cameron Pierce
+                      </div>
+                      <div
+                        style="font-size: 14px; color: #64748b; margin-bottom: 2px;"
+                      >
+                        Client Onboarding Representative
+                      </div>
+                      <div
+                        style="font-size: 14px; font-weight: 600; color: #2563eb;"
+                      >
+                        Wynn Tax Solutions
+                      </div>
+                      <div
+                        style="margin-top: 8px; font-size: 13px; color: #64748b;"
+                      >
+                        <a
+                          href="mailto:cpierce@wynntaxsolutions.com"
+                          style="color: #2563eb; text-decoration: none;"
+                        >inquiry@wynntaxsolutions.com</a>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 20px 30px 30px; text-align: center; border-top: 1px solid #e2e8f0; background-color: #f8fafc;">
-              <p style="margin: 0 0 10px; font-size: 12px; color: #94a3b8;">
-                © {{year}} Wynn Tax Solutions. All rights reserved.
-              </p>
-              <p style="margin: 0 0 10px; font-size: 12px; color: #cbd5e1;">
-                Los Angeles, CA | Serving clients nationwide
-              </p>
-              <p style="margin: 0; font-size: 11px; color: #cbd5e1; line-height: 1.5;">
-                Educational information only - not legal or tax advice.<br/>
-                This email and any attachments contain confidential information.
-              </p>
-            </td>
-          </tr>
+            <!-- Footer -->
+            <tr>
+              <td
+                style="padding: 20px 30px 30px; text-align: center; border-top: 1px solid #e2e8f0; background-color: #f8fafc;"
+              >
+                <p style="margin: 0 0 10px; font-size: 12px; color: #94a3b8;">
+                  ©
+                  {{year}}
+                  Wynn Tax Solutions. All rights reserved.
+                </p>
+                <p style="margin: 0 0 10px; font-size: 12px; color: #cbd5e1;">
+                  Los Angeles, CA | Serving clients nationwide
+                </p>
+                <p
+                  style="margin: 0; font-size: 11px; color: #cbd5e1; line-height: 1.5;"
+                >
+                  Educational information only - not legal or tax advice.<br />
+                  This email and any attachments contain confidential
+                  information.
+                </p>
+              </td>
+            </tr>
 
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>

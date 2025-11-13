@@ -157,6 +157,312 @@ body {
   font-size: 30px;
   margin-bottom: 20px;
 }
+/* ============================================================================
+   FLOATING WIDGETS ANIMATIONS
+   ============================================================================ */
+
+/* Container for both Stewart and Consultation buttons */
+.floating-widgets-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When at hero - Stewart shows, consultation hidden */
+.floating-widgets-container.at-hero {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* When at bottom - both show */
+.floating-widgets-container.at-bottom {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* ============================================================================
+   FREE CONSULTATION FLOATING BUTTON
+   ============================================================================ */
+
+.consultation-float-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #8b5cf6 100%);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.consultation-float-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(249, 115, 22, 0.5);
+}
+
+.consultation-float-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.consultation-float-btn i {
+  font-size: 16px;
+}
+
+/* Hide when at hero (button is in hero section) */
+.consultation-float-btn.hidden {
+  opacity: 0;
+  transform: translateX(100px) scale(0.8);
+  pointer-events: none;
+}
+
+/* Show when scrolled (slides in from right) */
+.consultation-float-btn.visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: all;
+  animation: slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   STEWART BUTTON - EXPANDED & CONDENSED STATES
+   ============================================================================ */
+
+.stewart-fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 40%, #8b5cf6 100%);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Expanded state (when at top of page) */
+.stewart-fab.expanded {
+  gap: 10px;
+  padding: 16px 20px;
+  width: 240px;
+  height: 80px;
+  font-size: 1.2rem;
+  animation: expandStewart 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Condensed state (when scrolled down) */
+.stewart-fab.condensed {
+  gap: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  font-size: 0;
+  animation: condenseStewart 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stewart-fab:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.stewart-fab:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* ============================================================================
+   STEWART PULSE DOT (Expanded state only)
+   ============================================================================ */
+
+.stewart-pulse-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.25);
+  animation: stewPulse 1.8s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.stewart-fab.condensed .stewart-pulse-dot {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+@keyframes stewPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+}
+
+/* ============================================================================
+   STEWART BUBBLE ICON (Condensed state only)
+   ============================================================================ */
+
+.stewart-bubble-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stewart-fab.condensed .stewart-bubble-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.stewart-fab.expanded .stewart-bubble-icon {
+  display: none;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes expandStewart {
+  from {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+  }
+  to {
+    width: 240px;
+    height: 80px;
+    padding: 16px 20px;
+  }
+}
+
+@keyframes condenseStewart {
+  from {
+    width: 240px;
+    height: 80px;
+    padding: 16px 20px;
+  }
+  to {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+  }
+}
+
+/* ============================================================================
+   HERO CONSULTATION BUTTON STYLES
+   ============================================================================ */
+
+.hero-consultation-btn {
+  /* Use your existing hero-btn styles */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When scrolling down from hero, fade out the hero button */
+@media (max-width: 768px) {
+  .consultation-float-btn span {
+    display: none;
+  }
+
+  .consultation-float-btn {
+    padding: 16px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+  }
+
+  .stewart-fab.expanded {
+    width: 180px;
+    height: 60px;
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+}
+
+/* ============================================================================
+   NOTIFICATION BADGE (Optional - for unread messages)
+   ============================================================================ */
+
+.stewart-notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  border: 2px solid white;
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ============================================================================
+   SMOOTH TRANSITIONS FOR ROUTE CHANGES
+   ============================================================================ */
+
+.floating-widgets-container {
+  will-change: opacity, transform;
+}
+
+.consultation-float-btn,
+.stewart-fab {
+  will-change: transform, width, height, padding;
+}
+
+/* ============================================================================
+   EXISTING APP.CSS STYLES (Keep your existing styles below)
+   ============================================================================ */
 
 .testimonials-list {
   display: flex;
@@ -193,6 +499,7 @@ body {
   color: white;
   border-radius: 8px;
 }
+
 /* Add a fade-in effect */
 @keyframes fadeIn {
   from {

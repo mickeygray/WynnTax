@@ -7,10 +7,10 @@ import leadContext from "../context/leadContext";
 /* -------------------------------------------------------------------------- */
 
 const PHASE = {
-  NAME: "name",
   INTAKE_ISSUES: "intake_issues",
   INTAKE_QUESTIONS: "intake_questions",
   QUESTION: "question",
+  NAME: "name",
   CONTACT_OFFER: "contact_offer",
   CONTACT_DETAILS: "contact_details",
   VERIFICATION: "verification",
@@ -91,7 +91,7 @@ const INTAKE_STEPS = [
       { id: "gt50k", label: "Over $50k" },
       { id: "unsure", label: "Not sure" },
     ],
-    showIf: (form) => form.issues.includes("balance_due"),
+    showIf: (form) => form.issues?.includes("balance_due"),
   },
   {
     key: "noticeType",
@@ -103,7 +103,7 @@ const INTAKE_STEPS = [
       { id: "other", label: "Something else" },
     ],
     showIf: (form) =>
-      form.issues.includes("irs_notice") || form.issues.includes("levy_lien"),
+      form.issues?.includes("irs_notice") || form.issues?.includes("levy_lien"),
   },
   {
     key: "taxScope",
@@ -203,12 +203,18 @@ export default function TaxStewart() {
   const { askTaxQuestion, sendQuestion } = useContext(leadContext);
 
   // ========================== STATE ==========================
-  const [phase, setPhase] = useState(PHASE.NAME);
+  const [phase, setPhase] = useState(PHASE.INTAKE_ISSUES);
   const [messages, setMessages] = useState([
     {
       id: genId(),
       who: "stew",
-      text: "Hi! I'm Tax Stewart, your virtual tax guide. What's your name?",
+      text: "Hi! I'm Stewart, your tax guide. Let's figure out your tax situation. What are your current tax problems? Select all that apply.",
+    },
+    {
+      id: genId(),
+      who: "stew",
+      type: "intake_issues",
+      text: "",
     },
   ]);
   const [form, setForm] = useState({
@@ -248,7 +254,7 @@ export default function TaxStewart() {
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
-    bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   // ========================== PHASE HANDLERS ==========================
@@ -262,16 +268,16 @@ export default function TaxStewart() {
       {
         id: genId(),
         who: "stew",
-        text: `Nice to meet you, ${name}! Let's figure out your tax situation. What are your current tax problems? Select all that apply.`,
+        text: `Nice to meet you, ${name}! Would you like us to reach out via email, phone, or both?`,
       },
       {
         id: genId(),
         who: "stew",
-        type: "intake_issues",
-        text: "", // This will render the issue buttons
+        type: "contact_buttons",
+        text: "",
       },
     ]);
-    setPhase(PHASE.INTAKE_ISSUES);
+    setPhase(PHASE.CONTACT_OFFER);
   }
 
   // INTAKE_ISSUES phase - handle issue selection
@@ -286,7 +292,7 @@ export default function TaxStewart() {
   }
 
   function handleIssuesContinue() {
-    if (!form.issues.length) {
+    if (!form.issues?.length) {
       setMessages((prev) => [
         ...prev,
         {
@@ -388,7 +394,7 @@ export default function TaxStewart() {
     setPhase(PHASE.QUESTION);
   }
 
-  // QUESTION phase - just get AI answer, don't submit form yet
+  // QUESTION phase - get AI answer, then ask for name
   async function handleQuestionSubmit(question) {
     setForm((prev) => ({ ...prev, question }));
     setMessages((prev) => [
@@ -425,16 +431,10 @@ export default function TaxStewart() {
         {
           id: genId(),
           who: "stew",
-          text: `I'd like to continue helping you with this matter. We can send you a detailed guide about your situation and how Wynn Tax can help. Would you like us to reach out via email, phone, or both?`,
-        },
-        {
-          id: genId(),
-          who: "stew",
-          type: "contact_buttons",
-          text: "",
+          text: `I'd like to continue helping you with this matter. We can send you a detailed guide about your situation and how Wynn Tax can help. First, what's your name?`,
         },
       ]);
-      setPhase(PHASE.CONTACT_OFFER);
+      setPhase(PHASE.NAME);
     } catch (error) {
       console.error("Error in handleQuestionSubmit:", error);
       setMessages((prev) => [
@@ -854,10 +854,10 @@ export default function TaxStewart() {
       : "Continue";
 
   const placeholder =
-    phase === PHASE.NAME
-      ? "Enter your name…"
-      : phase === PHASE.QUESTION
+    phase === PHASE.QUESTION
       ? "Type your question…"
+      : phase === PHASE.NAME
+      ? "Enter your name…"
       : phase === PHASE.CONTACT_DETAILS
       ? form.contactPref === "phone" ||
         (form.contactPref === "both" && form.email)
@@ -908,7 +908,7 @@ export default function TaxStewart() {
                         onClick={() => handleIssueToggle(opt.id)}
                         style={{
                           ...styles.optionBtn,
-                          ...(form.issues.includes(opt.id)
+                          ...(form.issues?.includes(opt.id)
                             ? styles.optionBtnSelected
                             : {}),
                         }}
@@ -954,7 +954,7 @@ export default function TaxStewart() {
                         ))}
                       </select>
                     ) : (
-                      step.options.map((opt) => (
+                      step.options?.map((opt) => (
                         <button
                           key={opt.id}
                           onClick={() =>
@@ -1071,7 +1071,7 @@ export default function TaxStewart() {
             placeholder={placeholder}
             disabled={isInputDisabled}
             style={styles.input}
-            autoFocus={phase === PHASE.NAME}
+            autoFocus={false}
           />
           <button
             type="submit"

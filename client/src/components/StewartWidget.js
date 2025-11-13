@@ -1,50 +1,204 @@
-// src/components/StewartWidget.jsx
 import React, { useEffect, useRef, useState } from "react";
 import TaxStewart from "./TaxStewart";
+import LandingPopupForm from "./LandingPopupForm";
+import { useLocation } from "react-router-dom";
 
 export default function StewartWidget() {
   const [open, setOpen] = useState(false);
+  const [consultationOpen, setConsultationOpen] = useState(false);
+  const [isCondensed, setIsCondensed] = useState(false);
+  const [isAtHero, setIsAtHero] = useState(true);
+  const [hasAutoOpened, setHasAutoOpened] = useState(false); // Track if we've auto-opened
+  const [isReturningFromCondensed, setIsReturningFromCondensed] =
+    useState(false); // Track if expanding after being condensed
+  const [buttonVisible, setButtonVisible] = useState(true); // Control button visibility for animations
   const overlayRef = useRef(null);
+  const location = useLocation();
+
+  // Check if we're on home page
+  const isHomePage = location.pathname === "/";
+
+  // Handle scroll to detect hero visibility
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 800); // open after ~1 second
-    return () => clearTimeout(timer);
-  }, []);
+    if (!isHomePage) {
+      setIsAtHero(false);
+      setIsCondensed(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      // Detect if hero is visible (top 70vh typically)
+      const heroVisible = window.scrollY < window.innerHeight * 0.7;
+      setIsAtHero(heroVisible);
+
+      // Condense Stewart when scrolled down (but not when modal is open)
+      if (window.scrollY > 200 && !open) {
+        if (!isCondensed) {
+          setIsCondensed(true);
+          setIsReturningFromCondensed(false);
+        }
+      } else if (window.scrollY <= 200) {
+        if (isCondensed) {
+          setIsReturningFromCondensed(true); // Mark as returning so we can animate
+        }
+        setIsCondensed(false);
+      }
+    };
+
+    handleScroll(); // Initial check
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHomePage, open, isCondensed]);
+
+  // Reset states when navigating to home
+  useEffect(() => {
+    if (isHomePage) {
+      const timer = setTimeout(() => {
+        if (window.scrollY <= 200) {
+          setIsCondensed(false);
+          setIsAtHero(true);
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCondensed(true);
+      setIsAtHero(false);
+    }
+  }, [isHomePage]);
+
+  // Auto-open ONLY ONCE on initial page load (not on every hero return)
+  useEffect(() => {
+    if (!hasAutoOpened && !isCondensed && isAtHero) {
+      const timer = setTimeout(() => {
+        setButtonVisible(false); // Hide button with animation
+        setTimeout(() => {
+          setOpen(true);
+          setHasAutoOpened(true);
+        }, 200); // Wait for shrink animation
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [hasAutoOpened, isCondensed, isAtHero]);
+
+  // Handle modal closing - show button with grow animation
+  useEffect(() => {
+    if (!open && hasAutoOpened) {
+      // Small delay before showing button
+      const timer = setTimeout(() => {
+        setButtonVisible(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [open, hasAutoOpened]);
+
+  // Handle button click - shrink before opening modal
+  const handleStewartClick = () => {
+    setButtonVisible(false);
+    setTimeout(() => {
+      setOpen(true);
+    }, 200); // Wait for shrink animation
+  };
 
   // Close on ESC
   useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    if (open) window.addEventListener("keydown", onKey);
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setConsultationOpen(false);
+      }
+    };
+    if (open || consultationOpen) {
+      window.addEventListener("keydown", onKey);
+    }
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, consultationOpen]);
 
   // Prevent background scroll when open
   useEffect(() => {
-    if (open) {
+    if (open || consultationOpen) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       return () => (document.body.style.overflow = prev);
     }
-  }, [open]);
+  }, [open, consultationOpen]);
 
   const closeOnBackdrop = (e) => {
-    if (e.target === overlayRef.current) setOpen(false);
+    if (e.target === overlayRef.current) {
+      setOpen(false);
+      setConsultationOpen(false);
+    }
   };
 
   return (
     <>
-      {/* Floating Button */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Open Ask Stewart"
-          style={styles.fab}
-        >
-          <span style={styles.fabDot} />
-          <span>Ask Stewart</span>
-        </button>
-      )}
+      {/* Floating Widgets Container */}
+      <div
+        className={`floating-widgets-container ${
+          isAtHero ? "at-hero" : "at-bottom"
+        }`}
+      >
+        {/* Free Consultation Button - Only show when not at hero */}
+        {!isAtHero && (
+          <button
+            onClick={() => setConsultationOpen(true)}
+            aria-label="Free Consultation"
+            className={`consultation-float-btn ${
+              isAtHero ? "hidden" : "visible"
+            }`}
+          >
+            <i className="fa-solid fa-phone"></i>
+            <span>FREE CONSULTATION</span>
+          </button>
+        )}
 
-      {/* Modal */}
+        {/* Stewart Button - Hide when modal is open, show when closed */}
+        {!open && buttonVisible && (
+          <button
+            onClick={handleStewartClick}
+            aria-label="Open Ask Stewart"
+            className={`stewart-fab ${
+              isCondensed
+                ? "condensed"
+                : isReturningFromCondensed
+                ? "expanded condensed-to-expanded"
+                : "expanded"
+            } ${!buttonVisible ? "shrinking" : "growing"}`}
+            style={{
+              animation: !buttonVisible
+                ? "shrinkAway 0.2s ease-out forwards"
+                : hasAutoOpened
+                ? "growIn 0.3s ease-out forwards"
+                : "none",
+            }}
+          >
+            {isCondensed ? (
+              // Condensed: Just chat bubble icon
+              <div className="stewart-bubble-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12C2 13.54 2.38 14.99 3.06 16.26L2 22L7.74 20.94C9.01 21.62 10.46 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.69 20 9.45 19.66 8.37 19.07L8 18.87L4.87 19.63L5.63 16.5L5.43 16.13C4.84 15.05 4.5 13.81 4.5 12.5C4.5 7.81 8.31 4 13 4C17.69 4 21.5 7.81 21.5 12.5C21.5 17.19 17.69 21 13 21H12Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+            ) : (
+              // Expanded: Full button with pulse and text
+              <>
+                <span className="stewart-pulse-dot" />
+                <span>Ask Stewart</span>
+              </>
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* Stewart Modal */}
       {open && (
         <div
           ref={overlayRef}
@@ -73,48 +227,21 @@ export default function StewartWidget() {
             </div>
 
             <div style={styles.body}>
-              {/* Your existing chat component goes here */}
               <TaxStewart />
             </div>
           </div>
         </div>
+      )}
+
+      {/* Consultation Modal */}
+      {consultationOpen && (
+        <LandingPopupForm onClose={() => setConsultationOpen(false)} />
       )}
     </>
   );
 }
 
 const styles = {
-  fab: {
-    position: "fixed",
-    right: 20,
-    bottom: 20,
-    zIndex: 9999,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    padding: "16px 20px",
-    borderRadius: 999,
-    border: "none",
-    width: "240px", // wider button
-    height: "80px", // taller button
-    cursor: "pointer",
-    color: "#fff",
-    fontSize: "1.2rem", // corrected from textSize
-    fontWeight: 600,
-    boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-    background:
-      "linear-gradient(135deg, #f97316 0%, #ec4899 40%, #8b5cf6 100%)",
-    transition: "transform 120ms ease",
-  },
-  fabDot: {
-    width: 14,
-    height: 14,
-    borderRadius: "50%",
-    background: "#fff",
-    boxShadow: "0 0 0 6px rgba(255,255,255,0.25)",
-    animation: "stewPulse 1.8s infinite ease-in-out",
-  },
   overlay: {
     position: "fixed",
     inset: 0,
@@ -123,12 +250,11 @@ const styles = {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    padding: "24px", // breathing room from window edges
+    padding: "24px",
   },
-
   modal: {
-    width: "min(480px, 90vw)", // was 720px
-    height: "min(65vh, 600px)", // was 80vh
+    width: "min(480px, 90vw)",
+    height: "min(65vh, 600px)",
     background: "#fff",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
@@ -154,7 +280,7 @@ const styles = {
     fontWeight: 700,
     background: "rgba(255,255,255,0.2)",
   },
-  title: { fontSize: 25, fontWeight: 700, lineHeight: 1.1 },
+  title: { fontSize: 25, fontWeight: 700, lineHeight: 1.1, paddingTop: "5px" },
   subtitle: { fontSize: 12, opacity: 0.9 },
   closeBtn: {
     background: "transparent",
@@ -168,6 +294,6 @@ const styles = {
     background: "#fff",
     display: "flex",
     flexDirection: "column",
-    overflow: "hidden", // ⬅️ was 'auto'
+    overflow: "hidden",
   },
 };
