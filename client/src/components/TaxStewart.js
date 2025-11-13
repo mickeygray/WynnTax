@@ -549,7 +549,7 @@ export default function TaxStewart() {
   // Send verification codes via backend
   async function sendVerificationCodes(currentForm) {
     try {
-      const response = await fetch("/send-verification-codes", {
+      const response = await fetch("/api/send-verification-codes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -601,7 +601,7 @@ export default function TaxStewart() {
   // VERIFICATION phase - verify codes and finalize
   async function handleVerificationSubmit() {
     try {
-      const response = await fetch("/verify-codes", {
+      const response = await fetch("/api/verify-codes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -660,7 +660,7 @@ export default function TaxStewart() {
     try {
       const summary = humanSummary(form);
 
-      const response = await fetch("/finalize-submission", {
+      const response = await fetch("/api/finalize-submission", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

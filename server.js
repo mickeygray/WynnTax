@@ -582,7 +582,7 @@ app.use(
 /* -------------------------------------------------------------------------- */
 
 // Contact Form (from original server)
-app.post("/contact-form", formLimiter, async (req, res) => {
+app.post("/api/contact-form", formLimiter, async (req, res) => {
   const { name, email, phone, message } = req.body;
 
   console.log("Contact Form Submission:", req.body);
@@ -615,7 +615,7 @@ app.post("/contact-form", formLimiter, async (req, res) => {
 });
 
 // Lead Form (from original server)
-app.post("/lead-form", async (req, res) => {
+app.post("/api/lead-form", async (req, res) => {
   const { debtAmount, filedAllTaxes, name, phone, email, bestTime } = req.body;
 
   console.log("Lead Form Submission:", req.body);
@@ -656,7 +656,7 @@ app.post("/lead-form", async (req, res) => {
 /* -------------------------------------------------------------------------- */
 
 // Tax Stewart Question Submission (with full form data)
-app.post("/send-question", async (req, res) => {
+app.post("/api/send-question", async (req, res) => {
   try {
     const { name, email, phone, message } = req.body || {};
 
@@ -727,7 +727,7 @@ ${transcript}
 });
 
 // Tax Stewart AI Answer
-app.post("/answer", questionCounter, async (req, res) => {
+app.post("/api/answer", questionCounter, async (req, res) => {
   try {
     const raw = req.body?.question;
     const question = (raw ?? "").toString().trim();
@@ -803,7 +803,7 @@ app.post("/answer", questionCounter, async (req, res) => {
 });
 
 // Tax Stewart Status
-app.get("/ts-status", questionCounter, (req, res) => {
+app.get("/api/ts-status", questionCounter, (req, res) => {
   res.json({
     ok: true,
     count: req.taxStewart.count,
@@ -820,7 +820,7 @@ app.get("/ts-status", questionCounter, (req, res) => {
  * POST /send-verification-codes
  * Send verification codes to email and/or phone
  */
-app.post("/send-verification-codes", async (req, res) => {
+app.post("/api/send-verification-codes", async (req, res) => {
   try {
     const { email, phone, contactPref, name } = req.body;
 
@@ -904,7 +904,7 @@ app.post("/send-verification-codes", async (req, res) => {
  * POST /verify-codes
  * Verify the codes provided by user
  */
-app.post("/verify-codes", async (req, res) => {
+app.post("/api/verify-codes", async (req, res) => {
   try {
     const { email, phone, emailCode, phoneCode, contactPref } = req.body;
 
@@ -970,7 +970,7 @@ app.post("/verify-codes", async (req, res) => {
  * POST /finalize-submission
  * After verification, send existing PDF guide and follow-up
  */
-app.post("/finalize-submission", async (req, res) => {
+app.post("/api/finalize-submission", async (req, res) => {
   try {
     const {
       name,
@@ -1161,7 +1161,7 @@ ${phone ? "✓ Scheduling link sent via text" : ""}
 /*                                SITEMAP                                     */
 /* -------------------------------------------------------------------------- */
 
-app.get("/sitemap.xml", async (req, res) => {
+app.get("/api/sitemap.xml", async (req, res) => {
   const links = [
     { url: "/", changefreq: "daily", priority: 1.0 },
     { url: "/about-us", changefreq: "monthly", priority: 0.7 },

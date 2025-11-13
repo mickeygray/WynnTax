@@ -12,7 +12,7 @@ const LeadState = (props) => {
     console.log(emailPayload);
     dispatch({ type: "SENDING_EMAILS" });
     try {
-      const response = await axios.post("/send-email", emailPayload);
+      const response = await axios.post("/api/send-email", emailPayload);
 
       dispatch({ type: "EMAILS_SENT", payload: response.data.message });
     } catch (error) {
@@ -23,7 +23,7 @@ const LeadState = (props) => {
   const sendLeadForm = async (formData) => {
     dispatch({ type: "SENDING_FORM" });
     try {
-      const response = await axios.post("/lead-form", formData);
+      const response = await axios.post("/api/lead-form", formData);
       console.log("Form Data:", formData);
       dispatch({ type: "FORM_SENT", payload: response.data.message });
     } catch (error) {
@@ -34,7 +34,7 @@ const LeadState = (props) => {
   const sendQuestion = async (payload) => {
     // payload: { name, email, phone, message: { nextQuestion, transcript } }
     try {
-      const response = await axios.post("/send-question", payload);
+      const response = await axios.post("/api/send-question", payload);
       console.log("SendQuestion:", response.data);
       return response.data; // { success: "Question sent successfully!" }
     } catch (error) {
@@ -45,7 +45,7 @@ const LeadState = (props) => {
   const askTaxQuestion = async (question) => {
     try {
       const res = await axios.post(
-        "/answer",
+        "/api/answer",
         { question },
         { withCredentials: true }
       );
