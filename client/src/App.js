@@ -23,6 +23,8 @@ import LandingPage1 from "./components/LandingPage1";
 import ThankYou from "./components/ThankYou";
 import PageViewTracker from "./components/PageViewTracker";
 import StewartWidget from "./components/StewartWidget";
+import PDFViewer from "./components/PDFViewer";
+
 const App = () => {
   return (
     <LeadState>
@@ -48,6 +50,7 @@ const App = () => {
             <Route path="/tax-news/:id" element={<TaxNewsArticle />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/services-brochure" element={<PDFViewer />} />
             <Route
               path="/tax-protection-plans"
               element={<TaxProtectionPlans />}

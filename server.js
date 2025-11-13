@@ -7,9 +7,38 @@ const { Readable } = require("stream");
 const connectDB = require("./config/db");
 const OpenAI = require("openai");
 const rateLimit = require("express-rate-limit");
+const fs = require("fs");
+const path = require("path");
+const handlebars = require("handlebars");
+const { sendTextMessageAPI } = require("./utils/callrail");
+const {
+  generateCode,
+  storeVerificationCode,
+  verifyCode,
+  isVerified,
+  generateAISummary,
+  cleanupExpiredCodes,
+} = require("./utils/verification");
+
+/* -------------------------------------------------------------------------- */
+/*                           HANDLEBARS TEMPLATES                             */
+/* -------------------------------------------------------------------------- */
+
+// Load and compile templates
+const verificationTemplate = handlebars.compile(
+  fs.readFileSync(
+    path.join(__dirname, "library", "verification-email.hbs"),
+    "utf8"
+  )
+);
+
+const welcomeTemplate = handlebars.compile(
+  fs.readFileSync(path.join(__dirname, "library", "welcome-email.hbs"), "utf8")
+);
+
 const formLimiter = rateLimit({
   windowMs: 60 * 10000, // 15 minutes
-  max: 1, // allow up to 3 submissions in 15 minutes
+  max: 1, // allow up to 1 submission in 15 minutes
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
@@ -19,16 +48,22 @@ const formLimiter = rateLimit({
     });
   },
 });
+
 const app = express();
 app.use(express.json({ limit: "1mb" }));
 const cookieParser = require("cookie-parser");
 const questionCounter = require("./middleware/questionCounter");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+const isProd = process.env.NODE_ENV === "production";
+
+/* -------------------------------------------------------------------------- */
+/*                       TAX STEWART HISTORY COOKIE                           */
+/* -------------------------------------------------------------------------- */
+
 const TS_HISTORY_COOKIE = "ts_history";
 const TS_HISTORY_MAX_ITEMS = 4;
 const TS_HISTORY_MAX_FIELD = 1200; // cap each q/a to keep cookie < 4KB
-const isProd = process.env.NODE_ENV === "production";
 
 function clampText(s = "", limit = TS_HISTORY_MAX_FIELD) {
   const t = String(s)
@@ -67,61 +102,111 @@ function writeHistory(res, history) {
     maxAge: 7 * 24 * 3600 * 1000, // 7 days
     path: "/",
   });
-} // add a real secret in .env
-const NON_TAX_REFUSAL =
-  "This tool is designed to answer questions about U.S. federal and state taxes only. " +
-  "Please rephrase your question to include a tax topic, or let Wynn Tax Solutions know how we can help with your tax situation.";
-const TAX_SYSTEM_PROMPT = `
-You are a specialized U.S. tax education assistant for Wynn Tax Solutions.
+}
 
-ROLE & SCOPE
-- Explain and interpret federal and state tax rules clearly and professionally while keeping all guidance within Wynn Tax Solutions’ ecosystem.
-- Draw on the Internal Revenue Code (IRC), Treasury Regulations, IRS rulings and procedures, the Internal Revenue Manual (IRM), official IRS publications, and state or local tax guidance.
-- Your goal is to make these rules understandable in plain English for ordinary taxpayers, not professionals.
+/* -------------------------------------------------------------------------- */
+/*                          TAX AREAS & SYSTEM PROMPT                         */
+/* -------------------------------------------------------------------------- */
 
-STYLE & OUTPUT
-- Write in smooth, conversational paragraphs—never in rigid sections like “Facts/Issues/Rules.” 
-- Integrate those ideas naturally within your response so it feels like thoughtful explanation, not a report.
-- Keep answers concise (usually 6–10 sentences). Use short paragraphs or a few light bullets only if they truly help.
-- Insert small pauses or spacing between ideas for readability.
-- When citing authorities, include short inline references such as (IRC §6331) or (IRM 5.14.1.2(3) (10-01-2012)); never hyperlinks.
-- Avoid repetition of headings or boilerplate phrasing.
-- Professional, approachable, and Wynn-aligned.
-- Use conversational rhythm similar to a knowledgeable tax consultant.
-- Use light formatting for clarity:
-  - ✅ checkmarks for “do” or compliant steps
-  - ⚠️ warnings for risks or deadlines
-  - ❌ for what to avoid
-  - • bullets or numbered lists for clarity
-  - occasional short breaks between ideas using &nbsp;&nbsp; or <PARA>
-- Avoid rigid “Facts / Issues / Rules” headers unless absolutely natural.
-- Keep responses concise (about 2–3 short paragraphs or 5–7 bullets total).
-- Never use markdown headers (#, ##, etc.), but feel free to bold key terms for clarity.
+const TAX_AREAS = `
+FEDERAL TAX TOPICS:
+- Balance due / tax debt / back taxes / unpaid taxes
+- IRS notices (CP501, CP503, CP504, CP90, CP91, LT11, 1058, 668A, etc.)
+- Unfiled returns / non-filer / late filing / compliance
+- Levy / lien / garnishment / wage garnishment / bank levy / seizure
+- Audit / examination / correspondence audit
+- Payment plans / installment agreements / currently not collectible (CNC)
+- Offer in compromise (OIC) / tax settlement / penalty abatement
+- Collection Due Process (CDP) hearings / appeals
+- Innocent spouse relief / injured spouse
+- Tax forms (1040, 941, 940, W-2, 1099, K-1, Schedule C, etc.)
+- Withholding / estimated taxes / quarterly payments
+- Self-employment tax / payroll tax / employment tax (FICA, Medicare)
+- Business taxes / LLC / S-corp / C-corp / partnership / sole proprietor
+- Deductions / credits / exemptions / dependents
+- Capital gains / depreciation / basis
+- Retirement accounts (IRA, 401k, RMD) / HSA
+- Estate tax / gift tax / inheritance
+- Identity theft / identity verification / IP PIN
 
-CONTENT GUIDELINES
-- Address the user’s situation factually: what it means, why it happens, what rules apply, and what reasonable next steps look like.
-- When possible, mention deadlines, forms, or processes accurately, but never invent details.
-- If unsure, say what needs verification rather than guessing.
-- Stay strictly within U.S. federal or state tax matters.
-- Keep it brief (no more than 150 words). Prefer 2–3 short paragraphs. Avoid headings and long lists.
-- If your response naturally separates into ideas or short paragraphs, insert &nbsp;&nbsp; (two non-breaking spaces) between them instead of extra line breaks.
+STATE TAX TOPICS:
+- State tax debt / state notices
+- Franchise Tax Board (FTB - California)
+- Department of Revenue (various states)
+- State filing / state compliance
+- Sales tax / use tax / excise tax / property tax
 
-WYNN ACTION & DISCLAIMER
-- Always end with a single, natural closing line that invites follow-up with Wynn Tax Solutions, e.g.:
-  “Wynn Tax Solutions can help you review your documents and confirm the best next step. Educational information only—not legal or tax advice.”
-- Do not advertise or repeat long marketing copy.
-
-PROHIBITIONS
-- Never tell the user to contact or visit the IRS or any government website.
-- Never include phone numbers, URLs, or external resources.
-- Never fabricate citations, numbers, or official forms.
-- Never discuss non-tax topics; if the user asks, politely decline.
-
-INTERACTION BEHAVIOR
-- Ask clarifying questions only when essential (year, state, or income type).
-- Maintain a calm, professional tone—reassuring, precise, and human.
-- Be brief, accurate, and always aligned with Wynn’s educational mission.
+LIFE SITUATIONS THAT MAY RELATE TO TAX:
+- Death of family member (estate tax, inheritance, final returns, deceased spouse)
+- Divorce / separation (innocent spouse, filing status, alimony)
+- Job loss / unemployment (income changes, estimated taxes, withholding)
+- Starting a business (entity selection, self-employment tax, quarterly estimates)
+- Received inheritance / sold property (capital gains, basis, reporting)
+- Medical expenses (deductions, HSA)
+- Education expenses (credits, student loan interest, 1098-T)
+- Disability / hardship (currently not collectible, payment plans)
+- Bankruptcy (discharge of tax debt, chapter 7 vs 13)
+- Cryptocurrency / gig work / 1099 income
 `;
+
+const NON_TAX_REFUSAL =
+  "I specialize in U.S. tax matters and can't provide guidance on that topic. However, if you have tax questions related to your situation, I'm here to help. Would you like to schedule a call with a Wynn Tax consultant to discuss your needs?";
+
+const TAX_SYSTEM_PROMPT = `
+You are Tax Stewart, a specialized U.S. tax education assistant for Wynn Tax Solutions.
+
+CONTEXT AWARENESS:
+You may have information about the user's tax situation from their intake selections. Use this context to provide personalized guidance. The user may ask follow-up questions that seem unrelated to tax (like "my mom died" or "I'm unemployed"), but you must connect their question back to their specific tax situation when there is a valid tax connection.
+
+TAX AREAS YOU COVER:
+${TAX_AREAS}
+
+ROLE & SCOPE:
+- Explain and interpret federal and state tax rules clearly and professionally
+- Draw on the Internal Revenue Code (IRC), Treasury Regulations, IRS rulings and procedures, the Internal Revenue Manual (IRM), official IRS publications, and state or local tax guidance
+- Your goal is to make these rules understandable in plain English for ordinary taxpayers, not professionals
+- Connect life situations (death, unemployment, divorce, etc.) to tax implications when relevant
+
+STYLE & OUTPUT:
+- Write in smooth, conversational paragraphs—never in rigid sections like "Facts/Issues/Rules"
+- Keep answers concise (usually 6–10 sentences or 150 words max)
+- Use light formatting for clarity:
+  ✅ checkmarks for "do" or compliant steps
+  ⚠️ warnings for risks or deadlines
+  ❌ for what to avoid
+  • bullets or numbered lists for clarity
+- When citing authorities, include short inline references such as (IRC §6331) or (IRM 5.14.1.2); never hyperlinks
+- Never use markdown headers (#, ##, etc.)
+- Professional, approachable, conversational tone similar to a knowledgeable tax consultant
+
+CONTENT GUIDELINES:
+- Address the user's situation factually: what it means, why it happens, what rules apply, and what reasonable next steps look like
+- Mention deadlines, forms, or processes accurately, but never invent details
+- If unsure, say what needs verification rather than guessing
+- Stay strictly within U.S. federal or state tax matters
+
+CRITICAL PROHIBITIONS:
+- NEVER tell users to contact or visit the IRS or any government website
+- NEVER include phone numbers, URLs, or external resources
+- NEVER fabricate citations, numbers, or official forms
+- NEVER discuss non-tax topics
+
+NON-TAX QUESTION HANDLING:
+If a question has NO connection to taxes (e.g., "Where do babies come from?", "What's the weather?"):
+- Politely respond: "${NON_TAX_REFUSAL}"
+
+CLOSING:
+- Always end with: "Wynn Tax Solutions can help you review your situation and confirm the best next step. Educational information only—not legal or tax advice."
+
+INTERACTION:
+- Be calm, professional, reassuring, precise, and human
+- Brief, accurate, aligned with Wynn's educational mission
+- Ask clarifying questions only when essential (year, state, or income type)
+`;
+
+/* -------------------------------------------------------------------------- */
+/*                          TAX KEYWORD DETECTION                             */
+/* -------------------------------------------------------------------------- */
 
 function isTaxRelated(text = "") {
   const s = (text || "")
@@ -129,7 +214,7 @@ function isTaxRelated(text = "") {
     .normalize("NFKD")
     .replace(/[^\w\s]/g, " ")
     .replace(/\s+/g, " ")
-    .trim(); // strip punctuation
+    .trim();
 
   const keywords = [
     // General tax language
@@ -368,7 +453,6 @@ function isTaxRelated(text = "") {
 
     // States and local
     "california tax",
-    "ftb",
     "new york state tax",
     "florida tax",
     "texas comptroller",
@@ -433,7 +517,7 @@ function isTaxRelated(text = "") {
     "gift tax",
 
     // Professional / communication
-    "Tax Consultant",
+    "tax consultant",
     "tax preparer",
     "tax attorney",
     "accountant",
@@ -460,47 +544,65 @@ function isTaxRelated(text = "") {
     "collection letter",
   ];
 
-  // use a word boundary regex for accuracy
   return keywords.some((k) => new RegExp(`\\b${k}\\b`, "i").test(s));
 }
 
-const PORT = process.env.PORT || 5000;
+/* -------------------------------------------------------------------------- */
+/*                               OPENAI & EMAIL SETUP                         */
+/* -------------------------------------------------------------------------- */
 
+const PORT = process.env.PORT || 5000;
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-// Middleware
+
+// Email transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.SENDGRID_GATEWAY,
+  port: process.env.SENDGRID_PORT,
+  secure: false, // TLS
+  auth: {
+    user: process.env.SENDGRID_USER,
+    pass: process.env.SENDGRID_API_KEY,
+  },
+});
+
+/* -------------------------------------------------------------------------- */
+/*                               MIDDLEWARE                                   */
+/* -------------------------------------------------------------------------- */
+
 connectDB();
-app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://www.wynntaxsolutions.com"],
     credentials: true,
   })
 );
-app.use("/send-email", formLimiter);
-// Nodemailer Transporter Setup
-const transporter = nodemailer.createTransport({
-  host: "smtp.sendgrid.net",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "apikey",
-    pass: process.env.WYNN_API_KEY,
-  },
-});
 
-// Handle Contact Form Submission
-app.post("/send-email", async (req, res) => {
-  const { name, email, message, phone } = req.body;
-  console.log(req.body);
+/* -------------------------------------------------------------------------- */
+/*                            EXISTING FORM ROUTES                            */
+/* -------------------------------------------------------------------------- */
+
+// Contact Form (from original server)
+app.post("/contact-form", formLimiter, async (req, res) => {
+  const { name, email, phone, message } = req.body;
+
+  console.log("Contact Form Submission:", req.body);
+
   if (!name || !email || !message) {
-    return res.status(400).json({ error: "All fields are required!" });
+    return res
+      .status(400)
+      .json({ error: "Name, email, and message are required!" });
   }
 
   const mailOptions = {
     from: "inquiry@WynnTaxSolutions.com",
     to: "mgray@taxadvocategroup.com",
-    subject: `New Inquiry from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage:\n${message}`,
+    subject: `New Contact Form Submission from ${name}`,
+    text: `
+      Name: ${name}
+      Email: ${email}
+      Phone: ${phone || "Not provided"}
+      Message: ${message}
+    `,
   };
 
   try {
@@ -512,12 +614,12 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
+// Lead Form (from original server)
 app.post("/lead-form", async (req, res) => {
   const { debtAmount, filedAllTaxes, name, phone, email, bestTime } = req.body;
 
   console.log("Lead Form Submission:", req.body);
 
-  // Simple validation
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
     return res
       .status(400)
@@ -548,6 +650,12 @@ app.post("/lead-form", async (req, res) => {
       .json({ error: "Error sending lead form email. Try again later." });
   }
 });
+
+/* -------------------------------------------------------------------------- */
+/*                          TAX STEWART ROUTES                                */
+/* -------------------------------------------------------------------------- */
+
+// Tax Stewart Question Submission (with full form data)
 app.post("/send-question", async (req, res) => {
   try {
     const { name, email, phone, message } = req.body || {};
@@ -578,30 +686,28 @@ app.post("/send-question", async (req, res) => {
         ? msgObj.transcript
         : JSON.stringify(msgObj.transcript ?? {}, null, 2);
 
-    // Sanitize + cap size (big bodies can get filtered/quarantined)
+    // Sanitize + cap size
     transcript = safeText(transcript, 8000);
     const nextQuestionText = safeText(nextQuestion, 2000);
 
     const mailOptions = {
-      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>", // same sender as the working route
-      replyTo: email, // so replies go to the user
+      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+      replyTo: email,
       to: "mgray@taxadvocategroup.com",
-      subject: `New Ask-A-Professional Submission from ${email}`,
+      subject: `New Tax Stewart Submission from ${email}`,
       text: `A new inquiry was submitted through the Tax Stewart tool.
 
 Name: ${name || "Not provided"}
 Email: ${email}
 Phone: ${phone || "Not provided"}
 
---- Next Question ---
+--- User's Question ---
 ${nextQuestionText}
 
---- Conversation Transcript ---
+--- Full Conversation & Details ---
 ${transcript}
 `,
       headers: { "X-App-Route": "send-question" },
-      // Optional: explicit envelope if your provider prefers alignment
-      // envelope: { from: "bounce@WynnTaxSolutions.com", to: "mgray@taxadvocategroup.com" }
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -609,8 +715,6 @@ ${transcript}
       messageId: info?.messageId,
       accepted: info?.accepted,
       rejected: info?.rejected,
-      response: info?.response,
-      envelope: info?.envelope,
     });
 
     return res.status(200).json({ success: "Question sent successfully!" });
@@ -622,21 +726,7 @@ ${transcript}
   }
 });
 
-function safeText(s, max = 10000) {
-  if (!s) return "(empty)";
-  const cleaned = String(s)
-    .replace(/\r/g, "")
-    .replace(/\u0000/g, "");
-  return cleaned.length > max
-    ? cleaned.slice(0, max) + "\n\n[truncated]"
-    : cleaned;
-}
-function sendWithStamp(res, payload, stamp) {
-  const body = { ...payload, _trace: stamp }; // visible in Network tab
-  console.log("[/answer] RESP:", stamp, JSON.stringify(body).slice(0, 200));
-  return res.json(body);
-}
-
+// Tax Stewart AI Answer
 app.post("/answer", questionCounter, async (req, res) => {
   try {
     const raw = req.body?.question;
@@ -656,14 +746,12 @@ app.post("/answer", questionCounter, async (req, res) => {
       );
     }
 
-    // ---- conversational memory ----
+    // Conversational memory
     const history = readHistory(req);
-    // Use last 2 exchanges to keep context tight
     const prior = history.slice(-2).flatMap(({ q, a }) => [
       { role: "user", content: q },
       { role: "assistant", content: a },
     ]);
-    // Build a compact context: last 2 user/assistant pairs
 
     const related = isTaxRelated(question);
 
@@ -694,6 +782,7 @@ app.post("/answer", questionCounter, async (req, res) => {
     const newCount = (req.taxStewart.count ?? 0) + 1;
     await req.saveTaxStewart(newCount);
     writeHistory(res, [...history, { q: question, a: answer }]);
+
     return sendWithStamp(
       res,
       {
@@ -712,6 +801,8 @@ app.post("/answer", questionCounter, async (req, res) => {
       .json({ ok: false, error: "OpenAI request failed", _trace: "catch" });
   }
 });
+
+// Tax Stewart Status
 app.get("/ts-status", questionCounter, (req, res) => {
   res.json({
     ok: true,
@@ -720,7 +811,356 @@ app.get("/ts-status", questionCounter, (req, res) => {
     resetAt: req.taxStewart.resetAt,
   });
 });
-// Serve Dynamic Sitemap
+
+/* -------------------------------------------------------------------------- */
+/*                        VERIFICATION & PDF ROUTES                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * POST /send-verification-codes
+ * Send verification codes to email and/or phone
+ */
+app.post("/send-verification-codes", async (req, res) => {
+  try {
+    const { email, phone, contactPref, name } = req.body;
+
+    if (!email && !phone) {
+      return res.status(400).json({
+        ok: false,
+        error: "Email or phone required",
+      });
+    }
+
+    const codes = {};
+
+    // Send email verification
+    if (email && (contactPref === "email" || contactPref === "both")) {
+      const emailCode = generateCode();
+      storeVerificationCode(email, emailCode, "email");
+
+      const emailHtml = verificationTemplate({
+        name: name || "there",
+        verificationCode: emailCode,
+        logoUrl: process.env.LOGO_URL || "", // Add your logo URL to .env
+        calendlyLink:
+          process.env.CALENDLY_LINK || "https://calendly.com/wynntax",
+        year: new Date().getFullYear(),
+      });
+
+      const mailOptions = {
+        from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+        to: email,
+        subject: "Verify Your Email - Wynn Tax Solutions",
+        html: emailHtml,
+      };
+
+      await transporter.sendMail(mailOptions);
+      codes.email = "sent";
+    }
+
+    // Send phone verification
+    if (phone && (contactPref === "phone" || contactPref === "both")) {
+      console.log("[VERIFY] Sending phone code to:", phone);
+
+      const phoneCode = generateCode();
+      storeVerificationCode(phone, phoneCode, "phone");
+
+      function stripCommonPhonePunctuation(str) {
+        return String(str).replace(/[()\-\s]/g, "");
+      }
+
+      const phoneNumber = stripCommonPhonePunctuation(phone);
+      console.log(
+        "[VERIFY] Normalized phone:",
+        phoneNumber,
+        "code:",
+        phoneCode
+      );
+
+      await sendTextMessageAPI({
+        phoneNumber,
+        content: `Your Wynn Tax Solutions verification code is: ${phoneCode}. Valid for 10 minutes.`,
+      });
+
+      console.log("[VERIFY] SMS send requested successfully for:", phoneNumber);
+
+      codes.phone = "sent";
+    }
+
+    return res.json({
+      ok: true,
+      codesSent: codes,
+    });
+  } catch (error) {
+    console.error("[/send-verification-codes] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to send verification codes",
+    });
+  }
+});
+
+/**
+ * POST /verify-codes
+ * Verify the codes provided by user
+ */
+app.post("/verify-codes", async (req, res) => {
+  try {
+    const { email, phone, emailCode, phoneCode, contactPref } = req.body;
+
+    const results = {
+      emailVerified: false,
+      phoneVerified: false,
+    };
+
+    // Verify email code
+    if (
+      email &&
+      emailCode &&
+      (contactPref === "email" || contactPref === "both")
+    ) {
+      const emailResult = verifyCode(email, emailCode);
+      if (!emailResult.ok) {
+        return res.json({
+          ok: false,
+          error:
+            emailResult.reason === "expired"
+              ? "Email verification code expired. Please request a new one."
+              : "Invalid email verification code.",
+          field: "email",
+        });
+      }
+      results.emailVerified = true;
+    }
+
+    // Verify phone code
+    if (
+      phone &&
+      phoneCode &&
+      (contactPref === "phone" || contactPref === "both")
+    ) {
+      const phoneResult = verifyCode(phone, phoneCode);
+      if (!phoneResult.ok) {
+        return res.json({
+          ok: false,
+          error:
+            phoneResult.reason === "expired"
+              ? "Phone verification code expired. Please request a new one."
+              : "Invalid phone verification code.",
+          field: "phone",
+        });
+      }
+      results.phoneVerified = true;
+    }
+
+    return res.json({
+      ok: true,
+      ...results,
+    });
+  } catch (error) {
+    console.error("[/verify-codes] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Verification failed",
+    });
+  }
+});
+
+/**
+ * POST /finalize-submission
+ * After verification, send existing PDF guide and follow-up
+ */
+app.post("/finalize-submission", async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone,
+      contactPref,
+      question,
+      answer,
+      // Intake data
+      issues,
+      balanceBand,
+      noticeType,
+      taxScope,
+      state,
+      filerType,
+      intakeSummary,
+    } = req.body;
+
+    // Verify that email/phone were verified
+    if (email && !isVerified(email)) {
+      return res.status(400).json({
+        ok: false,
+        error: "Email not verified",
+      });
+    }
+
+    if (phone && !isVerified(phone)) {
+      return res.status(400).json({
+        ok: false,
+        error: "Phone not verified",
+      });
+    }
+
+    // Path to the standard Wynn Tax guide PDF
+    const pdfPath = path.join(__dirname, "library", "wynn-tax-guide.pdf");
+
+    // Check if PDF exists
+    if (!fs.existsSync(pdfPath)) {
+      console.error("[/finalize-submission] PDF not found at:", pdfPath);
+      return res.status(500).json({
+        ok: false,
+        error: "Guide not available. Our team will contact you directly.",
+      });
+    }
+
+    // Generate AI summary for email body
+    const userData = {
+      name,
+      email,
+      phone,
+      issues,
+      balanceBand,
+      noticeType,
+      taxScope,
+      state,
+      filerType,
+    };
+
+    const aiSummary = await generateAISummary(openai, userData);
+
+    // Send email with PDF attachment using Handlebars template
+    if (email && (contactPref === "email" || contactPref === "both")) {
+      const emailHtml = welcomeTemplate({
+        name: name,
+        aiSummary: aiSummary,
+        logoUrl: process.env.LOGO_URL || "",
+        calendlyLink:
+          process.env.CALENDLY_LINK || "https://calendly.com/wynntax",
+        year: new Date().getFullYear(),
+      });
+
+      const mailOptions = {
+        from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+        to: email,
+        subject: `Welcome to Wynn Tax Solutions, ${name}`,
+        html: emailHtml,
+        attachments: [
+          {
+            filename: "Wynn_Tax_Solutions_Guide.pdf",
+            path: pdfPath,
+          },
+        ],
+      };
+
+      await transporter.sendMail(mailOptions);
+    }
+
+    // Send text with scheduling link
+    if (phone && (contactPref === "phone" || contactPref === "both")) {
+      const trackingNumber = process.env.CALL_RAIL_TRACKING_NUMBER;
+      const calendlyLink =
+        process.env.CALENDLY_LINK || "https://calendly.com/wynntax";
+
+      function stripCommonPhonePunctuation(str) {
+        return String(str).replace(/[()\-\s]/g, "");
+      }
+
+      const phoneNumber = stripCommonPhonePunctuation(phone);
+
+      await sendTextMessageAPI({
+        phoneNumber,
+        trackingNumber: trackingNumber,
+        content: `Hi ${name}! Thanks for reaching out to Wynn Tax Solutions. ${
+          email
+            ? "We've sent your guide via email. "
+            : `Please review the information about our client journey at https://www.wynntaxsolutions.com/services-brochure`
+        } 
+        
+        Ready to schedule your consultation? ${calendlyLink}`,
+      });
+    }
+
+    // Send internal notification email
+    const intakeDetails = [
+      issues?.length ? `Issues: ${issues.join(", ")}` : "",
+      balanceBand ? `Amount Owed: ${balanceBand}` : "",
+      noticeType ? `Notice Type: ${noticeType}` : "",
+      taxScope ? `Tax Scope: ${taxScope}` : "",
+      state ? `State: ${state}` : "",
+      filerType ? `Filer Type: ${filerType}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const internalMailOptions = {
+      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+      replyTo: email,
+      to: "mgray@taxadvocategroup.com",
+      subject: `New Verified Tax Stewart Submission - ${name}`,
+      text: `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFIED TAX STEWART SUBMISSION
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONTACT INFORMATION:
+Name: ${name}
+Email: ${email} ✓ VERIFIED
+Phone: ${phone || "Not provided"}${phone ? " ✓ VERIFIED" : ""}
+Contact Preference: ${contactPref}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TAX SITUATION SUMMARY:
+${intakeSummary || "Not provided"}
+
+INTAKE DETAILS:
+${intakeDetails || "Not provided"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USER'S QUESTION:
+${question || "No question provided"}
+
+AI RESPONSE PROVIDED:
+${answer || "No response provided"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AI SUMMARY SENT TO CLIENT:
+${aiSummary}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ACTIONS TAKEN:
+${email ? "✓ Tax guide PDF sent to email" : ""}
+${phone ? "✓ Scheduling link sent via text" : ""}
+`,
+    };
+
+    await transporter.sendMail(internalMailOptions);
+
+    return res.json({
+      ok: true,
+      message: "Submission finalized successfully",
+    });
+  } catch (error) {
+    console.error("[/finalize-submission] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to finalize submission",
+    });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                                SITEMAP                                     */
+/* -------------------------------------------------------------------------- */
+
 app.get("/sitemap.xml", async (req, res) => {
   const links = [
     { url: "/", changefreq: "daily", priority: 1.0 },
@@ -740,12 +1180,10 @@ app.get("/sitemap.xml", async (req, res) => {
     });
   });
 
-  // Create a sitemap stream
   const stream = new SitemapStream({
     hostname: "https://www.WynnTaxSolutions.com",
   });
 
-  // Convert stream to XML by pushing links
   const xml = await streamToPromise(Readable.from(links)).then((data) => {
     links.forEach((link) => stream.write(link));
     stream.end();
@@ -756,7 +1194,30 @@ app.get("/sitemap.xml", async (req, res) => {
   res.send(xml);
 });
 
-// Start Server
+/* -------------------------------------------------------------------------- */
+/*                            HELPER FUNCTIONS                                */
+/* -------------------------------------------------------------------------- */
+
+function safeText(s, max = 10000) {
+  if (!s) return "(empty)";
+  const cleaned = String(s)
+    .replace(/\r/g, "")
+    .replace(/\u0000/g, "");
+  return cleaned.length > max
+    ? cleaned.slice(0, max) + "\n\n[truncated]"
+    : cleaned;
+}
+
+function sendWithStamp(res, payload, stamp) {
+  const body = { ...payload, _trace: stamp };
+  console.log("[/answer] RESP:", stamp, JSON.stringify(body).slice(0, 200));
+  return res.json(body);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              START SERVER                                  */
+/* -------------------------------------------------------------------------- */
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

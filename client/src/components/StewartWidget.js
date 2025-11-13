@@ -1,10 +1,14 @@
 // src/components/StewartWidget.jsx
 import React, { useEffect, useRef, useState } from "react";
-import TaxStewart from "./TaxStewart"; // your existing chat component
+import TaxStewart from "./TaxStewart";
 
 export default function StewartWidget() {
   const [open, setOpen] = useState(false);
   const overlayRef = useRef(null);
+  useEffect(() => {
+    const timer = setTimeout(() => setOpen(true), 800); // open after ~1 second
+    return () => clearTimeout(timer);
+  }, []);
 
   // Close on ESC
   useEffect(() => {
@@ -116,16 +120,19 @@ const styles = {
     inset: 0,
     background: "rgba(15, 23, 42, 0.45)",
     zIndex: 9998,
-    display: "grid",
-    placeItems: "end",
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    padding: "24px", // breathing room from window edges
   },
+
   modal: {
-    width: "min(720px, 96vw)",
-    height: "min(80vh, 800px)",
+    width: "min(480px, 90vw)", // was 720px
+    height: "min(65vh, 600px)", // was 80vh
     background: "#fff",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    boxShadow: "0 -10px 30px rgba(0,0,0,0.2)",
+    boxShadow: "0 -8px 30px rgba(0,0,0,0.2)",
     overflow: "hidden",
   },
   header: {
@@ -156,5 +163,11 @@ const styles = {
     fontSize: 20,
     cursor: "pointer",
   },
-  body: { height: "calc(100% - 64px)", overflow: "auto", background: "#fff" },
+  body: {
+    height: "calc(100% - 64px)",
+    background: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden", // ⬅️ was 'auto'
+  },
 };
