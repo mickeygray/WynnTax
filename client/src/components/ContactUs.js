@@ -1,6 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
+import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+
+// Add tracking
+
 const ContactUs = () => {
   const { sendEmail } = useContext(leadContext);
 
@@ -11,7 +15,19 @@ const ContactUs = () => {
     phone: "",
     message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  useFormTracking(formData, "contact-us", !submitted);
 
+  // Track on close
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (!submitted && formData.email) {
+        trackFormAbandon("contact-us", formData);
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [formData, submitted]);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -33,9 +49,9 @@ const ContactUs = () => {
       phone: "",
       message: "",
     });
-    console.log(emailPayload);
-    sendEmail(emailPayload);
 
+    sendEmail(emailPayload);
+    setSubmitted(true);
     // Only this form counts as a "Lead"
     trackStandardEvent("Lead", {
       source: "Contact Us",

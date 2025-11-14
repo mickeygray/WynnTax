@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { inputChecker } from "../utils/inputChecker";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq"; // adjust path as needed
-
+import {
+  useAutoSaveProgress,
+  restoreProgress,
+} from "../hooks/useAutoSaveProgress";
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */
 /* -------------------------------------------------------------------------- */
@@ -245,6 +248,96 @@ export default function TaxStewart() {
   const [loading, setLoading] = useState(false);
   const [currentIntakeStep, setCurrentIntakeStep] = useState(0);
 
+  // 🎯 AUTO-SAVE PROGRESS AS USER FILLS FORM
+  useAutoSaveProgress(form, phase, phase !== PHASE.DONE);
+  useEffect(() => {
+    const handleBeforeUnload = async () => {
+      // Only track if they didn't complete
+      if (phase !== PHASE.DONE && (form.issues.length > 0 || form.question)) {
+        // Use sendBeacon for reliable fire-and-forget request
+        const data = JSON.stringify({
+          ...form,
+          lastPhase: phase,
+        });
+
+        // sendBeacon works even as page is closing
+        navigator.sendBeacon("/api/save-progress", data);
+
+        // Also track the abandonment
+        // This will save to AbandonedSubmission and potentially send alert
+        navigator.sendBeacon("/api/track-abandon");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Also track on visibility change (tab switching, minimizing)
+    const handleVisibilityChange = () => {
+      if (document.hidden && phase !== PHASE.DONE) {
+        fetch("/api/save-progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            ...form,
+            lastPhase: phase,
+          }),
+          keepalive: true, // Ensures request completes even if page closes
+        }).catch((err) => console.log("Save failed:", err));
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [form, phase]);
+  // 🎯 RESTORE PROGRESS ON MOUNT
+  useEffect(() => {
+    const loadSavedProgress = async () => {
+      const saved = await restoreProgress();
+
+      if (saved) {
+        console.log("[RESTORE] Found saved progress:", saved);
+
+        // Show a message asking if they want to continue
+        const shouldRestore = window.confirm(
+          "Welcome back! Would you like to continue where you left off?"
+        );
+
+        if (shouldRestore) {
+          // Restore form data
+          setForm((prev) => ({
+            ...prev,
+            ...saved,
+            startedAt: saved.startedAt || Date.now(),
+          }));
+
+          // Restore phase
+          if (saved.lastPhase) {
+            setPhase(saved.lastPhase);
+
+            // Update messages to match restored phase
+            // (You may want to rebuild the message history based on saved data)
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: genId(),
+                who: "stew",
+                text: "Continuing where you left off...",
+              },
+            ]);
+          }
+
+          console.log("[RESTORE] Progress restored");
+        }
+      }
+    };
+
+    loadSavedProgress();
+  }, []);
   // ========================== REFS ==========================
   const bottomRef = useRef(null);
 

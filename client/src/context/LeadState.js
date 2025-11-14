@@ -12,7 +12,7 @@ const LeadState = (props) => {
     console.log(emailPayload);
     dispatch({ type: "SENDING_EMAILS" });
     try {
-      const response = await axios.post("/api/send-email", emailPayload);
+      const response = await axios.post("/api/contact-form", emailPayload);
 
       dispatch({ type: "EMAILS_SENT", payload: response.data.message });
     } catch (error) {

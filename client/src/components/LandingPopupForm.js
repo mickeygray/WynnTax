@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { useNavigate } from "react-router-dom";
-import { trackCustomEvent } from "../utils/fbq";
+import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
+import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+
 const LandingPopupForm = ({ onClose }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
@@ -14,7 +16,26 @@ const LandingPopupForm = ({ onClose }) => {
     email: "",
     bestTime: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
+  // 🎯 Track form inputs (but don't restore)
+  useFormTracking(formData, "landing-popup", !submitted);
+
+  // 🎯 Track abandonment on close or page leave
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Only track if they entered something
+      if (
+        !submitted &&
+        (formData.debtAmount || formData.name || formData.email)
+      ) {
+        trackFormAbandon("landing-popup", formData);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [formData, submitted]);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -27,6 +48,8 @@ const LandingPopupForm = ({ onClose }) => {
       formData;
 
     // 🔹 Pixel: advanced lead form submitted
+
+    sendLeadForm(formData);
     trackCustomEvent("LandingFormSubmitted", {
       source: "AdvancedLeadForm", // identify this specific form
       has_email: !!email,
@@ -37,8 +60,7 @@ const LandingPopupForm = ({ onClose }) => {
       filed_all_taxes: filedAllTaxes || null,
       best_time: bestTime || null,
     });
-
-    sendLeadForm(formData);
+    trackStandardEvent("Lead");
     navigate("/thank-you");
   };
 

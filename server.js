@@ -582,6 +582,122 @@ app.use(
 /* -------------------------------------------------------------------------- */
 
 // Contact Form (from original server)
+/**
+ * POST /api/track-form-input
+ * Track form inputs from any form (ContactUs, LandingPopup, etc.)
+ * Saves to cookie AND MongoDB for abandonment tracking
+ */
+app.post("/api/track-form-input", async (req, res) => {
+  try {
+    const { formType, formData, abandoned, timestamp } = req.body;
+
+    if (!formType || !formData) {
+      return res.status(400).json({
+        ok: false,
+        error: "formType and formData required",
+      });
+    }
+
+    // Save to cookie
+    const cookieName = `form_${formType}`;
+    const cookieData = {
+      formType,
+      formData,
+      abandoned: abandoned || false,
+      timestamp: timestamp || Date.now(),
+      lastUpdated: Date.now(),
+    };
+
+    res.cookie(cookieName, JSON.stringify(cookieData), {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      signed: true,
+      path: "/",
+    });
+
+    // If abandoned flag is set, save to MongoDB
+    if (abandoned) {
+      const FormSubmission = require("./models/FormSubmission");
+
+      const ipAddress =
+        req.ip ||
+        req.headers["x-forwarded-for"] ||
+        req.connection.remoteAddress;
+      const userAgent = req.headers["user-agent"];
+
+      // Check if we already have this submission (by email)
+      let existing = null;
+      if (formData.email) {
+        existing = await FormSubmission.findOne({
+          formType,
+          "formData.email": formData.email,
+          status: "abandoned",
+        }).sort({ createdAt: -1 });
+      }
+
+      if (existing) {
+        // Update existing
+        existing.formData = formData;
+        existing.timestamp = new Date(timestamp || Date.now());
+        existing.ipAddress = ipAddress;
+        existing.userAgent = userAgent;
+        await existing.save();
+
+        console.log(
+          `[TRACK-FORM] ${formType} - Updated abandoned submission:`,
+          existing._id
+        );
+      } else {
+        // Create new
+        const submission = new FormSubmission({
+          formType,
+          formData,
+          status: "abandoned",
+          ipAddress,
+          userAgent,
+          timestamp: new Date(timestamp || Date.now()),
+        });
+
+        await submission.save();
+        console.log(
+          `[TRACK-FORM] ${formType} - Saved abandoned submission:`,
+          submission._id
+        );
+      }
+    } else {
+      console.log(`[TRACK-FORM] ${formType} - Data saved to cookie`);
+    }
+
+    return res.json({
+      ok: true,
+      message: "Form data tracked",
+    });
+  } catch (error) {
+    console.error("[/track-form-input] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to track form data",
+    });
+  }
+});
+
+/**
+ * Clear form tracking cookie when form is successfully submitted
+ * Call this from your existing form submission routes
+ */
+function clearFormTrackingCookie(res, formType) {
+  const cookieName = `form_${formType}`;
+  res.clearCookie(cookieName, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "Lax",
+  });
+  console.log(`[TRACK-FORM] Cleared ${formType} tracking cookie`);
+}
+
+// Example: Update your existing contact-form route
 app.post("/api/contact-form", formLimiter, async (req, res) => {
   const { name, email, phone, message } = req.body;
 
@@ -607,6 +723,26 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
+
+    // ✅ Clear tracking cookie on successful submission
+    clearFormTrackingCookie(res, "contact-us");
+
+    // ✅ Update status in MongoDB if it exists
+    const FormSubmission = require("./models/FormSubmission");
+    await FormSubmission.updateOne(
+      {
+        formType: "contact-us",
+        "formData.email": email,
+        status: "abandoned",
+      },
+      {
+        $set: {
+          status: "submitted",
+          formData: { name, email, phone, message },
+        },
+      }
+    );
+
     res.status(200).json({ success: "Email sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);
@@ -614,7 +750,7 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
   }
 });
 
-// Lead Form (from original server)
+// Example: Update your existing lead-form route
 app.post("/api/lead-form", async (req, res) => {
   const { debtAmount, filedAllTaxes, name, phone, email, bestTime } = req.body;
 
@@ -642,6 +778,26 @@ app.post("/api/lead-form", async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
+
+    // ✅ Clear tracking cookie on successful submission
+    clearFormTrackingCookie(res, "landing-popup");
+
+    // ✅ Update status in MongoDB if it exists
+    const FormSubmission = require("./models/FormSubmission");
+    await FormSubmission.updateOne(
+      {
+        formType: "landing-popup",
+        "formData.email": email,
+        status: "abandoned",
+      },
+      {
+        $set: {
+          status: "submitted",
+          formData: { debtAmount, filedAllTaxes, name, phone, email, bestTime },
+        },
+      }
+    );
+
     res.status(200).json({ success: "Lead form email sent successfully!" });
   } catch (error) {
     console.error("Error sending lead form email:", error);
@@ -968,7 +1124,12 @@ app.post("/api/verify-codes", async (req, res) => {
 
 /**
  * POST /finalize-submission
- * After verification, send existing PDF guide and follow-up
+ * After verification:
+ * 1. Save all session data to MongoDB
+ * 2. Send PDF guide and welcome email
+ * 3. Send SMS with scheduling link
+ * 4. Send internal notification with full data
+ * 5. Clear session cookies
  */
 app.post("/api/finalize-submission", async (req, res) => {
   try {
@@ -1004,17 +1165,18 @@ app.post("/api/finalize-submission", async (req, res) => {
       });
     }
 
-    // Path to the standard Wynn Tax guide PDF
-    const pdfPath = path.join(__dirname, "library", "wynn-tax-guide.pdf");
+    // Read conversation history from cookie before we clear it
+    const conversationHistory = readHistory(req);
 
-    // Check if PDF exists
-    if (!fs.existsSync(pdfPath)) {
-      console.error("[/finalize-submission] PDF not found at:", pdfPath);
-      return res.status(500).json({
-        ok: false,
-        error: "Guide not available. Our team will contact you directly.",
-      });
-    }
+    // Get question counter data
+    const questionCounterData = req.signedCookies?.ts_qc
+      ? JSON.parse(req.signedCookies.ts_qc)
+      : { count: 0 };
+
+    // Get session metadata
+    const ipAddress =
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const userAgent = req.headers["user-agent"];
 
     // Generate AI summary for email body
     const userData = {
@@ -1030,6 +1192,57 @@ app.post("/api/finalize-submission", async (req, res) => {
     };
 
     const aiSummary = await generateAISummary(openai, userData);
+
+    // Save to MongoDB
+    const TaxStewartSubmission = require("./models/TaxStewartSubmission");
+
+    const submission = new TaxStewartSubmission({
+      name,
+      email,
+      phone,
+      contactPref,
+      emailVerified: !!email,
+      phoneVerified: !!phone,
+      issues,
+      balanceBand,
+      noticeType,
+      taxScope,
+      state,
+      filerType,
+      intakeSummary,
+      question,
+      answer,
+      conversationHistory: conversationHistory.map((item, idx) => ({
+        q: item.q,
+        a: item.a,
+        timestamp: new Date(
+          Date.now() - (conversationHistory.length - idx) * 60000
+        ), // Estimate timestamps
+      })),
+      aiSummary,
+      ipAddress,
+      userAgent,
+      questionsAsked: questionCounterData.count || 0,
+      // You could capture UTM params from a query string if you pass them from frontend
+      // utmSource: req.query.utm_source,
+      // utmMedium: req.query.utm_medium,
+      // utmCampaign: req.query.utm_campaign,
+    });
+
+    await submission.save();
+    console.log("[/finalize-submission] Saved to MongoDB:", submission._id);
+
+    // Path to the standard Wynn Tax guide PDF
+    const pdfPath = path.join(__dirname, "library", "wynn-tax-guide.pdf");
+
+    // Check if PDF exists
+    if (!fs.existsSync(pdfPath)) {
+      console.error("[/finalize-submission] PDF not found at:", pdfPath);
+      return res.status(500).json({
+        ok: false,
+        error: "Guide not available. Our team will contact you directly.",
+      });
+    }
 
     // Send email with PDF attachment using Handlebars template
     if (email && (contactPref === "email" || contactPref === "both")) {
@@ -1056,6 +1269,7 @@ app.post("/api/finalize-submission", async (req, res) => {
       };
 
       await transporter.sendMail(mailOptions);
+      console.log("[/finalize-submission] Welcome email sent to:", email);
     }
 
     // Send text with scheduling link
@@ -1079,11 +1293,29 @@ app.post("/api/finalize-submission", async (req, res) => {
             : `Please review the information about our client journey at https://www.wynntaxsolutions.com/services-brochure`
         } 
         
-        Ready to schedule your consultation? ${calendlyLink}`,
+Ready to schedule your consultation? ${calendlyLink}`,
       });
+      console.log("[/finalize-submission] SMS sent to:", phoneNumber);
     }
 
-    // Send internal notification email
+    // Format conversation history for internal email
+    const formattedHistory = conversationHistory
+      .map((item, idx) => {
+        return `
+┌─────────────────────────────────────────────────────────
+│ Question ${idx + 1}:
+└─────────────────────────────────────────────────────────
+${item.q}
+
+┌─────────────────────────────────────────────────────────
+│ Answer ${idx + 1}:
+└─────────────────────────────────────────────────────────
+${item.a}
+`;
+      })
+      .join("\n\n");
+
+    // Send internal notification email with ALL data
     const intakeDetails = [
       issues?.length ? `Issues: ${issues.join(", ")}` : "",
       balanceBand ? `Amount Owed: ${balanceBand}` : "",
@@ -1099,54 +1331,101 @@ app.post("/api/finalize-submission", async (req, res) => {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
       to: "mgray@taxadvocategroup.com",
-      subject: `New Verified Tax Stewart Submission - ${name}`,
+      subject: `🎯 New Verified Tax Stewart Lead - ${name} [${submission._id}]`,
       text: `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+╔═════════════════════════════════════════════════════════════════╗
+║                                                                 ║
+║          VERIFIED TAX STEWART SUBMISSION                        ║
+║          Database ID: ${submission._id}                         ║
+║                                                                 ║
+╚═════════════════════════════════════════════════════════════════╝
 
-VERIFIED TAX STEWART SUBMISSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 CONTACT INFORMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-CONTACT INFORMATION:
-Name: ${name}
-Email: ${email} ✓ VERIFIED
-Phone: ${phone || "Not provided"}${phone ? " ✓ VERIFIED" : ""}
+Name:               ${name}
+Email:              ${email} ✓ VERIFIED
+Phone:              ${phone || "Not provided"}${phone ? " ✓ VERIFIED" : ""}
 Contact Preference: ${contactPref}
+Questions Asked:    ${questionCounterData.count || 0}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IP Address:         ${ipAddress}
+User Agent:         ${userAgent}
 
-TAX SITUATION SUMMARY:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 TAX SITUATION SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ${intakeSummary || "Not provided"}
 
-INTAKE DETAILS:
+📊 INTAKE DETAILS:
 ${intakeDetails || "Not provided"}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 FINAL QUESTION & ANSWER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-USER'S QUESTION:
-${question || "No question provided"}
+┌─ USER'S QUESTION ─────────────────────────────────────────────┐
+│ ${question || "No question provided"}
+└───────────────────────────────────────────────────────────────┘
 
-AI RESPONSE PROVIDED:
-${answer || "No response provided"}
+┌─ AI RESPONSE PROVIDED ────────────────────────────────────────┐
+│ ${answer || "No response provided"}
+└───────────────────────────────────────────────────────────────┘
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 FULL CONVERSATION HISTORY (${conversationHistory.length} exchanges)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-AI SUMMARY SENT TO CLIENT:
+${formattedHistory || "No previous conversation history"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤖 AI SUMMARY SENT TO CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ${aiSummary}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ ACTIONS TAKEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-ACTIONS TAKEN:
 ${email ? "✓ Tax guide PDF sent to email" : ""}
 ${phone ? "✓ Scheduling link sent via text" : ""}
+✓ Data saved to MongoDB (ID: ${submission._id})
+✓ Session cookies cleared
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This is a VERIFIED lead ready for follow-up.
+
+View in database:
+Query: db.taxstewartsubmissions.findOne({_id: ObjectId("${submission._id}")})
+
+Update status:
+db.taxstewartsubmissions.updateOne(
+  {_id: ObjectId("${submission._id}")},
+  {$set: {status: "contacted", assignedTo: "YourName"}}
+)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `,
     };
 
     await transporter.sendMail(internalMailOptions);
+    console.log("[/finalize-submission] Internal notification sent");
+
+    // Clear all session cookies
+    res.clearCookie("ts_qc", { path: "/" });
+    res.clearCookie(TS_HISTORY_COOKIE, { path: "/" });
+    console.log("[/finalize-submission] Session cookies cleared");
 
     return res.json({
       ok: true,
       message: "Submission finalized successfully",
+      submissionId: submission._id,
     });
   } catch (error) {
     console.error("[/finalize-submission] error:", error);
@@ -1156,7 +1435,165 @@ ${phone ? "✓ Scheduling link sent via text" : ""}
     });
   }
 });
+/**
+ * POST /api/save-progress
+ * Save partial form progress to cookie (called by frontend as user progresses)
+ */
+app.post("/api/save-progress", (req, res) => {
+  try {
+    const { savePartialProgress } = require("./utils/partialSubmissions");
 
+    const formData = req.body;
+
+    // Validate we have at least something to save
+    if (!formData || typeof formData !== "object") {
+      return res.status(400).json({
+        ok: false,
+        error: "Invalid form data",
+      });
+    }
+
+    savePartialProgress(res, formData);
+
+    return res.json({
+      ok: true,
+      message: "Progress saved",
+    });
+  } catch (error) {
+    console.error("[/save-progress] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to save progress",
+    });
+  }
+});
+
+/**
+ * GET /api/restore-progress
+ * Restore partial progress from cookie (called when user returns)
+ */
+app.get("/api/restore-progress", (req, res) => {
+  try {
+    const { readPartialProgress } = require("./utils/partialSubmissions");
+
+    const partial = readPartialProgress(req);
+
+    if (!partial) {
+      return res.json({
+        ok: true,
+        hasProgress: false,
+        data: null,
+      });
+    }
+
+    return res.json({
+      ok: true,
+      hasProgress: true,
+      data: partial,
+    });
+  } catch (error) {
+    console.error("[/restore-progress] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to restore progress",
+    });
+  }
+});
+
+// Add these routes to your server.js
+
+const {
+  sendAbandonedSessionsDigest,
+  sendHighPriorityAbandonAlert,
+} = require("./utils/abandonedSessionEmail");
+
+const { saveAbandonedSession } = require("./utils/abandonedSessionCleanup");
+
+/**
+ * GET /api/abandoned-digest
+ * Manually trigger abandoned sessions email digest
+ * In production, run this via cron job daily at 9am
+ */
+app.get("/api/abandoned-digest", async (req, res) => {
+  try {
+    const result = await sendAbandonedSessionsDigest(transporter);
+
+    res.json({
+      ok: true,
+      ...result,
+    });
+  } catch (error) {
+    console.error("[/abandoned-digest] error:", error);
+    res.status(500).json({
+      ok: false,
+      error: error.message,
+    });
+  }
+});
+
+/**
+ * POST /api/track-abandon
+ * Called when user abandons session (closes browser, navigates away)
+ * Saves to AbandonedSubmission collection and sends alert if high priority
+ */
+app.post("/api/track-abandon", async (req, res) => {
+  try {
+    // Save to MongoDB
+    const abandoned = await saveAbandonedSession(req);
+
+    if (!abandoned) {
+      return res.json({
+        ok: true,
+        saved: false,
+        message: "No data to save",
+      });
+    }
+
+    // If high priority (verification + contact info), send immediate alert
+    if (
+      abandoned.lastPhase === "verification" &&
+      (abandoned.email || abandoned.phone)
+    ) {
+      await sendHighPriorityAbandonAlert(transporter, abandoned);
+      console.log("[TRACK-ABANDON] High priority alert sent");
+    }
+
+    return res.json({
+      ok: true,
+      saved: true,
+      id: abandoned._id,
+      highPriority: abandoned.lastPhase === "verification",
+    });
+  } catch (error) {
+    console.error("[/track-abandon] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: error.message,
+    });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                            CRON JOB SETUP (OPTIONAL)                       */
+/* -------------------------------------------------------------------------- */
+
+// If you want automatic daily emails, install node-cron:
+// npm install node-cron
+
+const cron = require("node-cron");
+
+// Run every day at 9:00 AM
+cron.schedule("0 9 * * *", async () => {
+  console.log("[CRON] Running daily abandoned sessions digest...");
+  try {
+    await sendAbandonedSessionsDigest(transporter);
+    console.log("[CRON] Digest sent successfully");
+  } catch (error) {
+    console.error("[CRON] Error sending digest:", error);
+  }
+});
+
+console.log("[CRON] Daily abandoned sessions digest scheduled for 9:00 AM");
 /* -------------------------------------------------------------------------- */
 /*                                SITEMAP                                     */
 /* -------------------------------------------------------------------------- */
