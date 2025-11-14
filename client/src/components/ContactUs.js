@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import leadContext from "../context/leadContext";
+import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 const ContactUs = () => {
   const { sendEmail } = useContext(leadContext);
 
@@ -36,10 +37,9 @@ const ContactUs = () => {
     sendEmail(emailPayload);
 
     // Only this form counts as a "Lead"
-    window.fbq("track", "Lead", {
-      value: 0,
-      currency: "USD",
-      lead_type: "Contact Form",
+    trackStandardEvent("Lead", {
+      source: "Contact Us",
+      content_name: "Form Submitted",
     });
   };
   return (

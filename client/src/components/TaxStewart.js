@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
 import { inputChecker } from "../utils/inputChecker";
 import leadContext from "../context/leadContext";
+import { trackCustomEvent, trackStandardEvent } from "../utils/fbq"; // adjust path as needed
 
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */
@@ -261,6 +262,12 @@ export default function TaxStewart() {
 
   // NAME phase
   function handleNameSubmit(name) {
+    // ⭐ Pixel: user provided their name (major intent checkpoint)
+    trackCustomEvent("StewNameSubmitted", {
+      name_length: name.length,
+      has_spaces: name.includes(" "),
+    });
+
     setForm((prev) => ({ ...prev, name }));
     setMessages((prev) => [
       ...prev,
@@ -383,6 +390,17 @@ export default function TaxStewart() {
 
   function finishIntake() {
     const summary = humanSummary(form);
+
+    // ⭐ Pixel: User completed intake buttons (issues, balance, notice type, etc.)
+    trackCustomEvent("StewIntakeCompleted", {
+      balance_band: form.balanceBand || null,
+      notice_type: form.noticeType || null,
+      filer_type: form.filerType || null,
+      tax_scope: form.taxScope || null,
+      state: form.state || null,
+      issues_count: form.issues?.length || 0,
+    });
+
     setMessages((prev) => [
       ...prev,
       {
@@ -404,7 +422,6 @@ export default function TaxStewart() {
     setLoading(true);
 
     try {
-      // Use your existing askTaxQuestion from leadContext for just the AI response
       const result = await askTaxQuestion(question);
 
       if (!result.ok) {
@@ -423,6 +440,12 @@ export default function TaxStewart() {
       }
 
       const answer = result.answer || "";
+
+      // ⭐ Pixel event: they submitted a real question + received an answer
+      trackCustomEvent("StewQuestionSubmitted", {
+        question_length: question.length,
+        has_ai_answer: !!answer,
+      });
 
       setForm((prev) => ({ ...prev, answer }));
       setMessages((prev) => [
@@ -491,6 +514,14 @@ export default function TaxStewart() {
         },
       ]);
 
+      // ⭐ Pixel: user provided an email (email-only flow)
+      trackCustomEvent("StewContactProvided", {
+        contact_pref: "email",
+        method: "email",
+        has_email: true,
+        has_phone: false,
+      });
+
       // Send verification code
       await sendVerificationCodes(updatedForm);
       return;
@@ -509,6 +540,14 @@ export default function TaxStewart() {
         },
       ]);
 
+      // ⭐ Pixel: user provided a phone (phone-only flow)
+      trackCustomEvent("StewContactProvided", {
+        contact_pref: "phone",
+        method: "phone",
+        has_email: false,
+        has_phone: true,
+      });
+
       // Send verification code
       await sendVerificationCodes(updatedForm);
       return;
@@ -523,6 +562,16 @@ export default function TaxStewart() {
           { id: genId(), who: "you", text: value },
           { id: genId(), who: "stew", text: "Great! Now your cell number?" },
         ]);
+
+        // ⭐ Pixel: first step of "both" flow – email captured
+        trackCustomEvent("StewContactProvided", {
+          contact_pref: "both",
+          method: "email",
+          step: "email_first",
+          has_email: true,
+          has_phone: false,
+        });
+
         return;
       }
 
@@ -538,6 +587,15 @@ export default function TaxStewart() {
             text: "Excellent! I'm sending verification codes to both your email and phone. Please check both.",
           },
         ]);
+
+        // ⭐ Pixel: second step of "both" flow – phone captured, now have both
+        trackCustomEvent("StewContactProvided", {
+          contact_pref: "both",
+          method: "both",
+          step: "phone_second",
+          has_email: true,
+          has_phone: true,
+        });
 
         // Send verification codes
         await sendVerificationCodes(updatedForm);
@@ -629,6 +687,13 @@ export default function TaxStewart() {
         return false;
       }
 
+      // ⭐ Pixel: codes verified successfully
+      trackCustomEvent("StewContactVerified", {
+        contact_pref: form.contactPref,
+        verified_email: !!form.email,
+        verified_phone: !!form.phone,
+      });
+
       // Codes verified! Now finalize submission
       setMessages((prev) => [
         ...prev,
@@ -695,6 +760,22 @@ export default function TaxStewart() {
         setPhase(PHASE.DONE);
         return;
       }
+
+      // ⭐ Pixel: full Stewart submission completed
+      trackCustomEvent("StewSubmissionComplete", {
+        contact_pref: form.contactPref,
+        has_email: !!form.email,
+        has_phone: !!form.phone,
+        balance_band: form.balanceBand || null,
+        notice_type: form.noticeType || null,
+        tax_scope: form.taxScope || null,
+      });
+
+      // ⭐ (Optional) also mark this as a standard Lead for FB optimization
+      trackStandardEvent("Lead", {
+        source: "Stewart",
+        content_name: "Stewart Submission Complete",
+      });
 
       setMessages((prev) => [
         ...prev,
