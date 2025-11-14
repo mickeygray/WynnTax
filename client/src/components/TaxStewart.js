@@ -268,6 +268,7 @@ export default function TaxStewart() {
       has_spaces: name.includes(" "),
     });
 
+    trackStandardEvent("Contact");
     setForm((prev) => ({ ...prev, name }));
     setMessages((prev) => [
       ...prev,
@@ -401,6 +402,8 @@ export default function TaxStewart() {
       issues_count: form.issues?.length || 0,
     });
 
+    trackStandardEvent("CompleteRegistration");
+
     setMessages((prev) => [
       ...prev,
       {
@@ -446,6 +449,8 @@ export default function TaxStewart() {
         question_length: question.length,
         has_ai_answer: !!answer,
       });
+
+      trackStandardEvent("SubmitApplication");
 
       setForm((prev) => ({ ...prev, answer }));
       setMessages((prev) => [
@@ -515,13 +520,8 @@ export default function TaxStewart() {
       ]);
 
       // ⭐ Pixel: user provided an email (email-only flow)
-      trackCustomEvent("StewContactProvided", {
-        contact_pref: "email",
-        method: "email",
-        has_email: true,
-        has_phone: false,
-      });
 
+      trackStandardEvent("InitiateCheckout");
       // Send verification code
       await sendVerificationCodes(updatedForm);
       return;
@@ -547,7 +547,7 @@ export default function TaxStewart() {
         has_email: false,
         has_phone: true,
       });
-
+      trackStandardEvent("AddPaymentInfo");
       // Send verification code
       await sendVerificationCodes(updatedForm);
       return;
@@ -571,7 +571,7 @@ export default function TaxStewart() {
           has_email: true,
           has_phone: false,
         });
-
+        trackStandardEvent("AddPaymentInfo");
         return;
       }
 
@@ -596,7 +596,7 @@ export default function TaxStewart() {
           has_email: true,
           has_phone: true,
         });
-
+        trackStandardEvent("AddPaymentInfo");
         // Send verification codes
         await sendVerificationCodes(updatedForm);
         return;
@@ -693,7 +693,7 @@ export default function TaxStewart() {
         verified_email: !!form.email,
         verified_phone: !!form.phone,
       });
-
+      trackStandardEvent("Subscribe");
       // Codes verified! Now finalize submission
       setMessages((prev) => [
         ...prev,
