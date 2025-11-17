@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import TaxStewart from "./TaxStewart";
 import LandingPopupForm from "./LandingPopupForm";
-import { useLocation } from "react-router-dom";
 
 export default function StewartWidget() {
   const [open, setOpen] = useState(false);
   const [consultationOpen, setConsultationOpen] = useState(false);
   const [isCondensed, setIsCondensed] = useState(false);
   const [isAtHero, setIsAtHero] = useState(true);
-  const [hasAutoOpened, setHasAutoOpened] = useState(false); // Track if we've auto-opened
+  const [hasAutoOpened, setHasAutoOpened] = useState(false);
   const [isReturningFromCondensed, setIsReturningFromCondensed] =
-    useState(false); // Track if expanding after being condensed
-  const [buttonVisible, setButtonVisible] = useState(true); // Control button visibility for animations
+    useState(false);
+  const [buttonVisible, setButtonVisible] = useState(true);
   const overlayRef = useRef(null);
-  const location = useLocation();
 
-  // Check if we're on home page
-  const isHomePage = location.pathname === "/";
+  // ✅ Native route check (react-snap friendly)
+  const isQualifyNowPage =
+    typeof window !== "undefined" &&
+    window.location.pathname === "/qualify-now";
+  const isHomePage =
+    typeof window !== "undefined" && window.location.pathname === "/";
 
   // Handle scroll to detect hero visibility
   useEffect(() => {
@@ -27,11 +29,9 @@ export default function StewartWidget() {
     }
 
     const handleScroll = () => {
-      // Detect if hero is visible (top 70vh typically)
       const heroVisible = window.scrollY < window.innerHeight * 0.7;
       setIsAtHero(heroVisible);
 
-      // Condense Stewart when scrolled down (but not when modal is open)
       if (window.scrollY > 200 && !open) {
         if (!isCondensed) {
           setIsCondensed(true);
@@ -39,13 +39,13 @@ export default function StewartWidget() {
         }
       } else if (window.scrollY <= 200) {
         if (isCondensed) {
-          setIsReturningFromCondensed(true); // Mark as returning so we can animate
+          setIsReturningFromCondensed(true);
         }
         setIsCondensed(false);
       }
     };
 
-    handleScroll(); // Initial check
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage, open, isCondensed]);
@@ -66,24 +66,23 @@ export default function StewartWidget() {
     }
   }, [isHomePage]);
 
-  // Auto-open ONLY ONCE on initial page load (not on every hero return)
+  // ✅ Auto-open ONLY on home page, NOT on qualify-now
   useEffect(() => {
-    if (!hasAutoOpened && !isCondensed && isAtHero) {
+    if (!isQualifyNowPage && !hasAutoOpened && !isCondensed && isAtHero) {
       const timer = setTimeout(() => {
-        setButtonVisible(false); // Hide button with animation
+        setButtonVisible(false);
         setTimeout(() => {
           setOpen(true);
           setHasAutoOpened(true);
-        }, 200); // Wait for shrink animation
+        }, 200);
       }, 800);
       return () => clearTimeout(timer);
     }
-  }, [hasAutoOpened, isCondensed, isAtHero]);
+  }, [hasAutoOpened, isCondensed, isAtHero, isQualifyNowPage]);
 
   // Handle modal closing - show button with grow animation
   useEffect(() => {
     if (!open && hasAutoOpened) {
-      // Small delay before showing button
       const timer = setTimeout(() => {
         setButtonVisible(true);
       }, 100);
@@ -91,12 +90,11 @@ export default function StewartWidget() {
     }
   }, [open, hasAutoOpened]);
 
-  // Handle button click - shrink before opening modal
   const handleStewartClick = () => {
     setButtonVisible(false);
     setTimeout(() => {
       setOpen(true);
-    }, 200); // Wait for shrink animation
+    }, 200);
   };
 
   // Close on ESC
@@ -118,7 +116,12 @@ export default function StewartWidget() {
     if (open || consultationOpen) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
-      return () => (document.body.style.overflow = prev);
+      // ✅ Add class for CSS targeting
+      document.body.classList.add("modal-open");
+      return () => {
+        document.body.style.overflow = prev;
+        document.body.classList.remove("modal-open");
+      };
     }
   }, [open, consultationOpen]);
 
@@ -132,71 +135,72 @@ export default function StewartWidget() {
   return (
     <>
       {/* Floating Widgets Container */}
-      <div
-        className={`floating-widgets-container ${
-          isAtHero ? "at-hero" : "at-bottom"
-        }`}
-      >
-        {/* Free Consultation Button - Only show when not at hero */}
-        {!isAtHero && (
-          <button
-            onClick={() => setConsultationOpen(true)}
-            aria-label="Free Consultation"
-            className={`consultation-float-btn ${
-              isAtHero ? "hidden" : "visible"
-            }`}
-          >
-            <i className="fa-solid fa-phone"></i>
-            <span>FREE CONSULTATION</span>
-          </button>
-        )}
+      {/* ✅ Hide entire container when ANY modal is open */}
+      {!open && !consultationOpen && (
+        <div
+          className={`floating-widgets-container ${
+            isAtHero ? "at-hero" : "at-bottom"
+          }`}
+        >
+          {/* Free Consultation Button - Only show when not at hero */}
+          {!isAtHero && (
+            <button
+              onClick={() => setConsultationOpen(true)}
+              aria-label="Free Consultation"
+              className={`consultation-float-btn ${
+                isAtHero ? "hidden" : "visible"
+              }`}
+            >
+              <i className="fa-solid fa-phone"></i>
+              <span>FREE CONSULTATION</span>
+            </button>
+          )}
 
-        {/* Stewart Button - Hide when modal is open, show when closed */}
-        {!open && buttonVisible && (
-          <button
-            onClick={handleStewartClick}
-            aria-label="Open Ask Stewart"
-            className={`stewart-fab ${
-              isCondensed
-                ? "condensed"
-                : isReturningFromCondensed
-                ? "expanded condensed-to-expanded"
-                : "expanded"
-            } ${!buttonVisible ? "shrinking" : "growing"}`}
-            style={{
-              animation: !buttonVisible
-                ? "shrinkAway 0.2s ease-out forwards"
-                : hasAutoOpened
-                ? "growIn 0.3s ease-out forwards"
-                : "none",
-            }}
-          >
-            {isCondensed ? (
-              // Condensed: Just chat bubble icon
-              <div className="stewart-bubble-icon">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12C2 13.54 2.38 14.99 3.06 16.26L2 22L7.74 20.94C9.01 21.62 10.46 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.69 20 9.45 19.66 8.37 19.07L8 18.87L4.87 19.63L5.63 16.5L5.43 16.13C4.84 15.05 4.5 13.81 4.5 12.5C4.5 7.81 8.31 4 13 4C17.69 4 21.5 7.81 21.5 12.5C21.5 17.19 17.69 21 13 21H12Z"
-                    fill="white"
-                  />
-                </svg>
-              </div>
-            ) : (
-              // Expanded: Full button with pulse and text
-              <>
-                <span className="stewart-pulse-dot" />
-                <span>Ask Stewart</span>
-              </>
-            )}
-          </button>
-        )}
-      </div>
+          {/* Stewart Button - Show when visible */}
+          {buttonVisible && (
+            <button
+              onClick={handleStewartClick}
+              aria-label="Open Ask Stewart"
+              className={`stewart-fab ${
+                isCondensed
+                  ? "condensed"
+                  : isReturningFromCondensed
+                  ? "expanded condensed-to-expanded"
+                  : "expanded"
+              } ${!buttonVisible ? "shrinking" : "growing"}`}
+              style={{
+                animation: !buttonVisible
+                  ? "shrinkAway 0.2s ease-out forwards"
+                  : hasAutoOpened
+                  ? "growIn 0.3s ease-out forwards"
+                  : "none",
+              }}
+            >
+              {isCondensed ? (
+                <div className="stewart-bubble-icon">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12C2 13.54 2.38 14.99 3.06 16.26L2 22L7.74 20.94C9.01 21.62 10.46 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C10.69 20 9.45 19.66 8.37 19.07L8 18.87L4.87 19.63L5.63 16.5L5.43 16.13C4.84 15.05 4.5 13.81 4.5 12.5C4.5 7.81 8.31 4 13 4C17.69 4 21.5 7.81 21.5 12.5C21.5 17.19 17.69 21 13 21H12Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+              ) : (
+                <>
+                  <span className="stewart-pulse-dot" />
+                  <span>Ask Stewart</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Stewart Modal */}
       {open && (
@@ -246,7 +250,7 @@ const styles = {
     position: "fixed",
     inset: 0,
     background: "rgba(15, 23, 42, 0.45)",
-    zIndex: 9998,
+    zIndex: 10000, // ✅ Higher z-index to ensure it's on top
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "flex-end",

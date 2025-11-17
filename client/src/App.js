@@ -28,6 +28,10 @@ import PDFViewer from "./components/PDFViewer";
 import LeadState from "./context/LeadState";
 
 export default function App() {
+  const isQualifyNowPage =
+    typeof window !== "undefined" &&
+    window.location.pathname === "/qualify-now";
+
   return (
     <LeadState>
       <Router>

@@ -20,7 +20,7 @@ const PHASE = {
   VERIFICATION: "verification",
   DONE: "done",
 };
-
+const Phase = PHASE;
 const STATE_LABELS = {
   AL: "Alabama",
   AK: "Alaska",
@@ -143,7 +143,241 @@ const INTAKE_STEPS = [
 
 let msgId = 0;
 const genId = () => `msg-${++msgId}`;
+function rebuildMessagesFromSavedData(saved) {
+  const genId = () => Math.random().toString(36).slice(2);
+  const msgs = [];
 
+  // Always start with greeting
+  msgs.push({
+    id: genId(),
+    who: "stew",
+    text: "Hi! I'm Stewart, your tax guide. Let's figure out your tax situation. What are your current tax problems? Select all that apply.",
+  });
+
+  // If they selected issues
+  if (saved.issues?.length > 0) {
+    // Show the intake issues UI
+    msgs.push({
+      id: genId(),
+      who: "stew",
+      type: "intake_issues",
+      text: "",
+    });
+
+    // If they moved past issue selection
+    if (saved.lastPhase !== PHASE.INTAKE_ISSUES) {
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: "Got it. Let's go step by step.",
+      });
+    }
+  }
+
+  // If they completed intake questions (balanceBand, noticeType, etc.)
+  if (saved.balanceBand || saved.noticeType || saved.taxScope) {
+    // They answered some intake questions
+    // Rebuild those answers as messages
+    if (saved.balanceBand) {
+      const amountLabels = {
+        lt10k: "Under $10k",
+        "10to50k": "$10k–$50k",
+        gt50k: "Over $50k",
+        unsure: "Not sure",
+      };
+      msgs.push({
+        id: genId(),
+        who: "you",
+        text: amountLabels[saved.balanceBand] || saved.balanceBand,
+      });
+    }
+
+    // If they finished all intake questions
+    if (saved.lastPhase === PHASE.QUESTION || saved.question) {
+      const summary = humanSummary(saved);
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: `${summary}<br/><br/>Now, what specific question can I help you with?`,
+      });
+    }
+  }
+
+  // If they asked a question
+  if (saved.question) {
+    msgs.push({
+      id: genId(),
+      who: "you",
+      text: saved.question,
+    });
+
+    if (saved.answer) {
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: saved.answer,
+      });
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: `I'd like to continue helping you with this matter. We can send you a detailed guide about your situation and how Wynn Tax can help. First, what's your name?`,
+      });
+    }
+  }
+
+  // If they provided name
+  if (saved.name) {
+    msgs.push({
+      id: genId(),
+      who: "you",
+      text: saved.name,
+    });
+    msgs.push({
+      id: genId(),
+      who: "stew",
+      text: `Nice to meet you, ${saved.name}! Would you like us to reach out via email, phone, or both?`,
+    });
+    msgs.push({
+      id: genId(),
+      who: "stew",
+      type: "contact_buttons",
+      text: "",
+    });
+  }
+
+  // If they chose contact preference
+  if (saved.contactPref) {
+    const prefLabel =
+      saved.contactPref === "both" ? "Both please" : `Via ${saved.contactPref}`;
+
+    msgs.push({
+      id: genId(),
+      who: "you",
+      text: prefLabel,
+    });
+
+    const promptText =
+      saved.contactPref === "email"
+        ? "Great! What's your email address?"
+        : saved.contactPref === "phone"
+        ? "Perfect! What's your cell number?"
+        : "Wonderful! Let's start with your email address.";
+
+    msgs.push({
+      id: genId(),
+      who: "stew",
+      text: promptText,
+    });
+  }
+
+  // If they provided email
+  if (saved.email && saved.contactPref === "email") {
+    msgs.push({
+      id: genId(),
+      who: "you",
+      text: saved.email,
+    });
+  }
+
+  // If they provided phone
+  if (saved.phone && saved.contactPref === "phone") {
+    msgs.push({
+      id: genId(),
+      who: "you",
+      text: saved.phone,
+    });
+  }
+
+  // If they provided both
+  if (saved.email && saved.phone && saved.contactPref === "both") {
+    if (saved.lastPhase === PHASE.CONTACT_DETAILS && !saved.phone) {
+      // Just entered email, asking for phone
+      msgs.push({
+        id: genId(),
+        who: "you",
+        text: saved.email,
+      });
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: "Great! Now your cell number?",
+      });
+    } else {
+      // Both entered
+      msgs.push({
+        id: genId(),
+        who: "you",
+        text: saved.email,
+      });
+      msgs.push({
+        id: genId(),
+        who: "stew",
+        text: "Great! Now your cell number?",
+      });
+      msgs.push({
+        id: genId(),
+        who: "you",
+        text: saved.phone,
+      });
+    }
+  }
+
+  return msgs;
+}
+
+/**
+ * Helper: Build intake summary text from guided data
+ */
+function buildIntakeSummary(guided) {
+  if (!guided) return "";
+
+  const parts = [];
+
+  if (guided.issues?.length) {
+    const issueLabels = {
+      balance_due: "Balance due",
+      irs_notice: "IRS notice",
+      unfiled: "Unfiled returns",
+      levy_lien: "Levy/Lien",
+      audit: "Audit/Exam",
+    };
+    parts.push(
+      `Issues: ${guided.issues.map((i) => issueLabels[i] || i).join(", ")}`
+    );
+  }
+
+  if (guided.balanceBand) {
+    const amountLabels = {
+      lt10k: "Under $10k",
+      "10to50k": "$10k–$50k",
+      gt50k: "Over $50k",
+      unsure: "Not sure",
+    };
+    parts.push(
+      `Amount: ${amountLabels[guided.balanceBand] || guided.balanceBand}`
+    );
+  }
+
+  if (guided.noticeType) {
+    parts.push(`Notice: ${guided.noticeType}`);
+  }
+
+  if (guided.taxScope) {
+    parts.push(`Scope: ${guided.taxScope}`);
+  }
+
+  if (guided.state) {
+    parts.push(`State: ${guided.state}`);
+  }
+
+  if (guided.filerType) {
+    parts.push(`Type: ${guided.filerType}`);
+  }
+
+  return parts.length
+    ? `Got it! Here's what I understand:\n\n${parts.join("\n")}`
+    : "Thanks for the information!";
+}
 function renderMessage(m) {
   // Simple HTML rendering for messages
   return { __html: m.text };
@@ -251,10 +485,16 @@ export default function TaxStewart() {
   // 🎯 AUTO-SAVE PROGRESS AS USER FILLS FORM
   useAutoSaveProgress(form, phase, phase !== PHASE.DONE);
   useEffect(() => {
-    const handleBeforeUnload = async () => {
-      // Only track if they didn't complete
-      if (phase !== PHASE.DONE && (form.issues.length > 0 || form.question)) {
-        // Use sendBeacon for reliable fire-and-forget request
+    const handleBeforeUnload = () => {
+      // Track if they've made ANY progress
+      const hasProgress =
+        form.name ||
+        form.issues?.length > 0 ||
+        form.question ||
+        form.email ||
+        form.phone;
+
+      if (phase !== Phase.DONE && hasProgress) {
         const data = JSON.stringify({
           ...form,
           lastPhase: phase,
@@ -263,27 +503,31 @@ export default function TaxStewart() {
         // sendBeacon works even as page is closing
         navigator.sendBeacon("/api/save-progress", data);
 
-        // Also track the abandonment
-        // This will save to AbandonedSubmission and potentially send alert
+        // Track abandonment (will save to MongoDB + potentially send alert)
         navigator.sendBeacon("/api/track-abandon");
       }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // Also track on visibility change (tab switching, minimizing)
+    // 🎯 BONUS: Also track on visibility change (tab switching, minimizing)
     const handleVisibilityChange = () => {
-      if (document.hidden && phase !== PHASE.DONE) {
-        fetch("/api/save-progress", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            ...form,
-            lastPhase: phase,
-          }),
-          keepalive: true, // Ensures request completes even if page closes
-        }).catch((err) => console.log("Save failed:", err));
+      if (document.hidden && phase !== Phase.DONE) {
+        const hasProgress =
+          form.name || form.issues?.length > 0 || form.question;
+
+        if (hasProgress) {
+          fetch("/api/save-progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+              ...form,
+              lastPhase: phase,
+            }),
+            keepalive: true, // Ensures request completes even if page closes
+          }).catch((err) => console.log("Save failed:", err));
+        }
       }
     };
 
@@ -295,44 +539,37 @@ export default function TaxStewart() {
     };
   }, [form, phase]);
   // 🎯 RESTORE PROGRESS ON MOUNT
+
+  // 🎯 AUTO-SAVE PROGRESS (debounced every 2 seconds)
+
+  // 🎯 SILENT RESTORE - No alert, just rebuild messages
+  // 🎯 SILENT RESTORE - No alert, just rebuild messages
   useEffect(() => {
     const loadSavedProgress = async () => {
       const saved = await restoreProgress();
 
-      if (saved) {
+      // Only restore if they made meaningful progress (not just landed on page)
+      if (saved && saved.lastPhase && saved.lastPhase !== PHASE.INTAKE_ISSUES) {
         console.log("[RESTORE] Found saved progress:", saved);
 
-        // Show a message asking if they want to continue
-        const shouldRestore = window.confirm(
-          "Welcome back! Would you like to continue where you left off?"
+        // Restore form data
+        setForm((prev) => ({
+          ...prev,
+          ...saved,
+          startedAt: saved.startedAt || Date.now(),
+        }));
+
+        // Rebuild conversation messages based on saved data
+        const rebuiltMessages = rebuildMessagesFromSavedData(saved);
+        setMessages(rebuiltMessages);
+
+        // Restore phase
+        setPhase(saved.lastPhase);
+
+        console.log(
+          "[RESTORE] Progress restored silently to phase:",
+          saved.lastPhase
         );
-
-        if (shouldRestore) {
-          // Restore form data
-          setForm((prev) => ({
-            ...prev,
-            ...saved,
-            startedAt: saved.startedAt || Date.now(),
-          }));
-
-          // Restore phase
-          if (saved.lastPhase) {
-            setPhase(saved.lastPhase);
-
-            // Update messages to match restored phase
-            // (You may want to rebuild the message history based on saved data)
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: genId(),
-                who: "stew",
-                text: "Continuing where you left off...",
-              },
-            ]);
-          }
-
-          console.log("[RESTORE] Progress restored");
-        }
       }
     };
 

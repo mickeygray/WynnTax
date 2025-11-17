@@ -3,10 +3,17 @@ import leadContext from "../context/leadContext";
 import { useNavigate } from "react-router-dom";
 import PhoneLink from "./PhoneLink";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
-const LandingPopupForm = ({ onClose }) => {
+import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+
+/**
+ * LandingPopupForm - Extracted as separate component
+ * Can be imported and reused anywhere
+ */
+export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
   const [step, setStep] = useState(1);
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     debtAmount: "",
     filedAllTaxes: "",
@@ -16,6 +23,20 @@ const LandingPopupForm = ({ onClose }) => {
     bestTime: "",
   });
 
+  // 🎯 Track form inputs
+  useFormTracking(formData, "landing-popup", !submitted);
+
+  // 🎯 Track abandonment
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (!submitted && (formData.debtAmount || formData.email)) {
+        trackFormAbandon("landing-popup", formData);
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [formData, submitted]);
+
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -23,15 +44,24 @@ const LandingPopupForm = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmitted(true);
     sendLeadForm(formData);
     trackStandardEvent("Lead");
     navigate("/thank-you");
   };
 
+  // Track when they close modal
+  const handleClose = () => {
+    if (!submitted && (formData.debtAmount || formData.email)) {
+      trackFormAbandon("landing-popup", formData);
+    }
+    onClose();
+  };
+
   return (
     <div className="landing-popup-overlay">
       <div className="landing-popup-form">
-        <button className="landing-popup-close" onClick={onClose}>
+        <button className="landing-popup-close" onClick={handleClose}>
           ✕
         </button>
         {step === 1 && (
@@ -130,9 +160,30 @@ const LandingPopupForm = ({ onClose }) => {
     </div>
   );
 };
+
+/**
+ * LandingPage1 - Main landing page component
+ * Auto-opens popup on load, similar to how home page auto-opens Stewart
+ */
 const LandingPage1 = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // 🎯 AUTO-OPEN popup on page load
+  useEffect(() => {
+    // Close Stewart if it's open
+    const stewartClose = document.querySelector('[aria-label="Close"]');
+    if (stewartClose) {
+      stewartClose.click();
+    }
+
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 800); // Match Stewart's timing so form wins
+
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -178,7 +229,10 @@ const LandingPage1 = () => {
           </div>
           <div className="hero-overlay"></div>
         </section>
+
+        {/* Popup Form - Separated from nested structure */}
         {showPopup && <LandingPopupForm onClose={() => setShowPopup(false)} />}
+
         {/* Steps */}
         <div className="landing-container">
           <section className="steps-section">
@@ -218,9 +272,9 @@ const LandingPage1 = () => {
                 application of tax law.
               </p>
             </div>
-            {/* Add Step 2, Step 3 similarly */}
           </section>
         </div>
+
         <section className="features-section">
           <div className="features-header">
             <h2 className="features-title">What makes Wynn Tax Different?</h2>
@@ -231,15 +285,10 @@ const LandingPage1 = () => {
           </div>
 
           <div className="features-grid">
-            {/* Image Side */}
             <div className="features-image">
-              <img
-                src="/images/wynn-gilf.png" /* Replace with actual image */
-                alt="Feature visual"
-              />
+              <img src="/images/wynn-gilf.png" alt="Feature visual" />
             </div>
 
-            {/* Text Boxes */}
             <div className="features-boxes">
               <div className="feature-box">
                 <span className="feature-icon">✔</span>
@@ -274,6 +323,7 @@ const LandingPage1 = () => {
             </div>
           </div>
         </section>
+
         <div className="landing-container">
           <section className="steps-section">
             <div className="step">
@@ -304,9 +354,9 @@ const LandingPage1 = () => {
                 some clients.
               </p>
             </div>
-            {/* Add Step 2, Step 3 similarly */}
           </section>
         </div>
+
         <section className="landing-testimonials-section">
           <div className="landing-testimonials-cards">
             <div className="landing-testimonial-card">
@@ -344,7 +394,7 @@ const LandingPage1 = () => {
             />
           </div>
         </section>
-        {/* CTA */}
+
         <section
           className="landing-callout-section"
           style={{ backgroundImage: 'url("/images/hero-5.png")' }}
@@ -361,8 +411,6 @@ const LandingPage1 = () => {
             <PhoneLink rawNumber="18449966829" />
           </div>
         </section>
-
-        {/* Footer */}
       </div>
     </div>
   );

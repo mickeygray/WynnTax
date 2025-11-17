@@ -511,7 +511,127 @@ body {
     transform: translateY(0);
   }
 }
+/* ============================================================================
+   STEWART MODAL BUTTON FIXES
+   ============================================================================ */
 
+/* Hide "Ask Stewart" FAB when modal is open */
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  button[aria-label="Open Ask Stewart"] {
+  display: none !important;
+}
+
+/* Hide hero buttons when Stewart modal is open */
+body:has([role="dialog"][aria-label="Ask Stewart chat"]) .hero-buttons {
+  display: none !important;
+}
+
+/* Hide all phone buttons when modal is open */
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  .hero-buttons
+  .phone-button,
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  .landing-page-hero
+  .phone-button {
+  display: none !important;
+}
+
+/* Don't hide the scroll-triggered consultation button */
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  .phone-button:not(.hero-buttons .phone-button):not(
+    .landing-page-hero .phone-button
+  ) {
+  display: inline-flex !important;
+}
+
+/* Hide free consultation button when modal is open */
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  a[href*="consultation"],
+body:has([role="dialog"][aria-label="Ask Stewart chat"])
+  button:has-text("Free Consultation"),
+body:has([role="dialog"][aria-label="Ask Stewart chat"]) .consultation-button {
+  display: none !important;
+}
+
+/* Ensure Stewart modal sits above everything */
+[role="dialog"][aria-label="Ask Stewart chat"] {
+  z-index: 10000 !important;
+}
+
+/* Ensure modal overlay covers everything below */
+[role="dialog"][aria-label="Ask Stewart chat"] ~ * {
+  pointer-events: none;
+}
+
+[role="dialog"][aria-label="Ask Stewart chat"] {
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   MOBILE-SPECIFIC FIXES
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  /* Hide ALL fixed position elements except the modal when Stewart is open */
+  body:has([role="dialog"][aria-label="Ask Stewart chat"])
+    [style*="position: fixed"]:not([role="dialog"]):not([role="dialog"] *) {
+    display: none !important;
+  }
+
+  /* Ensure modal input and buttons are always clickable */
+  [role="dialog"][aria-label="Ask Stewart chat"] input,
+  [role="dialog"][aria-label="Ask Stewart chat"] button,
+  [role="dialog"][aria-label="Ask Stewart chat"] select,
+  [role="dialog"][aria-label="Ask Stewart chat"] textarea {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Make sure modal takes full mobile viewport */
+  [role="dialog"][aria-label="Ask Stewart chat"] > div {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ensure hero section doesn't overlap */
+  body:has([role="dialog"][aria-label="Ask Stewart chat"]) .landing-page-hero,
+  body:has([role="dialog"][aria-label="Ask Stewart chat"]) .hero-text-overlay {
+    z-index: 1 !important;
+  }
+}
+
+/* ============================================================================
+   FALLBACK FOR BROWSERS WITHOUT :has() SUPPORT
+   ============================================================================ */
+
+/* If :has() doesn't work, use class-based approach */
+.stewart-modal-open .hero-buttons,
+.stewart-modal-open .phone-button,
+.stewart-modal-open button[aria-label="Open Ask Stewart"],
+.stewart-modal-open a[href*="consultation"],
+.stewart-modal-open .consultation-button {
+  display: none !important;
+}
+
+.stewart-modal-open
+  [style*="position: fixed"]:not([role="dialog"]):not([role="dialog"] *) {
+  display: none !important;
+}
+
+/* ============================================================================
+   ENSURE BUTTONS ARE VISIBLE WHEN MODAL IS CLOSED
+   ============================================================================ */
+
+/* Free consultation button should be visible by default */
+.phone-button,
+.hero-buttons,
+button[aria-label="Open Ask Stewart"] {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 .hero-section,
 .services-section,
 .testimonials-section,
