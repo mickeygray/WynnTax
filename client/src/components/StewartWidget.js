@@ -203,6 +203,7 @@ export default function StewartWidget() {
       )}
 
       {/* Stewart Modal */}
+      {/* Stewart Modal */}
       {open && (
         <div
           ref={overlayRef}
@@ -213,7 +214,9 @@ export default function StewartWidget() {
           style={styles.overlay}
         >
           <div style={styles.modal}>
-            <div style={styles.header}>
+            <div style={styles.header} className="stewart-header">
+              {" "}
+              {/* ✅ Add class */}
               <div style={styles.headerLeft}>
                 <div style={styles.avatar}>S</div>
                 <div>
@@ -230,7 +233,9 @@ export default function StewartWidget() {
               </button>
             </div>
 
-            <div style={styles.body}>
+            <div style={styles.body} className="stewart-body">
+              {" "}
+              {/* ✅ Add class */}
               <TaxStewart />
             </div>
           </div>

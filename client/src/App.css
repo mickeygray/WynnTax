@@ -512,13 +512,70 @@ body {
   }
 }
 /* ============================================================================
-   STEWART MODAL BUTTON FIXES
+   FLOATING WIDGETS (STEWART & FREE CONSULTATION)
    ============================================================================ */
 
-/* Hide "Ask Stewart" FAB when modal is open */
-body:has([role="dialog"][aria-label="Ask Stewart chat"])
-  button[aria-label="Open Ask Stewart"] {
-  display: none !important;
+/* Container for all floating buttons */
+.floating-widgets-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+/* Free Consultation Float Button */
+.consultation-float-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.consultation-float-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.5);
+}
+
+.consultation-float-btn i {
+  font-size: 16px;
+}
+
+.consultation-float-btn.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+.consultation-float-btn.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   STEWART MODAL - HIDE INTERFERING ELEMENTS
+   ============================================================================ */
+
+/* When ANY modal is open, hide floating widgets via React state */
+/* This is already handled in StewartWidget.js with conditional rendering */
+
+/* Ensure Stewart modal sits above everything */
+[role="dialog"][aria-label="Ask Stewart chat"] {
+  z-index: 10000 !important;
 }
 
 /* Hide hero buttons when Stewart modal is open */
@@ -526,7 +583,7 @@ body:has([role="dialog"][aria-label="Ask Stewart chat"]) .hero-buttons {
   display: none !important;
 }
 
-/* Hide all phone buttons when modal is open */
+/* Hide phone buttons ONLY in hero sections when modal open */
 body:has([role="dialog"][aria-label="Ask Stewart chat"])
   .hero-buttons
   .phone-button,
@@ -536,49 +593,50 @@ body:has([role="dialog"][aria-label="Ask Stewart chat"])
   display: none !important;
 }
 
-/* Don't hide the scroll-triggered consultation button */
-body:has([role="dialog"][aria-label="Ask Stewart chat"])
-  .phone-button:not(.hero-buttons .phone-button):not(
-    .landing-page-hero .phone-button
-  ) {
-  display: inline-flex !important;
-}
-
-/* Hide free consultation button when modal is open */
-body:has([role="dialog"][aria-label="Ask Stewart chat"])
-  a[href*="consultation"],
-body:has([role="dialog"][aria-label="Ask Stewart chat"])
-  button:has-text("Free Consultation"),
-body:has([role="dialog"][aria-label="Ask Stewart chat"]) .consultation-button {
-  display: none !important;
-}
-
-/* Ensure Stewart modal sits above everything */
-[role="dialog"][aria-label="Ask Stewart chat"] {
-  z-index: 10000 !important;
-}
-
-/* Ensure modal overlay covers everything below */
-[role="dialog"][aria-label="Ask Stewart chat"] ~ * {
-  pointer-events: none;
-}
-
-[role="dialog"][aria-label="Ask Stewart chat"] {
-  pointer-events: auto;
+/* Prevent pointer events on background when modal open */
+body:has([role="dialog"][aria-label="Ask Stewart chat"]) {
+  overflow: hidden;
 }
 
 /* ============================================================================
-   MOBILE-SPECIFIC FIXES
+   MOBILE-SPECIFIC ADJUSTMENTS
    ============================================================================ */
 
 @media (max-width: 768px) {
-  /* Hide ALL fixed position elements except the modal when Stewart is open */
-  body:has([role="dialog"][aria-label="Ask Stewart chat"])
-    [style*="position: fixed"]:not([role="dialog"]):not([role="dialog"] *) {
-    display: none !important;
+  /* Floating widgets on mobile */
+  .floating-widgets-container {
+    bottom: 16px;
+    right: 16px;
+    gap: 10px;
   }
 
-  /* Ensure modal input and buttons are always clickable */
+  /* Free consultation button - icon only on mobile */
+  .consultation-float-btn span {
+    display: none;
+  }
+
+  .consultation-float-btn {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .consultation-float-btn i {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  /* Stewart modal - full screen on mobile */
+  [role="dialog"][aria-label="Ask Stewart chat"] > div {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ensure modal inputs are clickable */
   [role="dialog"][aria-label="Ask Stewart chat"] input,
   [role="dialog"][aria-label="Ask Stewart chat"] button,
   [role="dialog"][aria-label="Ask Stewart chat"] select,
@@ -587,57 +645,236 @@ body:has([role="dialog"][aria-label="Ask Stewart chat"]) .consultation-button {
     z-index: 1;
   }
 
-  /* Make sure modal takes full mobile viewport */
-  [role="dialog"][aria-label="Ask Stewart chat"] > div {
-    width: 100vw !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    border-radius: 0 !important;
-  }
-
-  /* Ensure hero section doesn't overlap */
-  body:has([role="dialog"][aria-label="Ask Stewart chat"]) .landing-page-hero,
-  body:has([role="dialog"][aria-label="Ask Stewart chat"]) .hero-text-overlay {
-    z-index: 1 !important;
+  /* Hide ALL fixed elements when modal open (backup) */
+  body:has([role="dialog"][aria-label="Ask Stewart chat"])
+    [style*="position: fixed"]:not([role="dialog"]):not([role="dialog"] *) {
+    display: none !important;
   }
 }
 
 /* ============================================================================
-   FALLBACK FOR BROWSERS WITHOUT :has() SUPPORT
+   FALLBACK FOR BROWSERS WITHOUT :has() SUPPORT (Safari < 15.4)
    ============================================================================ */
 
-/* If :has() doesn't work, use class-based approach */
-.stewart-modal-open .hero-buttons,
-.stewart-modal-open .phone-button,
-.stewart-modal-open button[aria-label="Open Ask Stewart"],
-.stewart-modal-open a[href*="consultation"],
-.stewart-modal-open .consultation-button {
+/* Class-based approach (added via JS in StewartWidget) */
+body.modal-open .hero-buttons,
+body.modal-open .phone-button:not(.consultation-float-btn) {
   display: none !important;
 }
 
-.stewart-modal-open
-  [style*="position: fixed"]:not([role="dialog"]):not([role="dialog"] *) {
-  display: none !important;
+body.modal-open {
+  overflow: hidden;
 }
 
 /* ============================================================================
-   ENSURE BUTTONS ARE VISIBLE WHEN MODAL IS CLOSED
+   STEWART FAB ANIMATIONS
    ============================================================================ */
 
-/* Free consultation button should be visible by default */
-.phone-button,
+/* Stewart button states */
+.stewart-fab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 40%, #8b5cf6 100%);
+  transition: all 0.3s ease;
+}
+
+.stewart-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+/* Expanded state (full button with text) */
+.stewart-fab.expanded {
+  width: 240px;
+  height: 80px;
+}
+
+/* Condensed state (just icon bubble) */
+.stewart-fab.condensed {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* Pulse dot animation */
+.stewart-pulse-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.25);
+  animation: stewPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes stewPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Shrink animation when opening modal */
+@keyframes shrinkAway {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Grow animation when closing modal */
+@keyframes growIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.stewart-fab.shrinking {
+  animation: shrinkAway 0.2s ease-out forwards;
+}
+
+.stewart-fab.growing {
+  animation: growIn 0.3s ease-out forwards;
+}
+
+/* Transition from condensed back to expanded */
+.stewart-fab.condensed-to-expanded {
+  animation: expandFromCondensed 0.4s ease-out forwards;
+}
+
+@keyframes expandFromCondensed {
+  0% {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
+  100% {
+    width: 240px;
+    height: 80px;
+    border-radius: 999px;
+  }
+}
+
+/* Chat bubble icon for condensed state */
+.stewart-bubble-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.stewart-bubble-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ============================================================================
+   ENSURE VISIBILITY WHEN MODALS CLOSED
+   ============================================================================ */
+
+/* Make sure buttons are visible by default */
+.floating-widgets-container,
+.consultation-float-btn,
+.stewart-fab {
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Hero buttons visible by default */
 .hero-buttons,
-button[aria-label="Open Ask Stewart"] {
+.phone-button {
   display: inline-flex !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+/* But when React hides them via conditional rendering, respect that */
 .hero-section,
 .services-section,
 .testimonials-section,
 .footer-section {
   animation: fadeIn 0.8s ease-in-out;
 } /* Navbar Styling */
+
+[role="dialog"][aria-label="Ask Stewart chat"] {
+  padding: 24px;
+}
+
+/* Mobile portrait - full screen modal */
+@media (max-width: 768px) {
+  /* Remove overlay padding on mobile */
+  [role="dialog"][aria-label="Ask Stewart chat"] {
+    padding: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  /* Make modal take most of screen height */
+  [role="dialog"][aria-label="Ask Stewart chat"] > div {
+    width: 100vw !important;
+    height: 90vh !important;
+    max-height: 90vh !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ensure header stays compact */
+  [role="dialog"][aria-label="Ask Stewart chat"] .stewart-header {
+    padding: 12px 16px !important;
+  }
+
+  /* Ensure chat body uses available space */
+  [role="dialog"][aria-label="Ask Stewart chat"] .stewart-body {
+    height: calc(100% - 56px) !important;
+  }
+}
+
+/* Small phones - even more compact */
+@media (max-width: 375px) {
+  [role="dialog"][aria-label="Ask Stewart chat"] > div {
+    height: 95vh !important;
+    max-height: 95vh !important;
+  }
+
+  /* Smaller header on tiny screens */
+  [role="dialog"][aria-label="Ask Stewart chat"] .stewart-header {
+    padding: 10px 12px !important;
+  }
+
+  [role="dialog"][aria-label="Ask Stewart chat"] .stewart-body {
+    height: calc(100% - 50px) !important;
+  }
+}
+
+/* Landscape mobile - optimize for horizontal */
+@media (max-width: 768px) and (orientation: landscape) {
+  [role="dialog"][aria-label="Ask Stewart chat"] > div {
+    height: 95vh !important;
+    max-height: 95vh !important;
+  }
+}
 .navbar {
   position: absolute; /* Overlays the hero section */
   top: 0;

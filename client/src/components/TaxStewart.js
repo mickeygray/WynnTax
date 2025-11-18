@@ -442,6 +442,70 @@ export default function TaxStewart() {
 
   // ========================== STATE ==========================
   const [phase, setPhase] = useState(PHASE.INTAKE_ISSUES);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendMessage, setResendMessage] = useState(null);
+  const [resendRemaining, setResendRemaining] = useState(3);
+
+  // Add resend handler function (before the render section)
+  async function handleResendCode(type) {
+    setResendLoading(true);
+    setResendMessage(null);
+
+    try {
+      const response = await fetch("/api/resend-verification-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email: form.email,
+          phone: form.phone,
+          contactPref: form.contactPref,
+          name: form.name,
+          type: type, // "email", "phone", or undefined for both
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.ok) {
+        setResendMessage({
+          type: "error",
+          text: result.error || "Failed to resend code",
+        });
+        setResendLoading(false);
+        return;
+      }
+
+      // Update remaining count
+      if (result.codesSent?.email?.remaining !== undefined) {
+        setResendRemaining(result.codesSent.email.remaining);
+      } else if (result.codesSent?.phone?.remaining !== undefined) {
+        setResendRemaining(result.codesSent.phone.remaining);
+      }
+
+      setResendMessage({
+        type: "success",
+        text: `New code sent! ${
+          resendRemaining > 0
+            ? `You have ${resendRemaining} resend${
+                resendRemaining === 1 ? "" : "s"
+              } remaining.`
+            : ""
+        }`,
+      });
+
+      // Clear message after 5 seconds
+      setTimeout(() => setResendMessage(null), 5000);
+    } catch (error) {
+      console.error("Error resending code:", error);
+      setResendMessage({
+        type: "error",
+        text: "Network error. Please try again.",
+      });
+    } finally {
+      setResendLoading(false);
+    }
+  }
   const [messages, setMessages] = useState([
     {
       id: genId(),
@@ -1417,12 +1481,43 @@ export default function TaxStewart() {
           })}
 
           {/* Verification code inputs */}
+          {/* Verification code inputs */}
           {phase === PHASE.VERIFICATION && (
             <div style={styles.verificationContainer}>
+              {/* Resend message */}
+              {resendMessage && (
+                <div
+                  style={{
+                    ...styles.resendMessage,
+                    ...(resendMessage.type === "error"
+                      ? styles.resendMessageError
+                      : styles.resendMessageSuccess),
+                  }}
+                >
+                  {resendMessage.text}
+                </div>
+              )}
+
+              {/* Email code input */}
               {(form.contactPref === "email" ||
                 form.contactPref === "both") && (
                 <div style={styles.verificationField}>
-                  <label style={styles.verificationLabel}>Email Code:</label>
+                  <div style={styles.verificationLabelRow}>
+                    <label style={styles.verificationLabel}>Email Code:</label>
+                    <button
+                      type="button"
+                      onClick={() => handleResendCode("email")}
+                      disabled={resendLoading || resendRemaining === 0}
+                      style={{
+                        ...styles.resendButton,
+                        ...(resendLoading || resendRemaining === 0
+                          ? styles.resendButtonDisabled
+                          : {}),
+                      }}
+                    >
+                      {resendLoading ? "Sending..." : "Resend Code"}
+                    </button>
+                  </div>
                   <input
                     type="text"
                     value={form.emailCode}
@@ -1438,10 +1533,27 @@ export default function TaxStewart() {
                   />
                 </div>
               )}
+
+              {/* Phone code input */}
               {(form.contactPref === "phone" ||
                 form.contactPref === "both") && (
                 <div style={styles.verificationField}>
-                  <label style={styles.verificationLabel}>Phone Code:</label>
+                  <div style={styles.verificationLabelRow}>
+                    <label style={styles.verificationLabel}>Phone Code:</label>
+                    <button
+                      type="button"
+                      onClick={() => handleResendCode("phone")}
+                      disabled={resendLoading || resendRemaining === 0}
+                      style={{
+                        ...styles.resendButton,
+                        ...(resendLoading || resendRemaining === 0
+                          ? styles.resendButtonDisabled
+                          : {}),
+                      }}
+                    >
+                      {resendLoading ? "Sending..." : "Resend Code"}
+                    </button>
+                  </div>
                   <input
                     type="text"
                     value={form.phoneCode}
@@ -1455,6 +1567,14 @@ export default function TaxStewart() {
                     maxLength={6}
                     style={styles.verificationInput}
                   />
+                </div>
+              )}
+
+              {/* Rate limit warning */}
+              {resendRemaining === 0 && (
+                <div style={styles.rateLimitWarning}>
+                  ⚠️ Resend limit reached. Please wait 15 minutes or contact
+                  support.
                 </div>
               )}
             </div>

@@ -976,6 +976,190 @@ app.get("/api/ts-status", questionCounter, (req, res) => {
  * POST /send-verification-codes
  * Send verification codes to email and/or phone
  */
+
+/* -------------------------------------------------------------------------- */
+/*                        RESEND VERIFICATION CODES                           */
+/* -------------------------------------------------------------------------- */
+
+// Rate limiter for resend requests (max 3 per 15 minutes per contact)
+const resendLimiter = new Map();
+
+function checkResendLimit(identifier) {
+  const now = Date.now();
+  const key = identifier.toLowerCase();
+
+  if (!resendLimiter.has(key)) {
+    resendLimiter.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+    return { allowed: true, remaining: 2, resetAt: now + 15 * 60 * 1000 };
+  }
+
+  const data = resendLimiter.get(key);
+
+  // Reset if time window passed
+  if (now > data.resetAt) {
+    resendLimiter.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+    return { allowed: true, remaining: 2, resetAt: now + 15 * 60 * 1000 };
+  }
+
+  // Check if limit exceeded
+  if (data.count >= 3) {
+    return {
+      allowed: false,
+      remaining: 0,
+      resetAt: data.resetAt,
+      waitMinutes: Math.ceil((data.resetAt - now) / 60000),
+    };
+  }
+
+  // Increment count
+  data.count++;
+  resendLimiter.set(key, data);
+
+  return {
+    allowed: true,
+    remaining: 3 - data.count,
+    resetAt: data.resetAt,
+  };
+}
+
+// Cleanup old entries every 30 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, data] of resendLimiter.entries()) {
+    if (now > data.resetAt) {
+      resendLimiter.delete(key);
+    }
+  }
+}, 30 * 60 * 1000);
+
+/**
+ * POST /api/resend-verification-code
+ * Resend verification code to email or phone
+ */
+app.post("/api/resend-verification-code", async (req, res) => {
+  try {
+    const { email, phone, contactPref, name, type } = req.body;
+
+    // Determine which contact to resend to
+    const targetEmail = type === "email" || !type ? email : null;
+    const targetPhone = type === "phone" || !type ? phone : null;
+
+    if (!targetEmail && !targetPhone) {
+      return res.status(400).json({
+        ok: false,
+        error: "Email or phone required",
+      });
+    }
+
+    const results = {
+      email: { sent: false },
+      phone: { sent: false },
+    };
+
+    // Resend to email
+    if (targetEmail && (contactPref === "email" || contactPref === "both")) {
+      // Check rate limit
+      const limit = checkResendLimit(targetEmail);
+
+      if (!limit.allowed) {
+        return res.json({
+          ok: false,
+          error: `Too many requests. Please wait ${limit.waitMinutes} minutes before requesting another code.`,
+          rateLimited: true,
+          resetAt: limit.resetAt,
+        });
+      }
+
+      const emailCode = generateCode();
+      storeVerificationCode(targetEmail, emailCode, "email");
+
+      const emailHtml = verificationTemplate({
+        name: name || "there",
+        verificationCode: emailCode,
+        logoUrl: process.env.LOGO_URL || "",
+        calendlyLink:
+          process.env.CALENDLY_LINK || "https://calendly.com/wynntax",
+        year: new Date().getFullYear(),
+      });
+
+      const mailOptions = {
+        from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+        to: targetEmail,
+        subject: "Your New Verification Code - Wynn Tax Solutions",
+        html: emailHtml,
+      };
+
+      await transporter.sendMail(mailOptions);
+
+      results.email = {
+        sent: true,
+        remaining: limit.remaining,
+        resetAt: limit.resetAt,
+      };
+
+      console.log(
+        "[RESEND] Email code sent to:",
+        targetEmail,
+        "Remaining:",
+        limit.remaining
+      );
+    }
+
+    // Resend to phone
+    if (targetPhone && (contactPref === "phone" || contactPref === "both")) {
+      // Check rate limit
+      const limit = checkResendLimit(targetPhone);
+
+      if (!limit.allowed) {
+        return res.json({
+          ok: false,
+          error: `Too many requests. Please wait ${limit.waitMinutes} minutes before requesting another code.`,
+          rateLimited: true,
+          resetAt: limit.resetAt,
+        });
+      }
+
+      const phoneCode = generateCode();
+      storeVerificationCode(targetPhone, phoneCode, "phone");
+
+      function stripCommonPhonePunctuation(str) {
+        return String(str).replace(/[()\-\s]/g, "");
+      }
+
+      const phoneNumber = stripCommonPhonePunctuation(targetPhone);
+
+      await sendTextMessageAPI({
+        phoneNumber,
+        content: `Your NEW Wynn Tax verification code is: ${phoneCode}. Valid for 10 minutes.`,
+      });
+
+      results.phone = {
+        sent: true,
+        remaining: limit.remaining,
+        resetAt: limit.resetAt,
+      };
+
+      console.log(
+        "[RESEND] Phone code sent to:",
+        phoneNumber,
+        "Remaining:",
+        limit.remaining
+      );
+    }
+
+    return res.json({
+      ok: true,
+      codesSent: results,
+      message: "New verification code sent",
+    });
+  } catch (error) {
+    console.error("[/resend-verification-code] error:", error);
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to resend verification code",
+    });
+  }
+});
 app.post("/api/send-verification-codes", async (req, res) => {
   try {
     const { email, phone, contactPref, name } = req.body;

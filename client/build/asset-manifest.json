@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.52ff69b0.css",
-    "main.js": "/static/js/main.a3730155.js",
+    "main.css": "/static/css/main.f26c31cd.css",
+    "main.js": "/static/js/main.b8b67d3a.js",
     "static/media/wynn-tax-guide.pdf": "/static/media/wynn-tax-guide.88d04ecf5a301a31be0d.pdf",
     "index.html": "/index.html",
-    "main.52ff69b0.css.map": "/static/css/main.52ff69b0.css.map",
-    "main.a3730155.js.map": "/static/js/main.a3730155.js.map"
+    "main.f26c31cd.css.map": "/static/css/main.f26c31cd.css.map",
+    "main.b8b67d3a.js.map": "/static/js/main.b8b67d3a.js.map"
   },
   "entrypoints": [
-    "static/css/main.52ff69b0.css",
-    "static/js/main.a3730155.js"
+    "static/css/main.f26c31cd.css",
+    "static/js/main.b8b67d3a.js"
   ]
 }
