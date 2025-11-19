@@ -11,7 +11,7 @@ const useBlogData = () => {
           "The 2025 Government Shutdown: What Happened and What It Means for Taxpayers",
         image: "/images/governmentshutdown2025.png",
         teaser:
-          "From October 1 to November 12, 2025, the U.S. experienced the longest government shutdown in history. Here’s a clear breakdown of what caused it, how it impacted the IRS, federal workers, and the average American — and what it means for taxpayers moving forward.",
+          "From October 1st to November 12th, 2025, the U.S. experienced the longest government shutdown in history. Here’s a clear breakdown of what caused it, how it impacted the IRS, federal workers, and the average American — and what it means for taxpayers moving forward.",
         contentTitle:
           "The 2025 Government Shutdown: What Happened and What It Means for Taxpayers",
         contentBody: [
