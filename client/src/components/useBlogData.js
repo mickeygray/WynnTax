@@ -6,6 +6,74 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "government-shutdown-2025-complete-guide",
+        title:
+          "The 2025 Government Shutdown: What Happened and What It Means for Taxpayers",
+        image: "/images/governmentshutdown2025.png",
+        teaser:
+          "From October 1 to November 12, 2025, the U.S. experienced the longest government shutdown in history. Here’s a clear breakdown of what caused it, how it impacted the IRS, federal workers, and the average American — and what it means for taxpayers moving forward.",
+        contentTitle:
+          "The 2025 Government Shutdown: What Happened and What It Means for Taxpayers",
+        contentBody: [
+          "<h2>Shutdown Overview</h2>",
+          "<p>The federal government shut down for <strong>43 days</strong>, from October 1 to November 12, 2025 — the longest shutdown in U.S. history. Roughly <strong>900,000 federal employees were furloughed</strong> and another 2 million worked without pay at different points. The standoff centered on whether Congress would extend enhanced Affordable Care Act subsidies and how aggressively to cut federal spending.</p>",
+
+          "<h2>Timeline of Key Events</h2>",
+          "<ul>",
+          "<li><strong>Late September:</strong> Congress fails to reach agreement on FY2026 funding. Agencies receive instructions to prepare shutdown plans.</li>",
+          "<li><strong>October 1:</strong> Funding expires. National parks, museums, and many agencies close or scale back to essential operations only.</li>",
+          "<li><strong>October 8:</strong> IRS announces furloughs for roughly 34,000 employees, cutting its operating capacity by more than half.</li>",
+          "<li><strong>October 21–23:</strong> IRS issues its shutdown operations plan: deadlines remain, but services slow dramatically.</li>",
+          "<li><strong>Late October:</strong> Economic damage increases. The CBO warns of $7–14 billion in permanent losses if the shutdown continues.</li>",
+          "<li><strong>November 10:</strong> Bipartisan Senate compromise advances a temporary funding bill.</li>",
+          "<li><strong>November 12:</strong> House passes the bill; President signs it. Government fully reopens.</li>",
+          "</ul>",
+
+          "<h2>Why the Shutdown Happened</h2>",
+          "<p>The fight centered on <strong>health-care subsidies and federal spending levels</strong>. The House and White House supported a funding bill that allowed expanded ACA premium subsidies to expire and included broader cuts. Senate Democrats opposed letting the subsidies lapse, arguing premiums would spike for millions of Americans. Some lawmakers pushed for even deeper cuts, while moderates in both parties urged a short-term funding extension. The dispute escalated into a prolonged standoff that forced a full shutdown.</p>",
+
+          "<h2>How the Shutdown Affected the IRS</h2>",
+          "<p>The IRS was hit especially hard. While <strong>tax laws remained in effect</strong> — returns still had to be filed on time and payments were still required — the agency lost over half its workforce to furloughs. This created major delays and service disruptions.</p>",
+          "<ul>",
+          "<li><strong>What continued:</strong> Electronic filing, direct-deposit refunds for error-free returns, basic online tools, and essential enforcement functions.</li>",
+          "<li><strong>What slowed or stopped:</strong> Paper return processing, amended returns, mailed correspondence, phone support, Taxpayer Advocate Service operations, and certain compliance reviews.</li>",
+          "<li><strong>Bottom line:</strong> Deadlines stayed the same — but getting help was much harder, and paper-driven processes slowed significantly.</li>",
+          "</ul>",
+
+          "<h2>Impact on Federal Employees and the Public</h2>",
+          "<p>The shutdown’s effects extended well beyond the IRS. Federal workers missed paychecks, safety-net programs struggled with funding gaps, and key economic indicators were delayed. Many families faced hardship simply because government support systems were frozen or understaffed.</p>",
+          "<ul>",
+          "<li><strong>Federal workers:</strong> Nearly a million were furloughed, many more worked unpaid, and households were forced to rely on savings, credit cards, or emergency assistance.</li>",
+          "<li><strong>Safety-net programs:</strong> WIC faced funding pressure; SNAP payments were threatened with delays and temporary reductions.</li>",
+          "<li><strong>Housing:</strong> FHA/VA/USDA mortgages saw delays, slowing real estate activity nationwide.</li>",
+          "<li><strong>Wider economy:</strong> Analysts estimated up to a 2% drag on fourth-quarter GDP, with $7–14 billion in long-term economic losses.</li>",
+          "</ul>",
+
+          "<h2>How the Shutdown Was Resolved</h2>",
+          "<p>The government reopened when a bipartisan Senate group negotiated a compromise. The final bill:</p>",
+          "<ul>",
+          "<li>Funded the government through <strong>January 30</strong> at existing levels.</li>",
+          "<li>Provided full-year funding for military construction, veterans' affairs, and the legislative branch.</li>",
+          "<li>Deferred a final decision on ACA subsidies until a December vote.</li>",
+          "</ul>",
+          "<p>In other words, the immediate crisis ended — but the larger policy debates were postponed rather than solved.</p>",
+
+          "<h2>What the Shutdown Means for Taxpayers Going Forward</h2>",
+          "<p>Shutdowns have become a recurring feature of U.S. politics, meaning taxpayers need to prepare for possible disruptions in future years. The 2025 shutdown reinforced several practical lessons:</p>",
+          "<ul>",
+          "<li><strong>Deadlines don’t move:</strong> Even during shutdowns, taxes must still be filed and paid on time.</li>",
+          "<li><strong>E-filing is essential:</strong> Paper filings are the first to stall. Electronic filing and direct deposit offer the fastest, least-disrupted processing.</li>",
+          "<li><strong>Expect slower issue resolution:</strong> Audits, penalty requests, and notice responses may take longer after major furlough periods.</li>",
+          "<li><strong>Financial planning matters:</strong> Government-dependent households should maintain stronger emergency reserves to withstand delayed paychecks.</li>",
+          "<li><strong>Policy changes affect costs:</strong> Health-care subsidies, federal program funding, and administrative capacity can all shift rapidly during political standoffs. Staying informed protects your wallet.</li>",
+          "</ul>",
+
+          "<h2>How Our Tax Office Can Support You</h2>",
+          "<p>If your refund, notice, or tax resolution process was disrupted during the shutdown—or if you simply want to prepare better for future uncertainty—our team is here to help. We work directly with IRS systems, understand delayed-case procedures, and can guide you through backlogs, notices, or compliance questions.</p>",
+          "<p>For clarity, support, or representation during uncertain tax seasons, contact us anytime. We’re here to protect your financial stability and keep your case moving—shutdown or not.</p>",
+        ],
+      },
+      {
         id: "w2-standard-vs-itemized-guide",
         title:
           "Labor Day Spotlight: Standard vs. Itemized Deductions for W-2 Workers",
