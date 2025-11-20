@@ -61,6 +61,7 @@ const LandingPopupForm = ({ onClose }) => {
       best_time: bestTime || null,
     });
     trackStandardEvent("Lead");
+    onClose();
     navigate("/thank-you");
   };
 

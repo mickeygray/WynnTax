@@ -6,6 +6,62 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "affordability-crisis-2025-tax-debt-relief",
+        title:
+          "The 2025 Affordability Crisis: Why Tackling Tax Debt Makes Life More Affordable",
+        image: "/images/affordability2025.png",
+        teaser:
+          "With costs climbing and the holidays approaching, many families feel financially overwhelmed. Learn how the 2025 affordability crisis impacts IRS relief options—and why addressing back taxes now can actually free up room in your budget.",
+        contentTitle:
+          "The 2025 Affordability Crisis: Why Tackling Tax Debt Makes Life More Affordable",
+        contentBody: [
+          "<h2>The 2025 Affordability Crisis: What’s Really Happening?</h2>",
+          "<p>The cost of everyday life in 2025 is significantly higher than it was just a few years ago. Consumer prices are roughly <strong>23–25% higher than in 2019</strong>, with groceries up nearly <strong>30%</strong> and essential categories like transportation, housing, and insurance absorbing more of the average paycheck. Even though the median household income climbed to about <strong>$80,600</strong> in 2023, inflation has outpaced wage growth for many families.</p>",
+          "<p>In short: people are earning more on paper, but that money no longer stretches far enough. If you also owe the IRS, the pressure doubles—and that’s where understanding your options becomes crucial.</p>",
+
+          "<h2>How Rising Prices Affect Your IRS Relief Options</h2>",
+          "<p>The IRS evaluates your eligibility for relief based on your <strong>ability to pay</strong>. That calculation looks at income minus allowable living expenses. As the cost of housing, food, gas, childcare, and other essentials has risen, many people now qualify for relief they wouldn’t have qualified for in earlier years.</p>",
+          "<p>This means higher documented expenses may actually help demonstrate that making IRS payments would create hardship. In these cases, options like <strong>Currently Not Collectible (CNC)</strong> status or very low payment plans become much more attainable.</p>",
+
+          "<h2>What Is Currently Not Collectible (CNC)?</h2>",
+          "<p><strong>Currently Not Collectible (CNC)</strong> is a hardship-based IRS status where the government temporarily pauses collection activity because you cannot afford payments without sacrificing basic living needs. When approved:</p>",
+          "<ul>",
+          "<li>IRS collection actions like levies are paused.</li>",
+          "<li>You are <strong>not required</strong> to make monthly payments.</li>",
+          "<li>You must still file tax returns on time.</li>",
+          "<li>The IRS periodically reviews your financials.</li>",
+          "</ul>",
+          "<p>CNC isn’t forgiveness—the debt still exists—but it gives you breathing room when life is financially overwhelming.</p>",
+
+          "<h2>Why Bigger Expense Sheets Work in Your Favor</h2>",
+          "<p>In 2019, your financials might have shown some leftover income on paper. In 2025, with rent up, groceries up, utilities up, and transportation up, that same household often shows <strong>little to no disposable income</strong>. When documented correctly, this strengthens your hardship case with the IRS.</p>",
+          "<p>It isn’t about manipulating numbers—it’s about showing the IRS the truth of your financial situation. And in the 2025 affordability environment, many people qualify for relief who wouldn’t have in years past.</p>",
+
+          "<h2>How Freezing IRS Payments Can Make the Holidays Possible</h2>",
+          "<p>For many families, the holiday season isn’t about extravagance—it’s about staying afloat without falling further behind. If you're juggling IRS notices, unmanageable payment plans, or uncertainty about your next steps, establishing a formal resolution can give you the breathing room you need.</p>",
+          "<p>Stopping or reducing IRS payments may free up hundreds of dollars a month. That money can go toward rent, heat, groceries, children’s needs, and a modest holiday budget—turning an impossible season into a manageable one.</p>",
+
+          "<h2>How to Get Started</h2>",
+          "<p>If you're carrying tax debt into the holiday season, here’s what to do next:</p>",
+          "<ul>",
+          "<li>Gather your IRS notices and balance information.</li>",
+          "<li>List your income from all sources.</li>",
+          "<li>Document your real monthly expenses—housing, food, utilities, transportation, childcare, medical, and more.</li>",
+          "<li>Compare what’s left at the end of the month.</li>",
+          "<li>If there’s little or nothing left, you may qualify for CNC or reduced payments.</li>",
+          "</ul>",
+          "<p>Speaking with a tax professional familiar with hardship-based cases can help you present your financials correctly and pursue the strongest form of protection for your situation.</p>",
+
+          "<h2>The Takeaway</h2>",
+          "<p>The affordability crisis is real—and for many households, it’s creating financial stress unlike any other time in the last decade. But it’s also making IRS hardship relief more attainable. Taking action now can stabilize your finances, protect your household, and make the holiday season not just survivable, but hopeful.</p>",
+
+          "<h2>How Tax Advocate Group Can Help</h2>",
+          "<p>At <strong>Tax Advocate Group</strong>, we work with individuals facing rising costs and rising pressure. Our team helps you understand your IRS options, document your financial reality, and secure relief that matches your situation. Whether you're considering CNC, a reduced payment plan, or full tax resolution, we’re here to support you every step of the way.</p>",
+          "<p>If you're ready to explore your options and make life more affordable, contact us today. The sooner you take that first step, the more breathing room you'll have this season—and into the new year.</p>",
+        ],
+      },
+
+      {
         id: "government-shutdown-2025-complete-guide",
         title:
           "The 2025 Government Shutdown: What Happened and What It Means for Taxpayers",
