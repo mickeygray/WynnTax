@@ -6,6 +6,66 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "tariffs-2025-impact-tax-debt",
+        title:
+          "Tariffs in 2025: Rising Costs, Higher Prices, and Why Now Is the Time to Resolve Your Tax Debt",
+        image: "/images/tarriffs2025.png",
+        teaser:
+          "New tariffs in 2025 are driving up the cost of goods across key industries, squeezing household budgets nationwide. Learn how these rising expenses may actually strengthen your case for IRS relief — and why now is the time to resolve back taxes.",
+        contentTitle:
+          "Tariffs in 2025: Rising Costs, Higher Prices, and Why Now Is the Time to Resolve Your Tax Debt",
+        contentBody: [
+          "<h2>Tariffs in 2025: What Changed?</h2>",
+          "<p>In early 2025, a series of new U.S. tariffs took effect on imported goods. Many imports now carry a <strong>minimum 10% tariff</strong>, with other categories ranging from 11% to 50%. These policies hit industries that rely heavily on foreign materials—including manufacturing, electronics, and consumer goods—causing costs to rise across the economy.</p>",
+          "<p>As these tariffs move through supply chains, businesses pay more to produce, ship, and stock goods. And ultimately, those increases reach the consumer. For many households, the result is simple: everything costs more.</p>",
+
+          "<h2>Industries Hit the Hardest</h2>",
+          "<p>While tariffs touch a wide range of goods, certain industries feel the impact most:</p>",
+          "<ul>",
+          "<li><strong>Manufacturing & metals</strong>: Steel and aluminum tariffs raise the cost of cars, construction materials, and home appliances.</li>",
+          "<li><strong>Electronics & consumer goods</strong>: From smartphones to kitchen appliances, many items rely on imported components affected by new tariffs.</li>",
+          "<li><strong>Agriculture & food production</strong>: When imported fertilizer, machinery parts, or packaging materials rise in cost, food prices follow.</li>",
+          "</ul>",
+          "<p>These changes ripple out into everyday life, increasing what families pay for groceries, vehicles, home goods, and essential supplies.</p>",
+
+          "<h2>How Tariffs Raise the Cost of Living</h2>",
+          "<p>Because businesses must absorb higher import costs, many are raising prices to survive. As a result:</p>",
+          "<ul>",
+          "<li>Groceries and household items are more expensive.</li>",
+          "<li>Electronics, tools, appliances, and home equipment cost more.</li>",
+          "<li>Construction, repairs, and vehicle purchases come with higher price tags.</li>",
+          "</ul>",
+          "<p>The cost of living goes up—but your paycheck doesn’t increase to match. That leaves many families with tighter budgets and less room to absorb financial pressure.</p>",
+
+          "<h2>What This Means If You Owe the IRS</h2>",
+          "<p>This is the part most taxpayers don’t realize: as your cost of living increases, your <strong>IRS financial profile changes</strong>—and often for the better.</p>",
+          "<p>When you apply for IRS relief programs like an installment agreement, Offer in Compromise, or <strong>Currently Not Collectible (CNC)</strong> status, the IRS looks at your monthly income minus your necessary living expenses.</p>",
+          "<p>If your expenses are rising due to tariffs and inflation, you may now qualify for:</p>",
+          "<ul>",
+          "<li><strong>Lower monthly IRS payments</strong></li>",
+          "<li><strong>Deferred payments through CNC status</strong></li>",
+          "<li><strong>Greater hardship consideration</strong></li>",
+          "<li><strong>Stronger eligibility for tax relief programs</strong></li>",
+          "</ul>",
+          "<p>In other words, the rising cost of goods can actually <strong>strengthen your case</strong> for tax relief.</p>",
+
+          "<h2>Why Now Is the Time to Act</h2>",
+          "<p>With tariffs driving up prices nationwide, this is a uniquely favorable moment to address IRS debt:</p>",
+          "<ul>",
+          "<li>Your current financial situation may qualify you for relief you didn’t previously qualify for.</li>",
+          "<li>Waiting could reduce your hardship case if economic conditions stabilize.</li>",
+          "<li>Penalties and interest continue growing until you resolve your balance.</li>",
+          "<li>Taking action now protects you before the IRS escalates collections.</li>",
+          "</ul>",
+          "<p>The bottom line: recovering your financial stability is harder when everything costs more—but IRS relief programs exist to help in exactly these circumstances.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we understand that rising prices can create real hardship—and real opportunity for tax relief. Our team helps clients navigate their IRS financial profile, document rising living expenses, and secure the most favorable outcome possible.</p>",
+          "<p>Whether you need to reduce your payments, defer them through hardship status, or pursue a settlement, we’re here to guide you through every step.</p>",
+          "<p>Contact us today to review your options. In a year of rising costs, the right tax resolution can make life significantly more affordable.</p>",
+        ],
+      },
+      {
         id: "affordability-crisis-2025-tax-debt-relief",
         title:
           "The 2025 Affordability Crisis: Why Tackling Tax Debt Makes Life More Affordable",
