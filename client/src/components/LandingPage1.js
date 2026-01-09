@@ -9,7 +9,7 @@ import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
  * LandingPopupForm - Extracted as separate component
  * Can be imported and reused anywhere
  */
-export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
+const EmbeddedLeadForm = () => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
   const [step, setStep] = useState(1);
@@ -23,14 +23,12 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
     bestTime: "",
   });
 
-  // 🎯 Track form inputs
-  useFormTracking(formData, "landing-popup", !submitted);
+  useFormTracking(formData, "landing-embedded", !submitted);
 
-  // 🎯 Track abandonment
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (!submitted && (formData.debtAmount || formData.email)) {
-        trackFormAbandon("landing-popup", formData);
+        trackFormAbandon("landing-embedded", formData);
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -46,27 +44,27 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
     e.preventDefault();
     setSubmitted(true);
     sendLeadForm(formData);
+    trackCustomEvent("LandingFormSubmitted", {
+      source: "EmbeddedHeroForm",
+      has_email: !!formData.email,
+      has_phone: !!formData.phone,
+      debt_amount: formData.debtAmount || null,
+    });
     trackStandardEvent("Lead");
     navigate("/thank-you");
   };
 
-  // Track when they close modal
-  const handleClose = () => {
-    if (!submitted && (formData.debtAmount || formData.email)) {
-      trackFormAbandon("landing-popup", formData);
-    }
-    onClose();
-  };
-
   return (
-    <div className="landing-popup-overlay">
-      <div className="landing-popup-form">
-        <button className="landing-popup-close" onClick={handleClose}>
-          ✕
-        </button>
-        {step === 1 && (
-          <form onSubmit={(e) => e.preventDefault()}>
-            <h2>How much do you owe?</h2>
+    <div className="embedded-lead-form">
+      <div className="embedded-form-header">
+        <h3>Do you have a current tax liability?</h3>
+        <p>Let us know and someone will contact you immediately.</p>
+      </div>
+
+      {step === 1 && (
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="form-group">
+            <label>How much do you owe?</label>
             <select
               name="debtAmount"
               value={formData.debtAmount}
@@ -80,46 +78,48 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
               <option value="50000-100000">$50,000 – $100,000</option>
               <option value=">100000">More than $100,000</option>
             </select>
+          </div>
 
-            <h2>Have you filed all your taxes?</h2>
-            <div className="landing-popup-radio-group">
-              <label>
+          <div className="form-group">
+            <label>Have you filed all your taxes?</label>
+            <div className="radio-group">
+              <label className="radio-label">
                 <input
                   type="radio"
                   name="filedAllTaxes"
                   value="yes"
                   checked={formData.filedAllTaxes === "yes"}
                   onChange={handleChange}
-                  required
                 />
-                Yes
+                <span>Yes</span>
               </label>
-              <label>
+              <label className="radio-label">
                 <input
                   type="radio"
                   name="filedAllTaxes"
                   value="no"
                   checked={formData.filedAllTaxes === "no"}
                   onChange={handleChange}
-                  required
                 />
-                No
+                <span>No</span>
               </label>
             </div>
+          </div>
 
-            <button
-              type="button"
-              className="landing-popup-next"
-              onClick={handleNext}
-            >
-              Next
-            </button>
-          </form>
-        )}
+          <button
+            type="button"
+            className="form-btn"
+            onClick={handleNext}
+            disabled={!formData.debtAmount || !formData.filedAllTaxes}
+          >
+            Continue
+          </button>
+        </form>
+      )}
 
-        {step === 2 && (
-          <form onSubmit={handleSubmit}>
-            <h2>Your Contact Information</h2>
+      {step === 2 && (
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
             <input
               type="text"
               name="name"
@@ -128,6 +128,8 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
               placeholder="Full Name"
               required
             />
+          </div>
+          <div className="form-group">
             <input
               type="tel"
               name="phone"
@@ -136,6 +138,8 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
               placeholder="Phone Number"
               required
             />
+          </div>
+          <div className="form-group">
             <input
               type="email"
               name="email"
@@ -144,19 +148,28 @@ export const LandingPopupForm = ({ onClose, autoOpen = false }) => {
               placeholder="Email Address"
               required
             />
+          </div>
+          <div className="form-group">
             <input
               type="text"
               name="bestTime"
               value={formData.bestTime}
               onChange={handleChange}
-              placeholder="Best Time to Contact"
+              placeholder="Best Time to Contact (optional)"
             />
-            <button type="submit" className="landing-popup-submit">
-              Submit
-            </button>
-          </form>
-        )}
-      </div>
+          </div>
+          <button type="submit" className="form-btn form-btn-submit">
+            Get Free Consultation
+          </button>
+          <button
+            type="button"
+            className="form-btn-back"
+            onClick={() => setStep(1)}
+          >
+            ← Back
+          </button>
+        </form>
+      )}
     </div>
   );
 };
@@ -197,41 +210,44 @@ const LandingPage1 = () => {
     <div className="landing-page-root">
       <div className="landing-page-content">
         {/* Hero Section */}
-        <section className="landing-page-hero">
-          <div className="hero-image-container">
-            {!isMobile ? (
-              <img src="/images/wynn-landing-hero.png" alt="Wynn Tax Hero" />
-            ) : (
-              <img src="/images/cropped-hero.png" alt="Wynn Tax Hero" />
-            )}
+        <section className="landing-hero-embedded">
+          <div className="hero-background">
+            <img
+              src="/images/wynn-landing-hero.png"
+              alt=""
+              className="hero-bg-image"
+            />
+            <div className="hero-overlay"></div>
           </div>
-          <div className="hero-text-overlay">
-            <h1 className="landing-hero-company-name">Wynn Tax Solutions</h1>
-            <h1 className="landing-hero-title">
-              Reduce &amp; Resolve Your IRS Tax Liability, No Matter How Much
-              You Owe
-            </h1>
-            <p className="landing-hero-subtitle">
-              Wynn Tax Solutions professionals have saved taxpayers over $300
-              million in tax debt with comprehensive tax resolution services.
-            </p>
-            <div className="hero-buttons">
-              <PhoneLink rawNumber="18449966829" />
 
-              <a
-                className="phone-button"
-                style={{ background: "#333" }}
-                onClick={() => setShowPopup(true)}
-              >
-                Get Free Consultation
-              </a>
+          <div className="hero-content-grid">
+            {/* Left side - Company info */}
+            <div className="hero-text-side">
+              <h1 className="hero-company">Wynn Tax Solutions</h1>
+              <h2 className="hero-headline">
+                Reduce & Resolve Your IRS Tax Liability
+              </h2>
+              <p className="hero-subtext">
+                Our professionals have saved taxpayers over $300 million in tax
+                debt with comprehensive tax resolution services.
+              </p>
+              <div className="hero-trust-badges">
+                <img
+                  src="/images/bbb-accredited-business.png"
+                  alt="BBB Accredited"
+                />
+              </div>
+              <PhoneLink rawNumber="18449966829" className="hero-phone-link" />
+            </div>
+
+            {/* Right side - Embedded Form */}
+            <div className="hero-form-side">
+              <EmbeddedLeadForm />
             </div>
           </div>
-          <div className="hero-overlay"></div>
         </section>
 
         {/* Popup Form - Separated from nested structure */}
-        {showPopup && <LandingPopupForm onClose={() => setShowPopup(false)} />}
 
         {/* Steps */}
         <div className="landing-container">
