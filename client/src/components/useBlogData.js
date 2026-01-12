@@ -6,6 +6,112 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "10-percent-credit-card-interest-cap-irs-tax-debt",
+        title:
+          "Trump’s Proposed 10% Credit Card Interest Cap: Could Paying the IRS With a Card Save You Money?",
+        image: "/images/creditcardcap10.png",
+        teaser:
+          "President Donald Trump floated a one-year 10% cap on credit card interest rates. If something like this ever became law, it could change the math for taxpayers carrying an IRS balance — because IRS penalties can add up faster than most people realize, especially if you haven’t filed yet.",
+        contentTitle:
+          "Trump’s Proposed 10% Credit Card Interest Cap: Could Paying the IRS With a Card Save You Money?",
+        contentBody: [
+          "<p><em><strong>Important:</strong> This article is general information only and not tax or legal advice. Interest rates and penalty rules vary by situation and can change. Always confirm your options with a qualified professional.</em></p>",
+
+          "<h2>Trump Floated a 10% Credit Card Interest Cap — What We Know So Far</h2>",
+          "<p>On Friday, President Donald Trump called for a <strong>one-year cap of 10%</strong> on credit card interest rates (APR), reportedly starting <strong>January 20</strong>. Analysts have noted that implementing a rate cap would likely require action by Congress, and there are open questions about how (or whether) it could be enforced.</p>",
+          "<p>But whether it becomes law or not, it raises a practical question for anyone who owes the IRS:</p>",
+          "<p><strong>If my credit card APR were capped at 10%, would it ever make sense to pay the IRS with a credit card to stop IRS penalties and interest?</strong></p>",
+
+          "<h2>How the IRS Adds Cost When You Don’t Pay (or Don’t File)</h2>",
+          "<p>When you owe and don’t pay on time, the IRS can add <strong>interest</strong> and <strong>penalties</strong>. The details matter because the IRS cost isn’t just “one APR.” It’s a stack.</p>",
+
+          "<h3>1) IRS Interest (Example: 7% per year in early 2026)</h3>",
+          "<p>For the first quarter of 2026, the IRS underpayment interest rate for individuals was announced at <strong>7% per year</strong>, compounded daily. IRS interest rates are set quarterly (they can change over time).</p>",
+          "<p><strong>Monthly translation:</strong> 7% annually is roughly ~0.58% per month (very roughly; the IRS compounds daily).</p>",
+
+          "<h3>2) Failure-to-Pay Penalty (0.5% per month)</h3>",
+          "<p>If you filed your return but didn’t pay the tax due, the <strong>failure-to-pay penalty</strong> is generally <strong>0.5% per month</strong> (or part of a month), up to a maximum of <strong>25%</strong> of the unpaid tax.</p>",
+          "<p><strong>Monthly translation:</strong> 0.5% per month is ~6% per year, before interest and compounding.</p>",
+          "<p><em>Note:</em> If you filed on time and enter an approved payment plan, the IRS states this penalty can be reduced to <strong>0.25% per month</strong> during the plan.</p>",
+
+          "<h3>3) Failure-to-File Penalty (5% per month)</h3>",
+          "<p>If you don’t file your return on time and you owe tax, the IRS can charge a <strong>failure-to-file penalty</strong> that is usually <strong>5% per month</strong> (or part of a month), up to <strong>25%</strong> of the tax due.</p>",
+
+          "<h3>When You Don’t File AND Don’t Pay: The “5% Per Month” Shock</h3>",
+          "<p>If both penalties apply in the same month, the IRS explains that the combined penalty is generally <strong>5% per month</strong> (made up of <strong>4.5% late filing</strong> + <strong>0.5% late payment</strong>) for each month your return is late, up to <strong>25%</strong>.</p>",
+          "<p>After that late-filing maximum is reached, the failure-to-pay penalty generally continues while the tax remains unpaid.</p>",
+
+          "<p><strong>Bottom line:</strong> If you haven’t filed and you owe, your balance can grow much faster than people expect — especially in the first few months.</p>",
+
+          "<h2>Where the 10% Card Cap Changes the Math</h2>",
+          "<p>A 10% APR credit card (if capped) would translate to roughly <strong>~0.83% per month</strong> in interest (again, rough translation; card issuers also compound). Compare that to common IRS “carrying costs”:</p>",
+          "<ul>",
+          "<li><strong>Filed but didn’t pay:</strong> IRS interest (~0.58%/mo at 7% annual) + failure-to-pay penalty (0.5%/mo) ≈ <strong>~1.1% per month</strong> (roughly).</li>",
+          "<li><strong>Didn’t file and didn’t pay:</strong> combined penalties can be <strong>~5% per month</strong> early on (plus interest).</li>",
+          "</ul>",
+          "<p>This is why the idea matters: in some situations, a lower capped credit card APR could be cheaper than letting IRS penalties stack.</p>",
+
+          "<h2>Example Math: $10,000 IRS Balance — 6 Months vs 12 Months</h2>",
+          "<p>These are <strong>illustrative estimates</strong> to show how the math works. Real totals can be higher because the IRS charges interest on penalties too, and timing matters (the IRS charges full-month penalty increments even if you pay before the month ends).</p>",
+
+          "<h3>Assumptions for the example</h3>",
+          "<ul>",
+          "<li>IRS underpayment interest: <strong>7% annual</strong> (compounded daily).</li>",
+          "<li>Failure-to-pay penalty: <strong>0.5% per month</strong>.</li>",
+          "<li>If unfiled: combined penalty <strong>5% per month</strong> for the first 5 months, then <strong>0.5% per month</strong> thereafter.</li>",
+          "<li>Credit card APR (hypothetical cap): <strong>10% APR</strong>.</li>",
+          "<li>IRS credit card processing fee example: <strong>~1.75%</strong> (varies by processor and card type).</li>",
+          "<li>Simple scenario: you carry the card balance for 6 or 12 months (worst-case). If you pay it down monthly, the card interest would be less.</li>",
+          "</ul>",
+
+          "<h3>Scenario A: You filed on time, but you didn’t pay the IRS</h3>",
+          "<table>",
+          "<thead><tr><th>Time</th><th>Estimated IRS add-on cost (interest + failure-to-pay)</th><th>Estimated credit card cost at 10% (interest + ~1.75% fee)</th><th>Difference</th></tr></thead>",
+          "<tbody>",
+          "<tr><td>6 months</td><td>~$655</td><td>~$686</td><td>Card is ~+$31 (slightly higher due to fee)</td></tr>",
+          "<tr><td>12 months</td><td>~$1,325</td><td>~$1,226</td><td>Card saves ~-$99</td></tr>",
+          "</tbody>",
+          "</table>",
+          "<p><strong>Interpretation:</strong> If you filed on time, the card-vs-IRS comparison can be close — especially once you factor in card processing fees. This is where an IRS payment plan (with reduced penalties) may compete very well.</p>",
+
+          "<h3>Scenario B: You did NOT file, and you did NOT pay</h3>",
+          "<table>",
+          "<thead><tr><th>Time</th><th>Estimated IRS add-on cost (interest + penalties)</th><th>Estimated credit card cost at 10% (interest + ~1.75% fee)</th><th>Potential savings</th></tr></thead>",
+          "<tbody>",
+          "<tr><td>6 months</td><td>~$2,905</td><td>~$686</td><td>~$2,219</td></tr>",
+          "<tr><td>12 months</td><td>~$3,575</td><td>~$1,226</td><td>~$2,349</td></tr>",
+          "</tbody>",
+          "</table>",
+          "<p><strong>Interpretation:</strong> This is where the math can become dramatic. If you haven’t filed and you owe, the early-month penalty stacking can make “do nothing” extremely expensive. Paying the IRS (by any method) stops the IRS meter — and financing it at a hypothetically capped 10% APR could, in some cases, be far cheaper than letting penalties compound.</p>",
+
+          "<h2>Important Caveats Before You Pay the IRS With a Credit Card</h2>",
+          "<ul>",
+          "<li><strong>The 10% cap is only a proposal.</strong> It may never become law, and the details matter (who it applies to, how it’s enforced, and for how long).</li>",
+          "<li><strong>Credit card fees are real.</strong> The IRS uses third-party processors who charge convenience fees (the IRS doesn’t receive these fees). Consumer credit card fees can be around ~1.75%, and some card types can cost more.</li>",
+          "<li><strong>Your card APR may jump.</strong> Late payments can trigger penalty APRs, fees, and credit score impacts.</li>",
+          "<li><strong>Better option for many taxpayers:</strong> Filing on time and setting up an IRS payment plan may reduce the failure-to-pay penalty during the plan (per IRS guidance), potentially making it cheaper than using a credit card.</li>",
+          "<li><strong>Points aren’t “free money” if you carry the balance.</strong> Rewards are often outweighed by interest if you can’t pay it off.</li>",
+          "</ul>",
+
+          "<h2>What You Should Take Away</h2>",
+          "<ul>",
+          "<li>If you owe the IRS, <strong>filing matters</strong> — not filing is where penalties can stack quickly.</li>",
+          "<li>Even when you file, the IRS can add <strong>interest + monthly penalties</strong>.</li>",
+          "<li>If a true 10% card APR cap ever existed, it could make “pay the IRS now, finance on a card” a <strong>legitimate math conversation</strong> for some taxpayers — especially those facing late-filing exposure.</li>",
+          "</ul>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help taxpayers choose the best next step based on what’s actually happening in their case:</p>",
+          "<ul>",
+          "<li>Are you filed? If not, what’s the fastest way to get compliant?</li>",
+          "<li>Is an IRS payment plan a better fit?</li>",
+          "<li>Do you qualify for hardship status or a different resolution strategy?</li>",
+          "<li>What is your true cost of waiting (penalties + interest + risk)?</li>",
+          "</ul>",
+          "<p>If you received a notice or you’re unsure how much the IRS is adding each month, contact us for a review of your options.</p>",
+        ],
+      },
+      {
         id: "tariffs-2025-impact-tax-debt",
         title:
           "Tariffs in 2025: Rising Costs, Higher Prices, and Why Now Is the Time to Resolve Your Tax Debt",
