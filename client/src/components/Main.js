@@ -68,18 +68,6 @@ const Main = () => {
         <div className="image-row">
           <div className="image-row-container">
             {/* Image 1 - BBB Accredited Business */}
-            <img
-              src="images/bbb-accredited-business.png"
-              alt="BBB Accredited Business"
-              className="image-item"
-            />
-
-            {/* Image 2 - SuperMoney Best Rated Firm */}
-            <img
-              src="images/trust-builder-supermoney.png"
-              alt="SuperMoney Best Rated Firm"
-              className="image-item"
-            />
 
             {/* Image 3 - IRS Power of Attorney */}
             <img
