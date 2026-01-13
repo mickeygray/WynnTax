@@ -231,12 +231,7 @@ const LandingPage1 = () => {
                 Our professionals have saved taxpayers over $300 million in tax
                 debt with comprehensive tax resolution services.
               </p>
-              <div className="hero-trust-badges">
-                <img
-                  src="/images/bbb-accredited-business.png"
-                  alt="BBB Accredited"
-                />
-              </div>
+
               <PhoneLink rawNumber="18449966829" className="hero-phone-link" />
             </div>
 

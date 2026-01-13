@@ -6,6 +6,67 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "gambling-loss-deduction-90-percent-rule-2026",
+        title:
+          "New Gambling Loss Deduction Limit: The 90% Rule Starting in 2026 (Why Break‑Even Can Still Be Taxable)",
+        image: "/images/gamblingloss90.png",
+        teaser:
+          "A new federal tax law changes how gambling losses work starting in 2026. Instead of deducting 100% of losses (up to winnings), the deduction is reduced—meaning some gamblers can owe taxes even in a break‑even year. Here’s what changed, simple examples, and what to do if it triggers an unexpected IRS balance.",
+        contentTitle:
+          "New Gambling Loss Deduction Limit: The 90% Rule Starting in 2026 (Why Break‑Even Can Still Be Taxable)",
+        contentBody: [
+          "<p><em><strong>Important:</strong> This article is general information only and not tax or legal advice. Tax rules and IRS guidance can change. For help with your specific situation, talk to a qualified tax professional.</em></p>",
+
+          "<h2>What Changed?</h2>",
+          "<p>A new federal law (often referred to as the <strong>One Big Beautiful Bill Act</strong>) revised the rule for deducting gambling losses. Starting in <strong>tax years beginning after December 31, 2025</strong> (generally your <strong>2026</strong> return), the gambling-loss deduction is no longer “full losses up to winnings.”</p>",
+          "<p>Instead, the tax code now limits the deduction so that only <strong>90% of losses from wagering transactions</strong> are deductible, and the deduction is still limited to the amount of gambling gains.</p>",
+
+          "<h2>Why This Matters: Break‑Even Doesn’t Always Mean Zero Tax</h2>",
+          "<p>Under the old approach, many taxpayers could end the year “break‑even” (wins and losses match) and show little or no net gambling income for federal tax purposes—assuming they had documentation and itemized deductions.</p>",
+          "<p>Under the new rule, a break‑even year can still create taxable income because the deductible portion of losses is reduced.</p>",
+
+          "<h2>Quick Examples (Simple Math)</h2>",
+          "<p><strong>Example 1 (Break‑even):</strong> You win <strong>$10,000</strong> and lose <strong>$10,000</strong>.</p>",
+          "<ul>",
+          "<li>Losses are reduced to 90%: <strong>$10,000 × 90% = $9,000</strong> deductible.</li>",
+          "<li>That can leave <strong>$1,000</strong> taxable even though you broke even on paper.</li>",
+          "</ul>",
+
+          "<p><strong>Example 2 (Slightly down):</strong> You win <strong>$10,000</strong> and lose <strong>$11,000</strong>.</p>",
+          "<ul>",
+          "<li>90% of losses: <strong>$11,000 × 90% = $9,900</strong> deductible.</li>",
+          "<li>That can still leave <strong>$100</strong> taxable.</li>",
+          "</ul>",
+
+          "<p><strong>Rule of thumb:</strong> To fully offset <strong>$10,000</strong> of gambling winnings under a 90% limitation, losses often need to be more than winnings (because 90% of losses is what counts).</p>",
+
+          "<h2>Reminder: Gambling Winnings Are Still Fully Taxable</h2>",
+          "<p>The IRS treats gambling winnings as taxable income. Gambling income can include casinos, sports betting, raffles, lotteries, horse races, and more. Even when you don’t receive a specific form, the IRS expects all gambling winnings to be reported.</p>",
+
+          "<h2>Do You Still Need to Itemize to Claim Gambling Losses?</h2>",
+          "<p>Under current IRS guidance for casual (non‑professional) gamblers, gambling losses are generally deductible <strong>only if you itemize</strong> on <strong>Schedule A</strong>, and you must keep records of winnings and losses. The deductible losses can’t exceed the gambling income reported.</p>",
+          "<p>Because the law changed for 2026 and beyond, it’s smart to confirm how IRS instructions and tax software implement the new rule as filing season approaches.</p>",
+
+          "<h2>Recordkeeping Becomes Even More Important</h2>",
+          "<p>With a tighter deduction limit, documentation matters more than ever. Keep:</p>",
+          "<ul>",
+          "<li>Win/loss statements (when available)</li>",
+          "<li>Wagering logs (date, location/site, game, amounts)</li>",
+          "<li>Receipts, tickets, statements, or transaction histories</li>",
+          "</ul>",
+
+          "<h2>State Tax Rules Can Be Different</h2>",
+          "<p>Some states follow federal rules closely, while others do not—and some states may limit gambling-loss deductions even more, or not allow them at all. If you gamble across state lines (or online while traveling), multi‑state reporting can get complicated.</p>",
+
+          "<h2>If This Creates a Surprise Tax Bill (and You Can’t Pay)</h2>",
+          "<p>For many taxpayers, the real issue isn’t the rule—it’s the cash flow. If your return shows a balance you can’t pay immediately, you may still have options (like payment arrangements or other resolution paths) depending on your situation.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>At <strong>Wynn Tax Solutions</strong>, we help taxpayers who receive unexpected IRS balances or notices and need a path forward. If gambling income (or any other income change) created a tax bill you can’t pay, we can help you understand your options and next steps.</p>",
+          "<p>Contact us to review your situation and map out a plan.</p>",
+        ],
+      },
+      {
         id: "10-percent-credit-card-interest-cap-irs-tax-debt",
         title:
           "Trump’s Proposed 10% Credit Card Interest Cap: Could Paying the IRS With a Card Save You Money?",
