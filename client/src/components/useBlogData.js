@@ -6,6 +6,80 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "1099-threshold-changes-2026-2000-20000",
+        title:
+          "1099 Threshold Changes: The New $2,000 Rule for 1099-NEC/1099-MISC (2026) and the 1099-K Shift for Payment Apps",
+        image: "/images/1099thresholds.png",
+        teaser:
+          "A new federal law changes multiple 1099 reporting thresholds. Starting in 2026, the reporting threshold for Forms 1099-NEC and 1099-MISC rises from $600 to $2,000 (and then adjusts for inflation). The law also restores the 1099-K payment app/marketplace threshold to the pre-$600 rule. Here’s what changed, what it does NOT mean, and how to protect yourself from surprise tax bills.",
+        contentTitle:
+          "1099 Threshold Changes: The New $2,000 Rule for 1099-NEC/1099-MISC (2026) and the 1099-K Shift for Payment Apps",
+        contentBody: [
+          "<p><em><strong>Important:</strong> This article is general information only and not tax or legal advice. Tax law and IRS guidance can change. For advice on your specific situation, consult a qualified professional.</em></p>",
+
+          "<h2>First: “1099 Allowance” Isn’t Really a Thing</h2>",
+          "<p>A lot of people say “1099 allowance” when they mean the <strong>reporting threshold</strong> (the amount that triggers whether a payer must send a 1099 form). A higher threshold does <strong>not</strong> automatically mean the income is tax-free.</p>",
+          "<p>Bottom line: <strong>1099 rules affect reporting paperwork — not whether income is taxable.</strong></p>",
+
+          "<h2>What Changed (and When)</h2>",
+          "<p>The One Big Beautiful Bill Act changed multiple information-reporting rules. The two that matter most for most small businesses, contractors, and gig workers are:</p>",
+          "<ul>",
+          "<li><strong>1099-NEC and 1099-MISC:</strong> the reporting threshold increases from $600 to <strong>$2,000</strong> starting in <strong>tax year 2026</strong> (payments made after December 31, 2025). Starting in <strong>2027</strong>, that threshold is expected to be <strong>inflation-adjusted</strong>.</li>",
+          "<li><strong>1099-K (payment apps / online marketplaces):</strong> the federal rule moves back to the pre-$600 standard (commonly discussed as <strong>$20,000 and 200 transactions</strong> for third-party settlement organizations), replacing the delayed “$600 rule” phase-in.</li>",
+          "</ul>",
+
+          "<h2>1099-NEC and 1099-MISC: The New $2,000 Threshold (Starting 2026)</h2>",
+          "<p>If you pay independent contractors, freelancers, vendors, or service providers, you’ve probably lived in the $600 world for years. Under the new rule:</p>",
+          "<ul>",
+          "<li>If you pay a qualifying recipient <strong>$2,000 or more</strong> in a year (starting with 2026 payments), you generally expect a 1099-NEC or 1099-MISC reporting requirement.</li>",
+          "<li>If you pay <strong>under $2,000</strong>, you may not be required to issue the form — but good bookkeeping still matters.</li>",
+          "</ul>",
+          "<p><strong>Important:</strong> Even if a 1099 is not required, the contractor’s income may still be taxable and still must be reported on their return.</p>",
+
+          "<h2>1099-K: What Payment App Users Need to Know</h2>",
+          "<p>Payment apps and online marketplaces use Form <strong>1099-K</strong> to report payments for goods and services. The widely discussed $600 threshold (with no transaction minimum) was delayed and then reversed by the new law.</p>",
+          "<p>Under the restored federal standard, third-party networks generally report when payments exceed <strong>$20,000</strong> and there are more than <strong>200 transactions</strong>.</p>",
+          "<p><strong>Two big “gotchas”:</strong></p>",
+          "<ul>",
+          "<li><strong>States can have lower thresholds</strong>, which can cause you to receive a 1099-K even when you don’t meet the federal threshold.</li>",
+          "<li>Some payers/platforms may still send a 1099 form even below the threshold.</li>",
+          "</ul>",
+
+          "<h2>This Does NOT Change Your Taxable Income</h2>",
+          "<p>This is the most important section of the entire article:</p>",
+          "<ul>",
+          "<li>You can owe taxes even if you never receive a 1099.</li>",
+          "<li>If you receive a 1099, it doesn’t automatically mean all of it is taxable (gross amounts can include fees, refunds, shipping, or basis issues depending on the situation).</li>",
+          "</ul>",
+          "<p>The IRS has repeatedly emphasized that <strong>reporting thresholds do not determine whether income is taxable</strong>.</p>",
+
+          "<h2>If You’re a Contractor or Gig Worker: What You Should Do Now</h2>",
+          "<ul>",
+          "<li><strong>Track income weekly</strong> (not just at tax time).</li>",
+          "<li><strong>Separate business and personal payments</strong> in apps and bank accounts when possible.</li>",
+          "<li><strong>Keep expense records</strong> so your tax return reflects profit (not just gross deposits).</li>",
+          "<li><strong>Plan for estimated taxes</strong> if you don’t have withholding.</li>",
+          "</ul>",
+          "<p>Also remember: the IRS states you generally must file a return if you have <strong>$400 or more</strong> in net earnings from self-employment from gig work, even if it’s part-time.</p>",
+
+          "<h2>If You’re a Small Business Owner: What You Should Do Now</h2>",
+          "<ul>",
+          "<li><strong>Update vendor onboarding</strong> (W-9 collection, entity type, EIN/SSN accuracy).</li>",
+          "<li><strong>Tag vendor payments properly</strong> so you can quickly see who crosses the reporting threshold.</li>",
+          "<li><strong>Reconcile year-end totals</strong> early (November/December) instead of waiting for January panic.</li>",
+          "<li><strong>Watch the inflation-adjusted threshold</strong> starting in 2027.</li>",
+          "</ul>",
+
+          "<h2>What If These Changes Contribute to an IRS Balance You Can’t Pay?</h2>",
+          "<p>The paperwork can change, but the real-world issue is often cash flow. If you underreported income, didn’t set aside enough for estimated payments, or got surprised by a tax bill, the IRS balance can grow quickly.</p>",
+          "<p>If you have an IRS notice or an unpaid balance, you may still have options depending on your situation (payment arrangements, resolution strategies, etc.).</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p><strong>Wynn Tax Solutions</strong> helps taxpayers who are behind on filings, dealing with IRS notices, or struggling with an unexpected tax balance. If 1099 income (or gig work income) created a bill you can’t afford, we can review your situation and outline practical next steps.</p>",
+          "<p><strong>Learn more:</strong> WynnTaxSolutions.com</p>",
+        ],
+      },
+      {
         id: "gambling-loss-deduction-90-percent-rule-2026",
         title:
           "New Gambling Loss Deduction Limit: The 90% Rule Starting in 2026 (Why Break‑Even Can Still Be Taxable)",
