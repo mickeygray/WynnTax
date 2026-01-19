@@ -9,7 +9,7 @@ const useBlogData = () => {
         id: "1099-threshold-changes-2026-2000-20000",
         title:
           "1099 Threshold Changes: The New $2,000 Rule for 1099-NEC/1099-MISC (2026) and the 1099-K Shift for Payment Apps",
-        image: "/images/1099thresholds.png",
+        image: "/images/1099_thresholds.png",
         teaser:
           "A new federal law changes multiple 1099 reporting thresholds. Starting in 2026, the reporting threshold for Forms 1099-NEC and 1099-MISC rises from $600 to $2,000 (and then adjusts for inflation). The law also restores the 1099-K payment app/marketplace threshold to the pre-$600 rule. Here’s what changed, what it does NOT mean, and how to protect yourself from surprise tax bills.",
         contentTitle:
