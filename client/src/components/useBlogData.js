@@ -6,6 +6,90 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-opens-filing-season-jan-26-2026-obbba-individual-changes",
+        title:
+          "IRS Opens the 2026 Filing Season on Jan. 26: What to Do Now + Key Individual Changes Under the One, Big, Beautiful Bill Act",
+        image: "/images/irs_open_2026.png",
+        teaser:
+          "The IRS officially begins accepting 2025 tax returns on Monday, Jan. 26, 2026. Here’s what to do before you file — plus a plain-English breakdown of major individual tax changes now in effect under the One, Big, Beautiful Bill Act.",
+        contentTitle:
+          "IRS Opens the 2026 Filing Season on Jan. 26: What to Do Now + Key Individual Changes Under the One, Big, Beautiful Bill Act",
+        contentBody: [
+          "<h2>The IRS “Opening Day” for Filing Is Jan. 26, 2026</h2>",
+          "<p>The IRS has announced that <strong>Monday, January 26, 2026</strong> is the official opening day of the 2026 filing season — meaning this is when the IRS begins accepting and processing <strong>2025</strong> federal individual tax returns.</p>",
+          "<p>In other words: if you’ve been waiting for the IRS to “open,” that date is your green light.</p>",
+          "<p><em>Note:</em> If you’re eligible, the <strong>IRS Free File</strong> program may accept returns earlier (the IRS has said Free File starts accepting returns on <strong>Jan. 9</strong> for qualified taxpayers). But for most filers and most software platforms, Jan. 26 is the official start line.</p>",
+
+          "<h2>Key Dates to Put on Your Calendar</h2>",
+          "<ul>",
+          "<li><strong>Jan. 26, 2026:</strong> IRS begins accepting 2025 returns (official opening day).</li>",
+          "<li><strong>Apr. 15, 2026:</strong> Deadline to file your 2025 return and pay any tax due (for most taxpayers).</li>",
+          "<li><strong>Oct. 15, 2026:</strong> Typical extended filing deadline if you request an extension (extension to file, not to pay).</li>",
+          "</ul>",
+          "<p><em>Reminder:</em> Some taxpayers in federally declared disaster areas may have different deadlines, so it’s worth checking if your county has relief.</p>",
+
+          "<h2>Before You File: 6 Fast Steps That Prevent Delays (and Surprise Notices)</h2>",
+          "<p>Getting your return accepted quickly is great — but getting it accepted <strong>accurately</strong> is the real win. Here are a few practical steps we recommend before you hit “submit”:</p>",
+          "<ul>",
+          "<li><strong>Create or access your IRS Individual Online Account</strong> to review key tax records and account details.</li>",
+          "<li><strong>Gather your income documents</strong> (W-2s, 1099s, SSA-1099, 1099-R, brokerage forms, etc.).</li>",
+          "<li><strong>Don’t “rush file”</strong> if you’re still waiting on a form — corrected 1099s happen more than people think.</li>",
+          "<li><strong>Confirm your mailing address and direct deposit info</strong> to avoid refund and identity verification issues.</li>",
+          "<li><strong>Double-check dependent claims</strong> (this is a common trigger for IRS letters when returns conflict).</li>",
+          "<li><strong>If you owe and can’t pay in full</strong>, still file on time. Filing late can be far more expensive than paying late.</li>",
+          "</ul>",
+
+          "<h2>New for Individuals: What Changed Under the One, Big, Beautiful Bill Act</h2>",
+          "<p>The <strong>One, Big, Beautiful Bill Act</strong> (Public Law 119-21) became law on July 4, 2025 and <strong>takes effect in 2025</strong>, meaning several provisions can impact what you file during this 2026 filing season.</p>",
+
+          "<h3>1) Updated standard deduction amounts (2025 return)</h3>",
+          "<p>For the <strong>2025</strong> tax year (the return you file in early 2026), the IRS lists these standard deduction amounts:</p>",
+          "<ul>",
+          "<li><strong>$31,500</strong> for married filing jointly</li>",
+          "<li><strong>$15,750</strong> for single filers and married filing separately</li>",
+          "<li><strong>$23,625</strong> for head of household</li>",
+          "</ul>",
+
+          "<h3>2) An additional $6,000 deduction for seniors (age 65+)</h3>",
+          "<p>If you are <strong>65 or older</strong> by the end of the tax year, there is a new <strong>additional $6,000 deduction</strong> (effective 2025–2028) that can apply whether you itemize or not.</p>",
+          "<p>This deduction phases out for taxpayers above certain income thresholds, so eligibility depends on your filing status and income level.</p>",
+
+          "<h3>3) “No tax on tips” deduction (qualified tips)</h3>",
+          "<p>For 2025 through 2028, eligible taxpayers may be able to deduct <strong>qualified tips</strong> (up to an annual limit) if they work in an occupation the IRS identifies as “customarily and regularly receiving tips.”</p>",
+          "<p>This is one area where documentation and correct reporting matters — the IRS also references transition/penalty relief for certain 2025 reporting requirements.</p>",
+
+          "<h3>4) “No tax on overtime” deduction (qualified overtime premium)</h3>",
+          "<p>For 2025 through 2028, eligible taxpayers may be able to deduct the portion of qualified overtime pay that exceeds the regular rate of pay — essentially the “premium” part of overtime.</p>",
+          "<p>There are annual limits and income phase-outs, so this won’t affect everyone — but it’s important for hourly workers who regularly work overtime.</p>",
+
+          "<h3>5) Car loan interest deduction (eligible personal-use vehicle loans)</h3>",
+          "<p>For 2025 through 2028, there is also a deduction for <strong>interest paid</strong> on a loan used to purchase a <strong>qualified passenger vehicle</strong> for personal use, subject to eligibility rules, annual limits, and income phase-outs.</p>",
+          "<p>Notably, the IRS describes criteria such as the loan origination date, lien/security requirements, and final assembly in the U.S.</p>",
+
+          "<h3>6) Adoption credit enhancement (partial refundability)</h3>",
+          "<p>For tax years after Dec. 31, 2024, the IRS describes an enhancement allowing up to <strong>$5,000 (indexed)</strong> of the adoption credit to be refundable, subject to limitations and carryforward rules.</p>",
+
+          "<h3>7) Payment app / marketplace reporting: the Form 1099-K threshold reset</h3>",
+          "<p>If you’re a gig worker, seller, or side-hustle taxpayer: the IRS updated guidance explaining that the One, Big, Beautiful Bill Act <strong>reinstated the prior Form 1099-K threshold</strong> for third-party settlement organizations (payment apps/online marketplaces).</p>",
+          "<p>Generally, this means a platform is not required to issue Form 1099-K for TPSO payments unless <strong>gross payments exceed $20,000 AND transactions exceed 200</strong> (though state thresholds can be lower, and platforms may still send forms in some cases).</p>",
+          "<p><strong>Important:</strong> Whether you receive a 1099-K does <em>not</em> determine whether income is taxable — you’re required to report taxable income even if you don’t get a form.</p>",
+
+          "<h3>8) Looking ahead: 1099 thresholds changing for 2026 payments</h3>",
+          "<p>While this won’t change your 2025 return directly, it matters for planning. The IRS also notes that for payments made after calendar year 2025, the information reporting threshold for certain payments (including Forms <strong>1099-MISC</strong> and <strong>1099-NEC</strong>) increases from <strong>$600 to $2,000</strong> for certain reportable payments.</p>",
+          "<p>If you’re self-employed or you pay contractors, expect this to affect what forms get issued for <strong>2026</strong> activity (which you’ll file in 2027).</p>",
+
+          "<h2>What If You Owe the IRS (or You’re Behind)?</h2>",
+          "<p>Tax season opening day is a great reminder of one key principle: <strong>filing and paying are not the same thing.</strong></p>",
+          "<p>If you can’t pay in full, filing on time can still reduce costly penalties and prevent the situation from escalating — even if you need a payment plan or another resolution strategy afterward.</p>",
+          "<p>If you’re already behind on returns, have notices piling up, or are worried about collections, getting ahead of the problem early in the season can create more options.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>Wynn Tax Solutions helps individuals and small business owners navigate IRS issues, including unfiled returns, back taxes, payment plans, and resolution options.</p>",
+          "<p>If you want a professional set of eyes on your situation before things snowball, reach out and we’ll help you understand your next best step.</p>",
+          "<p><em>Disclaimer:</em> This article is general information and not tax or legal advice. Every taxpayer’s situation is different — consult a qualified professional regarding your specific facts.</p>",
+        ],
+      },
+      {
         id: "1099-threshold-changes-2026-2000-20000",
         title:
           "1099 Threshold Changes: The New $2,000 Rule for 1099-NEC/1099-MISC (2026) and the 1099-K Shift for Payment Apps",
