@@ -6,6 +6,87 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-now-accepting-2025-returns-what-to-file-what-if-you-owe-catch-up",
+        title:
+          "IRS Is Now Accepting 2025 Tax Returns: What You Need to File, What to Do If You Owe, and How to Catch Up",
+        image: "/images/irs_accepting_2025_returns_expressive.png",
+        teaser:
+          "The IRS is officially accepting 2025 federal tax returns. Here’s a practical checklist of what you need to file, what to do if you owe (pay in full vs payment plan vs extension), and how to handle unfiled returns from prior years.",
+        contentTitle:
+          "IRS Is Now Accepting 2025 Tax Returns: What You Need to File, What to Do If You Owe, and How to Catch Up",
+        contentBody: [
+          "<h2>The IRS Is Officially Open for 2025 Returns</h2>",
+          "<p>The IRS has begun accepting and processing <strong>2025</strong> federal individual tax returns. That means if you’re ready to file, this is your green light.</p>",
+          "<p>Whether you’re expecting a refund or you think you’ll owe, filing early (and accurately) can reduce stress and keep you ahead of notices, delays, and last-minute mistakes.</p>",
+
+          "<h2>What You Need to File (Quick Checklist)</h2>",
+          "<p>Before you start, gather as much of the following as you can. Missing documents are one of the easiest ways to create errors or trigger IRS letters later.</p>",
+          "<ul>",
+          "<li><strong>Identity basics:</strong> Social Security numbers (or ITINs) for you, spouse, and dependents + date of birth.</li>",
+          "<li><strong>Income forms:</strong> W-2s, 1099-NEC/1099-MISC (contract work), 1099-INT/DIV, 1099-R (retirement), SSA-1099 (Social Security), unemployment documents, and any other year-end income statements.</li>",
+          "<li><strong>Business info (if self-employed):</strong> total income, expenses, mileage, receipts, and a rough profit/loss summary (even if it’s not perfect yet).</li>",
+          "<li><strong>Common deductions/credits:</strong> mortgage interest (1098), property tax totals, student loan interest (1098-E), education forms (1098-T), childcare provider info, and health insurance forms (like 1095-A if applicable).</li>",
+          "<li><strong>Banking info:</strong> routing + account numbers for direct deposit (refunds) or direct debit (payments).</li>",
+          "</ul>",
+          "<p><strong>Pro tip:</strong> If you’re still waiting on a form (or expecting a corrected 1099), consider holding off a few days rather than rushing to file and then amending later.</p>",
+
+          "<h2>Important 2025 Filing Notes: New Law Changes That May Affect Individuals</h2>",
+          "<p>Last year’s <strong>One, Big, Beautiful Bill Act</strong> introduced several tax changes that take effect for <strong>2025</strong> returns (the ones being filed now).</p>",
+          "<p>Depending on your situation, these may impact your refund, your tax due, and the documents you’ll want to double-check before filing:</p>",
+          "<ul>",
+          "<li><strong>Standard deduction updates</strong> (amounts changed for 2025).</li>",
+          "<li><strong>New/expanded deductions</strong> for certain seniors (65+), qualified tips, and qualified overtime (eligibility rules and phase-outs apply).</li>",
+          "<li><strong>Vehicle loan interest deduction</strong> for certain eligible loans (limits and eligibility rules apply).</li>",
+          "<li><strong>1099-K reporting changes</strong> affecting some payment apps/marketplaces — but remember, taxable income is still taxable even if a form isn’t issued.</li>",
+          "</ul>",
+          "<p>If your income looks “similar to last year” but your return feels different, this is likely why.</p>",
+
+          "<h2>If You Owe the IRS: Your 3 Main Paths (and the Pros/Cons)</h2>",
+          "<p>If you owe, you still have options. The best one depends on your cash flow, how much you owe, and whether you can stay compliant going forward.</p>",
+
+          "<h3>Option 1) Pay in full (best if you can)</h3>",
+          "<p><strong>Pros:</strong> Cleanest outcome. Stops additional penalties/interest from continuing to build once paid. No payment plan setup fees. You’re done.</p>",
+          "<p><strong>Cons:</strong> Requires liquidity. If paying in full would create hardship, it may not be the smartest short-term move.</p>",
+
+          "<h3>Option 2) Set up a payment plan (if you can’t pay all at once)</h3>",
+          "<p>The IRS typically offers:</p>",
+          "<ul>",
+          "<li><strong>Short-term plan:</strong> pay the balance in 180 days or less.</li>",
+          "<li><strong>Long-term plan:</strong> monthly payments (installment agreement).</li>",
+          "</ul>",
+          "<p><strong>Pros:</strong> Provides structure and breathing room. Helps you avoid “do nothing” (which is usually the worst choice).</p>",
+          "<p><strong>Cons:</strong> Penalties and interest generally continue until the balance is fully paid. There may be setup fees depending on the type of plan and how it’s established.</p>",
+          "<p><strong>Important:</strong> In many cases, you’ll need to be current on required filings before the IRS will consider certain payment plans.</p>",
+
+          "<h3>Option 3) File an extension (extra time to file — not extra time to pay)</h3>",
+          "<p>If you’re missing documents or need time to file correctly, you can request an extension (generally gives you until October).</p>",
+          "<p><strong>Pros:</strong> Reduces the risk of filing an inaccurate return just to hit the deadline. Prevents the late-filing penalty <em>if</em> the extension is filed on time.</p>",
+          "<p><strong>Cons:</strong> It’s <strong>not</strong> an extension to pay. If you owe, you should still estimate and pay by the normal deadline to reduce interest and penalties.</p>",
+
+          "<h2>If You Have Unfiled Returns from Prior Years</h2>",
+          "<p>This is extremely common for self-employed people, owner-operators, and small business owners. The key is to handle it in the right order.</p>",
+          "<h3>Step 1: Get your income records together</h3>",
+          "<p>If you’re missing documents, you can often use IRS transcripts (including wage and income information) to rebuild what was reported under your SSN/ITIN.</p>",
+
+          "<h3>Step 2: File the missing years (don’t guess)</h3>",
+          "<p>Filing late returns is usually better than waiting. It can also protect potential refunds or credits that can expire if you wait too long.</p>",
+
+          "<h3>Step 3: Then deal with balances and resolution options</h3>",
+          "<p>Many IRS payment options require you to be current on filing. Once the missing years are filed, you can make an informed plan for paying, negotiating, or resolving the balance based on your real numbers.</p>",
+
+          "<h2>Need Help? We Can Help You File (and Make a Plan)</h2>",
+          "<p>If you’re self-employed, have complicated income, owe the IRS, or have multiple unfiled years, it’s worth getting professional eyes on the situation before it escalates.</p>",
+          "<p><strong>Wynn Tax Solutions</strong> can help you:</p>",
+          "<ul>",
+          "<li>Get organized with a clear document checklist</li>",
+          "<li>File current and prior-year returns correctly</li>",
+          "<li>Understand whether paying in full, a payment plan, or another strategy fits your situation</li>",
+          "</ul>",
+          "<p><strong>Contact us</strong> to get started.</p>",
+          "<p><em>Disclaimer:</em> This article is general information, not tax or legal advice. Every situation is different. Talk to a qualified professional about your specific facts.</p>",
+        ],
+      },
+      {
         id: "irs-opens-filing-season-jan-26-2026-obbba-individual-changes",
         title:
           "IRS Opens the 2026 Filing Season on Jan. 26: What to Do Now + Key Individual Changes Under the One, Big, Beautiful Bill Act",
