@@ -178,14 +178,30 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
  * Mobile: Static image with embedded form (no popup friction)
  */
 const HeroSection = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  // Start as null to prevent flash - we don't know viewport yet
+  const [isMobile, setIsMobile] = useState(null);
 
-  // Handle resize
+  // Determine viewport AFTER mount (client-side only)
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+
+    // Set initial value
+    checkMobile();
+
+    // Listen for resize
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Don't render until we know the viewport
+  // Show a simple placeholder that matches desktop layout to prevent layout shift
+  if (isMobile === null) {
+    return (
+      <div className="hero-container hero-loading">
+        <div className="hero-placeholder" />
+      </div>
+    );
+  }
 
   // ========== MOBILE: Embedded form in hero ==========
   if (isMobile) {
