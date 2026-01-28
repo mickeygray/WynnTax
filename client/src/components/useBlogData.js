@@ -9,7 +9,7 @@ const useBlogData = () => {
         id: "possible-government-shutdown-tax-season-what-to-do-now",
         title:
           "Possible Government Shutdown: What It Could Mean for Tax Season (and Why You Should Prepare Right Now)",
-        image: "/images/gov_shutdown_tax_season.png",
+        image: "/images/gov_shutdown_tax-season.png",
         teaser:
           "With a late-January funding deadline, a partial government shutdown is possible right as tax season gets underway. Here’s what a shutdown could mean for IRS services, what happened during the 2025 shutdown, and why getting your documents together now matters—especially if you already owe.",
         contentTitle:
