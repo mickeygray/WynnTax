@@ -6,6 +6,78 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "possible-government-shutdown-tax-season-what-to-do-now",
+        title:
+          "Possible Government Shutdown: What It Could Mean for Tax Season (and Why You Should Prepare Right Now)",
+        image: "/images/gov_shutdown_tax_season.png",
+        teaser:
+          "With a late-January funding deadline, a partial government shutdown is possible right as tax season gets underway. Here’s what a shutdown could mean for IRS services, what happened during the 2025 shutdown, and why getting your documents together now matters—especially if you already owe.",
+        contentTitle:
+          "Possible Government Shutdown: What It Could Mean for Tax Season (and Why You Should Prepare Right Now)",
+        contentBody: [
+          "<h2>Tax Season Is Open — and a Shutdown Risk Is On the Calendar</h2>",
+          "<p>The IRS has officially opened the 2026 filing season and is accepting and processing federal individual tax returns for <strong>tax year 2025</strong>.</p>",
+          "<p>At the same time, there’s a real risk of a <strong>partial government shutdown</strong> if Congress doesn’t finalize funding by the end of January. We’re not here to debate the politics — we’re here to talk about what it could mean for <strong>you</strong> and your taxes.</p>",
+          "<p><strong>Bottom line:</strong> If a shutdown happens, it can slow down IRS services at the exact time millions of people are trying to file. That’s why <strong>now</strong> is the time to get organized — not next week, not “when you feel like it.”</p>",
+
+          "<h2>What a Government Shutdown Can Mean for Tax Season</h2>",
+          "<p>In a shutdown, many federal operations pause or go into limited mode. For taxpayers, the biggest concern is usually this: <strong>you still have deadlines, but you may have fewer ways to get help</strong>.</p>",
+          "<p>Based on what the IRS has said in prior shutdown guidance, a shutdown can mean:</p>",
+          "<ul>",
+          "<li><strong>Limited IRS phone support</strong> (automated systems may still work, but live help can be reduced).</li>",
+          "<li><strong>Taxpayer Assistance Centers (walk-in offices) can close</strong>, and appointments can be canceled.</li>",
+          "<li><strong>Paper returns and paper correspondence can stack up</strong>, which may create backlog and longer response times later.</li>",
+          "<li><strong>Refund timing can be impacted</strong> — especially for situations that require manual review or paper processing.</li>",
+          "</ul>",
+          "<p>This is the part people miss: <strong>a shutdown does not automatically pause the tax law.</strong> Filing and paying obligations generally still apply.</p>",
+
+          "<h2>What Happened to the IRS During the 2025 Shutdown</h2>",
+          "<p>The most recent shutdown lasted <strong>43 days</strong> (from <strong>Oct. 1 through Nov. 12, 2025</strong>). During that period, the IRS publicly stated that operations were <strong>limited</strong>, but tax obligations and deadlines remained in effect.</p>",
+          "<p>Here are a few key takeaways from IRS shutdown statements and resumption guidance:</p>",
+          "<ul>",
+          "<li><strong>Deadlines still applied.</strong> The IRS emphasized that taxpayers still had to file and pay as normal.</li>",
+          "<li><strong>In-person help was disrupted.</strong> Taxpayer Assistance Centers were closed and appointments were canceled.</li>",
+          "<li><strong>Refunds were restricted.</strong> The IRS noted that refunds generally wouldn’t be paid during the lapse, with an exception for certain electronically filed, error-free returns that could be automatically processed and direct deposited.</li>",
+          "<li><strong>Payments were still accepted.</strong> The IRS continued accepting and processing payments received electronically or by mail.</li>",
+          "<li><strong>Collections didn’t vanish.</strong> The IRS later clarified that limited operations continued to protect government revenue and statutory deadlines, and some collection-related actions and timelines still moved forward.</li>",
+          "</ul>",
+
+          "<h2>How Long Did It Take the IRS to Get Back to Full Operations?</h2>",
+          "<p>After the shutdown ended on <strong>Nov. 12, 2025</strong>, the IRS announced it had resumed <strong>normal operations</strong> on <strong>Nov. 19, 2025</strong> — about a week later.</p>",
+          "<p>But “open” doesn’t mean “caught up.” The IRS also warned that rescheduling appointments and working through backlogs would take time, especially in areas like collections, exams, and taxpayer advocate casework.</p>",
+
+          "<h2>What This Means If You’re Already Filing Late or You Already Owe</h2>",
+          "<p>If you’re behind on tax filings or you already have IRS debt, a shutdown can be a double problem:</p>",
+          "<ul>",
+          "<li><strong>Less access to help + longer response times</strong> when you’re trying to fix something quickly.</li>",
+          "<li><strong>Penalties and interest don’t “pause” just because the government is shut down.</strong> The IRS later clarified that failure-to-file and failure-to-pay penalties are charged from the due date until paid.</li>",
+          "<li><strong>Waiting can reduce your choices.</strong> The more time passes, the more likely notices escalate and the more expensive it can become to get current.</li>",
+          "</ul>",
+          "<p>If you’ve been telling yourself, “I’ll deal with it after things calm down,” this is your reminder: <strong>calm might not come on your timeline.</strong></p>",
+
+          "<h2>What to Do Right Now</h2>",
+          "<p>Here’s the practical checklist. You can do this today:</p>",
+          "<ul>",
+          "<li><strong>Gather your tax documents:</strong> W-2s, 1099s, business income/expense records, mortgage interest (1098), and any key deduction/credit items.</li>",
+          "<li><strong>Get organized even if you’re missing a form:</strong> don’t wait to start the process.</li>",
+          "<li><strong>Prioritize filing if you owe:</strong> filing matters even if you can’t pay in full right away.</li>",
+          "<li><strong>If you have unfiled years:</strong> make a plan to file missing returns in the correct order, using transcripts and records where needed.</li>",
+          "</ul>",
+          "<p><strong>The theme is simple:</strong> speed and organization protect you when systems slow down.</p>",
+
+          "<h2>How Wynn Tax Solutions Can Help</h2>",
+          "<p>If you’re dealing with IRS debt, unfiled returns, or notices — we can help you build a plan and move forward.</p>",
+          "<ul>",
+          "<li><strong>Free initial call</strong> to understand your situation and your options</li>",
+          "<li>Help getting organized for filing (current year and/or past due years)</li>",
+          "<li>Guidance on next steps if you owe or you’re already in collections</li>",
+          "<li>If you hire us, we can communicate with the IRS <strong>with proper authorization</strong> and implement the plan</li>",
+          "</ul>",
+          "<p><strong>Don’t wait for “after the shutdown,” “after the deadline,” or “after the next letter.”</strong> Now is the time to get ahead of it.</p>",
+          "<p><em>Disclaimer:</em> This article is general information, not tax or legal advice. Every situation is different.</p>",
+        ],
+      },
+      {
         id: "irs-now-accepting-2025-returns-what-to-file-what-if-you-owe-catch-up",
         title:
           "IRS Is Now Accepting 2025 Tax Returns: What You Need to File, What to Do If You Owe, and How to Catch Up",
