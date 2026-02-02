@@ -7,7 +7,6 @@ import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 
 /**
  * EmbeddedLeadForm - Reusable form component
- * Used on mobile home page and landing pages
  */
 export const EmbeddedLeadForm = ({ variant = "default" }) => {
   const navigate = useNavigate();
@@ -174,39 +173,14 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
 
 /**
  * HeroSection - Home page hero
- * Desktop: Video background with CTA buttons (Stewart handles consultation)
- * Mobile: Static image with embedded form (no popup friction)
+ * Renders BOTH mobile and desktop versions, CSS handles visibility
+ * This prevents hydration mismatch and flash
  */
 const HeroSection = () => {
-  // Start as null to prevent flash - we don't know viewport yet
-  const [isMobile, setIsMobile] = useState(null);
-
-  // Determine viewport AFTER mount (client-side only)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-
-    // Set initial value
-    checkMobile();
-
-    // Listen for resize
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Don't render until we know the viewport
-  // Show a simple placeholder that matches desktop layout to prevent layout shift
-  if (isMobile === null) {
-    return (
-      <div className="hero-container hero-loading">
-        <div className="hero-placeholder" />
-      </div>
-    );
-  }
-
-  // ========== MOBILE: Embedded form in hero ==========
-  if (isMobile) {
-    return (
-      <div className="hero-container hero-mobile-form">
+  return (
+    <>
+      {/* ========== MOBILE VERSION - CSS shows only on mobile ========== */}
+      <div className="hero-container hero-mobile-version">
         <img
           src="/images/hero-8.png"
           alt="Wynn Tax Solutions"
@@ -220,7 +194,6 @@ const HeroSection = () => {
             Individual and Business Tax Consulting
           </p>
 
-          {/* Embedded form - no popup */}
           <EmbeddedLeadForm variant="mobile-hero" />
 
           <Link to="/our-tax-services" className="hero-services-link">
@@ -228,37 +201,35 @@ const HeroSection = () => {
           </Link>
         </div>
       </div>
-    );
-  }
 
-  // ========== DESKTOP: Video hero with Stewart hint ==========
-  return (
-    <div className="hero-container">
-      <video autoPlay muted loop className="hero-video">
-        <source src="/images/Wynn-Hero-01.mp4" type="video/mp4" />
-        Your browser does not support the video tag!
-      </video>
+      {/* ========== DESKTOP VERSION - CSS shows only on desktop ========== */}
+      <div className="hero-container hero-desktop-version">
+        <video autoPlay muted loop playsInline className="hero-video">
+          <source src="/images/Wynn-Hero-01.mp4" type="video/mp4" />
+          Your browser does not support the video tag!
+        </video>
 
-      <div className="hero-content">
-        <h1 className="hero-title">Wynn Tax Solutions</h1>
-        <h3 className="hero-subtitle">
-          <strong>Individual and Business Tax Consulting</strong>
-          <br />
-          <br />
-          We work with businesses and individuals from all over the U.S.
-          providing comprehensive and tailored solutions.
-        </h3>
+        <div className="hero-content">
+          <h1 className="hero-title">Wynn Tax Solutions</h1>
+          <h3 className="hero-subtitle">
+            <strong>Individual and Business Tax Consulting</strong>
+            <br />
+            <br />
+            We work with businesses and individuals from all over the U.S.
+            providing comprehensive and tailored solutions.
+          </h3>
 
-        <div className="hero-buttons">
-          <Link to="/our-tax-services" className="hero-btn">
-            <i className="fa-solid fa-folder"></i> OUR TAX SERVICES
-          </Link>
-          <Link to="/qualify-now" className="hero-btn hero-consultation-btn">
-            <i className="fa-solid fa-phone"></i> FREE CONSULTATION
-          </Link>
+          <div className="hero-buttons">
+            <Link to="/our-tax-services" className="hero-btn">
+              <i className="fa-solid fa-folder"></i> OUR TAX SERVICES
+            </Link>
+            <Link to="/qualify-now" className="hero-btn hero-consultation-btn">
+              <i className="fa-solid fa-phone"></i> FREE CONSULTATION
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
