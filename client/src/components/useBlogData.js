@@ -6,6 +6,83 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "1099-filing-tips-2025-return",
+        title:
+          "Best Tips for Filing Your 1099 Taxes This Year (2025 Return): What to Gather, What Changed, and How to Avoid Surprises",
+        image: "/images/1099-filing-tips.png",
+        teaser:
+          "If you’re a 1099 contractor, gig worker, or small business owner, filing taxes can feel messy—until you break it into a simple checklist. Here are the best tips for filing your 2025 return, including what to track, what forms matter, and a key 1099-K reporting change that affects payment apps and online marketplaces.",
+        contentTitle:
+          "Best Tips for Filing Your 1099 Taxes This Year (2025 Return): What to Gather, What Changed, and How to Avoid Surprises",
+        contentBody: [
+          "<p><em>Quick note:</em> When people say “filing a 1099,” they usually mean filing taxes <strong>as a 1099 worker</strong> (self-employed/independent contractor). This article is general information, not tax or legal advice.</p>",
+
+          "<h2>1) Start with the right mindset: 1099 income isn’t taxed the same way as a paycheck</h2>",
+          "<p>With W-2 income, taxes are usually withheld automatically. With 1099 income, you’re often responsible for tracking income and expenses, then reporting the net result on your return. Most 1099 filers report business income and expenses on <strong>Schedule C</strong>, and that can also affect self-employment tax calculations.</p>",
+
+          "<h2>2) Gather every form you received — but don’t rely on forms alone</h2>",
+          "<p>Common forms for 1099 earners include <strong>1099-NEC</strong> (contract work), <strong>1099-MISC</strong> (various nonemployee payments), and <strong>1099-K</strong> (payments processed through card processors and some payment apps/marketplaces). Schedule C instructions specifically call out that certain amounts shown on forms like 1099-MISC, 1099-NEC, and 1099-K can be reported on Schedule C.</p>",
+
+          "<p><strong>Pro tip:</strong> Reconcile your forms to your own records (bank deposits, invoices, payment app history). The IRS expects you to report taxable income whether or not every dollar shows up on a form.</p>",
+
+          "<h2>3) Important change: the 1099-K rule shifted again — know the current threshold</h2>",
+          "<p>If you get paid through certain apps or online marketplaces, you might receive a <strong>Form 1099-K</strong>. Under the current federal rules described by the IRS, third-party settlement organizations generally aren’t required to issue a 1099-K unless payments exceed <strong>$20,000</strong> and there are <strong>more than 200 transactions</strong> (though a platform may still send one at lower amounts).</p>",
+
+          "<p>Also: if you take direct card payments (credit/debit) through a processor, the IRS notes you can receive a 1099-K regardless of the number or dollar amount of payments. Bottom line: track your income even if you don’t “expect” a form.</p>",
+
+          "<h2>4) Track income the simple way: pick one system and stick to it</h2>",
+          "<p>The best system is the one you’ll actually use. For most 1099 filers, this is enough:</p>",
+          "<ul>",
+          "<li>One business checking account (even if you’re a sole prop)</li>",
+          "<li>A monthly “money check-in” date (30 minutes)</li>",
+          "<li>A place for receipts (folder, envelope, or an app)</li>",
+          "<li>A basic spreadsheet or bookkeeping tool with categories (income + expenses)</li>",
+          "</ul>",
+          "<p>This isn’t about perfection. It’s about being able to explain your numbers if you ever need to.</p>",
+
+          "<h2>5) Don’t miss the deductions that usually matter most for 1099 work</h2>",
+          "<p>Most 1099 earners reduce taxable income by claiming ordinary business expenses. Common categories people forget or under-document include:</p>",
+          "<ul>",
+          "<li>Vehicle use (mileage or actual expenses)</li>",
+          "<li>Supplies and small tools</li>",
+          "<li>Phone/internet (business portion)</li>",
+          "<li>Software subscriptions</li>",
+          "<li>Insurance related to the work</li>",
+          "<li>Home office (if you truly qualify)</li>",
+          "</ul>",
+
+          "<h2>6) Mileage: use the correct rate for the year you drove</h2>",
+          "<p>If you deduct business mileage, use the IRS standard mileage rate for the year the miles were driven. The IRS lists the <strong>2025</strong> standard mileage rate for self-employed and business use as <strong>70 cents per mile</strong>.</p>",
+
+          "<h2>7) Expect a “surprise balance” if you didn’t set aside taxes — and plan for it early</h2>",
+          "<p>This is where most 1099 taxpayers get burned: the work went great, but nothing was withheld. If you owe, you typically have a few paths:</p>",
+          "<ul>",
+          "<li><strong>Pay in full</strong> (cleanest if it’s affordable)</li>",
+          "<li><strong>Payment plan</strong> (more manageable cash flow)</li>",
+          "<li><strong>Extension to file</strong> (extra time to file paperwork — but it usually doesn’t stop money from being due)</li>",
+          "</ul>",
+          "<p>The key is not waiting until the deadline week to figure this out.</p>",
+
+          "<h2>8) If you’re already dealing with IRS debt, filing matters even more</h2>",
+          "<p>If you already owe from prior years, the smartest move is usually to get organized and file correctly for the current year. In many IRS resolution situations, staying current with required filings is part of getting (and keeping) relief options on the table.</p>",
+
+          "<h2>9) The easiest way to reduce stress: start now and don’t guess</h2>",
+          "<p>The IRS encourages taxpayers to take steps early to prepare for filing season—gather documents, review changes, and use online tools when appropriate. That’s especially important for 1099 income, where your filing quality depends on your records.</p>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re 1099 and you’re behind, overwhelmed, or already getting IRS notices, we can help you get organized and map a realistic plan. We offer a <strong>free call</strong> to review your situation and next steps.</p>",
+          "<p><strong>Call Wynn Tax Solutions</strong> today or visit <strong>WynnTaxSolutions.com</strong> to get started.</p>",
+
+          "<hr/>",
+
+          "<h2>Facebook post</h2>",
+          "<p><strong>1099 this year?</strong> Here’s the simple truth: your taxes only feel complicated when your records are scattered. Start with the basics—1099s, bank deposits, mileage, and your main expenses—then build your return from there.</p>",
+          "<p>One big update to be aware of: <strong>1099-K reporting rules for payment apps/marketplaces</strong> have shifted again, so don’t assume “no form” means “no reporting.” Keep clean records either way.</p>",
+          "<p>If you owe and can’t pay in full, don’t panic—and don’t ignore it. Filing correctly and choosing the right next step can prevent a small problem from turning into collections.</p>",
+          "<p><strong>Need help?</strong> Call Wynn Tax Solutions for a free review or visit <strong>WynnTaxSolutions.com</strong>.</p>",
+        ],
+      },
+      {
         id: "possible-government-shutdown-tax-season-what-to-do-now",
         title:
           "Possible Government Shutdown: What It Could Mean for Tax Season (and Why You Should Prepare Right Now)",
