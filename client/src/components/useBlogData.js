@@ -6,6 +6,78 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "live-work-different-states-surprise-tax-bill",
+        title:
+          "Live in One State, Work in Another? Here’s How Blue-Collar Workers End Up Owing Taxes They Didn’t Expect",
+        image: "/images/live-work-different-states.png",
+        teaser:
+          "If you cross state lines for work — trucking, construction, field service, owner-operator, or side jobs — you can end up owing state taxes you didn’t even know were coming. Here’s why it happens, how to avoid the surprise bill, and what to do if you’re already getting notices.",
+        contentTitle:
+          "Live in One State, Work in Another? Here’s How Blue-Collar Workers End Up Owing Taxes They Didn’t Expect",
+        contentBody: [
+          "<p><em>Quick note:</em> This is general information, not tax or legal advice. State rules vary, and the right answer depends on where you live, where the work happens, and how you’re paid.</p>",
+
+          "<h2>Why this happens (the simple version)</h2>",
+          "<p>If you live in State A and earn money in State B, it can trigger a two‑state tax situation. In many cases, you may need:</p>",
+          "<ul>",
+          "<li>A <strong>resident return</strong> where you live (State A), and</li>",
+          "<li>A <strong>nonresident return</strong> where you worked/earned income (State B).</li>",
+          "</ul>",
+          "<p>Most of the time, your home state may offer some form of credit for taxes you paid to another state — but it’s not automatic. If you don’t file correctly, or your withholding is wrong, you can get hit with a surprise balance.</p>",
+
+          "<h2>The most common blue-collar scenarios we see</h2>",
+
+          "<h3>1) “I live here: my job is over there.” (W‑2 cross‑border workers)</h3>",
+          "<p>This is common near state lines. You work in one state, live in another, and payroll withholds taxes in the wrong place — or not enough in the right place. When you file, you suddenly owe your home state, even though money was already taken out of your check.</p>",
+          "<p><strong>Red flag:</strong> your paystub shows withholding for a state you don’t live in, or you moved and payroll never updated it.</p>",
+
+          "<h3>2) Traveling jobs: construction, shutdown work, storm work, field service</h3>",
+          "<p>If you pick up a job site out of state (even short-term), that state may treat the wages as “earned there.” That can mean a nonresident return. If nothing was withheld for that state, the bill shows up at filing time.</p>",
+
+          "<h3>3) Sole prop / owner‑operator / 1099 jobs across state lines</h3>",
+          "<p>If you’re self‑employed and you do jobs in another state — deliveries, installs, mobile repair, contracting work, side jobs — you may create a filing obligation in that state depending on their rules. It’s easy to miss because nobody is “withholding” for you, and you’re focused on getting the work done.</p>",
+          "<p><strong>What makes it worse:</strong> you may be trying to file quickly, your records aren’t organized, and you don’t have clean totals by location.</p>",
+
+          "<h3>4) Truck drivers: why it can be different</h3>",
+          "<p>For many <strong>employee</strong> drivers who operate in multiple states, federal law limits certain state income tax withholding and reporting to the driver’s state of residence. But not every driver situation is identical — owner‑operators, mixed income, or work performed at specific locations can change the analysis.</p>",
+          "<p><strong>Bottom line:</strong> don’t guess based on what your buddy does — confirm your situation before you file.</p>",
+
+          "<h2>What about reciprocity agreements?</h2>",
+          "<p>Some neighboring states have <strong>reciprocity agreements</strong> so commuters aren’t taxed twice on the same wages. But reciprocity usually isn’t automatic — you may need to file a form with payroll to have the correct state withholding. If you don’t, you can end up filing extra returns and waiting on refunds.</p>",
+
+          "<h2>How to avoid the surprise tax bill (simple checklist)</h2>",
+          "<ul>",
+          "<li><strong>Check your paystub</strong>: which state is withholding coming out for?</li>",
+          "<li><strong>Track where the work was performed</strong> (job site, route, or customer location) — especially for 1099 work.</li>",
+          "<li><strong>Keep your records clean</strong>: income, expenses, mileage, and job locations.</li>",
+          "<li><strong>Don’t assume “it’ll wash out”</strong> — credits and reciprocity rules can be tricky.</li>",
+          "<li><strong>If you moved during the year</strong>, your filings can change — update payroll right away.</li>",
+          "</ul>",
+
+          "<h2>What to do if you already owe (or you got a notice)</h2>",
+          "<p>If you get a tax bill you didn’t expect — or a notice from a state or the IRS — the worst move is ignoring it. Notices often have deadlines, and waiting can add penalties, interest, and escalation.</p>",
+          "<p>Start by figuring out:</p>",
+          "<ul>",
+          "<li>Which state(s) you actually owe and why</li>",
+          "<li>Whether a return was missed or filed incorrectly</li>",
+          "<li>Whether the issue is withholding, residency, or income allocation</li>",
+          "</ul>",
+          "<p>If you owe and can’t pay in full, you may still have options — but getting organized early matters.</p>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re dealing with multi‑state work, 1099 income, unfiled years, or tax notices, we can help you get organized and build a plan. The first step is a <strong>free review call</strong> so you can understand what’s happening and what to do next.</p>",
+          "<p><strong>Call Wynn Tax Solutions</strong> or visit <strong>WynnTaxSolutions.com</strong>.</p>",
+
+          "<hr/>",
+
+          "<h2>Facebook post</h2>",
+          "<p><strong>Live in one state and work in another?</strong> That’s one of the easiest ways to end up owing taxes you didn’t see coming — especially if you’re blue‑collar, traveling for jobs, or picking up 1099 work across state lines.</p>",
+          "<p>Here’s why it happens: one state may tax where you <em>live</em>, another may tax where you <em>earned</em> the money — and if withholding or filing is off, the bill shows up at the worst time.</p>",
+          "<p>If you got a notice or you’re worried you filed wrong, don’t guess. We offer a <strong>free review call</strong> to help you understand what’s going on and what to do next.</p>",
+          "<p>WynnTaxSolutions.com</p>",
+        ],
+      },
+      {
         id: "1099-filing-tips-2025-return",
         title:
           "Best Tips for Filing Your 1099 Taxes This Year (2025 Return): What to Gather, What Changed, and How to Avoid Surprises",
