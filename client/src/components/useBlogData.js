@@ -6,6 +6,87 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-collection-notices-cp14-cp501-cp503-cp504-lt11-1058",
+        title:
+          "IRS Collection Notices Explained: CP14, CP501, CP503, CP504, LT11 — and What to Do If You Owe",
+        image: "/images/irs-collection-notices.png",
+        teaser:
+          "If you owe the IRS, you’ll usually see a series of balance-due and collection notices that escalate over time. Here’s what the most common letters mean (CP14 through CP504, LT11/Letter 1058), what you might see next, and the safest way to respond without making things worse.",
+        contentTitle:
+          "IRS Collection Notices Explained: CP14, CP501, CP503, CP504, LT11 — and What to Do If You Owe",
+        contentBody: [
+          "<p><em>Quick note:</em> This article is general information, not tax or legal advice. IRS notices can vary by situation and tax type. If you received a notice with a deadline, treat it as time-sensitive.</p>",
+
+          "<h2>First: make sure the notice is real</h2>",
+          "<p>Before you panic or send money anywhere, confirm it’s a legitimate IRS notice. Real IRS notices typically arrive by mail, and you can look up most notice/letter types by the code in the top corner (CP, LT, or Letter number).</p>",
+          "<ul>",
+          "<li><strong>Find the notice code</strong> (example: CP14, CP504, LT11, Letter 1058) in the upper right corner.</li>",
+          "<li><strong>Verify it</strong> by searching the code on the IRS “Understanding your notice or letter” page.</li>",
+          "<li><strong>Be careful with texts</strong>: the IRS does not send text messages without your permission.</li>",
+          "</ul>",
+
+          "<h2>The “notice stream” when you owe: what usually happens</h2>",
+          "<p>Most taxpayers who owe will see an escalation pattern. The timing can vary, but the general idea is: a bill, reminders, then stronger collection warnings if nothing changes.</p>",
+
+          "<h3>CP14: the first balance-due bill</h3>",
+          "<p><strong>What it means:</strong> CP14 is often the first notice that says the IRS believes you owe a balance for a tax year. It tells you how much is due and gives payment options.</p>",
+          "<p><strong>What to do:</strong> (1) Confirm the tax year and amount, (2) pay what you can, (3) set up a payment plan if you can’t pay in full, or (4) contact the IRS if you disagree.</p>",
+
+          "<h3>CP501: reminder notice (you still owe)</h3>",
+          "<p><strong>What it means:</strong> CP501 is a reminder that the IRS has not received payment or a response for a balance due.</p>",
+          "<p><strong>Why it matters:</strong> It’s still “early,” but the balance is continuing to grow with penalties and interest, and the IRS is documenting that you were notified.</p>",
+
+          "<h3>CP503: second reminder (the tone gets sharper)</h3>",
+          "<p><strong>What it means:</strong> CP503 is essentially a stronger follow-up saying the IRS still hasn’t heard from you.</p>",
+          "<p><strong>What can happen next:</strong> If you don’t respond, you may be at higher risk of lien-related action later in the process.</p>",
+
+          "<h3>CP504: Notice of Intent to Levy (serious escalation)</h3>",
+          "<p><strong>What it means:</strong> CP504 is a Notice of Intent to Levy (collection escalation). It warns the IRS may levy wages, bank accounts, and/or seize other property rights (including state refunds).</p>",
+          "<p><strong>Important nuance:</strong> CP504 is extremely serious — but it is not always the “last step” before levy. The IRS generally must still issue a formal final notice that includes your right to a Collection Due Process hearing before certain levy actions.</p>",
+          "<p><strong>What to do:</strong> Don’t ignore it. The safest move is to respond quickly and work toward a payment plan or other resolution path.</p>",
+
+          "<h2>The “final notice” you should not ignore: LT11 / Letter 1058</h2>",
+          "<p><strong>What it means:</strong> LT11 (or Letter 1058) is one of the most important letters in the collection process. It states the IRS intends to seize (levy) your property or rights to property if you do not respond.</p>",
+          "<p><strong>Why it matters:</strong> This is the stage where you can have strong appeal rights. In many cases, you have a limited window (often 30 days from the date of the letter) to request a Collection Due Process hearing.</p>",
+
+          "<h2>Other common IRS mail you might see if you owe</h2>",
+
+          "<h3>Letter 3172: Notice of Federal Tax Lien Filing</h3>",
+          "<p><strong>What it means:</strong> This letter generally notifies you that the IRS filed a Notice of Federal Tax Lien (NFTL) and tells you about your hearing rights. Liens can affect credit and create real-world friction even if nothing is being seized yet.</p>",
+
+          "<h3>CP523: your installment agreement is in default</h3>",
+          "<p><strong>What it means:</strong> If you already had a payment plan and missed payments (or otherwise defaulted), CP523 warns the IRS intends to terminate the agreement and may resume collection actions, including levies.</p>",
+          "<p><strong>What to do:</strong> This is a “fix it now” letter — it’s often easier to reinstate or repair an agreement before it’s terminated than after collection restarts.</p>",
+
+          "<h3>CP71 (annual reminder): you still owe</h3>",
+          "<p><strong>What it means:</strong> Some taxpayers receive annual reminder notices showing an unpaid balance remains on file. It can feel repetitive, but it is a signal the account is still unresolved.</p>",
+
+          "<h3>CP90 / CP91: specialty “final notice” scenarios</h3>",
+          "<p><strong>What it means:</strong> You may also see other final notice types depending on how the IRS is collecting. For example, CP90 is a final notice of intent to levy with hearing rights, and CP91 is a notice related to levying Social Security benefits (up to a percentage) in certain cases.</p>",
+
+          "<h2>What to do when you receive ANY IRS collection notice</h2>",
+          "<ol>",
+          "<li><strong>Open it immediately.</strong> The worst-case scenario is letting deadlines expire.</li>",
+          "<li><strong>Verify the notice code and tax year.</strong> Make sure it matches what you think you filed/owed.</li>",
+          "<li><strong>Don’t ignore it because you can’t pay.</strong> You can often set up a payment plan, and even partial payments can reduce future penalties and interest.</li>",
+          "<li><strong>Keep proof of payments and filings.</strong> If you paid already, gather evidence (bank confirmation, IRS payment record, canceled check).</li>",
+          "<li><strong>Get help if it’s escalating.</strong> If you’re seeing CP504, LT11/1058, or a lien letter, it’s time to take it seriously and get a plan in motion.</li>",
+          "</ol>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re receiving IRS collection notices — especially CP504, LT11/Letter 1058, or lien-related letters — the goal is to stop the spiral and move toward a structured solution. We can help you understand what the notice means, what your options are, and what the next best step is.</p>",
+          "<p><strong>Call Wynn Tax Solutions</strong> for a free review call. If it makes sense, we can speak to the IRS on your behalf and work toward the best available resolution option.</p>",
+
+          "<hr/>",
+
+          "<h2>Facebook post</h2>",
+          "<p><strong>Got an IRS collection notice?</strong> Don’t ignore it — the letters usually escalate over time.</p>",
+          "<p>Common notices include CP14 (first bill), CP501/CP503 (reminders), CP504 (intent to levy), and LT11/Letter 1058 (final notice with important rights).</p>",
+          "<p>If you’re seeing CP504, LT11/1058, or a lien letter, that’s the moment to act — not “next week.”</p>",
+          "<p>We offer a <strong>free review call</strong> to help you understand what your notice means and what to do next. WynnTaxSolutions.com</p>",
+        ],
+      },
+      {
         id: "live-work-different-states-surprise-tax-bill",
         title:
           "Live in One State, Work in Another? Here’s How Blue-Collar Workers End Up Owing Taxes They Didn’t Expect",

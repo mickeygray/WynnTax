@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeroSection from "./HeroSection";
+import HeroSection from "./HeroSectionOld";
 import Main from "./Main";
 import Services from "./Services";
 import Testimonials from "./Testimonials";
