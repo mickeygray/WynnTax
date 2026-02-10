@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PhoneLink from "./PhoneLink";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+import ConsentNotice from "./ConsentNotice";
 
 /**
  * EmbeddedLeadForm - Same form, no JS viewport detection
@@ -166,6 +167,7 @@ const EmbeddedLeadForm = () => {
           >
             ← Back
           </button>
+          <ConsentNotice />
         </form>
       )}
     </div>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
-
+import ConsentNotice from "./ConsentNotice";
 /**
  * EmbeddedLeadForm - Reusable form component
  */
@@ -185,6 +185,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
           >
             ← Back
           </button>
+          <ConsentNotice />
         </form>
       )}
 
