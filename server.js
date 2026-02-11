@@ -19,6 +19,12 @@ const {
   generateAISummary,
   cleanupExpiredCodes,
 } = require("./utils/verification");
+const {
+  resolveUtm,
+  buildCasePayload,
+  createLogicsCase,
+  SOURCE_NAMES,
+} = require("./utils/irsLogicsService");
 
 /* -------------------------------------------------------------------------- */
 /*                           HANDLEBARS TEMPLATES                             */
@@ -28,12 +34,12 @@ const {
 const verificationTemplate = handlebars.compile(
   fs.readFileSync(
     path.join(__dirname, "library", "verification-email.hbs"),
-    "utf8"
-  )
+    "utf8",
+  ),
 );
 
 const welcomeTemplate = handlebars.compile(
-  fs.readFileSync(path.join(__dirname, "library", "welcome-email.hbs"), "utf8")
+  fs.readFileSync(path.join(__dirname, "library", "welcome-email.hbs"), "utf8"),
 );
 
 const formLimiter = rateLimit({
@@ -574,14 +580,13 @@ app.use(
   cors({
     origin: ["http://localhost:3000", "https://www.wynntaxsolutions.com"],
     credentials: true,
-  })
+  }),
 );
 
 /* -------------------------------------------------------------------------- */
 /*                            EXISTING FORM ROUTES                            */
 /* -------------------------------------------------------------------------- */
 
-// Contact Form (from original server)
 /**
  * POST /api/track-form-input
  * Track form inputs from any form (ContactUs, LandingPopup, etc.)
@@ -647,7 +652,7 @@ app.post("/api/track-form-input", async (req, res) => {
 
         console.log(
           `[TRACK-FORM] ${formType} - Updated abandoned submission:`,
-          existing._id
+          existing._id,
         );
       } else {
         // Create new
@@ -663,7 +668,7 @@ app.post("/api/track-form-input", async (req, res) => {
         await submission.save();
         console.log(
           `[TRACK-FORM] ${formType} - Saved abandoned submission:`,
-          submission._id
+          submission._id,
         );
       }
     } else {
@@ -685,7 +690,6 @@ app.post("/api/track-form-input", async (req, res) => {
 
 /**
  * Clear form tracking cookie when form is successfully submitted
- * Call this from your existing form submission routes
  */
 function clearFormTrackingCookie(res, formType) {
   const cookieName = `form_${formType}`;
@@ -697,9 +701,9 @@ function clearFormTrackingCookie(res, formType) {
   console.log(`[TRACK-FORM] Cleared ${formType} tracking cookie`);
 }
 
-// Example: Update your existing contact-form route
+// Contact Form
 app.post("/api/contact-form", formLimiter, async (req, res) => {
-  const { name, email, phone, message } = req.body;
+  const { name, email, phone, message, utm } = req.body;
 
   console.log("Contact Form Submission:", req.body);
 
@@ -709,38 +713,56 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
       .json({ error: "Name, email, and message are required!" });
   }
 
-  const mailOptions = {
-    from: "inquiry@WynnTaxSolutions.com",
-    to: "mgray@taxadvocategroup.com",
-    subject: `New Contact Form Submission from ${name}`,
-    text: `
-      Name: ${name}
-      Email: ${email}
-      Phone: ${phone || "Not provided"}
-      Message: ${message}
-    `,
-  };
-
   try {
+    const resolvedUtm = resolveUtm(utm, req);
+
+    const casePayload = buildCasePayload(
+      { name, email, phone, message },
+      resolvedUtm,
+    );
+
+    const logicsResult = await createLogicsCase(casePayload);
+    const caseId = logicsResult.caseId;
+
+    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
+
+    const mailOptions = {
+      from: "inquiry@WynnTaxSolutions.com",
+      to: "mgray@taxadvocategroup.com",
+      subject: `New Contact Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
+      text: `
+NEW CONTACT FORM SUBMISSION
+${"─".repeat(50)}
+
+Name:       ${name}
+Email:      ${email}
+Phone:      ${phone || "Not provided"}
+Message:    ${message}
+
+${"─".repeat(50)}
+Lead Source: ${sourceName}
+UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
+UTM Medium:  ${resolvedUtm.utmMedium || "N/A"}
+Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
+
+Logics CaseID: ${caseId || "Failed to create"}
+${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+      `.trim(),
+    };
+
     await transporter.sendMail(mailOptions);
 
-    // ✅ Clear tracking cookie on successful submission
     clearFormTrackingCookie(res, "contact-us");
 
-    // ✅ Update status in MongoDB if it exists
     const FormSubmission = require("./models/FormSubmission");
     await FormSubmission.updateOne(
-      {
-        formType: "contact-us",
-        "formData.email": email,
-        status: "abandoned",
-      },
+      { formType: "contact-us", "formData.email": email, status: "abandoned" },
       {
         $set: {
           status: "submitted",
           formData: { name, email, phone, message },
         },
-      }
+      },
     );
 
     res.status(200).json({ success: "Email sent successfully!" });
@@ -750,39 +772,88 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
   }
 });
 
-// Example: Update your existing lead-form route
+// Lead Form
 app.post("/api/lead-form", async (req, res) => {
-  const { debtAmount, filedAllTaxes, name, phone, email, bestTime } = req.body;
+  const { debtAmount, filedAllTaxes, name, phone, email, bestTime, utm } =
+    req.body;
 
-  console.log("Lead Form Submission:", req.body);
+  console.log("[LEAD-FORM] Incoming submission:", {
+    name,
+    email,
+    phone,
+    debtAmount,
+    filedAllTaxes,
+  });
+  console.log("[LEAD-FORM] Raw UTM from client:", utm);
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
+    console.log("[LEAD-FORM] Validation failed — missing fields");
     return res
       .status(400)
       .json({ error: "All required fields must be provided!" });
   }
 
-  const mailOptions = {
-    from: "inquiry@WynnTaxSolutions.com",
-    to: "mgray@taxadvocategroup.com",
-    subject: `New Lead Form Submission from ${name}`,
-    text: `
-      Name: ${name}
-      Phone: ${phone}
-      Email: ${email}
-      Best Time to Contact: ${bestTime || "Not specified"}
-      Debt Amount: ${debtAmount}
-      Filed All Taxes: ${filedAllTaxes}
-    `,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
+    const resolvedUtm = resolveUtm(utm, req);
+    console.log("[LEAD-FORM] Resolved UTM:", resolvedUtm);
 
-    // ✅ Clear tracking cookie on successful submission
+    const casePayload = buildCasePayload(
+      {
+        name,
+        email,
+        phone,
+        balanceBand: debtAmount,
+        message: `Debt: ${debtAmount} | Filed All: ${filedAllTaxes}${bestTime ? ` | Best Time: ${bestTime}` : ""}`,
+      },
+      resolvedUtm,
+    );
+    console.log(
+      "[LEAD-FORM] Logics payload:",
+      JSON.stringify(casePayload, null, 2),
+    );
+
+    console.log("[LEAD-FORM] Calling createLogicsCase...");
+    const logicsResult = await createLogicsCase(casePayload);
+    const caseId = logicsResult.caseId;
+    console.log("[LEAD-FORM] Logics response:", {
+      ok: logicsResult.ok,
+      caseId,
+      error: logicsResult.error || null,
+    });
+
+    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
+
+    const mailOptions = {
+      from: "inquiry@WynnTaxSolutions.com",
+      to: "mgray@taxadvocategroup.com",
+      subject: `New Lead Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
+      text: `
+NEW LEAD FORM SUBMISSION
+${"─".repeat(50)}
+
+Name:              ${name}
+Phone:             ${phone}
+Email:             ${email}
+Best Time:         ${bestTime || "Not specified"}
+Debt Amount:       ${debtAmount}
+Filed All Taxes:   ${filedAllTaxes}
+
+${"─".repeat(50)}
+Lead Source: ${sourceName}
+UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
+Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
+
+Logics CaseID: ${caseId || "Failed to create"}
+${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+      `.trim(),
+    };
+
+    console.log("[LEAD-FORM] Sending email...");
+    await transporter.sendMail(mailOptions);
+    console.log("[LEAD-FORM] Email sent successfully");
+
     clearFormTrackingCookie(res, "landing-popup");
 
-    // ✅ Update status in MongoDB if it exists
     const FormSubmission = require("./models/FormSubmission");
     await FormSubmission.updateOne(
       {
@@ -795,18 +866,19 @@ app.post("/api/lead-form", async (req, res) => {
           status: "submitted",
           formData: { debtAmount, filedAllTaxes, name, phone, email, bestTime },
         },
-      }
+      },
     );
 
+    console.log("[LEAD-FORM] ✓ Complete — CaseID:", caseId);
     res.status(200).json({ success: "Lead form email sent successfully!" });
   } catch (error) {
-    console.error("Error sending lead form email:", error);
+    console.error("[LEAD-FORM] ✗ Error:", error?.message || error);
+    console.error("[LEAD-FORM] Stack:", error?.stack);
     res
       .status(500)
       .json({ error: "Error sending lead form email. Try again later." });
   }
 });
-
 /* -------------------------------------------------------------------------- */
 /*                          TAX STEWART ROUTES                                */
 /* -------------------------------------------------------------------------- */
@@ -814,7 +886,7 @@ app.post("/api/lead-form", async (req, res) => {
 // Tax Stewart Question Submission (with full form data)
 app.post("/api/send-question", async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body || {};
+    const { name, email, phone, message, utm } = req.body || {};
 
     if (!email || !message) {
       return res.status(400).json({ error: "Email and message are required." });
@@ -846,23 +918,47 @@ app.post("/api/send-question", async (req, res) => {
     transcript = safeText(transcript, 8000);
     const nextQuestionText = safeText(nextQuestion, 2000);
 
+    const resolvedUtm = resolveUtm(utm, req);
+
+    const casePayload = buildCasePayload(
+      { name, email, phone, message: nextQuestionText },
+      resolvedUtm,
+    );
+
+    const logicsResult = await createLogicsCase(casePayload);
+    const caseId = logicsResult.caseId;
+
+    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
+
     const mailOptions = {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
       to: "mgray@taxadvocategroup.com",
-      subject: `New Tax Stewart Submission from ${email}`,
-      text: `A new inquiry was submitted through the Tax Stewart tool.
+      subject: `New Tax Stewart Submission — ${email}${caseId ? ` [Case #${caseId}]` : ""}`,
+      text: `
+NEW TAX STEWART SUBMISSION
+${"─".repeat(50)}
 
-Name: ${name || "Not provided"}
-Email: ${email}
-Phone: ${phone || "Not provided"}
+Name:   ${name || "Not provided"}
+Email:  ${email}
+Phone:  ${phone || "Not provided"}
 
---- User's Question ---
+${"─".repeat(50)}
+User's Question:
 ${nextQuestionText}
 
---- Full Conversation & Details ---
+${"─".repeat(50)}
+Full Conversation & Details:
 ${transcript}
-`,
+
+${"─".repeat(50)}
+Lead Source: ${sourceName}
+UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
+Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
+
+Logics CaseID: ${caseId || "Failed to create"}
+${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+      `.trim(),
       headers: { "X-App-Route": "send-question" },
     };
 
@@ -898,7 +994,7 @@ app.post("/api/answer", questionCounter, async (req, res) => {
           resetAt: req.taxStewart.resetAt,
           answer: NON_TAX_REFUSAL,
         },
-        "early-empty"
+        "early-empty",
       );
     }
 
@@ -921,7 +1017,7 @@ app.post("/api/answer", questionCounter, async (req, res) => {
           resetAt: req.taxStewart.resetAt,
           answer: NON_TAX_REFUSAL,
         },
-        "early-non-tax"
+        "early-non-tax",
       );
     }
 
@@ -948,7 +1044,7 @@ app.post("/api/answer", questionCounter, async (req, res) => {
         resetAt: req.taxStewart.resetAt,
         answer,
       },
-      "ok-openai"
+      "ok-openai",
     );
   } catch (err) {
     console.error("[/answer] error:", err);
@@ -971,11 +1067,6 @@ app.get("/api/ts-status", questionCounter, (req, res) => {
 /* -------------------------------------------------------------------------- */
 /*                        VERIFICATION & PDF ROUTES                           */
 /* -------------------------------------------------------------------------- */
-
-/**
- * POST /send-verification-codes
- * Send verification codes to email and/or phone
- */
 
 /* -------------------------------------------------------------------------- */
 /*                        RESEND VERIFICATION CODES                           */
@@ -1023,14 +1114,17 @@ function checkResendLimit(identifier) {
 }
 
 // Cleanup old entries every 30 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, data] of resendLimiter.entries()) {
-    if (now > data.resetAt) {
-      resendLimiter.delete(key);
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, data] of resendLimiter.entries()) {
+      if (now > data.resetAt) {
+        resendLimiter.delete(key);
+      }
     }
-  }
-}, 30 * 60 * 1000);
+  },
+  30 * 60 * 1000,
+);
 
 /**
  * POST /api/resend-verification-code
@@ -1101,7 +1195,7 @@ app.post("/api/resend-verification-code", async (req, res) => {
         "[RESEND] Email code sent to:",
         targetEmail,
         "Remaining:",
-        limit.remaining
+        limit.remaining,
       );
     }
 
@@ -1143,7 +1237,7 @@ app.post("/api/resend-verification-code", async (req, res) => {
         "[RESEND] Phone code sent to:",
         phoneNumber,
         "Remaining:",
-        limit.remaining
+        limit.remaining,
       );
     }
 
@@ -1160,6 +1254,7 @@ app.post("/api/resend-verification-code", async (req, res) => {
     });
   }
 });
+
 app.post("/api/send-verification-codes", async (req, res) => {
   try {
     const { email, phone, contactPref, name } = req.body;
@@ -1181,7 +1276,7 @@ app.post("/api/send-verification-codes", async (req, res) => {
       const emailHtml = verificationTemplate({
         name: name || "there",
         verificationCode: emailCode,
-        logoUrl: process.env.LOGO_URL || "", // Add your logo URL to .env
+        logoUrl: process.env.LOGO_URL || "",
         calendlyLink:
           process.env.CALENDLY_LINK || "https://calendly.com/wynntax",
         year: new Date().getFullYear(),
@@ -1214,7 +1309,7 @@ app.post("/api/send-verification-codes", async (req, res) => {
         "[VERIFY] Normalized phone:",
         phoneNumber,
         "code:",
-        phoneCode
+        phoneCode,
       );
 
       await sendTextMessageAPI({
@@ -1240,10 +1335,6 @@ app.post("/api/send-verification-codes", async (req, res) => {
   }
 });
 
-/**
- * POST /verify-codes
- * Verify the codes provided by user
- */
 app.post("/api/verify-codes", async (req, res) => {
   try {
     const { email, phone, emailCode, phoneCode, contactPref } = req.body;
@@ -1307,13 +1398,7 @@ app.post("/api/verify-codes", async (req, res) => {
 });
 
 /**
- * POST /finalize-submission
- * After verification:
- * 1. Save all session data to MongoDB
- * 2. Send PDF guide and welcome email
- * 3. Send SMS with scheduling link
- * 4. Send internal notification with full data
- * 5. Clear session cookies
+ * POST /api/finalize-submission
  */
 app.post("/api/finalize-submission", async (req, res) => {
   try {
@@ -1332,6 +1417,8 @@ app.post("/api/finalize-submission", async (req, res) => {
       state,
       filerType,
       intakeSummary,
+      // UTM tracking
+      utm,
     } = req.body;
 
     // Verify that email/phone were verified
@@ -1400,21 +1487,60 @@ app.post("/api/finalize-submission", async (req, res) => {
         q: item.q,
         a: item.a,
         timestamp: new Date(
-          Date.now() - (conversationHistory.length - idx) * 60000
-        ), // Estimate timestamps
+          Date.now() - (conversationHistory.length - idx) * 60000,
+        ),
       })),
       aiSummary,
       ipAddress,
       userAgent,
       questionsAsked: questionCounterData.count || 0,
-      // You could capture UTM params from a query string if you pass them from frontend
-      // utmSource: req.query.utm_source,
-      // utmMedium: req.query.utm_medium,
-      // utmCampaign: req.query.utm_campaign,
     });
 
     await submission.save();
     console.log("[/finalize-submission] Saved to MongoDB:", submission._id);
+
+    // ── IRS Logics: Create case from verified submission ─────
+    const resolvedUtm = resolveUtm(utm, req);
+
+    const casePayload = buildCasePayload(
+      {
+        name,
+        email,
+        phone,
+        issues,
+        balanceBand,
+        noticeType,
+        taxScope,
+        state,
+        filerType,
+        intakeSummary,
+        aiSummary,
+        contactPref,
+      },
+      resolvedUtm,
+    );
+
+    const logicsResult = await createLogicsCase(casePayload);
+    const caseId = logicsResult.caseId;
+
+    if (caseId) {
+      await TaxStewartSubmission.updateOne(
+        { _id: submission._id },
+        {
+          $set: {
+            logicsCaseId: String(caseId),
+            leadSource: SOURCE_NAMES[casePayload.StatusID] || "VF Digital",
+          },
+        },
+      ).catch((e) =>
+        console.error("[FINALIZE] Logics ID save failed:", e.message),
+      );
+    }
+    console.log(
+      "[/finalize-submission] Logics result:",
+      logicsResult.ok ? `CaseID ${caseId}` : logicsResult.error,
+    );
+    // ── End IRS Logics ───────────────────────────────────────
 
     // Path to the standard Wynn Tax guide PDF
     const pdfPath = path.join(__dirname, "library", "wynn-tax-guide.pdf");
@@ -1511,16 +1637,19 @@ ${item.a}
       .filter(Boolean)
       .join("\n");
 
+    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
+
     const internalMailOptions = {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
       to: "mgray@taxadvocategroup.com",
-      subject: `🎯 New Verified Tax Stewart Lead - ${name} [${submission._id}]`,
+      subject: `🎯 New Verified Tax Stewart Lead - ${name} [${submission._id}]${caseId ? ` [Case #${caseId}]` : ""}`,
       text: `
 ╔═════════════════════════════════════════════════════════════════╗
 ║                                                                 ║
 ║          VERIFIED TAX STEWART SUBMISSION                        ║
 ║          Database ID: ${submission._id}                         ║
+║          Logics CaseID: ${caseId || "Failed to create"}                              ║
 ║                                                                 ║
 ╚═════════════════════════════════════════════════════════════════╝
 
@@ -1536,6 +1665,13 @@ Questions Asked:    ${questionCounterData.count || 0}
 
 IP Address:         ${ipAddress}
 User Agent:         ${userAgent}
+
+Lead Source:        ${sourceName}
+UTM Source:         ${resolvedUtm.utmSource || "Direct/Organic"}
+UTM Medium:         ${resolvedUtm.utmMedium || "N/A"}
+Campaign:           ${resolvedUtm.utmCampaign || "N/A"}
+Logics CaseID:      ${caseId || "Failed to create"}
+${!logicsResult.ok ? `Logics Error:       ${logicsResult.error}` : ""}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎯 TAX SITUATION SUMMARY
@@ -1577,6 +1713,7 @@ ${aiSummary}
 ${email ? "✓ Tax guide PDF sent to email" : ""}
 ${phone ? "✓ Scheduling link sent via text" : ""}
 ✓ Data saved to MongoDB (ID: ${submission._id})
+${caseId ? `✓ IRS Logics case created (CaseID: ${caseId})` : "✗ IRS Logics case creation failed"}
 ✓ Session cookies cleared
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1619,9 +1756,9 @@ db.taxstewartsubmissions.updateOne(
     });
   }
 });
+
 /**
  * POST /api/save-progress
- * Save partial form progress to cookie (called by frontend as user progresses)
  */
 app.post("/api/save-progress", (req, res) => {
   try {
@@ -1629,7 +1766,6 @@ app.post("/api/save-progress", (req, res) => {
 
     const formData = req.body;
 
-    // Validate we have at least something to save
     if (!formData || typeof formData !== "object") {
       return res.status(400).json({
         ok: false,
@@ -1654,7 +1790,6 @@ app.post("/api/save-progress", (req, res) => {
 
 /**
  * GET /api/restore-progress
- * Restore partial progress from cookie (called when user returns)
  */
 app.get("/api/restore-progress", (req, res) => {
   try {
@@ -1684,8 +1819,6 @@ app.get("/api/restore-progress", (req, res) => {
   }
 });
 
-// Add these routes to your server.js
-
 const {
   sendAbandonedSessionsDigest,
   sendHighPriorityAbandonAlert,
@@ -1695,8 +1828,6 @@ const { saveAbandonedSession } = require("./utils/abandonedSessionCleanup");
 
 /**
  * GET /api/abandoned-digest
- * Manually trigger abandoned sessions email digest
- * In production, run this via cron job daily at 9am
  */
 app.get("/api/abandoned-digest", async (req, res) => {
   try {
@@ -1717,12 +1848,9 @@ app.get("/api/abandoned-digest", async (req, res) => {
 
 /**
  * POST /api/track-abandon
- * Called when user abandons session (closes browser, navigates away)
- * Saves to AbandonedSubmission collection and sends alert if high priority
  */
 app.post("/api/track-abandon", async (req, res) => {
   try {
-    // Save to MongoDB
     const abandoned = await saveAbandonedSession(req);
 
     if (!abandoned) {
@@ -1733,7 +1861,6 @@ app.post("/api/track-abandon", async (req, res) => {
       });
     }
 
-    // If high priority (verification + contact info), send immediate alert
     if (
       abandoned.lastPhase === "verification" &&
       (abandoned.email || abandoned.phone)
@@ -1758,11 +1885,8 @@ app.post("/api/track-abandon", async (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
-/*                            CRON JOB SETUP (OPTIONAL)                       */
+/*                            CRON JOB SETUP                                  */
 /* -------------------------------------------------------------------------- */
-
-// If you want automatic daily emails, install node-cron:
-// npm install node-cron
 
 const cron = require("node-cron");
 
@@ -1778,6 +1902,7 @@ cron.schedule("0 9 * * *", async () => {
 });
 
 console.log("[CRON] Daily abandoned sessions digest scheduled for 9:00 AM");
+
 /* -------------------------------------------------------------------------- */
 /*                                SITEMAP                                     */
 /* -------------------------------------------------------------------------- */

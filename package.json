@@ -11,6 +11,7 @@
     "install": "npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
+  "type": "commonjs",
   "license": "ISC",
   "description": "",
   "dependencies": {
