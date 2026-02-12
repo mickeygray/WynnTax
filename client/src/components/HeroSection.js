@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
-import ConsentNotice from "./ConsentNotice";
+
 /**
  * EmbeddedLeadForm - Reusable form component
  */
@@ -13,6 +13,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
   const { sendLeadForm } = useContext(leadContext);
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
   const [formData, setFormData] = useState({
     debtAmount: "",
     filedAllTaxes: "",
@@ -41,8 +42,12 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Double-check consent is given
+    if (!consentChecked) return;
+
     setSubmitted(true);
-    sendLeadForm(formData);
+    sendLeadForm({ ...formData, consentGiven: true });
     trackCustomEvent("LandingFormSubmitted", {
       source: "EmbeddedHeroForm",
       has_email: !!formData.email,
@@ -52,6 +57,13 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
     trackStandardEvent("Lead");
     navigate("/thank-you");
   };
+
+  // Check if step 2 form is valid (all required fields + consent)
+  const isStep2Valid =
+    formData.name.trim() &&
+    formData.phone.trim() &&
+    formData.email.trim() &&
+    consentChecked;
 
   return (
     <div className={`embedded-lead-form ${variant}`}>
@@ -175,7 +187,32 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
               placeholder="Best Time to Contact (optional)"
             />
           </div>
-          <button type="submit" className="form-btn form-btn-submit">
+
+          {/* Consent Checkbox */}
+          <div className="form-group form-consent">
+            <label className="consent-checkbox">
+              <input
+                type="checkbox"
+                checked={consentChecked}
+                onChange={(e) => setConsentChecked(e.target.checked)}
+                required
+              />
+              <span className="consent-checkmark"></span>
+              <span className="consent-text">
+                I agree to be contacted by Wynn Tax Solutions via phone, email,
+                or text (including autodialed or prerecorded calls).
+                Message/data rates may apply. Consent is not required to
+                purchase. View our{" "}
+                <Link to="/legal/privacy">Privacy Policy</Link>.
+              </span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="form-btn form-btn-submit"
+            disabled={!isStep2Valid}
+          >
             Get Free Consultation
           </button>
           <button
@@ -185,7 +222,6 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
           >
             ← Back
           </button>
-          <ConsentNotice />
         </form>
       )}
 

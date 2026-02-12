@@ -6,6 +6,118 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "1099-vs-scorp-sole-prop-when-to-incorporate-yourself",
+        title:
+          "1099 vs Sole Proprietor vs S‑Corp: When Does It Make Sense to “Incorporate Yourself”?",
+        image: "/images/1099-vs-scorp.png",
+        teaser:
+          "A 1099 is a tax form — not a business structure. Most 1099 workers are sole proprietors by default. The real question is: when does it make sense to stay Schedule C vs elect S‑Corp status for potential savings (and added complexity)? Here’s a simple breakdown with real numbers.",
+        contentTitle:
+          "1099 vs Sole Proprietor vs S‑Corp: When Does It Make Sense to “Incorporate Yourself”?",
+        contentBody: [
+          "<p><em>Quick note:</em> This is general information, not tax or legal advice. Your best option depends on your state, your industry, your net profit, and how you pay yourself.</p>",
+
+          "<h2>First: “1099” isn’t a business type</h2>",
+          "<p>A <strong>1099</strong> is a reporting form. If a payer issues you a 1099‑NEC for services, they’re treating you as <strong>self‑employed</strong> (not an employee). But that doesn’t automatically make you an LLC or a corporation.</p>",
+
+          "<h2>Self‑employed vs sole proprietor — what’s the difference?</h2>",
+          "<ul>",
+          "<li><strong>Self‑employed</strong> is a status: you work for yourself and you’re responsible for your own taxes (including self‑employment tax).</li>",
+          "<li><strong>Sole proprietor</strong> is the default business structure for one owner. Most people report it on <strong>Schedule C</strong>.</li>",
+          "<li><strong>Single‑member LLC</strong> (one owner) is often still treated as a <em>disregarded entity</em> for income tax purposes by default — meaning it usually still files like a sole proprietor unless you elect corporate tax treatment.</li>",
+          "</ul>",
+
+          "<h2>The real comparison: Schedule C (sole prop) vs an S‑Corp election</h2>",
+          "<p>When people say “I want to stop being 1099 and become a corporation,” they usually mean:</p>",
+          "<ul>",
+          "<li>Stay a sole proprietor / single‑member LLC filing <strong>Schedule C</strong>, or</li>",
+          "<li>Form an LLC/corp and elect to be taxed as an <strong>S‑Corporation</strong> (still a pass‑through), which adds payroll and a business return.</li>",
+          "</ul>",
+
+          "<h2>What changes when you elect S‑Corp?</h2>",
+          "<p>On Schedule C, your net business profit is generally subject to <strong>self‑employment (SE) tax</strong>.</p>",
+          "<p>On an S‑Corp, you typically pay yourself:</p>",
+          "<ul>",
+          "<li>a <strong>reasonable salary</strong> (W‑2 wages) — subject to payroll taxes, and</li>",
+          "<li>the remaining profit as <strong>distributions</strong> — generally not subject to SE tax.</li>",
+          "</ul>",
+          "<p><strong>Important:</strong> The IRS expects shareholder‑employees to be paid wages, and the IRS can reclassify distributions as wages if compensation is not reasonable.</p>",
+
+          "<h2>Example with simple numbers</h2>",
+          "<p>Let’s use your example:</p>",
+          "<ul>",
+          "<li><strong>Gross revenue:</strong> $10,000/month ($120,000/year)</li>",
+          "<li><strong>Business overhead:</strong> $2,000/month ($24,000/year)</li>",
+          "<li><strong>Net before owner taxes:</strong> $8,000/month ($96,000/year)</li>",
+          "<li><strong>Personal expenses:</strong> $3,000/month (not deductible unless they’re legitimate business expenses)</li>",
+          "</ul>",
+
+          "<h3>Scenario A: Schedule C (sole proprietor)</h3>",
+          "<p>Your business net profit is about <strong>$96,000/year</strong>. Self‑employment tax is commonly described as <strong>15.3%</strong> (Social Security + Medicare), and it’s calculated on about <strong>92.35%</strong> of net earnings.</p>",
+          "<p><strong>Very rough SE tax estimate (ignoring income tax):</strong> about <strong>$13,564/year</strong> (~$1,130/month). Your actual numbers can vary.</p>",
+          "<p><strong>Cash‑flow feel:</strong> $8,000 net − $1,130 SE tax ≈ $6,870/month before income tax. After $3,000 personal expenses, you’re around $3,870/month left to cover income tax + savings + business growth.</p>",
+
+          "<h3>Scenario B: S‑Corp election (one‑person business)</h3>",
+          "<p>Assume you pay yourself a salary of <strong>$5,000/month</strong> ($60,000/year) and take the rest as distributions.</p>",
+          "<ul>",
+          "<li><strong>Payroll taxes apply to the salary</strong> (both employer + employee sides exist, even though it’s all your money).</li>",
+          "<li>The remaining profit after salary (and employer payroll taxes) can come out as <strong>distributions</strong> that are generally not subject to SE tax.</li>",
+          "</ul>",
+          "<p><strong>Very rough payroll tax vs SE tax comparison:</strong> payroll taxes on $60,000 of wages are about <strong>$9,180/year</strong> (~$765/month), versus ~<strong>$13,564/year</strong> of SE tax on Schedule C in this example.</p>",
+          "<p><strong>Potential difference:</strong> about <strong>$4,000–$4,500/year</strong> in employment‑tax savings <em>in this scenario</em>, before factoring extra accounting/payroll costs.</p>",
+          "<p><strong>Cash‑flow feel:</strong> your monthly cash available after payroll taxes may be a bit higher than the Schedule C path — but only if you truly have profit left over after paying a reasonable wage.</p>",
+
+          "<h2>The tradeoff: possible savings vs added complexity</h2>",
+
+          "<h3>Pros of staying Schedule C (sole prop / default single‑member LLC)</h3>",
+          "<ul>",
+          "<li>Simpler tax filing (no separate business return for an S‑Corp)</li>",
+          "<li>No payroll to run</li>",
+          "<li>Fewer deadlines and compliance moving parts</li>",
+          "<li>Lower bookkeeping/accounting costs</li>",
+          "</ul>",
+
+          "<h3>Cons of Schedule C</h3>",
+          "<ul>",
+          "<li>Net profit is generally exposed to self‑employment tax</li>",
+          "<li>Easy to under‑save for taxes if you’re not doing estimated payments</li>",
+          "<li>Mixing personal/business funds creates messy returns and increases notice risk</li>",
+          "</ul>",
+
+          "<h3>Pros of an S‑Corp election</h3>",
+          "<ul>",
+          "<li>Potentially reduce self‑employment tax on a portion of profit (distributions)</li>",
+          "<li>More structure (separate payroll, cleaner bookkeeping if done right)</li>",
+          "<li>Can feel more “business‑like” for owners who want a formal setup</li>",
+          "</ul>",
+
+          "<h3>Cons of an S‑Corp election</h3>",
+          "<ul>",
+          "<li>Payroll setup and ongoing filings (W‑2s, payroll tax deposits, etc.)</li>",
+          "<li>More accounting complexity and cost (often an added business return + payroll service)</li>",
+          "<li>Must pay a <strong>reasonable salary</strong> — too low can trigger IRS problems</li>",
+          "<li>If you’re already behind on taxes, adding payroll without proper help can create new issues</li>",
+          "</ul>",
+
+          "<h2>So when does it make sense to switch?</h2>",
+          "<p>Very generally, an S‑Corp election becomes more attractive when:</p>",
+          "<ul>",
+          "<li>Your <strong>net profit is consistent</strong> (not a one‑off good month)</li>",
+          "<li>You’ll have <strong>profit left after paying a reasonable salary</strong></li>",
+          "<li>The expected employment‑tax savings is <strong>meaningfully larger</strong> than the extra annual cost of payroll + tax prep</li>",
+          "<li>You can stay compliant (payroll taxes, filings, clean books)</li>",
+          "</ul>",
+          "<p>If your net profit is low or inconsistent, you may just be buying complexity.</p>",
+
+          "<h2>If you already owe the IRS</h2>",
+          "<p>If you’re already dealing with a balance due, notices, or unfiled years, the priority is usually <strong>compliance and stability</strong>. Changing entity structure can help long‑term, but it can also create more deadlines if it’s not set up correctly.</p>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re 1099/self‑employed and trying to decide whether you should stay Schedule C or move toward an S‑Corp structure — especially if you’re behind, received IRS letters, or owe — we can help you get clarity on what’s happening and what the cleanest path forward looks like.</p>",
+          "<p><strong>Call Wynn Tax Solutions</strong> for a free review call at WynnTaxSolutions.com.</p>",
+        ],
+      },
+      {
         id: "irs-collection-notices-cp14-cp501-cp503-cp504-lt11-1058",
         title:
           "IRS Collection Notices Explained: CP14, CP501, CP503, CP504, LT11 — and What to Do If You Owe",
@@ -76,14 +188,6 @@ const useBlogData = () => {
           "<h2>How Wynn Tax Solutions can help</h2>",
           "<p>If you’re receiving IRS collection notices — especially CP504, LT11/Letter 1058, or lien-related letters — the goal is to stop the spiral and move toward a structured solution. We can help you understand what the notice means, what your options are, and what the next best step is.</p>",
           "<p><strong>Call Wynn Tax Solutions</strong> for a free review call. If it makes sense, we can speak to the IRS on your behalf and work toward the best available resolution option.</p>",
-
-          "<hr/>",
-
-          "<h2>Facebook post</h2>",
-          "<p><strong>Got an IRS collection notice?</strong> Don’t ignore it — the letters usually escalate over time.</p>",
-          "<p>Common notices include CP14 (first bill), CP501/CP503 (reminders), CP504 (intent to levy), and LT11/Letter 1058 (final notice with important rights).</p>",
-          "<p>If you’re seeing CP504, LT11/1058, or a lien letter, that’s the moment to act — not “next week.”</p>",
-          "<p>We offer a <strong>free review call</strong> to help you understand what your notice means and what to do next. WynnTaxSolutions.com</p>",
         ],
       },
       {

@@ -728,7 +728,7 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
 
     const mailOptions = {
       from: "inquiry@WynnTaxSolutions.com",
-      to: "mgray@taxadvocategroup.com",
+      to: "inquiry@taxadvocategroup.com",
       subject: `New Contact Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
       text: `
 NEW CONTACT FORM SUBMISSION
@@ -1642,7 +1642,7 @@ ${item.a}
     const internalMailOptions = {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
-      to: "mgray@taxadvocategroup.com",
+      to: "inquiry@taxadvocategroup.com",
       subject: `🎯 New Verified Tax Stewart Lead - ${name} [${submission._id}]${caseId ? ` [Case #${caseId}]` : ""}`,
       text: `
 ╔═════════════════════════════════════════════════════════════════╗

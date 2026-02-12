@@ -7854,7 +7854,1453 @@ body.modal-open {
   width: 100%;
   max-width: 400px;
 }
+/* ===========================================
+   NEW CLASSES - ADD TO MONOLITH CSS
+   For HeroSection + LandingPage1 modern redesign
+   =========================================== */
 
+/* ----- CSS Variables (add to :root or .hero) ----- */
+:root {
+  --hero-primary: #0ea5e9;
+  --hero-primary-dark: #0284c7;
+  --hero-accent: #38bdf8;
+  --hero-dark: #0f172a;
+  --hero-text: #f8fafc;
+  --hero-text-muted: rgba(255, 255, 255, 0.7);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===========================================
+   HERO SECTION CLASSES
+   =========================================== */
+
+/* ----- Hero Badge ----- */
+.hero__badge,
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  color: var(--hero-accent);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 10px 18px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+  width: fit-content;
+  animation: fadeInDown 0.6s ease both;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--hero-accent);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ----- Hero Title ----- */
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--hero-text);
+  margin: 0 0 24px;
+}
+
+.hero__title-line {
+  display: block;
+  animation: fadeInUp 0.8s ease both;
+}
+
+.hero__title-line:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.hero__title-accent {
+  background: linear-gradient(135deg, var(--hero-accent) 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ----- Hero Subtitle & Description ----- */
+.hero__subtitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--hero-text);
+  margin: 0 0 12px;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease 0.25s both;
+}
+
+.hero__description {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--hero-text-muted);
+  max-width: 480px;
+  margin: 0 0 32px;
+  animation: fadeInUp 0.8s ease 0.35s both;
+}
+
+/* ----- Hero Stats ----- */
+.hero__stats,
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeInUp 0.8s ease 0.45s both;
+}
+
+.hero__stat,
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero__stat-value,
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--hero-accent);
+  letter-spacing: -0.02em;
+}
+
+.hero__stat-label,
+.hero-stat-label {
+  font-size: 0.8rem;
+  color: var(--hero-text-muted);
+}
+
+/* ----- Hero Buttons ----- */
+.hero__buttons {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease 0.55s both;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.hero__btn svg {
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.hero__btn:hover svg {
+  transform: translateX(3px);
+}
+
+.hero__btn--primary {
+  background: var(--hero-primary);
+  color: white;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.35);
+}
+
+.hero__btn--primary:hover {
+  background: var(--hero-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(14, 165, 233, 0.45);
+}
+
+.hero__btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.hero__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ----- Hero Trust Badges ----- */
+.hero__trust,
+.hero-trust-badges {
+  display: flex;
+  gap: 20px;
+  animation: fadeInUp 0.8s ease 0.65s both;
+}
+
+.hero__trust-badge,
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--hero-text-muted);
+}
+
+.trust-icon,
+.trust-badge-icon {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ----- Hero Phone Button ----- */
+.hero-phone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-fast);
+  margin-bottom: 20px;
+}
+
+.hero-phone-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ----- Hero Link (mobile) ----- */
+.hero__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  transition: var(--transition-fast);
+}
+
+.hero__link:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.hero__link svg {
+  transition: transform var(--transition-fast);
+}
+
+.hero__link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ----- Hero Form Wrapper ----- */
+.hero__form-wrapper {
+  animation: fadeInRight 0.8s ease 0.3s both;
+}
+
+/* ----- Hero Overlay (gradient) ----- */
+.hero__overlay,
+.landing-hero-embedded .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(15, 23, 42, 0.7) 50%,
+    rgba(14, 165, 233, 0.15) 100%
+  );
+  z-index: 1;
+}
+
+/* Animated shimmer on overlay */
+.hero__overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 70%
+  );
+  animation: shimmer 8s ease-in-out infinite;
+}
+
+/* ===========================================
+   EMBEDDED LEAD FORM CLASSES
+   =========================================== */
+
+/* ----- Form Container ----- */
+.embedded-lead-form {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 0 40px rgba(14, 165, 233, 0.2);
+}
+
+/* ----- Form Header ----- */
+.embedded-form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.embedded-form-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--hero-dark);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.embedded-form-header p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ----- Form Badge ----- */
+.form-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--hero-primary), #6366f1);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+/* ----- Form Progress Indicator ----- */
+.form-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.progress-step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  transition: var(--transition-fast);
+}
+
+.progress-step.active {
+  background: var(--hero-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.35);
+}
+
+.progress-line {
+  width: 50px;
+  height: 3px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  transition: var(--transition-fast);
+}
+
+.progress-line.active {
+  background: var(--hero-primary);
+}
+
+/* ----- Form Step Animation ----- */
+.form-step {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ----- Form Group ----- */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label:not(.radio-card) {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--hero-dark);
+  margin-bottom: 8px;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  color: var(--hero-dark);
+  transition: var(--transition-fast);
+  font-family: var(--font-display);
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  outline: none;
+  border-color: var(--hero-primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* ----- Radio Cards ----- */
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.radio-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.radio-card input {
+  display: none;
+}
+
+.radio-card:hover {
+  border-color: var(--hero-primary);
+  background: rgba(14, 165, 233, 0.04);
+}
+
+.radio-card.selected {
+  border-color: var(--hero-primary);
+  background: rgba(14, 165, 233, 0.08);
+  color: var(--hero-primary);
+}
+
+/* ----- Form Buttons ----- */
+.form-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 20px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  background: var(--hero-primary);
+  color: white;
+  margin-top: 4px;
+}
+
+.form-btn:hover:not(:disabled) {
+  background: var(--hero-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+}
+
+.form-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.form-btn:hover:not(:disabled) .btn-arrow {
+  transform: translateX(4px);
+}
+
+.form-btn-submit {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.form-btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.form-btn-back {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-btn-back:hover {
+  color: var(--hero-dark);
+}
+
+/* ----- Form Trust Footer ----- */
+.form-trust {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.form-trust span {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+/* ===========================================
+   NEW CLASSES - ADD TO MONOLITH CSS
+   For HeroSection + LandingPage1 modern redesign
+   =========================================== */
+
+/* ----- CSS Variables (add to :root or .hero) ----- */
+:root {
+  --hero-primary: #0ea5e9;
+  --hero-primary-dark: #0284c7;
+  --hero-accent: #38bdf8;
+  --hero-dark: #0f172a;
+  --hero-text: #f8fafc;
+  --hero-text-muted: rgba(255, 255, 255, 0.7);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===========================================
+   HERO SECTION CLASSES
+   =========================================== */
+
+/* ----- Hero Badge ----- */
+.hero__badge,
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  color: var(--hero-accent);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 10px 18px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+  width: fit-content;
+  animation: fadeInDown 0.6s ease both;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--hero-accent);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ----- Hero Title ----- */
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--hero-text);
+  margin: 0 0 24px;
+}
+
+.hero__title-line {
+  display: block;
+  animation: fadeInUp 0.8s ease both;
+}
+
+.hero__title-line:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.hero__title-accent {
+  background: linear-gradient(135deg, var(--hero-accent) 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ----- Hero Subtitle & Description ----- */
+.hero__subtitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--hero-text);
+  margin: 0 0 12px;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease 0.25s both;
+}
+
+.hero__description {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--hero-text-muted);
+  max-width: 480px;
+  margin: 0 0 32px;
+  animation: fadeInUp 0.8s ease 0.35s both;
+}
+
+/* ----- Hero Stats ----- */
+.hero__stats,
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeInUp 0.8s ease 0.45s both;
+}
+
+.hero__stat,
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero__stat-value,
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--hero-accent);
+  letter-spacing: -0.02em;
+}
+
+.hero__stat-label,
+.hero-stat-label {
+  font-size: 0.8rem;
+  color: var(--hero-text-muted);
+}
+
+/* ----- Hero Buttons ----- */
+.hero__buttons {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease 0.55s both;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.hero__btn svg {
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.hero__btn:hover svg {
+  transform: translateX(3px);
+}
+
+.hero__btn--primary {
+  background: var(--hero-primary);
+  color: white;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.35);
+}
+
+.hero__btn--primary:hover {
+  background: var(--hero-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(14, 165, 233, 0.45);
+}
+
+.hero__btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.hero__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ----- Hero Trust Badges ----- */
+.hero__trust,
+.hero-trust-badges {
+  display: flex;
+  gap: 20px;
+  animation: fadeInUp 0.8s ease 0.65s both;
+}
+
+.hero__trust-badge,
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--hero-text-muted);
+}
+
+.trust-icon,
+.trust-badge-icon {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ----- Hero Phone Button ----- */
+.hero-phone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-fast);
+  margin-bottom: 20px;
+}
+
+.hero-phone-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ----- Hero Link (mobile) ----- */
+.hero__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  transition: var(--transition-fast);
+}
+
+.hero__link:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.hero__link svg {
+  transition: transform var(--transition-fast);
+}
+
+.hero__link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ----- Hero Form Wrapper ----- */
+.hero__form-wrapper {
+  animation: fadeInRight 0.8s ease 0.3s both;
+}
+
+/* ----- Hero Overlay (gradient) ----- */
+.hero__overlay,
+.landing-hero-embedded .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(15, 23, 42, 0.7) 50%,
+    rgba(14, 165, 233, 0.15) 100%
+  );
+  z-index: 1;
+}
+
+/* Animated shimmer on overlay */
+.hero__overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 70%
+  );
+  animation: shimmer 8s ease-in-out infinite;
+}
+
+/* ===========================================
+   EMBEDDED LEAD FORM CLASSES
+   =========================================== */
+
+/* ----- Form Container ----- */
+.embedded-lead-form {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    0 0 40px rgba(14, 165, 233, 0.2);
+}
+
+/* ----- Form Header ----- */
+.embedded-form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.embedded-form-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--hero-dark);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.embedded-form-header p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ----- Form Badge ----- */
+.form-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--hero-primary), #6366f1);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+/* ----- Form Progress Indicator ----- */
+.form-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.progress-step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  transition: var(--transition-fast);
+}
+
+.progress-step.active {
+  background: var(--hero-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.35);
+}
+
+.progress-line {
+  width: 50px;
+  height: 3px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  transition: var(--transition-fast);
+}
+
+.progress-line.active {
+  background: var(--hero-primary);
+}
+
+/* ----- Form Step Animation ----- */
+.form-step {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ----- Form Group ----- */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label:not(.radio-card) {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--hero-dark);
+  margin-bottom: 8px;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  color: var(--hero-dark);
+  transition: var(--transition-fast);
+  font-family: var(--font-display);
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  outline: none;
+  border-color: var(--hero-primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* ----- Radio Cards ----- */
+.radio-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.radio-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.radio-card input {
+  display: none;
+}
+
+.radio-card:hover {
+  border-color: var(--hero-primary);
+  background: rgba(14, 165, 233, 0.04);
+}
+
+.radio-card.selected {
+  border-color: var(--hero-primary);
+  background: rgba(14, 165, 233, 0.08);
+  color: var(--hero-primary);
+}
+
+/* ----- Form Buttons ----- */
+.form-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 20px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  background: var(--hero-primary);
+  color: white;
+  margin-top: 4px;
+}
+
+.form-btn:hover:not(:disabled) {
+  background: var(--hero-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+}
+
+.form-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.form-btn:hover:not(:disabled) .btn-arrow {
+  transform: translateX(4px);
+}
+
+.form-btn-submit {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.form-btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.form-btn-back {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-btn-back:hover {
+  color: var(--hero-dark);
+}
+
+/* ----- Form Trust Footer ----- */
+.form-trust {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.form-trust span {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 1024px) {
+  .hero__stats,
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__trust,
+  .hero-trust-badges {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__stats,
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .hero__stat,
+  .hero-stat {
+    align-items: center;
+  }
+
+  .hero__stat-value,
+  .hero-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .hero__buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__trust,
+  .hero-trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .embedded-lead-form {
+    padding: 28px 24px;
+  }
+
+  .embedded-form-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .form-trust {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* ===========================================
+   ACCESSIBILITY - REDUCED MOTION
+   =========================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero__overlay::after,
+  .badge-dot,
+  .hero__title-line,
+  .hero__badge,
+  .hero-badge,
+  .hero__subtitle,
+  .hero__description,
+  .hero__stats,
+  .hero-stats,
+  .hero__buttons,
+  .hero__trust,
+  .hero-trust-badges,
+  .hero__form-wrapper,
+  .form-step {
+    animation: none;
+  }
+
+  .hero__btn,
+  .hero__link,
+  .hero-phone-btn,
+  .form-btn,
+  .radio-card,
+  .btn-arrow {
+    transition: none;
+  }
+}
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 1024px) {
+  .hero__stats,
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__trust,
+  .hero-trust-badges {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__stats,
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .hero__stat,
+  .hero-stat {
+    align-items: center;
+  }
+
+  .hero__stat-value,
+  .hero-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .hero__buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__trust,
+  .hero-trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .embedded-lead-form {
+    padding: 28px 24px;
+  }
+
+  .embedded-form-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .form-trust {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* ===========================================
+   ACCESSIBILITY - REDUCED MOTION
+   =========================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero__overlay::after,
+  .badge-dot,
+  .hero__title-line,
+  .hero__badge,
+  .hero-badge,
+  .hero__subtitle,
+  .hero__description,
+  .hero__stats,
+  .hero-stats,
+  .hero__buttons,
+  .hero__trust,
+  .hero-trust-badges,
+  .hero__form-wrapper,
+  .form-step {
+    animation: none;
+  }
+
+  .hero__btn,
+  .hero__link,
+  .hero-phone-btn,
+  .form-btn,
+  .radio-card,
+  .btn-arrow {
+    transition: none;
+  }
+}
 /* ===========================================
    ANIMATIONS
    =========================================== */
