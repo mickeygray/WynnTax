@@ -825,7 +825,7 @@ app.post("/api/lead-form", async (req, res) => {
 
     const mailOptions = {
       from: "inquiry@WynnTaxSolutions.com",
-      to: "mgray@taxadvocategroup.com",
+      to: "inquiry@taxadvocategroup.com",
       subject: `New Lead Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
       text: `
 NEW LEAD FORM SUBMISSION
@@ -933,7 +933,7 @@ app.post("/api/send-question", async (req, res) => {
     const mailOptions = {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
-      to: "mgray@taxadvocategroup.com",
+      to: "inquiry@taxadvocategroup.com",
       subject: `New Tax Stewart Submission — ${email}${caseId ? ` [Case #${caseId}]` : ""}`,
       text: `
 NEW TAX STEWART SUBMISSION
