@@ -6,6 +6,81 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "irs-penalty-abatement-first-time-abate-reasonable-cause",
+        title:
+          "IRS Penalty Abatement: First Time Abate vs Reasonable Cause (and What Actually Works)",
+        image: "/images/irs-penalty-abatement.png",
+        teaser:
+          "If you owe the IRS, penalties can add up fast. The good news: in many cases you can request penalty relief through First Time Abate (FTA) or Reasonable Cause. Here’s what each option means, who may qualify, and how to request it without making the situation worse.",
+        contentTitle:
+          "IRS Penalty Abatement: First Time Abate vs Reasonable Cause (and What Actually Works)",
+        contentBody: [
+          "<p><em>Quick note:</em> This is general information, not tax or legal advice. Penalty relief depends on your exact facts, the penalty type, and your compliance history. If you have a deadline on a notice, treat it as time-sensitive.</p>",
+
+          "<h2>Why penalty abatement matters</h2>",
+          "<p>When you owe the IRS, the balance can grow because of <strong>penalties</strong> and <strong>interest</strong>. If you can remove or reduce penalties, you can often lower the overall balance — and the IRS may also reduce interest that’s tied to those penalties.</p>",
+
+          "<h2>The two big “abatement” paths</h2>",
+          "<p>Most everyday penalty relief requests fall into two categories:</p>",
+          "<ul>",
+          "<li><strong>First Time Abate (FTA):</strong> an administrative waiver based mainly on prior compliance history.</li>",
+          "<li><strong>Reasonable Cause:</strong> relief when you can show you used ordinary care and prudence but still couldn’t file or pay on time due to circumstances.</li>",
+          "</ul>",
+          "<p>These are not the same thing — and mixing them up is a common mistake.</p>",
+
+          "<h2>First Time Abate (FTA): what it is and what it covers</h2>",
+          "<p>FTA is one of the most common administrative waivers. It can apply to certain “core” penalties such as:</p>",
+          "<ul>",
+          "<li><strong>Failure to File</strong></li>",
+          "<li><strong>Failure to Pay</strong></li>",
+          "<li><strong>Failure to Deposit</strong> (more common on payroll-related situations)</li>",
+          "</ul>",
+          "<p>FTA is often the cleanest win when someone has a good compliance history and one bad year — especially when life happened, paperwork got missed, or cash flow fell apart.</p>",
+
+          "<h2>How the IRS decides if you qualify for FTA</h2>",
+          "<p>FTA is about your track record. A simplified way to think about it: the IRS looks for a history of good compliance, including filing the same return type when required and not having penalties in the prior years (or having them removed for acceptable reasons).</p>",
+          "<p>If you have that “good history,” FTA can sometimes remove a penalty even when the dollar amount is large — it’s more about eligibility than the size of the bill.</p>",
+
+          "<h2>Important: FTA can apply even if you still owe the tax</h2>",
+          "<p>Many people assume they can’t request abatement until everything is paid. In reality, you can request FTA for a penalty even if you haven’t paid the entire tax yet.</p>",
+          "<p>That said: if the underlying tax isn’t paid, certain penalties (like Failure to Pay) may continue to increase until the tax is paid in full. So you want a plan for both: relief + repayment.</p>",
+
+          "<h2>Reasonable Cause: when it’s the better fit</h2>",
+          "<p>Reasonable Cause is more “story + proof” than “history.” The IRS may consider relief when you can show you exercised ordinary care and prudence, but were still unable to comply on time.</p>",
+          "<p>Examples of situations that are commonly discussed include disruptions like disasters or events beyond your control. The IRS also notes that <strong>lack of funds by itself</strong> usually isn’t enough — but facts and circumstances can matter when you can show you tried to comply.</p>",
+
+          "<h2>What a strong Reasonable Cause request usually includes</h2>",
+          "<p>If you’re requesting reasonable cause, build your explanation like a timeline:</p>",
+          "<ul>",
+          "<li><strong>What happened</strong> and <strong>when</strong></li>",
+          "<li><strong>How</strong> it prevented you from filing or paying on time</li>",
+          "<li><strong>What you did to try to comply</strong> (attempts to file, pay, get records, request help, etc.)</li>",
+          "<li><strong>What changed</strong> that allowed you to fix it now</li>",
+          "</ul>",
+          "<p>Documentation can be the difference between “denied” and “approved.”</p>",
+
+          "<h2>How to request penalty relief (the simplest version)</h2>",
+          "<ol>",
+          "<li><strong>Start with the notice.</strong> Follow the instructions and call the number on the notice when possible.</li>",
+          "<li><strong>Be specific.</strong> Identify which penalty you want removed and why.</li>",
+          "<li><strong>If phone relief isn’t approved, request it in writing.</strong> Many taxpayers use a written statement or Form 843 (Claim for Refund and Request for Abatement), depending on the situation.</li>",
+          "</ol>",
+          "<p>One helpful nuance: if you request reasonable cause but the IRS sees you qualify for FTA, they may apply FTA instead.</p>",
+
+          "<h2>Common mistakes that cost people relief</h2>",
+          "<ul>",
+          "<li><strong>Waiting too long</strong> and missing response windows</li>",
+          "<li><strong>Sending a vague explanation</strong> with no timeline or documents</li>",
+          "<li><strong>Requesting the wrong relief type</strong> (FTA vs reasonable cause)</li>",
+          "<li><strong>Not getting current</strong> on required filings (often necessary for broader resolution)</li>",
+          "</ul>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If penalties are a big part of what you owe, we can help you identify the penalty types, evaluate whether FTA or reasonable cause is more realistic, and organize the request so it’s clear and properly supported.</p>",
+          "<p>If you need help, contact Wynn Tax Solutions for a review call. If we’re engaged and you authorize us, we can communicate with the IRS on your behalf and help you move toward a solution.</p>",
+        ],
+      },
+      {
         id: "1099-vs-scorp-sole-prop-when-to-incorporate-yourself",
         title:
           "1099 vs Sole Proprietor vs S‑Corp: When Does It Make Sense to “Incorporate Yourself”?",
