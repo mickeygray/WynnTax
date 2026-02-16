@@ -11,6 +11,7 @@ const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
 const { sendTextMessageAPI } = require("./utils/callrail");
+const { sendProspectWelcomeOutreach } = require("./utils/prospectWelcome");
 const {
   generateCode,
   storeVerificationCode,
@@ -751,7 +752,10 @@ ${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
     };
 
     await transporter.sendMail(mailOptions);
-
+    sendProspectWelcomeOutreach(transporter, { name, email, phone }).catch(
+      (err) =>
+        console.error("[CONTACT-FORM] Welcome outreach error:", err.message),
+    );
     clearFormTrackingCookie(res, "contact-us");
 
     const FormSubmission = require("./models/FormSubmission");
@@ -851,7 +855,10 @@ ${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
     console.log("[LEAD-FORM] Sending email...");
     await transporter.sendMail(mailOptions);
     console.log("[LEAD-FORM] Email sent successfully");
-
+    sendProspectWelcomeOutreach(transporter, { name, email, phone }).catch(
+      (err) =>
+        console.error("[LEAD-FORM] Welcome outreach error:", err.message),
+    );
     clearFormTrackingCookie(res, "landing-popup");
 
     const FormSubmission = require("./models/FormSubmission");
