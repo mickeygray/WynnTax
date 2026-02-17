@@ -6,6 +6,70 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "currently-not-collectible-cnc-how-it-works",
+        title:
+          "Currently Not Collectible (CNC): When the IRS Can Pause Collections Because You Can’t Afford to Pay",
+        image: "/images/cnc-currently-not-collectible.png",
+        teaser:
+          "If paying the IRS would keep you from covering basic living expenses, you may be able to request a temporary collection delay called Currently Not Collectible (CNC). Here’s what CNC is, what it isn’t, what the IRS may require, and what to expect while your account is in hardship status.",
+        contentTitle:
+          "Currently Not Collectible (CNC): When the IRS Can Pause Collections Because You Can’t Afford to Pay",
+        contentBody: [
+          "<p><em>Quick note:</em> This is general information, not tax or legal advice. CNC depends on your verified financial situation, compliance status, and the type of tax debt involved.</p>",
+
+          "<h2>What CNC actually means</h2>",
+          "<p><strong>Currently Not Collectible (CNC)</strong> is a temporary status where the IRS delays active collection because they determine you <strong>cannot afford to pay</strong> at this time.</p>",
+          "<p>Think of it as a pause button — not forgiveness.</p>",
+
+          "<h2>What CNC is NOT</h2>",
+          "<ul>",
+          "<li><strong>Not a settlement:</strong> the debt does not disappear.</li>",
+          "<li><strong>Not permanent:</strong> the IRS may review your situation again later.</li>",
+          "<li><strong>Not “free”:</strong> penalties and interest can continue to accrue until the balance is paid.</li>",
+          "</ul>",
+
+          "<h2>Why CNC can still be a smart move</h2>",
+          "<p>If your budget is already tight, forcing payments can lead to bounced accounts, missed rent, skipped insurance, and a bigger financial blow-up. CNC is designed for situations where paying would create a true hardship.</p>",
+          "<p>For many people, CNC creates breathing room to stabilize income, catch up on filings, and plan a longer-term resolution.</p>",
+
+          "<h2>What the IRS may ask for</h2>",
+          "<p>Before approving a temporary delay, the IRS may require a <strong>Collection Information Statement</strong> and proof of your financial condition.</p>",
+          "<p>That typically means forms such as:</p>",
+          "<ul>",
+          "<li><strong>Form 433-F</strong> (often used for individuals in certain cases)</li>",
+          "<li><strong>Form 433-A</strong> (individuals / self-employed)</li>",
+          "<li><strong>Form 433-B</strong> (businesses)</li>",
+          "</ul>",
+          "<p>And supporting proof of income, expenses, assets, and other financial details.</p>",
+
+          "<h2>What happens while you’re in CNC</h2>",
+          "<p>Here are the key realities people should know:</p>",
+          "<ul>",
+          "<li><strong>Collections are delayed</strong> while your hardship status is in place.</li>",
+          "<li><strong>Your balance may still grow</strong> because penalties and interest can continue.</li>",
+          "<li>The IRS may <strong>review your ability to pay again</strong> in the future.</li>",
+          "<li>The IRS may still <strong>file a Notice of Federal Tax Lien</strong> to protect its interest in your assets, even during a temporary delay.</li>",
+          "</ul>",
+
+          "<h2>How to think about CNC the “right” way</h2>",
+          "<p>CNC is most useful when it’s part of a bigger plan. Example:</p>",
+          "<ul>",
+          "<li>Use CNC to stop immediate pressure</li>",
+          "<li>Get current on required filings</li>",
+          "<li>Stabilize your monthly budget</li>",
+          "<li>Then evaluate longer-term options: payment plan, penalty relief, or (in some cases) an Offer in Compromise</li>",
+          "</ul>",
+
+          "<h2>How to request CNC</h2>",
+          "<p>Many taxpayers start by contacting the IRS using the number on their notice or bill and asking about options to temporarily delay collection due to hardship.</p>",
+          "<p>But the bigger issue is preparation: if your financial picture isn’t organized, it’s easy to lose momentum or get denied.</p>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re facing IRS collection pressure and you genuinely can’t afford payments right now, we can help you evaluate whether CNC is realistic, organize the information the IRS typically asks for, and build a plan that keeps you protected while you work toward a longer-term fix.</p>",
+          "<p>Contact Wynn Tax Solutions for a review call. If we’re engaged and you authorize us, we can communicate with the IRS on your behalf.</p>",
+        ],
+      },
+      {
         id: "irs-penalty-abatement-first-time-abate-reasonable-cause",
         title:
           "IRS Penalty Abatement: First Time Abate vs Reasonable Cause (and What Actually Works)",
