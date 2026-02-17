@@ -13,7 +13,7 @@ const useBlogData = () => {
         teaser:
           "If paying the IRS would keep you from covering basic living expenses, you may be able to request a temporary collection delay called Currently Not Collectible (CNC). Here’s what CNC is, what it isn’t, what the IRS may require, and what to expect while your account is in hardship status.",
         contentTitle:
-          "Currently Not Collectible (CNC): When the IRS Can Pause Collections Because You Can’t Afford to Pay",
+          "Currently Not Collectible (CNC): The IRS Pauses Collections Because You Can’t Afford to Pay",
         contentBody: [
           "<p><em>Quick note:</em> This is general information, not tax or legal advice. CNC depends on your verified financial situation, compliance status, and the type of tax debt involved.</p>",
 
