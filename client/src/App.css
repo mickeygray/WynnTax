@@ -9449,7 +9449,38 @@ body.modal-open {
     gap: 8px;
   }
 }
-
+.verification-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.verification-header h4 {
+  margin-bottom: 0.5rem;
+}
+.verification-input {
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+}
+.verification-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.form-btn-link {
+  background: none;
+  border: none;
+  color: #0066cc;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.form-error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+.form-success {
+  color: #28a745;
+}
 /* ===========================================
    REDUCE MOTION FOR ACCESSIBILITY
    =========================================== */

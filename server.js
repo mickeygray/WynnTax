@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const axios = require("axios");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { Readable } = require("stream");
 const connectDB = require("./config/db");
@@ -11,7 +12,6 @@ const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
 const { sendTextMessageAPI } = require("./utils/callrail");
-const { sendProspectWelcomeOutreach } = require("./utils/prospectWelcome");
 const {
   generateCode,
   storeVerificationCode,
@@ -20,18 +20,12 @@ const {
   generateAISummary,
   cleanupExpiredCodes,
 } = require("./utils/verification");
-const {
-  resolveUtm,
-  buildCasePayload,
-  createLogicsCase,
-  SOURCE_NAMES,
-} = require("./utils/irsLogicsService");
+const { resolveUtm, SOURCE_NAMES } = require("./utils/irsLogicsService");
 
 /* -------------------------------------------------------------------------- */
 /*                           HANDLEBARS TEMPLATES                             */
 /* -------------------------------------------------------------------------- */
 
-// Load and compile templates
 const verificationTemplate = handlebars.compile(
   fs.readFileSync(
     path.join(__dirname, "library", "verification-email.hbs"),
@@ -44,8 +38,8 @@ const welcomeTemplate = handlebars.compile(
 );
 
 const formLimiter = rateLimit({
-  windowMs: 60 * 10000, // 15 minutes
-  max: 1, // allow up to 1 submission in 15 minutes
+  windowMs: 60 * 10000,
+  max: 1,
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
@@ -70,7 +64,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 const TS_HISTORY_COOKIE = "ts_history";
 const TS_HISTORY_MAX_ITEMS = 4;
-const TS_HISTORY_MAX_FIELD = 1200; // cap each q/a to keep cookie < 4KB
+const TS_HISTORY_MAX_FIELD = 1200;
 
 function clampText(s = "", limit = TS_HISTORY_MAX_FIELD) {
   const t = String(s)
@@ -85,7 +79,6 @@ function readHistory(req) {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    // Ensure shape and clamp fields defensively
     return parsed
       .filter((x) => x && typeof x === "object")
       .map(({ q, a }) => ({ q: clampText(q), a: clampText(a) }))
@@ -104,9 +97,9 @@ function writeHistory(res, history) {
   res.cookie(TS_HISTORY_COOKIE, JSON.stringify(trimmed), {
     httpOnly: true,
     sameSite: "Lax",
-    secure: isProd, // true in production (HTTPS)
+    secure: isProd,
     signed: true,
-    maxAge: 7 * 24 * 3600 * 1000, // 7 days
+    maxAge: 7 * 24 * 3600 * 1000,
     path: "/",
   });
 }
@@ -224,7 +217,6 @@ function isTaxRelated(text = "") {
     .trim();
 
   const keywords = [
-    // General tax language
     "tax",
     "taxes",
     "taxation",
@@ -259,8 +251,6 @@ function isTaxRelated(text = "") {
     "1058",
     "668a",
     "cp508c",
-
-    // IRS and government references
     "irs",
     "internal revenue",
     "internal revenue service",
@@ -272,9 +262,6 @@ function isTaxRelated(text = "") {
     "department of revenue",
     "revenue department",
     "taxing authority",
-    "tax commissioner",
-
-    // Forms and documents
     "1040",
     "1040x",
     "1041",
@@ -295,7 +282,6 @@ function isTaxRelated(text = "") {
     "schedule f",
     "schedule a",
     "schedule b",
-    "schedule se",
     "form 433a",
     "form 433b",
     "form 433f",
@@ -306,18 +292,10 @@ function isTaxRelated(text = "") {
     "form 8821",
     "form 4506",
     "form 4506-t",
-    "form 2210",
-    "form 1040-es",
-    "form 941x",
-    "form w9",
-    "form w-9",
     "ein",
     "itin",
     "ssn",
     "tax id",
-    "employer id number",
-
-    // Filings and compliance
     "filing",
     "file my taxes",
     "filed my taxes",
@@ -330,14 +308,8 @@ function isTaxRelated(text = "") {
     "amend return",
     "audit",
     "examination",
-    "correspondence audit",
-    "field audit",
-    "office audit",
     "amended return",
     "substitute for return",
-    "sfr",
-
-    // Income, deductions, and credits
     "income",
     "earned income",
     "gross income",
@@ -352,91 +324,46 @@ function isTaxRelated(text = "") {
     "tax credit",
     "child tax credit",
     "earned income credit",
-    "education credit",
-    "american opportunity",
-    "lifetime learning credit",
     "dependency",
     "dependent",
     "exemption",
     "write off",
     "write-off",
-    "business expense",
-    "home office deduction",
-    "charitable contribution",
-    "medical deduction",
-    "mortgage interest",
-    "student loan interest",
     "capital gain",
     "capital gains",
-    "loss carryforward",
-    "loss carryover",
     "basis",
     "depreciation",
-    "amortization",
-
-    // Payroll, withholding, and employment taxes
     "withholding",
     "fica",
     "social security tax",
     "medicare tax",
     "payroll tax",
     "employment tax",
-    "941 tax",
-    "940 tax",
     "self employment tax",
     "estimated tax",
     "quarterly payment",
     "quarterly taxes",
-    "1099 contractor",
-    "gig worker",
-    "freelancer",
-    "independent contractor",
-
-    // Collections and enforcement
     "levy",
     "lien",
     "garnishment",
     "garnish wages",
     "bank levy",
     "seizure",
-    "offset",
-    "passport revocation",
-    "notice of federal tax lien",
-    "final notice",
-    "collection notice",
-    "enforcement",
-    "revenue officer",
-    "revenue agent",
-    "tax court",
-    "collections",
-    "enforcement action",
-
-    // Payment and relief programs
     "payment plan",
     "installment agreement",
-    "partial pay",
     "currently not collectible",
     "cnc",
     "offer in compromise",
     "oic",
     "fresh start",
     "settlement",
-    "tax forgiveness",
     "penalty abatement",
     "first time abatement",
-    "interest abatement",
     "hardship",
     "appeal",
     "cdp hearing",
     "collection due process",
-    "cdp",
-    "equivalency hearing",
-    "reconsideration",
     "innocent spouse",
-    "injured spouse",
-    "spouse relief",
-
-    // Business and entity topics
     "llc",
     "s corp",
     "s-corp",
@@ -446,109 +373,29 @@ function isTaxRelated(text = "") {
     "sole proprietor",
     "self employed",
     "business taxes",
-    "franchise tax",
-    "sales tax",
-    "excise tax",
-    "use tax",
-    "property tax",
-    "payroll filings",
-    "941 filing",
-    "940 filing",
-    "deposit schedule",
-    "tax deposits",
-    "federal tax deposit",
-
-    // States and local
-    "california tax",
-    "new york state tax",
-    "florida tax",
-    "texas comptroller",
-    "georgia department of revenue",
-    "state return",
-    "state refund",
-    "state filing",
-    "state notice",
-
-    // Penalties and interest
     "penalty",
     "interest",
     "failure to file",
     "failure to pay",
-    "late payment",
-    "late filing",
-    "underpayment",
-    "accuracy penalty",
-    "substantial understatement",
-    "frivolous return",
-
-    // Tax strategy and planning
-    "tax planning",
-    "tax strategy",
-    "tax year",
-    "year end tax",
-    "quarterly estimates",
     "extension",
-    "form 4868",
     "deadline",
-    "october 15",
     "april 15",
     "due date",
-    "file an extension",
-
-    // Identification / compliance
-    "verify identity",
-    "id verify",
-    "tax identity theft",
-    "pin",
-    "identity protection pin",
-    "ippin",
-
-    // Special tax situations
-    "student loans",
-    "education credit",
-    "retirement account",
     "ira",
     "roth ira",
     "401k",
-    "withdrawal penalty",
     "hsa",
-    "health savings account",
-    "1098t",
-    "1098e",
-    "mortgage interest statement",
-    "capital loss",
     "rmd",
-    "required minimum distribution",
-    "inheritance tax",
     "estate tax",
     "gift tax",
-
-    // Professional / communication
-    "tax consultant",
-    "tax preparer",
-    "tax attorney",
-    "accountant",
-    "tax professional",
-    "irs agent",
-    "tax advocate",
-    "taxpayer advocate",
-
-    // Client phrases
     "i owe",
     "owe the irs",
     "owe money to the irs",
     "owe taxes",
-    "owe federal",
-    "owe state",
-    "back owed",
-    "unpaid balance",
     "received a letter",
     "got a letter",
-    "received notice",
     "irs sent me",
-    "tax bill",
     "balance due",
-    "collection letter",
   ];
 
   return keywords.some((k) => new RegExp(`\\b${k}\\b`, "i").test(s));
@@ -561,16 +408,70 @@ function isTaxRelated(text = "") {
 const PORT = process.env.PORT || 5000;
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Email transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SENDGRID_GATEWAY,
   port: process.env.SENDGRID_PORT,
-  secure: false, // TLS
+  secure: false,
   auth: {
     user: process.env.SENDGRID_USER,
     pass: process.env.SENDGRID_API_KEY,
   },
 });
+
+/* -------------------------------------------------------------------------- */
+/*                         WEBHOOK HELPER                                     */
+/* -------------------------------------------------------------------------- */
+
+async function postToWebhook(fields, source = "website") {
+  console.log(`[WEBHOOK] ========== START postToWebhook ==========`);
+  console.log(`[WEBHOOK] Source: ${source}`);
+  console.log(`[WEBHOOK] Fields:`, JSON.stringify(fields, null, 2));
+  console.log(
+    `[WEBHOOK] WEBHOOK_URL env: ${process.env.WEBHOOK_URL || "NOT SET"}`,
+  );
+  console.log(
+    `[WEBHOOK] LEAD_WEBHOOK_SECRET env: ${process.env.LEAD_WEBHOOK_SECRET ? "SET (length: " + process.env.LEAD_WEBHOOK_SECRET.length + ")" : "NOT SET"}`,
+  );
+
+  try {
+    if (!process.env.WEBHOOK_URL || !process.env.LEAD_WEBHOOK_SECRET) {
+      console.warn("[WEBHOOK] ✗ Missing WEBHOOK_URL or LEAD_WEBHOOK_SECRET");
+      return { ok: false, error: "Webhook not configured" };
+    }
+
+    const url = `${process.env.WEBHOOK_URL}/lead-contact`;
+    console.log(`[WEBHOOK] Posting to URL: ${url}`);
+
+    const response = await axios.post(
+      url,
+      { ...fields, source },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-webhook-key": process.env.LEAD_WEBHOOK_SECRET,
+        },
+        timeout: 15000,
+      },
+    );
+
+    console.log(`[WEBHOOK] ✓ Response status: ${response.status}`);
+    console.log(
+      `[WEBHOOK] ✓ Response data:`,
+      JSON.stringify(response.data, null, 2),
+    );
+    console.log(`[WEBHOOK] ========== END postToWebhook ==========`);
+    return response.data;
+  } catch (err) {
+    console.error(`[WEBHOOK] ✗ Error: ${err.message}`);
+    console.error(`[WEBHOOK] ✗ Error code: ${err.code || "N/A"}`);
+    console.error(
+      `[WEBHOOK] ✗ Response status: ${err.response?.status || "N/A"}`,
+    );
+    console.error(`[WEBHOOK] ✗ Response data:`, err.response?.data || "N/A");
+    console.log(`[WEBHOOK] ========== END postToWebhook (ERROR) ==========`);
+    return { ok: false, error: err.message };
+  }
+}
 
 /* -------------------------------------------------------------------------- */
 /*                               MIDDLEWARE                                   */
@@ -585,26 +486,19 @@ app.use(
 );
 
 /* -------------------------------------------------------------------------- */
-/*                            EXISTING FORM ROUTES                            */
+/*                            FORM TRACKING                                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * POST /api/track-form-input
- * Track form inputs from any form (ContactUs, LandingPopup, etc.)
- * Saves to cookie AND MongoDB for abandonment tracking
- */
 app.post("/api/track-form-input", async (req, res) => {
   try {
     const { formType, formData, abandoned, timestamp } = req.body;
 
     if (!formType || !formData) {
-      return res.status(400).json({
-        ok: false,
-        error: "formType and formData required",
-      });
+      return res
+        .status(400)
+        .json({ ok: false, error: "formType and formData required" });
     }
 
-    // Save to cookie
     const cookieName = `form_${formType}`;
     const cookieData = {
       formType,
@@ -618,22 +512,19 @@ app.post("/api/track-form-input", async (req, res) => {
       httpOnly: true,
       sameSite: "Lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       signed: true,
       path: "/",
     });
 
-    // If abandoned flag is set, save to MongoDB
     if (abandoned) {
       const FormSubmission = require("./models/FormSubmission");
-
       const ipAddress =
         req.ip ||
         req.headers["x-forwarded-for"] ||
         req.connection.remoteAddress;
       const userAgent = req.headers["user-agent"];
 
-      // Check if we already have this submission (by email)
       let existing = null;
       if (formData.email) {
         existing = await FormSubmission.findOne({
@@ -644,19 +535,16 @@ app.post("/api/track-form-input", async (req, res) => {
       }
 
       if (existing) {
-        // Update existing
         existing.formData = formData;
         existing.timestamp = new Date(timestamp || Date.now());
         existing.ipAddress = ipAddress;
         existing.userAgent = userAgent;
         await existing.save();
-
         console.log(
-          `[TRACK-FORM] ${formType} - Updated abandoned submission:`,
+          `[TRACK-FORM] ${formType} - Updated abandoned:`,
           existing._id,
         );
       } else {
-        // Create new
         const submission = new FormSubmission({
           formType,
           formData,
@@ -665,36 +553,25 @@ app.post("/api/track-form-input", async (req, res) => {
           userAgent,
           timestamp: new Date(timestamp || Date.now()),
         });
-
         await submission.save();
         console.log(
-          `[TRACK-FORM] ${formType} - Saved abandoned submission:`,
+          `[TRACK-FORM] ${formType} - Saved abandoned:`,
           submission._id,
         );
       }
-    } else {
-      console.log(`[TRACK-FORM] ${formType} - Data saved to cookie`);
     }
 
-    return res.json({
-      ok: true,
-      message: "Form data tracked",
-    });
+    return res.json({ ok: true, message: "Form data tracked" });
   } catch (error) {
     console.error("[/track-form-input] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to track form data",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to track form data" });
   }
 });
 
-/**
- * Clear form tracking cookie when form is successfully submitted
- */
 function clearFormTrackingCookie(res, formType) {
-  const cookieName = `form_${formType}`;
-  res.clearCookie(cookieName, {
+  res.clearCookie(`form_${formType}`, {
     path: "/",
     httpOnly: true,
     sameSite: "Lax",
@@ -702,11 +579,51 @@ function clearFormTrackingCookie(res, formType) {
   console.log(`[TRACK-FORM] Cleared ${formType} tracking cookie`);
 }
 
-// Contact Form
+/* -------------------------------------------------------------------------- */
+/*                     PHONE VERIFICATION FOR FORMS (DISABLED)                */
+/* -------------------------------------------------------------------------- */
+
+// NOTE: Phone verification disabled - CallRail doesn't allow 2FA codes
+// and RingCentral TCP compliance pending. Keeping endpoint commented
+// for future use when SMS provider is sorted.
+
+/*
+app.post("/api/send-form-verification", async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({ ok: false, error: "Phone required" });
+    }
+
+    const phoneCode = generateCode();
+    storeVerificationCode(phone, phoneCode, "phone");
+
+    const phoneNumber = String(phone).replace(/[()\-\s]/g, "");
+
+    await sendTextMessageAPI({
+      phoneNumber,
+      content: `Your Wynn Tax Solutions verification code is: ${phoneCode}. Valid for 10 minutes.`,
+    });
+
+    console.log("[FORM-VERIFY] Code sent to:", phoneNumber);
+
+    return res.json({ ok: true, message: "Verification code sent" });
+  } catch (error) {
+    console.error("[/send-form-verification] error:", error);
+    return res.status(500).json({ ok: false, error: "Failed to send code" });
+  }
+});
+*/
+
+/* -------------------------------------------------------------------------- */
+/*                            CONTACT FORM                                    */
+/* -------------------------------------------------------------------------- */
+
 app.post("/api/contact-form", formLimiter, async (req, res) => {
   const { name, email, phone, message, utm } = req.body;
 
-  console.log("Contact Form Submission:", req.body);
+  console.log("[CONTACT-FORM] Submission:", { name, email, phone });
 
   if (!name || !email || !message) {
     return res
@@ -717,20 +634,17 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
   try {
     const resolvedUtm = resolveUtm(utm, req);
 
-    const casePayload = buildCasePayload(
-      { name, email, phone, message },
-      resolvedUtm,
+    // POST to webhook for CRM + outreach + dialing
+    const webhookResult = await postToWebhook(
+      { name, email, phone: phone || "", city: "", state: "", message },
+      "contact-form",
     );
 
-    const logicsResult = await createLogicsCase(casePayload);
-    const caseId = logicsResult.caseId;
-
-    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
-
+    // Internal notification
     const mailOptions = {
       from: "inquiry@WynnTaxSolutions.com",
       to: "inquiry@taxadvocategroup.com",
-      subject: `New Contact Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
+      subject: `New Contact Form — ${name}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
       text: `
 NEW CONTACT FORM SUBMISSION
 ${"─".repeat(50)}
@@ -741,21 +655,16 @@ Phone:      ${phone || "Not provided"}
 Message:    ${message}
 
 ${"─".repeat(50)}
-Lead Source: ${sourceName}
 UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
 UTM Medium:  ${resolvedUtm.utmMedium || "N/A"}
 Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
 
-Logics CaseID: ${caseId || "Failed to create"}
-${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
+Logics Case: ${webhookResult.caseId || "N/A"}
       `.trim(),
     };
 
     await transporter.sendMail(mailOptions);
-    sendProspectWelcomeOutreach(transporter, { name, email, phone }).catch(
-      (err) =>
-        console.error("[CONTACT-FORM] Welcome outreach error:", err.message),
-    );
     clearFormTrackingCookie(res, "contact-us");
 
     const FormSubmission = require("./models/FormSubmission");
@@ -769,29 +678,31 @@ ${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
       },
     );
 
-    res.status(200).json({ success: "Email sent successfully!" });
+    console.log("[CONTACT-FORM] ✓ Complete");
+    res.status(200).json({ success: "Form submitted successfully!" });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Error sending email. Try again later." });
+    console.error("[CONTACT-FORM] Error:", error);
+    res.status(500).json({ error: "Error processing form. Try again later." });
   }
 });
 
-// Lead Form
+/* -------------------------------------------------------------------------- */
+/*                              LEAD FORM                                     */
+/* -------------------------------------------------------------------------- */
+
 app.post("/api/lead-form", async (req, res) => {
   const { debtAmount, filedAllTaxes, name, phone, email, bestTime, utm } =
     req.body;
 
-  console.log("[LEAD-FORM] Incoming submission:", {
+  console.log("[LEAD-FORM] Submission:", {
     name,
     email,
     phone,
     debtAmount,
     filedAllTaxes,
   });
-  console.log("[LEAD-FORM] Raw UTM from client:", utm);
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
-    console.log("[LEAD-FORM] Validation failed — missing fields");
     return res
       .status(400)
       .json({ error: "All required fields must be provided!" });
@@ -799,38 +710,19 @@ app.post("/api/lead-form", async (req, res) => {
 
   try {
     const resolvedUtm = resolveUtm(utm, req);
-    console.log("[LEAD-FORM] Resolved UTM:", resolvedUtm);
 
-    const casePayload = buildCasePayload(
-      {
-        name,
-        email,
-        phone,
-        balanceBand: debtAmount,
-        message: `Debt: ${debtAmount} | Filed All: ${filedAllTaxes}${bestTime ? ` | Best Time: ${bestTime}` : ""}`,
-      },
-      resolvedUtm,
-    );
-    console.log(
-      "[LEAD-FORM] Logics payload:",
-      JSON.stringify(casePayload, null, 2),
+    // POST to webhook for CRM + outreach + dialing
+    const message = `Debt: ${debtAmount} | Filed All: ${filedAllTaxes}${bestTime ? ` | Best Time: ${bestTime}` : ""}`;
+    const webhookResult = await postToWebhook(
+      { name, email, phone, city: "", state: "", message },
+      "lead-form",
     );
 
-    console.log("[LEAD-FORM] Calling createLogicsCase...");
-    const logicsResult = await createLogicsCase(casePayload);
-    const caseId = logicsResult.caseId;
-    console.log("[LEAD-FORM] Logics response:", {
-      ok: logicsResult.ok,
-      caseId,
-      error: logicsResult.error || null,
-    });
-
-    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
-
+    // Internal notification
     const mailOptions = {
       from: "inquiry@WynnTaxSolutions.com",
       to: "inquiry@taxadvocategroup.com",
-      subject: `New Lead Form — ${name}${caseId ? ` [Case #${caseId}]` : ""}`,
+      subject: `New Lead Form — ${name}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
       text: `
 NEW LEAD FORM SUBMISSION
 ${"─".repeat(50)}
@@ -843,22 +735,15 @@ Debt Amount:       ${debtAmount}
 Filed All Taxes:   ${filedAllTaxes}
 
 ${"─".repeat(50)}
-Lead Source: ${sourceName}
 UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
 Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
 
-Logics CaseID: ${caseId || "Failed to create"}
-${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
+Logics Case: ${webhookResult.caseId || "N/A"}
       `.trim(),
     };
 
-    console.log("[LEAD-FORM] Sending email...");
     await transporter.sendMail(mailOptions);
-    console.log("[LEAD-FORM] Email sent successfully");
-    sendProspectWelcomeOutreach(transporter, { name, email, phone }).catch(
-      (err) =>
-        console.error("[LEAD-FORM] Welcome outreach error:", err.message),
-    );
     clearFormTrackingCookie(res, "landing-popup");
 
     const FormSubmission = require("./models/FormSubmission");
@@ -876,21 +761,20 @@ ${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
       },
     );
 
-    console.log("[LEAD-FORM] ✓ Complete — CaseID:", caseId);
-    res.status(200).json({ success: "Lead form email sent successfully!" });
+    console.log("[LEAD-FORM] ✓ Complete — CaseID:", webhookResult.caseId);
+    res.status(200).json({ success: "Lead form submitted successfully!" });
   } catch (error) {
-    console.error("[LEAD-FORM] ✗ Error:", error?.message || error);
-    console.error("[LEAD-FORM] Stack:", error?.stack);
+    console.error("[LEAD-FORM] Error:", error?.message || error);
     res
       .status(500)
-      .json({ error: "Error sending lead form email. Try again later." });
+      .json({ error: "Error processing lead form. Try again later." });
   }
 });
+
 /* -------------------------------------------------------------------------- */
 /*                          TAX STEWART ROUTES                                */
 /* -------------------------------------------------------------------------- */
 
-// Tax Stewart Question Submission (with full form data)
 app.post("/api/send-question", async (req, res) => {
   try {
     const { name, email, phone, message, utm } = req.body || {};
@@ -899,7 +783,6 @@ app.post("/api/send-question", async (req, res) => {
       return res.status(400).json({ error: "Email and message are required." });
     }
 
-    // Accept message as object or string
     let msgObj = {};
     if (typeof message === "string") {
       try {
@@ -921,27 +804,22 @@ app.post("/api/send-question", async (req, res) => {
         ? msgObj.transcript
         : JSON.stringify(msgObj.transcript ?? {}, null, 2);
 
-    // Sanitize + cap size
     transcript = safeText(transcript, 8000);
     const nextQuestionText = safeText(nextQuestion, 2000);
 
     const resolvedUtm = resolveUtm(utm, req);
 
-    const casePayload = buildCasePayload(
-      { name, email, phone, message: nextQuestionText },
-      resolvedUtm,
+    // POST to webhook for CRM
+    const webhookResult = await postToWebhook(
+      { name, email, phone, city: "", state: "", message: nextQuestionText },
+      "tax-stewart",
     );
-
-    const logicsResult = await createLogicsCase(casePayload);
-    const caseId = logicsResult.caseId;
-
-    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
 
     const mailOptions = {
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
       to: "inquiry@taxadvocategroup.com",
-      subject: `New Tax Stewart Submission — ${email}${caseId ? ` [Case #${caseId}]` : ""}`,
+      subject: `New Tax Stewart Submission — ${email}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
       text: `
 NEW TAX STEWART SUBMISSION
 ${"─".repeat(50)}
@@ -959,22 +837,17 @@ Full Conversation & Details:
 ${transcript}
 
 ${"─".repeat(50)}
-Lead Source: ${sourceName}
 UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
 Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
 
-Logics CaseID: ${caseId || "Failed to create"}
-${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
+Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
+Logics Case: ${webhookResult.caseId || "N/A"}
       `.trim(),
       headers: { "X-App-Route": "send-question" },
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("[/send-question] sendMail result:", {
-      messageId: info?.messageId,
-      accepted: info?.accepted,
-      rejected: info?.rejected,
-    });
+    await transporter.sendMail(mailOptions);
+    console.log("[/send-question] ✓ Sent");
 
     return res.status(200).json({ success: "Question sent successfully!" });
   } catch (error) {
@@ -985,7 +858,6 @@ ${!logicsResult.ok ? `Logics Error: ${logicsResult.error}` : ""}
   }
 });
 
-// Tax Stewart AI Answer
 app.post("/api/answer", questionCounter, async (req, res) => {
   try {
     const raw = req.body?.question;
@@ -1005,7 +877,6 @@ app.post("/api/answer", questionCounter, async (req, res) => {
       );
     }
 
-    // Conversational memory
     const history = readHistory(req);
     const prior = history.slice(-2).flatMap(({ q, a }) => [
       { role: "user", content: q },
@@ -1061,7 +932,6 @@ app.post("/api/answer", questionCounter, async (req, res) => {
   }
 });
 
-// Tax Stewart Status
 app.get("/api/ts-status", questionCounter, (req, res) => {
   res.json({
     ok: true,
@@ -1072,14 +942,9 @@ app.get("/api/ts-status", questionCounter, (req, res) => {
 });
 
 /* -------------------------------------------------------------------------- */
-/*                        VERIFICATION & PDF ROUTES                           */
+/*                        VERIFICATION ROUTES (TAX STEWART)                   */
 /* -------------------------------------------------------------------------- */
 
-/* -------------------------------------------------------------------------- */
-/*                        RESEND VERIFICATION CODES                           */
-/* -------------------------------------------------------------------------- */
-
-// Rate limiter for resend requests (max 3 per 15 minutes per contact)
 const resendLimiter = new Map();
 
 function checkResendLimit(identifier) {
@@ -1093,13 +958,11 @@ function checkResendLimit(identifier) {
 
   const data = resendLimiter.get(key);
 
-  // Reset if time window passed
   if (now > data.resetAt) {
     resendLimiter.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
     return { allowed: true, remaining: 2, resetAt: now + 15 * 60 * 1000 };
   }
 
-  // Check if limit exceeded
   if (data.count >= 3) {
     return {
       allowed: false,
@@ -1109,63 +972,42 @@ function checkResendLimit(identifier) {
     };
   }
 
-  // Increment count
   data.count++;
   resendLimiter.set(key, data);
-
-  return {
-    allowed: true,
-    remaining: 3 - data.count,
-    resetAt: data.resetAt,
-  };
+  return { allowed: true, remaining: 3 - data.count, resetAt: data.resetAt };
 }
 
-// Cleanup old entries every 30 minutes
 setInterval(
   () => {
     const now = Date.now();
     for (const [key, data] of resendLimiter.entries()) {
-      if (now > data.resetAt) {
-        resendLimiter.delete(key);
-      }
+      if (now > data.resetAt) resendLimiter.delete(key);
     }
   },
   30 * 60 * 1000,
 );
 
-/**
- * POST /api/resend-verification-code
- * Resend verification code to email or phone
- */
 app.post("/api/resend-verification-code", async (req, res) => {
   try {
     const { email, phone, contactPref, name, type } = req.body;
 
-    // Determine which contact to resend to
     const targetEmail = type === "email" || !type ? email : null;
     const targetPhone = type === "phone" || !type ? phone : null;
 
     if (!targetEmail && !targetPhone) {
-      return res.status(400).json({
-        ok: false,
-        error: "Email or phone required",
-      });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Email or phone required" });
     }
 
-    const results = {
-      email: { sent: false },
-      phone: { sent: false },
-    };
+    const results = { email: { sent: false }, phone: { sent: false } };
 
-    // Resend to email
     if (targetEmail && (contactPref === "email" || contactPref === "both")) {
-      // Check rate limit
       const limit = checkResendLimit(targetEmail);
-
       if (!limit.allowed) {
         return res.json({
           ok: false,
-          error: `Too many requests. Please wait ${limit.waitMinutes} minutes before requesting another code.`,
+          error: `Too many requests. Wait ${limit.waitMinutes} minutes.`,
           rateLimited: true,
           resetAt: limit.resetAt,
         });
@@ -1183,38 +1025,27 @@ app.post("/api/resend-verification-code", async (req, res) => {
         year: new Date().getFullYear(),
       });
 
-      const mailOptions = {
+      await transporter.sendMail({
         from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
         to: targetEmail,
         subject: "Your New Verification Code - Wynn Tax Solutions",
         html: emailHtml,
-      };
-
-      await transporter.sendMail(mailOptions);
+      });
 
       results.email = {
         sent: true,
         remaining: limit.remaining,
         resetAt: limit.resetAt,
       };
-
-      console.log(
-        "[RESEND] Email code sent to:",
-        targetEmail,
-        "Remaining:",
-        limit.remaining,
-      );
+      console.log("[RESEND] Email code sent to:", targetEmail);
     }
 
-    // Resend to phone
     if (targetPhone && (contactPref === "phone" || contactPref === "both")) {
-      // Check rate limit
       const limit = checkResendLimit(targetPhone);
-
       if (!limit.allowed) {
         return res.json({
           ok: false,
-          error: `Too many requests. Please wait ${limit.waitMinutes} minutes before requesting another code.`,
+          error: `Too many requests. Wait ${limit.waitMinutes} minutes.`,
           rateLimited: true,
           resetAt: limit.resetAt,
         });
@@ -1222,12 +1053,7 @@ app.post("/api/resend-verification-code", async (req, res) => {
 
       const phoneCode = generateCode();
       storeVerificationCode(targetPhone, phoneCode, "phone");
-
-      function stripCommonPhonePunctuation(str) {
-        return String(str).replace(/[()\-\s]/g, "");
-      }
-
-      const phoneNumber = stripCommonPhonePunctuation(targetPhone);
+      const phoneNumber = String(targetPhone).replace(/[()\-\s]/g, "");
 
       await sendTextMessageAPI({
         phoneNumber,
@@ -1239,13 +1065,7 @@ app.post("/api/resend-verification-code", async (req, res) => {
         remaining: limit.remaining,
         resetAt: limit.resetAt,
       };
-
-      console.log(
-        "[RESEND] Phone code sent to:",
-        phoneNumber,
-        "Remaining:",
-        limit.remaining,
-      );
+      console.log("[RESEND] Phone code sent to:", phoneNumber);
     }
 
     return res.json({
@@ -1255,10 +1075,9 @@ app.post("/api/resend-verification-code", async (req, res) => {
     });
   } catch (error) {
     console.error("[/resend-verification-code] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to resend verification code",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to resend verification code" });
   }
 });
 
@@ -1267,15 +1086,13 @@ app.post("/api/send-verification-codes", async (req, res) => {
     const { email, phone, contactPref, name } = req.body;
 
     if (!email && !phone) {
-      return res.status(400).json({
-        ok: false,
-        error: "Email or phone required",
-      });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Email or phone required" });
     }
 
     const codes = {};
 
-    // Send email verification
     if (email && (contactPref === "email" || contactPref === "both")) {
       const emailCode = generateCode();
       storeVerificationCode(email, emailCode, "email");
@@ -1289,56 +1106,34 @@ app.post("/api/send-verification-codes", async (req, res) => {
         year: new Date().getFullYear(),
       });
 
-      const mailOptions = {
+      await transporter.sendMail({
         from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
         to: email,
         subject: "Verify Your Email - Wynn Tax Solutions",
         html: emailHtml,
-      };
-
-      await transporter.sendMail(mailOptions);
+      });
       codes.email = "sent";
     }
 
-    // Send phone verification
     if (phone && (contactPref === "phone" || contactPref === "both")) {
-      console.log("[VERIFY] Sending phone code to:", phone);
-
       const phoneCode = generateCode();
       storeVerificationCode(phone, phoneCode, "phone");
-
-      function stripCommonPhonePunctuation(str) {
-        return String(str).replace(/[()\-\s]/g, "");
-      }
-
-      const phoneNumber = stripCommonPhonePunctuation(phone);
-      console.log(
-        "[VERIFY] Normalized phone:",
-        phoneNumber,
-        "code:",
-        phoneCode,
-      );
+      const phoneNumber = String(phone).replace(/[()\-\s]/g, "");
 
       await sendTextMessageAPI({
         phoneNumber,
         content: `Your Wynn Tax Solutions verification code is: ${phoneCode}. Valid for 10 minutes.`,
       });
-
-      console.log("[VERIFY] SMS send requested successfully for:", phoneNumber);
-
       codes.phone = "sent";
+      console.log("[VERIFY] SMS sent to:", phoneNumber);
     }
 
-    return res.json({
-      ok: true,
-      codesSent: codes,
-    });
+    return res.json({ ok: true, codesSent: codes });
   } catch (error) {
     console.error("[/send-verification-codes] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to send verification codes",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to send verification codes" });
   }
 });
 
@@ -1346,12 +1141,8 @@ app.post("/api/verify-codes", async (req, res) => {
   try {
     const { email, phone, emailCode, phoneCode, contactPref } = req.body;
 
-    const results = {
-      emailVerified: false,
-      phoneVerified: false,
-    };
+    const results = { emailVerified: false, phoneVerified: false };
 
-    // Verify email code
     if (
       email &&
       emailCode &&
@@ -1363,15 +1154,14 @@ app.post("/api/verify-codes", async (req, res) => {
           ok: false,
           error:
             emailResult.reason === "expired"
-              ? "Email verification code expired. Please request a new one."
-              : "Invalid email verification code.",
+              ? "Email code expired."
+              : "Invalid email code.",
           field: "email",
         });
       }
       results.emailVerified = true;
     }
 
-    // Verify phone code
     if (
       phone &&
       phoneCode &&
@@ -1383,30 +1173,25 @@ app.post("/api/verify-codes", async (req, res) => {
           ok: false,
           error:
             phoneResult.reason === "expired"
-              ? "Phone verification code expired. Please request a new one."
-              : "Invalid phone verification code.",
+              ? "Phone code expired."
+              : "Invalid phone code.",
           field: "phone",
         });
       }
       results.phoneVerified = true;
     }
 
-    return res.json({
-      ok: true,
-      ...results,
-    });
+    return res.json({ ok: true, ...results });
   } catch (error) {
     console.error("[/verify-codes] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Verification failed",
-    });
+    return res.status(500).json({ ok: false, error: "Verification failed" });
   }
 });
 
-/**
- * POST /api/finalize-submission
- */
+/* -------------------------------------------------------------------------- */
+/*                        FINALIZE SUBMISSION (TAX STEWART)                   */
+/* -------------------------------------------------------------------------- */
+
 app.post("/api/finalize-submission", async (req, res) => {
   try {
     const {
@@ -1416,7 +1201,6 @@ app.post("/api/finalize-submission", async (req, res) => {
       contactPref,
       question,
       answer,
-      // Intake data
       issues,
       balanceBand,
       noticeType,
@@ -1424,39 +1208,24 @@ app.post("/api/finalize-submission", async (req, res) => {
       state,
       filerType,
       intakeSummary,
-      // UTM tracking
       utm,
     } = req.body;
 
-    // Verify that email/phone were verified
     if (email && !isVerified(email)) {
-      return res.status(400).json({
-        ok: false,
-        error: "Email not verified",
-      });
+      return res.status(400).json({ ok: false, error: "Email not verified" });
     }
-
     if (phone && !isVerified(phone)) {
-      return res.status(400).json({
-        ok: false,
-        error: "Phone not verified",
-      });
+      return res.status(400).json({ ok: false, error: "Phone not verified" });
     }
 
-    // Read conversation history from cookie before we clear it
     const conversationHistory = readHistory(req);
-
-    // Get question counter data
     const questionCounterData = req.signedCookies?.ts_qc
       ? JSON.parse(req.signedCookies.ts_qc)
       : { count: 0 };
-
-    // Get session metadata
     const ipAddress =
       req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     const userAgent = req.headers["user-agent"];
 
-    // Generate AI summary for email body
     const userData = {
       name,
       email,
@@ -1468,12 +1237,9 @@ app.post("/api/finalize-submission", async (req, res) => {
       state,
       filerType,
     };
-
     const aiSummary = await generateAISummary(openai, userData);
 
-    // Save to MongoDB
     const TaxStewartSubmission = require("./models/TaxStewartSubmission");
-
     const submission = new TaxStewartSubmission({
       name,
       email,
@@ -1506,133 +1272,74 @@ app.post("/api/finalize-submission", async (req, res) => {
     await submission.save();
     console.log("[/finalize-submission] Saved to MongoDB:", submission._id);
 
-    // ── IRS Logics: Create case from verified submission ─────
     const resolvedUtm = resolveUtm(utm, req);
 
-    const casePayload = buildCasePayload(
-      {
-        name,
-        email,
-        phone,
-        issues,
-        balanceBand,
-        noticeType,
-        taxScope,
-        state,
-        filerType,
-        intakeSummary,
-        aiSummary,
-        contactPref,
-      },
-      resolvedUtm,
+    // POST to webhook for CRM + outreach + dialing
+    const webhookResult = await postToWebhook(
+      { name, email, phone, city: "", state: state || "", message: aiSummary },
+      "tax-stewart-verified",
     );
 
-    const logicsResult = await createLogicsCase(casePayload);
-    const caseId = logicsResult.caseId;
-
-    if (caseId) {
+    if (webhookResult.caseId) {
       await TaxStewartSubmission.updateOne(
         { _id: submission._id },
         {
           $set: {
-            logicsCaseId: String(caseId),
-            leadSource: SOURCE_NAMES[casePayload.StatusID] || "VF Digital",
+            logicsCaseId: String(webhookResult.caseId),
+            leadSource: "VF Digital",
           },
         },
       ).catch((e) =>
         console.error("[FINALIZE] Logics ID save failed:", e.message),
       );
     }
-    console.log(
-      "[/finalize-submission] Logics result:",
-      logicsResult.ok ? `CaseID ${caseId}` : logicsResult.error,
-    );
-    // ── End IRS Logics ───────────────────────────────────────
 
-    // Path to the standard Wynn Tax guide PDF
+    // Send welcome email with PDF
     const pdfPath = path.join(__dirname, "library", "wynn-tax-guide.pdf");
-
-    // Check if PDF exists
-    if (!fs.existsSync(pdfPath)) {
-      console.error("[/finalize-submission] PDF not found at:", pdfPath);
-      return res.status(500).json({
-        ok: false,
-        error: "Guide not available. Our team will contact you directly.",
-      });
-    }
-
-    // Send email with PDF attachment using Handlebars template
-    if (email && (contactPref === "email" || contactPref === "both")) {
+    if (
+      email &&
+      (contactPref === "email" || contactPref === "both") &&
+      fs.existsSync(pdfPath)
+    ) {
       const emailHtml = welcomeTemplate({
-        name: name,
-        aiSummary: aiSummary,
+        name,
+        aiSummary,
         logoUrl: process.env.LOGO_URL || "",
         calendlyLink:
           process.env.CALENDLY_LINK || "https://calendly.com/wynntax",
         year: new Date().getFullYear(),
       });
 
-      const mailOptions = {
+      await transporter.sendMail({
         from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
         to: email,
         subject: `Welcome to Wynn Tax Solutions, ${name}`,
         html: emailHtml,
         attachments: [
-          {
-            filename: "Wynn_Tax_Solutions_Guide.pdf",
-            path: pdfPath,
-          },
+          { filename: "Wynn_Tax_Solutions_Guide.pdf", path: pdfPath },
         ],
-      };
-
-      await transporter.sendMail(mailOptions);
+      });
       console.log("[/finalize-submission] Welcome email sent to:", email);
     }
 
-    // Send text with scheduling link
+    // Send SMS with scheduling link
     if (phone && (contactPref === "phone" || contactPref === "both")) {
-      const trackingNumber = process.env.CALL_RAIL_TRACKING_NUMBER;
+      const phoneNumber = String(phone).replace(/[()\-\s]/g, "");
       const calendlyLink =
         process.env.CALENDLY_LINK || "https://calendly.com/wynntax";
 
-      function stripCommonPhonePunctuation(str) {
-        return String(str).replace(/[()\-\s]/g, "");
-      }
-
-      const phoneNumber = stripCommonPhonePunctuation(phone);
-
       await sendTextMessageAPI({
         phoneNumber,
-        trackingNumber: trackingNumber,
-        content: `Hi ${name}! Thanks for reaching out to Wynn Tax Solutions. ${
-          email
-            ? "We've sent your guide via email. "
-            : `Please review the information about our client journey at https://www.wynntaxsolutions.com/services-brochure`
-        } 
-        
-Ready to schedule your consultation? ${calendlyLink}`,
+        trackingNumber: process.env.CALL_RAIL_TRACKING_NUMBER,
+        content: `Hi ${name}! Thanks for reaching out to Wynn Tax Solutions. ${email ? "We've sent your guide via email. " : ""}Ready to schedule? ${calendlyLink}`,
       });
       console.log("[/finalize-submission] SMS sent to:", phoneNumber);
     }
 
-    // Format conversation history for internal email
+    // Internal notification
     const formattedHistory = conversationHistory
-      .map((item, idx) => {
-        return `
-┌─────────────────────────────────────────────────────────
-│ Question ${idx + 1}:
-└─────────────────────────────────────────────────────────
-${item.q}
-
-┌─────────────────────────────────────────────────────────
-│ Answer ${idx + 1}:
-└─────────────────────────────────────────────────────────
-${item.a}
-`;
-      })
+      .map((item, idx) => `Q${idx + 1}: ${item.q}\nA${idx + 1}: ${item.a}`)
       .join("\n\n");
-
-    // Send internal notification email with ALL data
     const intakeDetails = [
       issues?.length ? `Issues: ${issues.join(", ")}` : "",
       balanceBand ? `Amount Owed: ${balanceBand}` : "",
@@ -1644,185 +1351,93 @@ ${item.a}
       .filter(Boolean)
       .join("\n");
 
-    const sourceName = SOURCE_NAMES[casePayload.StatusID] || "VF Digital";
-
-    const internalMailOptions = {
+    await transporter.sendMail({
       from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
       replyTo: email,
       to: "inquiry@taxadvocategroup.com",
-      subject: `🎯 New Verified Tax Stewart Lead - ${name} [${submission._id}]${caseId ? ` [Case #${caseId}]` : ""}`,
+      subject: `🎯 Verified Tax Stewart Lead - ${name} [${submission._id}]${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
       text: `
-╔═════════════════════════════════════════════════════════════════╗
-║                                                                 ║
-║          VERIFIED TAX STEWART SUBMISSION                        ║
-║          Database ID: ${submission._id}                         ║
-║          Logics CaseID: ${caseId || "Failed to create"}                              ║
-║                                                                 ║
-╚═════════════════════════════════════════════════════════════════╝
+VERIFIED TAX STEWART SUBMISSION
+${"═".repeat(50)}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 CONTACT INFORMATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Name:    ${name}
+Email:   ${email} ✓ VERIFIED
+Phone:   ${phone || "N/A"}${phone ? " ✓ VERIFIED" : ""}
+Pref:    ${contactPref}
 
-Name:               ${name}
-Email:              ${email} ✓ VERIFIED
-Phone:              ${phone || "Not provided"}${phone ? " ✓ VERIFIED" : ""}
-Contact Preference: ${contactPref}
-Questions Asked:    ${questionCounterData.count || 0}
+${"─".repeat(50)}
+INTAKE: ${intakeSummary || "N/A"}
+${intakeDetails}
 
-IP Address:         ${ipAddress}
-User Agent:         ${userAgent}
+${"─".repeat(50)}
+QUESTION: ${question || "N/A"}
+ANSWER: ${answer || "N/A"}
 
-Lead Source:        ${sourceName}
-UTM Source:         ${resolvedUtm.utmSource || "Direct/Organic"}
-UTM Medium:         ${resolvedUtm.utmMedium || "N/A"}
-Campaign:           ${resolvedUtm.utmCampaign || "N/A"}
-Logics CaseID:      ${caseId || "Failed to create"}
-${!logicsResult.ok ? `Logics Error:       ${logicsResult.error}` : ""}
+${"─".repeat(50)}
+HISTORY (${conversationHistory.length}):
+${formattedHistory || "None"}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 TAX SITUATION SUMMARY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${"─".repeat(50)}
+AI SUMMARY: ${aiSummary}
 
-${intakeSummary || "Not provided"}
+${"─".repeat(50)}
+Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
+Logics Case: ${webhookResult.caseId || "N/A"}
+DB ID:       ${submission._id}
+      `.trim(),
+    });
 
-📊 INTAKE DETAILS:
-${intakeDetails || "Not provided"}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💬 FINAL QUESTION & ANSWER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-┌─ USER'S QUESTION ─────────────────────────────────────────────┐
-│ ${question || "No question provided"}
-└───────────────────────────────────────────────────────────────┘
-
-┌─ AI RESPONSE PROVIDED ────────────────────────────────────────┐
-│ ${answer || "No response provided"}
-└───────────────────────────────────────────────────────────────┘
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 FULL CONVERSATION HISTORY (${conversationHistory.length} exchanges)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formattedHistory || "No previous conversation history"}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🤖 AI SUMMARY SENT TO CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${aiSummary}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ ACTIONS TAKEN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${email ? "✓ Tax guide PDF sent to email" : ""}
-${phone ? "✓ Scheduling link sent via text" : ""}
-✓ Data saved to MongoDB (ID: ${submission._id})
-${caseId ? `✓ IRS Logics case created (CaseID: ${caseId})` : "✗ IRS Logics case creation failed"}
-✓ Session cookies cleared
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 NEXT STEPS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-This is a VERIFIED lead ready for follow-up.
-
-View in database:
-Query: db.taxstewartsubmissions.findOne({_id: ObjectId("${submission._id}")})
-
-Update status:
-db.taxstewartsubmissions.updateOne(
-  {_id: ObjectId("${submission._id}")},
-  {$set: {status: "contacted", assignedTo: "YourName"}}
-)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-`,
-    };
-
-    await transporter.sendMail(internalMailOptions);
-    console.log("[/finalize-submission] Internal notification sent");
-
-    // Clear all session cookies
     res.clearCookie("ts_qc", { path: "/" });
     res.clearCookie(TS_HISTORY_COOKIE, { path: "/" });
-    console.log("[/finalize-submission] Session cookies cleared");
 
     return res.json({
       ok: true,
-      message: "Submission finalized successfully",
+      message: "Submission finalized",
       submissionId: submission._id,
     });
   } catch (error) {
     console.error("[/finalize-submission] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to finalize submission",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to finalize submission" });
   }
 });
 
-/**
- * POST /api/save-progress
- */
+/* -------------------------------------------------------------------------- */
+/*                        PROGRESS & ABANDONMENT                              */
+/* -------------------------------------------------------------------------- */
+
 app.post("/api/save-progress", (req, res) => {
   try {
     const { savePartialProgress } = require("./utils/partialSubmissions");
-
     const formData = req.body;
-
     if (!formData || typeof formData !== "object") {
-      return res.status(400).json({
-        ok: false,
-        error: "Invalid form data",
-      });
+      return res.status(400).json({ ok: false, error: "Invalid form data" });
     }
-
     savePartialProgress(res, formData);
-
-    return res.json({
-      ok: true,
-      message: "Progress saved",
-    });
+    return res.json({ ok: true, message: "Progress saved" });
   } catch (error) {
     console.error("[/save-progress] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to save progress",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to save progress" });
   }
 });
 
-/**
- * GET /api/restore-progress
- */
 app.get("/api/restore-progress", (req, res) => {
   try {
     const { readPartialProgress } = require("./utils/partialSubmissions");
-
     const partial = readPartialProgress(req);
-
-    if (!partial) {
-      return res.json({
-        ok: true,
-        hasProgress: false,
-        data: null,
-      });
-    }
-
     return res.json({
       ok: true,
-      hasProgress: true,
-      data: partial,
+      hasProgress: !!partial,
+      data: partial || null,
     });
   } catch (error) {
     console.error("[/restore-progress] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: "Failed to restore progress",
-    });
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to restore progress" });
   }
 });
 
@@ -1830,44 +1445,24 @@ const {
   sendAbandonedSessionsDigest,
   sendHighPriorityAbandonAlert,
 } = require("./utils/abandonedSessionEmail");
-
 const { saveAbandonedSession } = require("./utils/abandonedSessionCleanup");
 
-/**
- * GET /api/abandoned-digest
- */
 app.get("/api/abandoned-digest", async (req, res) => {
   try {
     const result = await sendAbandonedSessionsDigest(transporter);
-
-    res.json({
-      ok: true,
-      ...result,
-    });
+    res.json({ ok: true, ...result });
   } catch (error) {
     console.error("[/abandoned-digest] error:", error);
-    res.status(500).json({
-      ok: false,
-      error: error.message,
-    });
+    res.status(500).json({ ok: false, error: error.message });
   }
 });
 
-/**
- * POST /api/track-abandon
- */
 app.post("/api/track-abandon", async (req, res) => {
   try {
     const abandoned = await saveAbandonedSession(req);
-
     if (!abandoned) {
-      return res.json({
-        ok: true,
-        saved: false,
-        message: "No data to save",
-      });
+      return res.json({ ok: true, saved: false, message: "No data to save" });
     }
-
     if (
       abandoned.lastPhase === "verification" &&
       (abandoned.email || abandoned.phone)
@@ -1875,7 +1470,6 @@ app.post("/api/track-abandon", async (req, res) => {
       await sendHighPriorityAbandonAlert(transporter, abandoned);
       console.log("[TRACK-ABANDON] High priority alert sent");
     }
-
     return res.json({
       ok: true,
       saved: true,
@@ -1884,20 +1478,16 @@ app.post("/api/track-abandon", async (req, res) => {
     });
   } catch (error) {
     console.error("[/track-abandon] error:", error);
-    return res.status(500).json({
-      ok: false,
-      error: error.message,
-    });
+    return res.status(500).json({ ok: false, error: error.message });
   }
 });
 
 /* -------------------------------------------------------------------------- */
-/*                            CRON JOB SETUP GETUP                            */
+/*                            CRON JOBS                                       */
 /* -------------------------------------------------------------------------- */
 
 const cron = require("node-cron");
 
-// Run every day at 9:00 AM
 cron.schedule("0 9 * * *", async () => {
   console.log("[CRON] Running daily abandoned sessions digest...");
   try {
@@ -1923,7 +1513,6 @@ app.get("/api/sitemap.xml", async (req, res) => {
     { url: "/tax-news", changefreq: "weekly", priority: 0.6 },
   ];
 
-  // Add dynamic blog posts
   const blogRoutes = ["understanding-tax-relief", "irs-negotiation-tips"];
   blogRoutes.forEach((slug) => {
     links.push({
@@ -1936,7 +1525,6 @@ app.get("/api/sitemap.xml", async (req, res) => {
   const stream = new SitemapStream({
     hostname: "https://www.WynnTaxSolutions.com",
   });
-
   const xml = await streamToPromise(Readable.from(links)).then((data) => {
     links.forEach((link) => stream.write(link));
     stream.end();
