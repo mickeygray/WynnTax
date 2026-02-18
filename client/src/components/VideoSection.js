@@ -7,12 +7,14 @@ const VideoSection = () => {
       <div className="video-container">
         <iframe
           loading="lazy"
-          src="https://www.youtube.com/embed/NtVYBYELwJI"
-          width="940"
-          height="529"
-          frameBorder="0"
-          allowFullScreen
-          title="How to do Taxes for the First Time"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/CpD6Zuka4P4?si=ozyTaU8Ghr3Apir4"
+          title="Wynn Tax Solutions"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
         ></iframe>
       </div>
     </section>

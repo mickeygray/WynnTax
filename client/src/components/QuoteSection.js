@@ -2,12 +2,12 @@ const QuoteSection = () => (
   <section className="quote-section">
     <p className="quote-text">
       <span className="quote">
-        “The purpose of a tax cut is to leave more money where it belongs: in
-        the hands of the working men and working women who earned it in the
-        first place.”
+        “The legal right of a taxpayer to decrease the amount of what otherwise
+        would be his taxes, or altogether to avoid them, by means which the law
+        permits, cannot be doubted.”
       </span>
       <br />
-      <span className="quote-author">– Bob Dole</span>
+      <span className="quote-author">– George Sutherland</span>
     </p>
   </section>
 );
