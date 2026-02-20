@@ -6,6 +6,61 @@ const useBlogData = () => {
   useEffect(() => {
     setBlogs([
       {
+        id: "offer-in-compromise-myth-vs-fact",
+        title:
+          "Offer in Compromise: Myth vs Fact (What the IRS Actually Looks At)",
+        image: "/images/oic-myth-vs-fact.png",
+        teaser:
+          "Offer in Compromise sounds like “settle for pennies,” but that’s not how the IRS evaluates it. Here’s a clean Myth vs Fact breakdown of who actually qualifies, what the IRS looks at, and why many offers fail.",
+        contentTitle:
+          "Offer in Compromise: Myth vs Fact (What the IRS Actually Looks At)",
+        contentBody: [
+          "<p><em>Quick note:</em> This is general information, not tax or legal advice. Every case is different, and IRS deadlines can be time-sensitive.</p>",
+
+          "<h2>What an Offer in Compromise is</h2>",
+          "<p>An <strong>Offer in Compromise (OIC)</strong> is an agreement that can settle tax debt for less than the full amount owed. But the IRS does not approve offers just because someone asks — the offer has to make sense based on what the IRS believes it can realistically collect.</p>",
+
+          "<h2>MYTH vs FACT: Offer in Compromise</h2>",
+
+          "<h3>Myth #1: “Everyone can settle for pennies on the dollar.”</h3>",
+          "<p><strong>Fact:</strong> The IRS generally won’t accept an OIC if it believes you can pay the balance through an installment agreement or other means. The offer usually has to meet or exceed what the IRS calls your <strong>Reasonable Collection Potential (RCP)</strong>.</p>",
+
+          "<h3>Myth #2: “OIC is a negotiation — I can just throw out a low number.”</h3>",
+          "<p><strong>Fact:</strong> Most OICs are numbers-driven. The IRS looks at <strong>asset equity</strong> (bank accounts, vehicles, real property, etc.) and <strong>future income potential</strong> minus certain allowed living expenses. That’s why documentation matters so much.</p>",
+
+          "<h3>Myth #3: “I can apply even if I’m behind on tax returns.”</h3>",
+          "<p><strong>Fact:</strong> In most cases, to qualify you must be <strong>current on required filings</strong>. If you’re self-employed, you generally must also be current on required <strong>estimated payments</strong>. If you have employees, payroll deposit rules can apply too.</p>",
+
+          "<h3>Myth #4: “Applying means the IRS can’t touch me, and liens go away.”</h3>",
+          "<p><strong>Fact:</strong> While the IRS evaluates your offer, it may still <strong>file a Notice of Federal Tax Lien</strong> and your lien typically does not get released until the offer terms are satisfied. The IRS generally suspends other collection activity during review — but your situation still needs to be handled correctly and on time.</p>",
+
+          "<h3>Myth #5: “It’s free to apply and I don’t have to pay anything up front.”</h3>",
+          "<p><strong>Fact:</strong> Most offers require an <strong>application fee</strong> and an <strong>initial payment</strong> (unless you qualify under low-income guidelines). If you choose a “lump sum” style offer, the IRS generally expects an initial payment equal to <strong>20% of the offer</strong>. If you choose a periodic offer, you typically send the <strong>first proposed installment</strong> and continue payments while the IRS considers it. These payments are generally non-refundable and get applied to your balance.</p>",
+
+          "<h3>Myth #6: “If my offer is accepted, I’m done forever.”</h3>",
+          "<p><strong>Fact:</strong> An accepted OIC usually comes with strict compliance rules. You typically must stay current on filing and paying for <strong>five years after acceptance</strong>. If you default, the IRS can terminate the agreement and go back to collecting what was originally owed (less payments made), plus applicable penalties and interest.</p>",
+
+          "<h3>Myth #7: “OIC is always the best move if I owe a lot.”</h3>",
+          "<p><strong>Fact:</strong> Sometimes the better path is a payment plan, penalty relief, or a hardship option. The “best” solution depends on your income stability, your assets, and whether you’re already in collections. The biggest mistake is forcing an OIC when the numbers don’t support it.</p>",
+
+          "<h2>What you should gather before you even think about OIC</h2>",
+          "<ul>",
+          "<li>Recent pay stubs or proof of income (and spouse/household income if applicable)</li>",
+          "<li>Bank statements (often multiple months)</li>",
+          "<li>Housing costs (rent/mortgage), utilities, insurance, vehicle payment/insurance</li>",
+          "<li>Medical expenses (if significant)</li>",
+          "<li>Business income/expenses (if self-employed)</li>",
+          "<li>Asset information (vehicles, property, retirement accounts, etc.)</li>",
+          "</ul>",
+          "<p>If those numbers aren’t organized, it’s hard to estimate an offer amount realistically — and that’s where many offers fall apart.</p>",
+
+          "<h2>How Wynn Tax Solutions can help</h2>",
+          "<p>If you’re considering an Offer in Compromise, we can help you figure out if it’s realistic <em>before</em> you waste time chasing it. If it is, we can help you organize the financial picture the IRS uses to evaluate RCP and build a plan that fits your situation.</p>",
+          "<p>Contact Wynn Tax Solutions for a review call. If we’re engaged and you authorize us, we can communicate with the IRS on your behalf.</p>",
+        ],
+      },
+
+      {
         id: "currently-not-collectible-cnc-how-it-works",
         title:
           "Currently Not Collectible (CNC): When the IRS Can Pause Collections Because You Can’t Afford to Pay",
