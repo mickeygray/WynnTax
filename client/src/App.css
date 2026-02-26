@@ -3266,7 +3266,7 @@ body.modal-open {
     var(--stg-navy) 50%,
     var(--stg-blue) 100%
   );
-  padding: 3rem 1.5rem 2rem;
+  padding: 10rem 1.5rem 2rem;
   text-align: center;
 }
 
@@ -3436,7 +3436,7 @@ body.modal-open {
     var(--stg-navy) 60%,
     var(--stg-blue) 100%
   );
-  padding: 6rem 1.5rem 3rem;
+  padding: 10rem 1.5rem 3rem;
 }
 
 .stp__hero-inner {
@@ -3973,6 +3973,84 @@ a.stp__pill-value i {
 .stp__browse-link--all:hover {
   background: var(--stg-accent);
   color: var(--stg-dark);
+}
+
+/* ─── STATE TAX MOBILE ─── */
+@media (max-width: 768px) {
+  .state-hub__hero {
+    padding: 8rem 1rem 1.5rem;
+  }
+
+  .state-hub__hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .state-hub__stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .state-hub__az {
+    grid-template-columns: 1fr;
+  }
+
+  .stp__hero {
+    padding: 8rem 1rem 2rem;
+  }
+
+  .stp__hero-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .stp__hero-form {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .stp__hero-form form,
+  .stp__hero-form input,
+  .stp__hero-form select,
+  .stp__hero-form textarea,
+  .stp__hero-form button {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .stp__hero-left h1 {
+    font-size: 1.6rem;
+  }
+
+  .stp__hero-map {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .stp__hero-map svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .stp__pills-inner {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .stp__services {
+    grid-template-columns: 1fr;
+  }
+
+  .stp__resolution {
+    padding: 0;
+  }
+
+  .stp__res-card {
+    margin-bottom: 1rem;
+  }
+
+  .stp__browse-grid {
+    gap: 0.4rem;
+  }
 }
 
 /* ─── SHARED BUTTONS ─── */
@@ -5552,9 +5630,8 @@ a.stp__pill-value i {
 .tax-news-hero-bg {
   position: absolute;
   inset: 0;
-  height: 600px;
   background-size: cover;
-  background-position: center 30%;
+  background-position: center bottom;
   background-repeat: no-repeat;
   z-index: 0;
 }
@@ -5639,7 +5716,7 @@ a.stp__pill-value i {
 /* Mobile styles for responsiveness */
 @media (max-width: 768px) {
   .tax-news-hero {
-    height: 260px;
+    height: 320px;
   }
 
   .tax-news-hero .tax-news-content h1 {
