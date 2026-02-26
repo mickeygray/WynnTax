@@ -34,11 +34,15 @@ const ThankYou = () => {
             )}
           </div>
           <div className="hero-text-overlay">
-            <h1 className="landing-hero-company-name">Wynn Tax Solutions</h1>
-            <h1 className="landing-hero-title">
-              Thank You For Your Submission, Someone Will Be Calling You
-              Shortly.
+            <h1>
+              <span className="landing-hero-company-name">
+                Wynn Tax Solutions
+              </span>{" "}
+              — Thank You For Your Submission
             </h1>
+            <p className="landing-hero-subtitle">
+              Someone Will Be Calling You Shortly.
+            </p>
 
             <div className="hero-buttons">
               <PhoneLink rawNumber="18449966829" />
@@ -61,7 +65,7 @@ const ThankYou = () => {
               <img
                 className="step-icon"
                 src="https://d9hhrg4mnvzow.cloudfront.net/hire.wynntaxsolutions.com/consultation/a9bbfa4e-frame-15031-1.svg"
-                alt="Step 1"
+                alt="Legal representation icon"
               />
               <h3 className="step-title">Legal Representation</h3>
               <p className="step-description">
@@ -73,7 +77,7 @@ const ThankYou = () => {
               <img
                 className="step-icon"
                 src="https://d9hhrg4mnvzow.cloudfront.net/hire.wynntaxsolutions.com/consultation/a9bbfa4e-frame-15031-1.svg"
-                alt="Step 1"
+                alt="Guaranteed compliance icon"
               />
               <h3 className="step-title">Guaranteed Compliance</h3>
               <p className="step-description">
@@ -85,7 +89,7 @@ const ThankYou = () => {
               <img
                 className="step-icon"
                 src="https://d9hhrg4mnvzow.cloudfront.net/hire.wynntaxsolutions.com/consultation/a9bbfa4e-frame-15031-1.svg"
-                alt="Step 1"
+                alt="Best resolution icon"
               />
               <h3 className="step-title">Best Resolution</h3>
               <p className="step-description">
@@ -93,7 +97,6 @@ const ThankYou = () => {
                 application of tax law.
               </p>
             </div>
-            {/* Add Step 2, Step 3 similarly */}
           </section>
         </div>
         <section className="features-section">
@@ -108,10 +111,7 @@ const ThankYou = () => {
           <div className="features-grid">
             {/* Image Side */}
             <div className="features-image">
-              <img
-                src="/images/wynn-gilf.png" /* Replace with actual image */
-                alt="Feature visual"
-              />
+              <img src="/images/wynn-gilf.png" alt="Feature visual" />
             </div>
 
             {/* Text Boxes */}
@@ -178,7 +178,6 @@ const ThankYou = () => {
                 some clients.
               </p>
             </div>
-            {/* Add Step 2, Step 3 similarly */}
           </section>
         </div>
         <section className="landing-testimonials-section">
@@ -232,9 +231,10 @@ const ThankYou = () => {
               Our experts are ready to help you reduce and resolve your IRS tax
               liability.
             </p>
-            <a href="tel:+18667163921" className="landing-callout-button">
-              CALL NOW
-            </a>
+            <PhoneLink
+              rawNumber="18449966829"
+              className="landing-callout-button"
+            />
           </div>
         </section>
 

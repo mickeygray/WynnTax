@@ -1,8 +1,22 @@
 import React from "react";
-
+import SEO from "./SEO";
+import { orgSchema, serviceSchema } from "../utils/structuredData";
 const TaxNegotiation = () => {
   return (
     <div className="tax-negotiation-page">
+      <SEO
+        title="IRS Tax Negotiation | Settlements & Payment Plans | Wynn Tax Solutions"
+        description="Expert IRS negotiation services to secure reduced payments, extended deadlines, or settlements. Licensed enrolled agents representing your interests."
+        canonical="/tax-negotiation"
+        structuredData={[
+          orgSchema,
+          serviceSchema(
+            "Tax Negotiation Services",
+            "Expert IRS negotiation for installment plans, offers in compromise, penalty abatement, and currently not collectible status.",
+            "Tax Negotiation",
+          ),
+        ]}
+      />
       {/* Hero Section */}
       <section
         className="tax-negotiation-hero"
@@ -28,7 +42,7 @@ const TaxNegotiation = () => {
             <strong>Wynn Tax Solutions</strong> is here to provide the solutions
             you need. Our tax negotiation services are designed to help you
             resolve your tax issues and regain financial stability. Whether
-            you’re dealing with unpaid taxes, penalties, or collection actions,
+            you're dealing with unpaid taxes, penalties, or collection actions,
             our team works closely with the IRS to negotiate terms that work for
             you.
           </p>
@@ -43,12 +57,11 @@ const TaxNegotiation = () => {
             including:
           </p>
 
-          {/* Currently Not Collectible */}
           <h2 className="tax-negotiation-subtitle">
             ✔ Currently Not Collectible
           </h2>
           <p>
-            If you’re unable to pay your tax debt due to financial hardship, the
+            If you're unable to pay your tax debt due to financial hardship, the
             IRS may grant you
             <a href="/tax-negotiation/currently-not-collectible">
               {" "}
@@ -60,21 +73,19 @@ const TaxNegotiation = () => {
             securing this relief.
           </p>
 
-          {/* IRS Installment Plans */}
           <h2 className="tax-negotiation-subtitle">✔ IRS Installment Plans</h2>
           <p>
-            When paying your tax debt in full isn’t possible, an
+            When paying your tax debt in full isn't possible, an
             <a href="/tax-negotiation/irs-installment-plans">
               {" "}
               IRS installment plan
             </a>{" "}
             may be the right solution. These plans allow you to break your debt
-            into manageable monthly payments. We’ll work with you to negotiate
+            into manageable monthly payments. We'll work with you to negotiate
             terms that fit your budget while keeping you compliant with IRS
             requirements.
           </p>
 
-          {/* Penalty Abatement */}
           <h2 className="tax-negotiation-subtitle">✔ Penalty Abatement</h2>
           <p>
             IRS penalties can significantly increase your tax debt, but you may
@@ -84,12 +95,11 @@ const TaxNegotiation = () => {
               penalty abatement
             </a>{" "}
             under certain circumstances. Whether due to reasonable cause, a
-            first-time offense, or other qualifying factors, we’ll help you
+            first-time offense, or other qualifying factors, we'll help you
             petition the IRS to reduce or eliminate penalties, saving you money
             and reducing stress.
           </p>
 
-          {/* Offer in Compromise */}
           <h2 className="tax-negotiation-subtitle">✔ Offer in Compromise</h2>
           <p>
             An

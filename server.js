@@ -640,31 +640,11 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
       "contact-form",
     );
 
-    // Internal notification
-    const mailOptions = {
-      from: "inquiry@WynnTaxSolutions.com",
-      to: "inquiry@taxadvocategroup.com",
-      subject: `New Contact Form — ${name}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
-      text: `
-NEW CONTACT FORM SUBMISSION
-${"─".repeat(50)}
+    console.log(
+      "[CONTACT-FORM] ✓ Webhook:",
+      webhookResult.ok ? "Success" : webhookResult.error,
+    );
 
-Name:       ${name}
-Email:      ${email}
-Phone:      ${phone || "Not provided"}
-Message:    ${message}
-
-${"─".repeat(50)}
-UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
-UTM Medium:  ${resolvedUtm.utmMedium || "N/A"}
-Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
-
-Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
-Logics Case: ${webhookResult.caseId || "N/A"}
-      `.trim(),
-    };
-
-    await transporter.sendMail(mailOptions);
     clearFormTrackingCookie(res, "contact-us");
 
     const FormSubmission = require("./models/FormSubmission");
@@ -718,32 +698,11 @@ app.post("/api/lead-form", async (req, res) => {
       "lead-form",
     );
 
-    // Internal notification
-    const mailOptions = {
-      from: "inquiry@WynnTaxSolutions.com",
-      to: "inquiry@taxadvocategroup.com",
-      subject: `New Lead Form — ${name}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
-      text: `
-NEW LEAD FORM SUBMISSION
-${"─".repeat(50)}
+    console.log(
+      "[LEAD-FORM] ✓ Webhook:",
+      webhookResult.ok ? "Success" : webhookResult.error,
+    );
 
-Name:              ${name}
-Phone:             ${phone}
-Email:             ${email}
-Best Time:         ${bestTime || "Not specified"}
-Debt Amount:       ${debtAmount}
-Filed All Taxes:   ${filedAllTaxes}
-
-${"─".repeat(50)}
-UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
-Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
-
-Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
-Logics Case: ${webhookResult.caseId || "N/A"}
-      `.trim(),
-    };
-
-    await transporter.sendMail(mailOptions);
     clearFormTrackingCookie(res, "landing-popup");
 
     const FormSubmission = require("./models/FormSubmission");
@@ -768,6 +727,70 @@ Logics Case: ${webhookResult.caseId || "N/A"}
     res
       .status(500)
       .json({ error: "Error processing lead form. Try again later." });
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                          STATE TAX FORM                                    */
+/* -------------------------------------------------------------------------- */
+
+app.post("/api/state-tax-form", async (req, res) => {
+  const {
+    name,
+    email,
+    phone,
+    state,
+    problemTypes,
+    owedAmount,
+    description,
+    source,
+    utm,
+  } = req.body;
+
+  console.log("[STATE-TAX-FORM] Submission:", { name, email, phone, state });
+
+  if (!name || !email || !phone || !state) {
+    return res
+      .status(400)
+      .json({ error: "Name, email, phone, and state are required." });
+  }
+
+  try {
+    const resolvedUtm = resolveUtm(utm, req);
+
+    const issues =
+      typeof problemTypes === "string"
+        ? problemTypes
+        : Array.isArray(problemTypes)
+          ? problemTypes.join(", ")
+          : "";
+
+    const message = [
+      `State: ${state}`,
+      issues ? `Issues: ${issues}` : "",
+      owedAmount ? `Amount Owed: ${owedAmount}` : "",
+      description ? `Details: ${description}` : "",
+    ]
+      .filter(Boolean)
+      .join(" | ");
+
+    // POST to webhook for CRM + outreach + dialing
+    const webhookResult = await postToWebhook(
+      { name, email, phone, city: "", state, message },
+      source || "state-tax-guide",
+    );
+
+    console.log(
+      "[STATE-TAX-FORM] ✓ Webhook:",
+      webhookResult.ok ? "Success" : webhookResult.error,
+      "CaseID:",
+      webhookResult.caseId || "N/A",
+    );
+
+    res.status(200).json({ success: "State tax form submitted successfully!" });
+  } catch (error) {
+    console.error("[STATE-TAX-FORM] Error:", error?.message || error);
+    res.status(500).json({ error: "Error processing form. Try again later." });
   }
 });
 
@@ -815,39 +838,10 @@ app.post("/api/send-question", async (req, res) => {
       "tax-stewart",
     );
 
-    const mailOptions = {
-      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
-      replyTo: email,
-      to: "inquiry@taxadvocategroup.com",
-      subject: `New Tax Stewart Submission — ${email}${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
-      text: `
-NEW TAX STEWART SUBMISSION
-${"─".repeat(50)}
-
-Name:   ${name || "Not provided"}
-Email:  ${email}
-Phone:  ${phone || "Not provided"}
-
-${"─".repeat(50)}
-User's Question:
-${nextQuestionText}
-
-${"─".repeat(50)}
-Full Conversation & Details:
-${transcript}
-
-${"─".repeat(50)}
-UTM Source:  ${resolvedUtm.utmSource || "Direct/Organic"}
-Campaign:    ${resolvedUtm.utmCampaign || "N/A"}
-
-Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
-Logics Case: ${webhookResult.caseId || "N/A"}
-      `.trim(),
-      headers: { "X-App-Route": "send-question" },
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("[/send-question] ✓ Sent");
+    console.log(
+      "[/send-question] ✓ Webhook:",
+      webhookResult.ok ? "Success" : webhookResult.error,
+    );
 
     return res.status(200).json({ success: "Question sent successfully!" });
   } catch (error) {
@@ -1336,56 +1330,12 @@ app.post("/api/finalize-submission", async (req, res) => {
       console.log("[/finalize-submission] SMS sent to:", phoneNumber);
     }
 
-    // Internal notification
-    const formattedHistory = conversationHistory
-      .map((item, idx) => `Q${idx + 1}: ${item.q}\nA${idx + 1}: ${item.a}`)
-      .join("\n\n");
-    const intakeDetails = [
-      issues?.length ? `Issues: ${issues.join(", ")}` : "",
-      balanceBand ? `Amount Owed: ${balanceBand}` : "",
-      noticeType ? `Notice Type: ${noticeType}` : "",
-      taxScope ? `Tax Scope: ${taxScope}` : "",
-      state ? `State: ${state}` : "",
-      filerType ? `Filer Type: ${filerType}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    await transporter.sendMail({
-      from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
-      replyTo: email,
-      to: "inquiry@taxadvocategroup.com",
-      subject: `🎯 Verified Tax Stewart Lead - ${name} [${submission._id}]${webhookResult.caseId ? ` [Case #${webhookResult.caseId}]` : ""}`,
-      text: `
-VERIFIED TAX STEWART SUBMISSION
-${"═".repeat(50)}
-
-Name:    ${name}
-Email:   ${email} ✓ VERIFIED
-Phone:   ${phone || "N/A"}${phone ? " ✓ VERIFIED" : ""}
-Pref:    ${contactPref}
-
-${"─".repeat(50)}
-INTAKE: ${intakeSummary || "N/A"}
-${intakeDetails}
-
-${"─".repeat(50)}
-QUESTION: ${question || "N/A"}
-ANSWER: ${answer || "N/A"}
-
-${"─".repeat(50)}
-HISTORY (${conversationHistory.length}):
-${formattedHistory || "None"}
-
-${"─".repeat(50)}
-AI SUMMARY: ${aiSummary}
-
-${"─".repeat(50)}
-Webhook:     ${webhookResult.ok ? "✓ Success" : `✗ ${webhookResult.error}`}
-Logics Case: ${webhookResult.caseId || "N/A"}
-DB ID:       ${submission._id}
-      `.trim(),
-    });
+    console.log(
+      "[/finalize-submission] ✓ Complete — CaseID:",
+      webhookResult.caseId || "N/A",
+      "DB:",
+      submission._id,
+    );
 
     res.clearCookie("ts_qc", { path: "/" });
     res.clearCookie(TS_HISTORY_COOKIE, { path: "/" });
@@ -1558,7 +1508,151 @@ function sendWithStamp(res, payload, stamp) {
 /* -------------------------------------------------------------------------- */
 /*                              START SERVER                                  */
 /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*  REPLACE the existing /api/track-form-input route in server.js with this   */
+/* -------------------------------------------------------------------------- */
 
+app.post("/api/track-form-input", async (req, res) => {
+  try {
+    const { formType, formData, abandoned, timestamp } = req.body;
+
+    if (!formType || !formData) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "formType and formData required" });
+    }
+
+    const cookieName = `form_${formType}`;
+    const cookieData = {
+      formType,
+      formData,
+      abandoned: abandoned || false,
+      timestamp: timestamp || Date.now(),
+      lastUpdated: Date.now(),
+    };
+
+    res.cookie(cookieName, JSON.stringify(cookieData), {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      signed: true,
+      path: "/",
+    });
+
+    if (abandoned) {
+      const FormSubmission = require("./models/FormSubmission");
+      const ipAddress =
+        req.ip ||
+        req.headers["x-forwarded-for"] ||
+        req.connection.remoteAddress;
+      const userAgent = req.headers["user-agent"];
+
+      let existing = null;
+      if (formData.email) {
+        existing = await FormSubmission.findOne({
+          formType,
+          "formData.email": formData.email,
+          status: "abandoned",
+        }).sort({ createdAt: -1 });
+      }
+
+      if (existing) {
+        existing.formData = formData;
+        existing.timestamp = new Date(timestamp || Date.now());
+        existing.ipAddress = ipAddress;
+        existing.userAgent = userAgent;
+        await existing.save();
+        console.log(
+          `[TRACK-FORM] ${formType} - Updated abandoned:`,
+          existing._id,
+        );
+      } else {
+        const submission = new FormSubmission({
+          formType,
+          formData,
+          status: "abandoned",
+          ipAddress,
+          userAgent,
+          timestamp: new Date(timestamp || Date.now()),
+        });
+        await submission.save();
+        console.log(
+          `[TRACK-FORM] ${formType} - Saved abandoned:`,
+          submission._id,
+        );
+      }
+
+      /* ── Abandonment notification email ─────────────────────────── */
+      const hasContact = formData.email || formData.phone;
+      const hasName =
+        formData.name ||
+        formData.firstName ||
+        (formData.firstName && formData.lastName);
+
+      if (hasContact) {
+        const displayName =
+          formData.name ||
+          [formData.firstName, formData.lastName].filter(Boolean).join(" ") ||
+          "Unknown";
+
+        const filledFields = Object.entries(formData)
+          .filter(([, v]) => v && String(v).trim())
+          .map(
+            ([k, v]) =>
+              `<tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;text-transform:capitalize;">${k.replace(/([A-Z])/g, " $1").trim()}</td><td style="padding:4px 0;color:#222;">${String(v).slice(0, 200)}</td></tr>`,
+          )
+          .join("");
+
+        const formLabel = formType
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
+
+        const emailHtml = `
+          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
+            <h2 style="color:#c0392b;margin-bottom:4px;">⚠️ Form Abandonment Alert</h2>
+            <p style="color:#555;margin-top:0;">A visitor started the <strong>${formLabel}</strong> form but left without submitting.</p>
+            <table style="border-collapse:collapse;width:100%;margin:16px 0;">
+              <tbody>
+                <tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;">Form</td><td style="padding:4px 0;color:#222;">${formLabel}</td></tr>
+                <tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;">Time</td><td style="padding:4px 0;color:#222;">${new Date(timestamp || Date.now()).toLocaleString("en-US", { timeZone: "America/Los_Angeles" })} PT</td></tr>
+                ${filledFields}
+              </tbody>
+            </table>
+            <p style="font-size:13px;color:#888;">This is an automated notification from the Wynn Tax Solutions website form tracking system.</p>
+          </div>
+        `;
+
+        transporter
+          .sendMail({
+            from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
+            to: "inquiry@WynnTaxSolutions.com",
+            subject: `⚠️ Abandoned ${formLabel} — ${displayName}`,
+            html: emailHtml,
+          })
+          .then(() =>
+            console.log(
+              `[TRACK-FORM] ✓ Abandonment email sent for ${formType} — ${displayName}`,
+            ),
+          )
+          .catch((emailErr) =>
+            console.error(
+              `[TRACK-FORM] ✗ Abandonment email failed:`,
+              emailErr.message,
+            ),
+          );
+      }
+      /* ── End abandonment email ──────────────────────────────────── */
+    }
+
+    return res.json({ ok: true, message: "Form data tracked" });
+  } catch (error) {
+    console.error("[/track-form-input] error:", error);
+    return res
+      .status(500)
+      .json({ ok: false, error: "Failed to track form data" });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

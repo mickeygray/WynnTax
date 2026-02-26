@@ -31,7 +31,12 @@ const services = [
 const Services = () => {
   return (
     <section className="services-section">
-      <div className="parallax-background"></div>
+      <div
+        className="parallax-background"
+        style={{
+          backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%), url(${process.env.PUBLIC_URL}/images/hero-18.png)`,
+        }}
+      ></div>
       <div className="services-content">
         <h2 className="services-title">Business and Personal Tax Services</h2>
         <p className="services-description">

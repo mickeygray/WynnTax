@@ -6,7 +6,9 @@ import PhoneLink from "./PhoneLink";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import ConsentNotice from "./ConsentNotice";
-
+// At the top of the file, add the import:
+import SEO from "./SEO";
+import { Helmet } from "react-helmet-async";
 /**
  * EmbeddedLeadForm - Modern styling with progress indicator
  */
@@ -205,6 +207,15 @@ const EmbeddedLeadForm = () => {
 const LandingPage1 = () => {
   return (
     <div className="landing-page-root">
+      {" "}
+      <SEO
+        title="Free Tax Consultation | See If You Qualify | Wynn Tax Solutions"
+        description="Find out if you qualify for tax relief. Answer a few quick questions and our team will reach out with a personalized analysis — free and confidential."
+        canonical="/qualify-now"
+      />
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="landing-page-content">
         {/* Hero Section - Form embedded, responsive via CSS */}
         <section className="landing-hero-embedded">

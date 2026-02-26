@@ -1,8 +1,22 @@
 import React from "react";
-
+import SEO from "./SEO";
+import { orgSchema, serviceSchema } from "../utils/structuredData";
 const TaxRelief = () => {
   return (
     <div className="tax-relief-page">
+      <SEO
+        title="Tax Relief Services | Reduce Your IRS Debt | Wynn Tax Solutions"
+        description="Struggling with IRS tax debt? Our licensed enrolled agents help you reduce what you owe through proven relief programs. Free consultation available."
+        canonical="/tax-relief"
+        structuredData={[
+          orgSchema,
+          serviceSchema(
+            "Tax Relief Services",
+            "Personalized tax relief services including consultation, preparation, and settlement to help resolve IRS tax challenges.",
+            "Tax Relief",
+          ),
+        ]}
+      />
       {/* Hero Section */}
       <section
         className="tax-relief-hero"
@@ -22,9 +36,9 @@ const TaxRelief = () => {
       {/* Main Content */}
       <main className="tax-relief-content">
         <section className="intro">
-          <h1 className="blue-title">Tax Relief Solutions You Can Trust</h1>
+          <h2 className="blue-title">Tax Relief Solutions You Can Trust</h2>
           <p>
-            Dealing with tax issues can feel overwhelming, but you’re not alone.
+            Dealing with tax issues can feel overwhelming, but you're not alone.
             At <strong>Wynn Tax Solutions</strong>, we specialize in providing
             personalized tax relief services that help individuals and
             businesses resolve their tax challenges efficiently and effectively.
@@ -32,9 +46,9 @@ const TaxRelief = () => {
         </section>
 
         <section className="help-section">
-          <h1 className="blue-title">
-            Struggling With Tax Problems? We’re Here to Help
-          </h1>
+          <h2 className="blue-title">
+            Struggling With Tax Problems? We're Here to Help
+          </h2>
           <p>
             If you owe back taxes, are facing IRS penalties, or have received a
             notice of intent to levy, our experienced team is here to guide you
@@ -46,37 +60,35 @@ const TaxRelief = () => {
 
         <section className="tax-relief-services">
           {" "}
-          <h1 className="blue-title">Our Tax Relief Services</h1>
+          <h2 className="blue-title">Our Tax Relief Services</h2>
           <p>
             Our comprehensive tax relief services are designed to address a wide
             range of tax issues, including:
           </p>
-          {/* Tax Consultation */}
-          <h2 className="blue-subtitle">✔ Tax Consultation</h2>
+          <h3 className="blue-subtitle">✔ Tax Consultation</h3>
           <p>
             Navigating the complexities of taxes can be overwhelming, but our
             <a href="/tax-relief/tax-consultation"> tax consultation</a>{" "}
             services are here to help. At <strong>Wynn Tax Solutions</strong>,
             we offer personalized guidance to address your unique tax needs,
-            whether you’re an individual or a business.
+            whether you're an individual or a business.
           </p>
           <p>
             Our experienced tax professionals take the time to understand your
             financial situation, identify potential challenges, and provide
             clear, actionable solutions. Whether you need advice on tax
             planning, understanding IRS notices, or managing your liabilities,
-            we’re here to ensure you have the information and strategies needed
+            we're here to ensure you have the information and strategies needed
             to move forward confidently.
           </p>
           <p>
-            <strong>Don’t let tax concerns hold you back.</strong> Schedule a
+            <strong>Don't let tax concerns hold you back.</strong> Schedule a
             tax consultation with us today and take the first step toward
             financial clarity and peace of mind.
           </p>
-          {/* Tax Preparation */}
-          <h2 className="blue-subtitle">✔ Tax Preparation</h2>
+          <h3 className="blue-subtitle">✔ Tax Preparation</h3>
           <p>
-            Filing taxes doesn’t have to be stressful.{" "}
+            Filing taxes doesn't have to be stressful.{" "}
             <strong>Wynn Tax Solutions</strong>
             offers professional
             <a href="/tax-relief/tax-preparation"> tax preparation</a> services
@@ -93,10 +105,9 @@ const TaxRelief = () => {
             preparation to <strong>Wynn Tax Solutions</strong>. Contact us today
             to get started.
           </p>
-          {/* Tax Settlement */}
-          <h2 className="blue-subtitle">✔ Tax Settlement</h2>
+          <h3 className="blue-subtitle">✔ Tax Settlement</h3>
           <p>
-            If you’re facing tax debt or struggling to resolve a dispute with
+            If you're facing tax debt or struggling to resolve a dispute with
             the IRS, our
             <a href="/tax-relief/tax-settlement"> tax settlement services</a>
             are here to help. At <strong>Wynn Tax Solutions</strong>, we
@@ -107,7 +118,7 @@ const TaxRelief = () => {
             Our team has extensive experience securing favorable outcomes for
             clients, including installment agreements, offers in compromise,
             penalty abatements, and more. We understand how stressful tax debt
-            can be, and we’re committed to providing you with a clear path
+            can be, and we're committed to providing you with a clear path
             forward to regain financial stability.
           </p>
           <p>

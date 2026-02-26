@@ -1,12 +1,30 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { hydrateRoot, createRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import "./App.css";
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a functio
+const container = document.getElementById("root");
+
+if (container) {
+  // If React Snap prerendered HTML exists, hydrate it
+  if (container.hasChildNodes()) {
+    hydrateRoot(
+      container,
+      <React.StrictMode>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </React.StrictMode>,
+    );
+  } else {
+    // Otherwise render normally
+    createRoot(container).render(
+      <React.StrictMode>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </React.StrictMode>,
+    );
+  }
+}

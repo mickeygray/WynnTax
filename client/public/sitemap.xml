@@ -1,62 +1,293 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.WynnTaxSolutions.com/</loc>
+    <loc>https://www.wynntaxsolutions.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/about-us</loc>
+    <loc>https://www.wynntaxsolutions.com/our-tax-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/about-us</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/our-tax-services</loc>
+    <loc>https://www.wynntaxsolutions.com/contact-us</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/contact-us</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://www.wynntaxsolutions.com/tax-faqs</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/tax-news</loc>
+    <loc>https://www.wynntaxsolutions.com/tax-news</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/tax-news/understanding-tax-relief</loc>
+    <loc>https://www.wynntaxsolutions.com/tax-relief</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/tax-news/irs-negotiation-tips</loc>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://www.WynnTaxSolutions.com/tax-news/irs-wage-garnishment-guide</loc>
+    <loc>https://www.wynntaxsolutions.com/tax-negotiation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/privacy-policy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/terms-of-service</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-relief/tax-consultation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
-    <url>
-    <loc>https://www.WynnTaxSolutions.com/tax-news/irs-bank-levy-guide</loc>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-relief/tax-preparation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-relief/tax-settlement</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/tax-representation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/dealing-with-the-irs</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/irs-innocent-spouse</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/state-tax-relief</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/statute-of-limitations</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/tax-prep-and-planning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/unified-tax-returns</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/irs-tax-discharge</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/payroll-tax-relief</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-resolution/wage-garnishment-relief</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-negotiation/currently-not-collectible</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-negotiation/irs-installment-plans</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-negotiation/penalty-abatement</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-negotiation/offer-in-compromise</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/state-of-the-union-2026-tax-money-highlights</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/offer-in-compromise-myth-vs-fact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/currently-not-collectible-cnc-how-it-works</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-penalty-abatement-first-time-abate-reasonable-cause</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/1099-vs-scorp-sole-prop-when-to-incorporate-yourself</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-collection-notices-cp14-cp501-cp503-cp504-lt11-1058</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/live-work-different-states-surprise-tax-bill</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/1099-filing-tips-2025-return</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/possible-government-shutdown-tax-season-what-to-do-now</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-now-accepting-2025-returns-what-to-file-what-if-you-owe-catch-up</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-opens-filing-season-jan-26-2026-obbba-individual-changes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/1099-threshold-changes-2026-2000-20000</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/gambling-loss-deduction-90-percent-rule-2026</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/10-percent-credit-card-interest-cap-irs-tax-debt</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/tariffs-2025-impact-tax-debt</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/affordability-crisis-2025-tax-debt-relief</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/government-shutdown-2025-complete-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/w2-standard-vs-itemized-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-revenue-officer-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-cp504-final-notice-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/questions-about-my-1099-truck-driver-edition</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/retirement-tax-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/small-business-tax-pitfalls</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-cp503-notice-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-cp501-notice-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/tax-advocate-bill-of-rights</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/understanding-tax-relief</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-negotiation-tips</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-wage-garnishment-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/irs-bank-levy-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

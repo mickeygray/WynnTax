@@ -203,7 +203,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
                 or text (including autodialed or prerecorded calls).
                 Message/data rates may apply. Consent is not required to
                 purchase. View our{" "}
-                <Link to="/legal/privacy">Privacy Policy</Link>.
+                <Link to="/privacy-policy">Privacy Policy</Link>.
               </span>
             </label>
           </div>

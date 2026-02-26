@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
-
-// Add tracking
+import SEO from "./SEO";
 
 const ContactUs = () => {
   const { sendEmail } = useContext(leadContext);
@@ -18,7 +17,6 @@ const ContactUs = () => {
   const [submitted, setSubmitted] = useState(false);
   useFormTracking(formData, "contact-us", !submitted);
 
-  // Track on close
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (!submitted && formData.email) {
@@ -28,6 +26,7 @@ const ContactUs = () => {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [formData, submitted]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -52,14 +51,19 @@ const ContactUs = () => {
 
     sendEmail(emailPayload);
     setSubmitted(true);
-    // Only this form counts as a "Lead"
     trackStandardEvent("Lead", {
       source: "Contact Us",
       content_name: "Form Submitted",
     });
   };
+
   return (
     <div>
+      <SEO
+        title="Contact Us | Free Tax Consultation | Wynn Tax Solutions"
+        description="Get in touch with Wynn Tax Solutions for a free, no-obligation tax consultation. Call (844) 996-6829 or fill out our secure form."
+        canonical="/contact-us"
+      />
       {/* Hero Section */}
       <section
         className="contact-hero"
@@ -76,7 +80,6 @@ const ContactUs = () => {
         </div>
       </section>
 
-      {/* Floating Contact Info Boxes */}
       <div className="contact-info-container">
         <div className="contact-info-box">
           <i className="fas fa-phone-alt"></i>
@@ -89,7 +92,7 @@ const ContactUs = () => {
           <i className="fas fa-home"></i>
           <h3>Address</h3>
           <p>21625 Prairie Street, Suite #200</p>
-          <p>Chatsworth, CA 91331</p>
+          <p>Chatsworth, CA 91311</p>
         </div>
         <div className="contact-info-box">
           <i className="fas fa-business-time"></i>
@@ -103,16 +106,16 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Form and Image Section */}
       <div className="contact-form-container">
         <div className="contact-form">
-          <h3>Send Us a Message</h3>
+          <h2>Send Us a Message</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
                 type="text"
                 name="firstName"
                 placeholder="First Name"
+                aria-label="First name"
                 required
                 value={formData.firstName}
                 onChange={handleChange}
@@ -121,6 +124,7 @@ const ContactUs = () => {
                 type="text"
                 name="lastName"
                 placeholder="Last Name"
+                aria-label="Last name"
                 required
                 value={formData.lastName}
                 onChange={handleChange}
@@ -131,6 +135,7 @@ const ContactUs = () => {
                 type="email"
                 name="email"
                 placeholder="E-mail"
+                aria-label="Email address"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -139,6 +144,7 @@ const ContactUs = () => {
                 type="text"
                 name="phone"
                 placeholder="Phone Number"
+                aria-label="Phone number"
                 required
                 value={formData.phone}
                 onChange={handleChange}
@@ -147,6 +153,7 @@ const ContactUs = () => {
             <textarea
               name="message"
               placeholder="Your Message"
+              aria-label="Your message"
               required
               value={formData.message}
               onChange={handleChange}

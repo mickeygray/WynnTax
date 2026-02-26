@@ -28,7 +28,12 @@ const Testimonials = () => {
   return (
     <section className="testimonials-section">
       {/* Parallax Background */}
-      <div className="parallax-background"></div>
+      <div
+        className="parallax-background"
+        style={{
+          backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%), url(${process.env.PUBLIC_URL}/images/hero-18.png)`,
+        }}
+      ></div>
 
       <div className="testimonials-content">
         <h2 className="testimonials-title">Client’s Feedback</h2>

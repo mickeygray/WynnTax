@@ -1,5 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import useBlogData from "./useBlogData";
+import SEO from "./SEO";
+import { orgSchema, blogPostingSchema } from "../utils/structuredData";
+
+const FALLBACK_HERO = "/images/hero-5.png";
 
 const TaxNewsArticle = () => {
   const { id } = useParams();
@@ -8,46 +12,46 @@ const TaxNewsArticle = () => {
 
   if (!blog) return <p>Blog not found.</p>;
 
-  // Function to parse text with custom styles
+  const heroImage = blog.image || FALLBACK_HERO;
+
   const parseText = (text) => {
     let parsed = text;
-
-    // Convert ## to <h2>
-    parsed = parsed.replace(/##\s*(.*?)\n/g, "<h2>$1</h2>");
-
-    // Convert ### to <h3>
-    parsed = parsed.replace(/###\s*(.*?)\n/g, "<h3>$1</h3>");
-
-    // Convert unordered lists: lines starting with *
+    // Headings
+    parsed = parsed.replace(/###\s*(.*?)\n/g, "<h4>$1</h4>");
+    parsed = parsed.replace(/##\s*(.*?)\n/g, "<h3>$1</h3>");
+    // Lists
     parsed = parsed.replace(/(?:^|\n)\*(.*?)\n/g, "<li>$1</li>");
     parsed = parsed.replace(/<li>(.*?)<\/li>(?!<li>)/g, "<ul>$&</ul>");
-
-    // Convert links [text](url)
+    // Links
     parsed = parsed.replace(
       /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
-      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
     );
-
-    // Convert bold text **text**
+    // Bold & italic
     parsed = parsed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-    // Convert italic text _text_ or *text*
     parsed = parsed.replace(/(?:\_|\*)(.*?)\1/g, "<em>$1</em>");
-
-    // Wrap text in paragraphs for content separated by double new lines
+    // Paragraphs
     parsed = parsed.replace(/\n\n/g, "</p><p>");
     parsed = `<p>${parsed}</p>`;
-
     return parsed;
   };
 
   return (
     <div className="tax-news-detail">
-      {/* Hero with overlay */}
-      <header
-        className="tax-news-hero"
-        style={{ backgroundImage: `url(${blog.image})` }}
-      >
+      <SEO
+        title={`${blog.contentTitle} | Wynn Tax Solutions`}
+        description={blog.teaser.substring(0, 155)}
+        canonical={`/tax-news/${blog.id}`}
+        ogImage={`https://wynntaxsolutions.com${blog.image}`}
+        structuredData={[orgSchema, blogPostingSchema(blog)]}
+      />
+
+      {/* Hero with gradient overlay and fixed height */}
+      <header className="tax-news-hero">
+        <div
+          className="tax-news-hero-bg"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        ></div>
         <div className="tax-news-overlay"></div>
         <div className="tax-news-content">
           <h1>{blog.contentTitle}</h1>
@@ -59,7 +63,6 @@ const TaxNewsArticle = () => {
         </div>
       </header>
 
-      {/* Blog Content */}
       <div className="dynamic-article">
         <h2>{blog.contentTitle}</h2>
         {blog.contentBody.map((paragraph, index) => (

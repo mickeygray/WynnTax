@@ -1,9 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "./SEO";
 
 const TermsOfService = () => {
   return (
     <div className="terms-page">
+      <SEO
+        title="Terms of Service | Wynn Tax Solutions"
+        description="Review the terms of service for Wynn Tax Solutions. Learn about usage rights, limitations, and governing policies for our website and services."
+        canonical="/terms-of-service"
+      />
       {/* Hero Section */}
       <section className="terms-hero">
         <div className="terms-hero-overlay"></div>
@@ -38,7 +44,7 @@ const TermsOfService = () => {
         <h2>Use of License</h2>
         <p>
           Permission is granted to temporarily download one copy of the
-          materials (information or software) on Wynn Tax Solutions’s website
+          materials (information or software) on Wynn Tax Solutions's website
           for personal, non-commercial transitory viewing only.
         </p>
         <p>This license does not permit you to:</p>
@@ -58,10 +64,10 @@ const TermsOfService = () => {
 
         <h2>Disclaimer</h2>
         <p>
-          The materials on this website are provided “as is.” Tax Group
-          Consultants makes no warranties, expressed or implied, and disclaims
-          all other warranties, including but not limited to merchantability,
-          fitness for a particular purpose, or non-infringement.
+          The materials on this website are provided "as is." Wynn Tax Solutions
+          makes no warranties, expressed or implied, and disclaims all other
+          warranties, including but not limited to merchantability, fitness for
+          a particular purpose, or non-infringement.
         </p>
 
         <h2>Limitations</h2>
@@ -82,8 +88,8 @@ const TermsOfService = () => {
           <li>Using this website for advertising or marketing</li>
         </ul>
         <p>
-          Certain areas of this website are restricted, and Tax Group
-          Consultants may further restrict access at its discretion.
+          Certain areas of this website are restricted, and Wynn Tax Solutions
+          may further restrict access at its discretion.
         </p>
 
         <h2>Accuracy of Materials</h2>
@@ -121,9 +127,9 @@ const TermsOfService = () => {
 
         <h2>Your Content</h2>
         <p>
-          By displaying your content on this website, you grant Wynn Tax Group a
-          non-exclusive, worldwide, irrevocable license to use, reproduce,
-          publish, and distribute it.
+          By displaying your content on this website, you grant Wynn Tax
+          Solutions a non-exclusive, worldwide, irrevocable license to use,
+          reproduce, publish, and distribute it.
         </p>
         <p>
           Your content must not be defamatory, infringe on third-party rights,
@@ -132,7 +138,7 @@ const TermsOfService = () => {
 
         <h2>No Warranties</h2>
         <p>
-          This website is provided “as is,” and Wynn Tax Solutions makes no
+          This website is provided "as is," and Wynn Tax Solutions makes no
           representations or warranties of any kind related to this website.
         </p>
 
@@ -162,8 +168,8 @@ const TermsOfService = () => {
 
         <h2>Entire Agreement</h2>
         <p>
-          These terms constitute the entire agreement between you and Tax
-          Advocate Group.
+          These terms constitute the entire agreement between you and Wynn Tax
+          Solutions.
         </p>
 
         <h2>Contact Information</h2>
@@ -172,7 +178,7 @@ const TermsOfService = () => {
           <br />
           21625 Prairie Street, Suite #200
           <br />
-          Chatsworth, CA 91331, United States
+          Chatsworth, CA 91311, United States
         </p>
         <p>© Wynn Tax Solutions. All Rights Reserved.</p>
       </div>

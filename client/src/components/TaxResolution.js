@@ -1,8 +1,22 @@
 import React from "react";
-
+import SEO from "./SEO";
+import { orgSchema, serviceSchema } from "../utils/structuredData";
 const TaxResolution = () => {
   return (
     <div className="tax-resolution-page">
+      <SEO
+        title="Tax Resolution Services | Resolve IRS Issues | Wynn Tax Solutions"
+        description="Resolve unpaid taxes, audits, liens, and levies with Wynn Tax Solutions. Decades of experience negotiating with the IRS on behalf of taxpayers nationwide."
+        canonical="/tax-resolution"
+        structuredData={[
+          orgSchema,
+          serviceSchema(
+            "Tax Resolution Services",
+            "Comprehensive tax resolution including IRS representation, innocent spouse relief, wage garnishment relief, and payroll tax resolution.",
+            "Tax Resolution",
+          ),
+        ]}
+      />
       {/* Hero Section */}
       <section
         className="tax-resolution-hero"
@@ -22,9 +36,9 @@ const TaxResolution = () => {
       {/* Main Content */}
       <main className="tax-resolution-main">
         <section className="tax-resolution-intro">
-          <h1 className="tax-resolution-title">
+          <h2 className="tax-resolution-title">
             Tax Resolution Services You Can Count On
-          </h1>
+          </h2>
           <p>
             Dealing with tax challenges can feel like an uphill battle, but{" "}
             <strong>Wynn Tax Solutions</strong> is here to help. Our tax
@@ -35,16 +49,15 @@ const TaxResolution = () => {
         </section>
 
         <section className="tax-resolution-services">
-          <h1 className="tax-resolution-title">Our Tax Resolution Services</h1>
+          <h2 className="tax-resolution-title">Our Tax Resolution Services</h2>
           <p>
             We offer a range of services to help you navigate tax issues,
             including:
           </p>
 
-          {/* Tax Representation */}
-          <h2 className="tax-resolution-subtitle">✔ Tax Representation</h2>
+          <h3 className="tax-resolution-subtitle">✔ Tax Representation</h3>
           <p>
-            When you’re facing the IRS, having professional
+            When you're facing the IRS, having professional
             <a href="/tax-resolution/tax-representation">
               {" "}
               tax representation
@@ -54,20 +67,18 @@ const TaxResolution = () => {
             and working to achieve the best possible resolution for your case.
           </p>
 
-          {/* Dealing with the IRS */}
-          <h2 className="tax-resolution-subtitle">✔ Dealing with the IRS</h2>
+          <h3 className="tax-resolution-subtitle">✔ Dealing with the IRS</h3>
           <p>
             Responding to IRS notices, audits, or collection efforts can be
             stressful and confusing. We simplify the process by managing all
             communications with the IRS, ensuring that your case is handled
-            efficiently and effectively, so you don’t have to face it alone.
+            efficiently and effectively, so you don't have to face it alone.
           </p>
 
-          {/* Innocent Spouse Relief */}
-          <h2 className="tax-resolution-subtitle">✔ Innocent Spouse Relief</h2>
+          <h3 className="tax-resolution-subtitle">✔ Innocent Spouse Relief</h3>
           <p>
-            If you’re being unfairly held responsible for a spouse’s or
-            ex-spouse’s tax debt, you may qualify for
+            If you're being unfairly held responsible for a spouse's or
+            ex-spouse's tax debt, you may qualify for
             <a href="/tax-resolution/irs-innocent-spouse">
               {" "}
               Innocent Spouse Relief
@@ -77,33 +88,30 @@ const TaxResolution = () => {
             future.
           </p>
 
-          {/* State Tax Relief */}
-          <h2 className="tax-resolution-subtitle">✔ State Tax Relief</h2>
+          <h3 className="tax-resolution-subtitle">✔ State Tax Relief</h3>
           <p>
-            Tax issues aren’t limited to the IRS. If you’re dealing with state
+            Tax issues aren't limited to the IRS. If you're dealing with state
             tax problems, we can help you navigate the unique rules and
-            requirements of your state’s tax authority. From negotiating
-            settlements to resolving back taxes, we’ll work to find the best
+            requirements of your state's tax authority. From negotiating
+            settlements to resolving back taxes, we'll work to find the best
             solution.
           </p>
 
-          {/* Statute of Limitations */}
-          <h2 className="tax-resolution-subtitle">✔ Statute of Limitations</h2>
+          <h3 className="tax-resolution-subtitle">✔ Statute of Limitations</h3>
           <p>
-            Tax debt doesn’t last forever. If your tax liabilities are
+            Tax debt doesn't last forever. If your tax liabilities are
             approaching their expiration date under the
             <a href="/tax-resolution/statute-of-limitations">
               {" "}
               statute of limitations
             </a>
-            , we’ll ensure you’re informed of your rights and options to avoid
+            , we'll ensure you're informed of your rights and options to avoid
             unnecessary payments or collections.
           </p>
 
-          {/* Tax Preparation and Planning */}
-          <h2 className="tax-resolution-subtitle">
+          <h3 className="tax-resolution-subtitle">
             ✔ Tax Preparation and Planning
-          </h2>
+          </h3>
           <p>
             Proper
             <a href="/tax-resolution/tax-prep-and-planning">
@@ -115,8 +123,7 @@ const TaxResolution = () => {
             planning that minimizes liabilities and maximizes savings.
           </p>
 
-          {/* Unified Tax Returns */}
-          <h2 className="tax-resolution-subtitle">✔ Unified Tax Returns</h2>
+          <h3 className="tax-resolution-subtitle">✔ Unified Tax Returns</h3>
           <p>
             If you need to consolidate multiple tax filings or correct errors
             from past returns, our
@@ -128,11 +135,10 @@ const TaxResolution = () => {
             and compliant with tax laws.
           </p>
 
-          {/* IRS Tax Discharge */}
-          <h2 className="tax-resolution-subtitle">✔ IRS Tax Discharge</h2>
+          <h3 className="tax-resolution-subtitle">✔ IRS Tax Discharge</h3>
           <p>
             Certain tax debts may be eligible for discharge through bankruptcy
-            or other resolution methods. We’ll evaluate your case and determine
+            or other resolution methods. We'll evaluate your case and determine
             if an
             <a href="/tax-resolution/irs-tax-discharge">
               {" "}
@@ -142,19 +148,17 @@ const TaxResolution = () => {
             relief.
           </p>
 
-          {/* Payroll Tax Relief */}
-          <h2 className="tax-resolution-subtitle">✔ Payroll Tax Relief</h2>
+          <h3 className="tax-resolution-subtitle">✔ Payroll Tax Relief</h3>
           <p>
             Unpaid payroll taxes can lead to significant penalties and IRS
-            action. We’ll work with you to resolve payroll tax issues quickly,
+            action. We'll work with you to resolve payroll tax issues quickly,
             protecting your business from further liabilities and keeping your
             operations running smoothly.
           </p>
 
-          {/* Wage Garnishment Relief */}
-          <h2 className="tax-resolution-subtitle">✔ Wage Garnishment Relief</h2>
+          <h3 className="tax-resolution-subtitle">✔ Wage Garnishment Relief</h3>
           <p>
-            If the IRS is garnishing your wages, it’s time to take action. Our
+            If the IRS is garnishing your wages, it's time to take action. Our
             <a href="/tax-resolution/wage-garnishment-relief">
               {" "}
               wage garnishment relief
@@ -169,7 +173,7 @@ const TaxResolution = () => {
             </strong>
             <a href="/contact-us"> Contact Wynn Tax Solutions</a> today to learn
             more about our tax resolution services and how we can help you
-            achieve financial freedom. We’re here to help!
+            achieve financial freedom. We're here to help!
           </p>
         </section>
       </main>

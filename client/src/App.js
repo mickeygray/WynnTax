@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import PageViewTracker from "./components/PageViewTracker";
 import StewartWidget from "./components/StewartWidget";
+import ScrollToTop from "./hooks/scrollToTop";
 
 import Home from "./components/Home";
 import TaxFaqs from "./components/TaxFaqs";
@@ -24,27 +25,22 @@ import TermsOfService from "./components/TermsOfService";
 import LandingPage1 from "./components/LandingPage1";
 import ThankYou from "./components/ThankYou";
 import PDFViewer from "./components/PDFViewer";
-
+import StateTaxHub from "./components/StateTaxHub";
+import StateTaxPage from "./components/StateTaxPage";
 import LeadState from "./context/LeadState";
 
 export default function App() {
-  const isQualifyNowPage =
-    typeof window !== "undefined" &&
-    window.location.pathname === "/qualify-now";
-
   return (
     <LeadState>
       <Router>
         <PageViewTracker />
+        <ScrollToTop />
 
         <Routes>
           {/* ----------------------------- */}
           {/*   PDF ROUTE (no layout)       */}
           {/* ----------------------------- */}
-          <Route
-            path="/services-brochure"
-            element={<PDFViewer />} // NO NAV, NO FOOTER, NO STEWART
-          />
+          <Route path="/services-brochure" element={<PDFViewer />} />
 
           {/* ----------------------------- */}
           {/*   STANDARD SITE ROUTES       */}
@@ -66,12 +62,19 @@ export default function App() {
                       path="/our-tax-services"
                       element={<OurTaxServices />}
                     />
+
                     <Route path="/tax-relief" element={<TaxRelief />} />
                     <Route path="/tax-resolution" element={<TaxResolution />} />
                     <Route
                       path="/tax-negotiation"
                       element={<TaxNegotiation />}
                     />
+                    <Route path="/state-tax-guide" element={<StateTaxHub />} />
+                    <Route
+                      path="/state-tax-guide/:stateSlug"
+                      element={<StateTaxPage />}
+                    />
+
                     <Route
                       path="/tax-protection-plans"
                       element={<TaxProtectionPlans />}
@@ -84,13 +87,14 @@ export default function App() {
                       path="/terms-of-service"
                       element={<TermsOfService />}
                     />
+
+                    {/* Catch-all for any other two-segment sub-pages */}
                     <Route
                       path="/:category/:slug"
                       element={<SubPageWrapper />}
                     />
                   </Routes>
 
-                  {/* Stewart only on standard layout */}
                   <StewartWidget />
                 </div>
 

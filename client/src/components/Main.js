@@ -24,9 +24,10 @@ const Main = () => {
       {/* About Section */}
       <section className="main-about-section">
         <div className="about-text">
-          <h1>
-            Wynn Tax Solutions <i className="fa fa-users"></i>
-          </h1>
+          <h2>
+            Wynn Tax Solutions{" "}
+            <i className="fa fa-users" aria-hidden="true"></i>
+          </h2>
           <h3>
             How We Help You With Business And Personal Tax And Finance Issues.
           </h3>
@@ -34,7 +35,7 @@ const Main = () => {
             Wynn Tax Solutions is a team of experienced professionals including
             Enrolled Agents, forensic tax accountants, and personal and business
             financial consultants dedicated to resolving complex tax issues.
-            With decades of experience, we’ve built a reputation for strategic,
+            With decades of experience, we've built a reputation for strategic,
             results-driven consulting in all types of tax matters.
           </p>
           <p>
@@ -60,23 +61,18 @@ const Main = () => {
         <div className="about-image">
           <img
             src="images/wynn-home-page-image-1.png"
-            alt="Wynn Tax Solutions"
+            alt="Wynn Tax Solutions team consulting with a client"
           />
         </div>
       </section>
       <section>
         <div className="image-row">
           <div className="image-row-container">
-            {/* Image 1 - BBB Accredited Business */}
-
-            {/* Image 3 - IRS Power of Attorney */}
             <img
               src="images/trust-builder-IRS-power-of-atty-1.png"
               alt="IRS Power of Attorney"
               className="image-item"
             />
-
-            {/* Image 4 - Approved IRS Provider */}
             <img
               src="images/trust-builder-IRS-Provider.png"
               alt="Approved IRS Provider"

@@ -5,7 +5,7 @@ import useBlogData from "./useBlogData";
 
 const Footer = () => {
   const { blogs } = useBlogData();
-  const recentPosts = blogs.slice(0, 10);
+  const recentPosts = blogs.slice(0, 5);
 
   return (
     <footer className="footer">
@@ -39,7 +39,7 @@ const Footer = () => {
         <div className="footer-column center">
           <img
             src="/images/logo-wynn-small.png"
-            alt="Tax Advocate Group Logo"
+            alt="Wynn Tax Solutions Logo"
             className="footer-logo"
           />
 
@@ -71,8 +71,8 @@ const Footer = () => {
           calls and/or SMS/MMS text messages...
         </p>
         <p className="footer-copyright">
-          © 2025 Wynn Tax Solutions, LLC. All Rights Reserved. |
-          <Link to="/privacy-policy"> Privacy Policy</Link> |
+          © {new Date().getFullYear()} Wynn Tax Solutions, LLC. All Rights
+          Reserved. |<Link to="/privacy-policy"> Privacy Policy</Link> |
           <Link to="/terms-of-service"> Terms of Service</Link> |
         </p>
       </div>

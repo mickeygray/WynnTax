@@ -1,46 +1,58 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "./SEO";
+import { orgSchema, serviceSchema } from "../utils/structuredData";
+
 const services = [
   {
     title: "Tax Relief",
     description:
-      "Dealing with tax issues can feel overwhelming, but you’re not alone. We specialize in providing personalized tax relief services that help individuals and businesses resolve their tax challenges efficiently and effectively.",
-    link: "/tax-relief/",
-    image:
-      "https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_25525225971.jpg",
+      "Dealing with tax issues can feel overwhelming, but you're not alone. We specialize in providing personalized tax relief services that help individuals and businesses resolve their tax challenges efficiently and effectively.",
+    link: "/tax-relief",
+    icon: "fas fa-shield-alt",
   },
   {
     title: "Tax Resolution",
     description:
       "Dealing with tax challenges can feel like an uphill battle, but we are here to help. Our tax resolution services provide expert guidance and comprehensive solutions to help you regain financial peace of mind.",
-    link: "/tax-resolution/",
-    image:
-      "https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_158232020.jpg",
+    link: "/tax-resolution",
+    icon: "fas fa-balance-scale",
   },
   {
     title: "Tax Negotiation",
     description:
       "Facing tax debt can be overwhelming, but we provide the solutions you need. Our tax negotiation services are designed to help you resolve your tax issues and regain financial stability.",
-    link: "/tax-negotiation/",
-    image:
-      "https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_163940900.jpg",
+    link: "/tax-negotiation",
+    icon: "fas fa-handshake",
   },
   {
     title: "Tax Protection Plans",
     description:
       "We believe in providing peace of mind through proactive support and protection. Our Tax Protection Plans are designed to safeguard your financial well-being with varying levels of service.",
-    link: "https://taxproblemassistance.com/tax-protection-plans/",
-    image:
-      "https://taxproblemassistance.com/wp-content/uploads/2025/01/shutterstock_82390135.jpg",
+    link: "/tax-protection-plans",
+    icon: "fas fa-lock",
   },
 ];
 
 const OurTaxServices = () => {
   return (
     <>
+      <SEO
+        title="Our Tax Services | Tax Relief, Resolution & Negotiation | Wynn Tax Solutions"
+        description="Explore Wynn Tax Solutions' full range of tax services including tax relief, resolution, negotiation, and protection plans. Free consultation available."
+        canonical="/our-tax-services"
+        structuredData={[
+          orgSchema,
+          serviceSchema(
+            "Tax Services",
+            "Comprehensive tax services including relief, resolution, negotiation, and protection plans for individuals and businesses.",
+            "Tax Services",
+          ),
+        ]}
+      />
       {/* Hero Section */}
       <section
-        className="hero our-tax-services-hero"
+        className="our-tax-services-hero"
         style={{
           backgroundImage: `url("/images/hero-3.png")`,
         }}
@@ -58,6 +70,7 @@ const OurTaxServices = () => {
           </nav>
         </div>
       </section>
+
       {/* Main Tax Services Section */}
       <section className="tax-services">
         <div className="container">
@@ -83,26 +96,27 @@ const OurTaxServices = () => {
             </div>
           </div>
         </div>
-      </section>{" "}
-      <section className="tax-services-grid">
+      </section>
+
+      {/* Flip Cards with Parallax Background */}
+      <section
+        className="tax-services-grid"
+        style={{
+          backgroundImage: `url("/images/hero-23.png")`,
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="grid-container">
           {services.map((service, index) => (
-            <a
-              href={service.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flip-box"
-              key={index}
-            >
+            <Link to={service.link} className="flip-box" key={index}>
               <div className="flip-box-inner">
                 {/* Front Side */}
-                <div
-                  className="flip-box-front"
-                  style={{ backgroundImage: `url(${service.image})` }}
-                >
+                <div className="flip-box-front">
                   <div className="overlay"></div>
                   <div className="flip-box-icon">
-                    <i className="fas fa-folder-open"></i>
+                    <i className={service.icon}></i>
                   </div>
                   <h3 className="flip-box-title">{service.title}</h3>
                 </div>
@@ -113,14 +127,15 @@ const OurTaxServices = () => {
                   <p className="flip-box-text">{service.description}</p>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
-      </section>{" "}
+      </section>
+
       <section className="services-cta-section">
         <div className="services-cta-container">
           <p className="services-cta-text">Contact To Book an Appointment</p>
-          <a href="tel:+18663796253" className="services-cta-button">
+          <a href="tel:+18449966829" className="services-cta-button">
             <i className="fas fa-phone-alt"></i>(844) 996-6829
           </a>
         </div>

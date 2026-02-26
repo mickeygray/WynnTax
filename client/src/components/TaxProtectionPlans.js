@@ -1,8 +1,23 @@
 import React from "react";
+import SEO from "./SEO";
+import { orgSchema, serviceSchema } from "../utils/structuredData";
 
 const TaxProtectionPlans = () => {
   return (
     <div className="tax-protection-page">
+      <SEO
+        title="Tax Protection Plans | Ongoing IRS Support | Wynn Tax Solutions"
+        description="Choose a Wynn Tax Solutions protection plan for ongoing IRS representation, tax filing, and compliance support. Standard, Premium, and Professional tiers available."
+        canonical="/tax-protection-plans"
+        structuredData={[
+          orgSchema,
+          serviceSchema(
+            "Tax Protection Plans",
+            "Structured tax compliance, IRS communication, and resolution services with Standard, Premium, and Professional plan tiers.",
+            "Tax Protection",
+          ),
+        ]}
+      />
       {/* Hero Section */}
       <section
         className="tax-protection-hero"
@@ -23,7 +38,7 @@ const TaxProtectionPlans = () => {
       {/* Main Content */}
       <main className="tax-protection-main">
         <section className="tax-protection-intro">
-          <h1 className="tax-protection-title">Tax Protection Plans</h1>
+          <h2 className="tax-protection-title">Tax Protection Plans</h2>
           <p>
             At <strong>Wynn Tax Solutions</strong>, we believe proactive tax
             support is key to financial stability. Our Tax Protection Plans
@@ -34,14 +49,14 @@ const TaxProtectionPlans = () => {
         </section>
 
         <section className="tax-protection-services">
-          <h1 className="tax-protection-title">
+          <h2 className="tax-protection-title">
             Choose the Right Plan for Your Needs
-          </h1>
+          </h2>
 
           {/* Standard Plan */}
-          <h2 className="tax-protection-subtitle">
+          <h3 className="tax-protection-subtitle">
             ✔ Standard Plan – Essential Protection
-          </h2>
+          </h3>
           <p>
             The Standard Plan is designed for individuals and small businesses
             looking for foundational tax support. It includes:
@@ -70,9 +85,9 @@ const TaxProtectionPlans = () => {
           </p>
 
           {/* Premium Plan */}
-          <h2 className="tax-protection-subtitle">
+          <h3 className="tax-protection-subtitle">
             ✔ Premium Plan – Advanced Tax Support
-          </h2>
+          </h3>
           <p>
             The Premium Plan is designed for individuals and small business
             owners with more complex tax needs. It includes everything in the
@@ -103,9 +118,9 @@ const TaxProtectionPlans = () => {
           </p>
 
           {/* Professional Plan */}
-          <h2 className="tax-protection-subtitle">
+          <h3 className="tax-protection-subtitle">
             ✔ Professional Plan – Full-Service Tax Protection
-          </h2>
+          </h3>
           <p>
             The Professional Plan is our most comprehensive level of service,
             designed for individuals and businesses with high-stakes tax
@@ -138,13 +153,13 @@ const TaxProtectionPlans = () => {
           </p>
 
           {/* Final Call-to-Action */}
-          <h2 className="tax-protection-subtitle">
+          <h3 className="tax-protection-subtitle">
             ✔ Protect Your Financial Future Today
-          </h2>
+          </h3>
           <p>
             No matter your tax situation, our Tax Protection Plans ensure you
             have the right level of support to handle IRS matters efficiently
-            and minimize stress. Don’t wait until tax problems arise—take
+            and minimize stress. Don't wait until tax problems arise—take
             control of your financial future today.
           </p>
           <p className="tax-protection-cta">

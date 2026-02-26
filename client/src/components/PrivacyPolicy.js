@@ -62,17 +62,6 @@ const PrivacyPolicy = () => {
         <p>We share your Personal Information with third parties, including:</p>
         <ul>
           <li>
-            <strong>Shopify</strong> for order processing (
-            <a
-              href="https://www.shopify.com/legal/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Privacy Policy
-            </a>
-            )
-          </li>
-          <li>
             <strong>Google Analytics</strong> for tracking (
             <a
               href="https://www.google.com/intl/en/policies/privacy/"

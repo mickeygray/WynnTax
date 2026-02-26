@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import SEO from "./SEO";
+import { orgSchema, faqSchema } from "../utils/structuredData";
 const faqs = [
   {
     question: "What services do you offer?",
@@ -46,7 +47,7 @@ const faqs = [
   {
     question: "How do I get started?",
     answer:
-      "Getting started is easy. Reach out to us to schedule a consultation, and we’ll review your situation, answer any questions, and recommend the best solutions to resolve your tax challenges.",
+      "Getting started is easy. Reach out to us to schedule a consultation, and we'll review your situation, answer any questions, and recommend the best solutions to resolve your tax challenges.",
   },
 ];
 
@@ -59,6 +60,12 @@ const TaxFaqs = () => {
 
   return (
     <div className="tax-faqs-page">
+      <SEO
+        title="Tax Relief FAQs | Common IRS Questions Answered | Wynn Tax Solutions"
+        description="Answers to frequently asked questions about IRS tax debt, offers in compromise, wage garnishments, and how tax resolution works."
+        canonical="/tax-faqs"
+        structuredData={[orgSchema, faqSchema]}
+      />
       {/* Hero Section */}
       <section
         className="faq-hero-section"
@@ -86,8 +93,8 @@ const TaxFaqs = () => {
           <h2 className="faq-header">Frequently Asked Questions</h2>
           <p className="faq-description">
             At Wynn Tax Solutions, we understand that navigating tax challenges
-            can be confusing. Below, you’ll find answers to some of the most
-            common questions we receive. If you don’t see your question listed,
+            can be confusing. Below, you'll find answers to some of the most
+            common questions we receive. If you don't see your question listed,
             feel free to <Link to="/contact-us">contact us</Link> for more
             information.
           </p>
@@ -114,7 +121,6 @@ const TaxFaqs = () => {
         </div>
       </div>
 
-      {/* Contact Section */}
       <div className="faq-contact">
         <h3>Still have questions?</h3>
         <p>

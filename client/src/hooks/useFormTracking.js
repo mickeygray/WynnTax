@@ -66,9 +66,11 @@ export function useFormTracking(formData, formType, enabled = true) {
 /**
  * Track form abandonment when user leaves
  * Call this in beforeunload event
+ *
+ * NOTE: navigator.sendBeacon requires a Blob with the correct
+ * Content-Type header for Express to parse the JSON body.
  */
 export function trackFormAbandon(formType, formData) {
-  // Use sendBeacon for reliable fire-and-forget
   const data = JSON.stringify({
     formType,
     formData,
@@ -76,6 +78,7 @@ export function trackFormAbandon(formType, formData) {
     timestamp: Date.now(),
   });
 
-  navigator.sendBeacon("/api/track-form-input", data);
+  const blob = new Blob([data], { type: "application/json" });
+  navigator.sendBeacon("/api/track-form-input", blob);
   console.log(`[FORM-TRACK] ${formType} abandonment tracked`);
 }

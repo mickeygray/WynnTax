@@ -1,9 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "./SEO";
 
 const SubPage = ({ heroImage, heroTitle, breadcrumb, title, body }) => {
+  const slug = breadcrumb
+    .filter((b) => b.link)
+    .map((b) => b.link)
+    .pop();
+  const canonical =
+    slug ||
+    "/" +
+      breadcrumb
+        .map((b) => b.label.toLowerCase().replace(/\s+/g, "-"))
+        .slice(1)
+        .join("/");
+
   return (
     <>
+      <SEO
+        title={`${title} | Wynn Tax Solutions`}
+        description={body[0]?.substring(0, 155) + "..."}
+        canonical={canonical}
+      />
       {/* Hero Section */}
       <section
         className="subpage-hero"
@@ -27,12 +45,9 @@ const SubPage = ({ heroImage, heroTitle, breadcrumb, title, body }) => {
         </div>
       </section>
 
-      {/* Breadcrumb */}
-
       <main className="subpage-container">
-        {/* Page Title & Body Copy */}
         <section className="subpage-content">
-          <h1 className="page-title">{title}</h1>
+          <h2 className="page-title">{title}</h2>
           {body.map((paragraph, index) => (
             <p key={index} className="page-body">
               {paragraph}

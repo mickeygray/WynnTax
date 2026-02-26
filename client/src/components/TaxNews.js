@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 import useBlogData from "./useBlogData";
+import SEO from "./SEO";
 
 const TaxNews = () => {
   const { blogs } = useBlogData();
-
-  // Split into featured (first post) and rest
   const [featured, ...rest] = blogs;
 
   return (
     <div className="tax-news">
-      {/* Modern Hero - Minimal with gradient */}
+      <SEO
+        title="Tax News & Insights | IRS Updates & Strategies | Wynn Tax Solutions"
+        description="Stay informed with the latest IRS news, tax law changes, and expert analysis from the team at Wynn Tax Solutions."
+        canonical="/tax-news"
+      />
       <header className="tax-news__hero">
         <div className="tax-news__hero-bg">
           <img src="/images/contact-hero.png" alt="" aria-hidden="true" />
@@ -26,7 +29,6 @@ const TaxNews = () => {
       </header>
 
       <main className="tax-news__main">
-        {/* Featured Post - Large card */}
         {featured && (
           <Link to={`/tax-news/${featured.id}`} className="tax-news__featured">
             <div className="tax-news__featured-image">
@@ -44,7 +46,6 @@ const TaxNews = () => {
           </Link>
         )}
 
-        {/* Articles Grid */}
         <div className="tax-news__grid">
           {rest.map((blog, index) => (
             <Link

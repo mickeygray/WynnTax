@@ -29,15 +29,15 @@ const AboutUs = () => {
       {/* Introduction */}
       <section className="about-intro">
         {" "}
-        <h1 className="about-title">
+        <h2 className="about-title">
           <i className="fa fa-check-circle" aria-hidden="true"></i> Protecting
           You from IRS and State Tax Collections
-        </h1>
+        </h2>
         <p>
           At Wynn Tax Solutions, we know that few things cause more stress than
           IRS wage garnishments, bank levies, and aggressive collection actions.
-          If you’re worried about losing your paycheck or having your bank
-          account frozen, you’re not alone. We’ve seen firsthand how devastating
+          If you're worried about losing your paycheck or having your bank
+          account frozen, you're not alone. We've seen firsthand how devastating
           these actions can be—especially when they prevent you from covering
           essentials like rent, utilities, or groceries.
         </p>
@@ -56,8 +56,8 @@ const AboutUs = () => {
         <p>
           The IRS and state tax agencies have broad collection powers, and when
           you owe back taxes, they can take money straight from your paycheck or
-          freeze your bank account. If you’ve received a{" "}
-          <strong>Notice of Intent to Levy</strong>, it’s critical to act fast.
+          freeze your bank account. If you've received a{" "}
+          <strong>Notice of Intent to Levy</strong>, it's critical to act fast.
         </p>
         <p>
           At Wynn Tax Solutions, we work quickly to lift IRS wage garnishments
@@ -103,8 +103,8 @@ const AboutUs = () => {
           </li>
           <li>
             {" "}
-            <strong>Innocent Spouse Relief</strong> – If you’re being held
-            responsible for a spouse’s tax debt unfairly, we can help.
+            <strong>Innocent Spouse Relief</strong> – If you're being held
+            responsible for a spouse's tax debt unfairly, we can help.
           </li>
         </ul>
       </section>
@@ -113,7 +113,7 @@ const AboutUs = () => {
       <section className="about-section">
         <h2>Preventing Future IRS Actions</h2>
         <p>
-          While we’re experts at stopping IRS enforcement, we also focus on
+          While we're experts at stopping IRS enforcement, we also focus on
           long-term solutions to prevent future tax troubles. We assist with:
         </p>
         <ul>
@@ -122,7 +122,7 @@ const AboutUs = () => {
           <li>Keeping you compliant with the IRS</li>
         </ul>
         <p>
-          Our goal is not just to fix today’s problem but to make sure you never
+          Our goal is not just to fix today's problem but to make sure you never
           face this stress again.
         </p>
       </section>
@@ -133,7 +133,7 @@ const AboutUs = () => {
         <ul>
           <li>
             {" "}
-            <strong>Proven Success</strong> – We’ve helped countless clients
+            <strong>Proven Success</strong> – We've helped countless clients
             escape tax levies and garnishments.
           </li>
           <li>
@@ -147,7 +147,7 @@ const AboutUs = () => {
             and we tailor our solutions to fit your needs.
           </li>
           <li>
-            <strong>Fast Action</strong> – The IRS won’t wait, and neither do
+            <strong>Fast Action</strong> – The IRS won't wait, and neither do
             we.
           </li>
         </ul>
@@ -157,7 +157,7 @@ const AboutUs = () => {
       <section className="cta-section">
         <h2>Take Action Today</h2>
         <p className="cta-text">
-          If you’re facing IRS collections, garnishments, or levies, don’t
+          If you're facing IRS collections, garnishments, or levies, don't
           wait—every day counts. The sooner you act, the better your chances of
           stopping the IRS before they take further action.
         </p>
