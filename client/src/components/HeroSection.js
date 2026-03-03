@@ -155,6 +155,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
+              aria-label="Full name"
               required
             />
           </div>
@@ -165,6 +166,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
+              aria-label="Phone number"
               required
             />
           </div>
@@ -175,6 +177,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
+              aria-label="Email address"
               required
             />
           </div>
@@ -185,6 +188,7 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
               value={formData.bestTime}
               onChange={handleChange}
               placeholder="Best Time to Contact (optional)"
+              aria-label="Best time to contact"
             />
           </div>
 
@@ -256,12 +260,12 @@ const HeroSection = () => {
         <div className="hero__content hero__content--mobile">
           <div className="hero__text">
             <span className="hero__badge">Tax Relief Experts</span>
-            <h1 className="hero__title">
+            <h2 className="hero__title">
               <span className="hero__title-line">Wynn Tax</span>
               <span className="hero__title-line hero__title-accent">
                 Solutions
               </span>
-            </h1>
+            </h2>
             <p className="hero__subtitle">
               Individual and Business Tax Consulting
             </p>

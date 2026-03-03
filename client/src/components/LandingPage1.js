@@ -222,7 +222,7 @@ const LandingPage1 = () => {
           <div className="hero-background">
             <img
               src="/images/wynn-landing-hero.png"
-              alt=""
+              alt="Wynn Tax Solutions"
               className="hero-bg-image"
             />
             <div className="hero-overlay"></div>

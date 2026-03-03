@@ -6,7 +6,7 @@ import stateData, {
   getStateBySlug,
   getStateByAbbreviation,
 } from "../data/stateData";
-import USMapSVG from "./UsMapSvg";
+import USMapSVG from "./USMapSVG";
 import StateTaxForm from "./StateTaxForm";
 
 /* ────────────────────────────────────────────

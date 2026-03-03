@@ -15,7 +15,11 @@ const TaxNews = () => {
       />
       <header className="tax-news__hero">
         <div className="tax-news__hero-bg">
-          <img src="/images/contact-hero.png" alt="" aria-hidden="true" />
+          <img
+            src="/images/contact-hero.png"
+            alt="Wynn Tax Solutions"
+            aria-hidden="true"
+          />
           <div className="tax-news__hero-gradient" />
         </div>
         <div className="tax-news__hero-content">

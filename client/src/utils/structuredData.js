@@ -4,7 +4,7 @@ const organization = {
   "@type": "Organization",
   name: "Wynn Tax Solutions",
   url: "https://wynntaxsolutions.com",
-  logo: "https://wynntaxsolutions.com/images/og-default.png",
+  logo: "https://wynntaxsolutions.com/images/og-image.png",
   telephone: "+1-844-996-6829",
   address: {
     "@type": "PostalAddress",
@@ -14,6 +14,13 @@ const organization = {
     postalCode: "91311",
     addressCountry: "US",
   },
+  sameAs: [
+    "https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121",
+    "https://www.yelp.com/biz/wynn-tax-solutions-irvine",
+    "https://www.facebook.com/wynntaxsolutions",
+    "https://www.tiktok.com/@wynntaxsolutions",
+    "https://www.instagram.com/wynntaxsolutions",
+  ],
 };
 
 export const orgSchema = {
@@ -25,7 +32,7 @@ export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Wynn Tax Solutions",
-  image: "https://wynntaxsolutions.com/images/og-default.png",
+  image: "https://wynntaxsolutions.com/images/og-image.png",
   url: "https://wynntaxsolutions.com",
   telephone: "+1-844-996-6829",
   priceRange: "$$",
@@ -35,6 +42,13 @@ export const localBusinessSchema = {
     latitude: 34.2572,
     longitude: -118.5981,
   },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.3",
+    reviewCount: "11",
+    bestRating: "5",
+    worstRating: "1",
+  },
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -42,6 +56,7 @@ export const localBusinessSchema = {
     closes: "17:00",
   },
   areaServed: { "@type": "Country", name: "US" },
+  sameAs: organization.sameAs,
 };
 
 export const faqSchema = {
@@ -147,7 +162,7 @@ export const blogPostingSchema = (blog) => ({
     name: "Wynn Tax Solutions",
     logo: {
       "@type": "ImageObject",
-      url: "https://wynntaxsolutions.com/images/og-default.png",
+      url: "https://wynntaxsolutions.com/images/og-image.png",
     },
   },
   url: `https://wynntaxsolutions.com/tax-news/${blog.id}`,
