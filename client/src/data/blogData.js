@@ -1,5 +1,96 @@
 const blogData = [
   {
+    id: "california-income-tax-guide-debt-relief-what-to-know",
+    title:
+      "California Income Tax 101: Rates, Deductions, Recent Changes, and What to Do If You Owe the FTB",
+    image: "/images/wynn-california-tax-guide.png",
+    teaser:
+      "California income tax is separate from the IRS — and the Franchise Tax Board (FTB) has its own rules, credits, and collection tools. Here’s a practical guide to rates and deductions, what changed recently, and the smartest steps to take if you owe California tax.",
+    contentTitle:
+      "California Income Tax 101: Rates, Deductions, Recent Changes, and What to Do If You Owe the FTB",
+    contentBody: [
+      "<p><em>Quick note:</em> This is general information, not tax or legal advice. Your filing outcome and any debt relief options depend on your facts, documentation, and compliance status.</p>",
+
+      "<h2>Who handles California income tax?</h2>",
+      "<p>California personal income tax is administered by the <strong>Franchise Tax Board (FTB)</strong>. Even if you’re used to dealing with the IRS, California is a separate system with separate notices, separate payment options, and separate collection tools.</p>",
+      "<p>If you live in California, you’ll generally file a resident return (Form 540). If you moved in/out or worked part-year, you may need a nonresident/part-year return instead. Residency and source rules can change what California taxes — and what credits you may need (for example, if another state also taxes the same income).</p>",
+
+      "<h2>How much is California income tax? (The “percent owed” question)</h2>",
+      "<p>California uses a <strong>progressive</strong> tax system. That means different portions of your taxable income are taxed at different rates — not one flat rate across everything.</p>",
+      "<p>For most taxpayers, California marginal rates range from <strong>1% up to 12.3%</strong>, depending on income and filing status. In addition, higher-income taxpayers may also face an extra <strong>1% tax on taxable income over $1,000,000</strong> (now referred to as the Behavioral Health Services Tax on current-year forms/instructions).</p>",
+      "<p><strong>Practical takeaway:</strong> If you’re a W-2 employee, your withholding usually covers most of this automatically. If you’re a 1099 contractor, have multiple jobs, or have investment/side income, it’s much easier to under-withhold and end up owing at filing time.</p>",
+
+      "<h2>Biggest deduction decision in California: Standard deduction vs. itemizing</h2>",
+      "<p>California lets you take the <strong>standard deduction</strong> or <strong>itemize</strong> (whichever is larger for you). The standard deduction is smaller than the federal standard deduction, so this choice can matter more than people expect.</p>",
+      "<p>For the <strong>2025 tax year</strong> (filed in 2026), the California standard deduction amounts shown in the Form 540 booklet are:</p>",
+      "<ul>",
+      "<li><strong>$5,706</strong> — Single or Married/RDP filing separately</li>",
+      "<li><strong>$11,412</strong> — Married/RDP filing jointly, Head of household, or Qualifying surviving spouse/RDP</li>",
+      "</ul>",
+      "<p>If you itemize, California generally starts with the same broad categories you’re used to (charitable contributions, certain medical expenses, mortgage interest, etc.), but California can apply its own adjustments and limits — so the clean way to do it is to follow the Schedule CA (540) instructions and be consistent with documentation.</p>",
+
+      "<h2>Major California credits and deductions people miss</h2>",
+      "<p>Credits are powerful because they reduce tax dollar-for-dollar. Here are a few common California items that come up a lot in real life:</p>",
+      "<ul>",
+      "<li><strong>California Earned Income Tax Credit (EITC):</strong> A refundable credit for eligible taxpayers with wage income earned in CA and/or net self-employment earnings under the program thresholds (you don’t always need a child to qualify).</li>",
+      "<li><strong>Young Child Tax Credit (YCTC):</strong> A refundable credit connected to California EITC eligibility for households with a qualifying child under age 6.</li>",
+      "<li><strong>Child and Dependent Care Expenses Credit (nonrefundable):</strong> For qualifying care expenses (with California-specific requirements and income limits).</li>",
+      "<li><strong>Renter’s Credit (nonrefundable):</strong> If you paid rent for at least 6 months on a CA principal residence and meet the AGI limits.</li>",
+      "<li><strong>Other State Tax Credit:</strong> If you paid net income tax to another state (or U.S. possession) on income that California also taxes, California may offer a credit to reduce double-tax pain.</li>",
+      "</ul>",
+      "<p><strong>Practical tip:</strong> Most “surprise balances due” are caused by missing income (a late 1099, side income, brokerage activity) or under-withholding/underpaying estimated taxes — not by one small missed deduction.</p>",
+
+      "<h2>If you owe California tax: pay in full vs. payment plan vs. other options</h2>",
+      "<p>If you owe the FTB, the best move is to get organized and make a plan quickly. Generally, you’ll be deciding between:</p>",
+      "<ul>",
+      "<li><strong>Paying in full</strong> (fastest way to stop the meter on added costs)</li>",
+      "<li><strong>Setting up a payment plan</strong> (installment agreement) if you can’t pay all at once</li>",
+      "<li><strong>Exploring relief options</strong> if your finances don’t support full payment now or in the foreseeable future</li>",
+      "</ul>",
+      "<p>California also expects you to stay compliant going forward — meaning future returns filed on time, and future taxes paid/withheld properly — even while you’re resolving a past balance.</p>",
+
+      "<h2>How California (FTB) collects tax debt</h2>",
+      "<p>California can be very aggressive once a balance is established and notices are ignored. The FTB’s published collections guidance makes it clear that unpaid balances can lead to actions such as:</p>",
+      "<ul>",
+      "<li><strong>Wage garnishment</strong> (earnings withholding orders)</li>",
+      "<li><strong>Bank levies / orders to withhold</strong> (taking money from bank accounts or other financial assets)</li>",
+      "<li><strong>State tax liens</strong> recorded/ filed against property</li>",
+      "<li><strong>Seizure of property</strong> in serious cases</li>",
+      "</ul>",
+      "<p>California liens are also a big deal because the FTB states it has an automatic statutory lien when you owe, and it may record/file a Notice of State Tax Lien if the situation isn’t resolved. Once recorded, it becomes public record and can follow you for years.</p>",
+      "<p>In addition, California can sometimes collect delinquent state income tax by offsetting certain payments — including intercepting a <strong>federal tax refund</strong> to pay a past-due California income tax balance.</p>",
+      "<p>Bottom line: if you have an FTB balance, assume the problem gets more expensive and more disruptive the longer it sits.</p>",
+
+      "<h2>Repayment and relief programs California taxpayers should know</h2>",
+      "<h3>1) Payment plans (installment agreements)</h3>",
+      "<p>For many people, the first step is simply getting on an installment agreement. The FTB states that personal payment plans can typically run <strong>3 to 5 years</strong> and may take time to process. There’s also usually a setup fee, and eligibility requirements (including being filed up for recent years and being within certain balance limits).</p>",
+      "<p>Important nuance: if you’re already facing active collection actions (like a wage garnishment or bank levy), you may not be able to self-serve online and may need to call and/or provide additional financial documentation.</p>",
+
+      "<h3>2) Offer in Compromise (OIC) — settling for less in the right cases</h3>",
+      "<p>California’s Offer in Compromise program is designed for situations where the state believes it may not be able to collect the full amount within a reasonable time. The FTB emphasizes that eligibility depends on your <strong>ability to pay</strong>, <strong>assets</strong>, and <strong>current/future income and expenses</strong>, and that you must be filed and agree with the balance before applying.</p>",
+      "<p><strong>Reality check:</strong> an OIC is documentation-heavy. The best offers are built on a clean, provable financial picture — not wishful thinking.</p>",
+
+      "<h3>3) Penalty relief (including one-time penalty abatement)</h3>",
+      "<p>If a big chunk of your bill is penalties, California may offer ways to request relief. One of the most practical tools for many individuals is California’s <strong>one-time timeliness penalty abatement</strong> program, which has eligibility rules and can be requested through MyFTB, in writing, or by phone (depending on your situation).</p>",
+      "<p>This can be especially meaningful when the taxpayer is otherwise compliant and has taken steps to pay the underlying tax or get into a current payment arrangement.</p>",
+
+      "<h2>Recent California income tax changes worth knowing</h2>",
+      "<p>California makes updates every year — some big, some narrow. A few notable items that show up in recent official Form 540 guidance include:</p>",
+      "<ul>",
+      "<li><strong>Behavioral Health Services Tax naming update</strong> (formerly referred to as the Mental Health Services Tax) and guidance for taxpayers over the $1M threshold.</li>",
+      "<li><strong>Net Operating Loss (NOL) deduction suspension</strong> for certain taxpayers for specific years (relevant to business owners and higher-income filers).</li>",
+      "<li><strong>Business credit limitation</strong> for certain years (again, more relevant to business owners and higher-income situations).</li>",
+      "<li><strong>Expanded/continued refundable credits</strong> tied to California EITC (including the Young Child Tax Credit), with specific eligibility rules.</li>",
+      "<li><strong>One-time timeliness penalty abatement option</strong> (for qualifying individuals), which can matter when you’re trying to clean up a late filing or late payment situation.</li>",
+      "</ul>",
+      "<p><strong>Practical takeaway:</strong> Even if your income is “about the same,” changes in withholding, credits, deductions, and California-specific rules can change the outcome. Reviewing your prior-year return and your current-year documents before filing is the easiest way to avoid surprises.</p>",
+
+      "<h2>How Wynn Tax Solutions can help</h2>",
+      "<p>If you owe California income tax, have unfiled years, or received an FTB notice and you’re not sure what comes next, Wynn Tax Solutions can help you get clarity and build a plan. We help clients get organized, evaluate payment and relief options, and (when authorized) communicate with tax agencies on your behalf.</p>",
+      "<p><strong>Next step:</strong> If you’re dealing with a California balance due or collections notices, don’t wait for the situation to escalate. The earlier you address it, the more options you typically have.</p>",
+    ],
+  },
+  {
     id: "state-of-the-union-2026-tax-money-highlights",
     title:
       "State of the Union (2/24): Tax & Money Highlights — What Was Mentioned and What It Could Mean for Your Return",
