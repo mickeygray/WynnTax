@@ -1,5 +1,102 @@
 const blogData = [
   {
+    id: "missouri-income-tax-guide-rates-deductions-tax-debt-help",
+    title:
+      "Missouri Income Tax Guide: 2025 Rates, Key Deductions, and What to Do If You Owe the Missouri DOR",
+    image: "/images/missouri-income-tax-guide.png",
+    teaser:
+      "Missouri income tax rules can surprise people — especially 1099 workers, small business owners, and retirees. Here’s a clear breakdown of 2025 Missouri rates, common deductions and credits, major recent tax changes, and what to do if you owe the Missouri Department of Revenue (including payment plans, liens, garnishments, and Offer in Compromise options).",
+    contentTitle:
+      "Missouri Income Tax Guide: 2025 Rates, Key Deductions, and What to Do If You Owe the Missouri DOR",
+    contentBody: [
+      "<p><em>Quick note:</em> This is general information and educational content, not tax or legal advice. Missouri tax rules and outcomes depend on your facts (income type, residency, filing history, notices received, and documentation).</p>",
+
+      "<h2>Missouri income tax in plain English</h2>",
+      "<p>Missouri’s individual income tax is calculated using your Missouri taxable income and a progressive rate table (brackets). For tax year 2025 (returns generally filed in 2026), Missouri’s top marginal income tax rate is <strong>4.7%</strong>.</p>",
+      "<p>That number matters because if you’re a W-2 employee your withholding may cover most of it — but if you’re <strong>1099 / self-employed</strong>, run a small business, or have uneven income during the year, it’s easy to end up with a balance due at filing time.</p>",
+
+      "<h2>What are Missouri’s 2025 income tax rates?</h2>",
+      "<p>Missouri’s rate table climbs from 0% at the lowest taxable income levels up to a top bracket of <strong>4.7%</strong>. The Department of Revenue publishes a yearly tax chart so taxpayers can calculate their Missouri tax based on taxable income.</p>",
+      "<p><strong>Key takeaway:</strong> once your Missouri taxable income is above the top threshold, Missouri tax is calculated as a base amount plus <strong>4.7% of the excess</strong>.</p>",
+
+      "<h2>Standard deduction vs itemizing in Missouri</h2>",
+      "<p>Missouri generally ties its standard deduction to the federal standard deduction amounts for your filing status. For tax year 2025, the standard deduction amounts commonly used are:</p>",
+      "<ul>",
+      "<li><strong>Single / Married Filing Separately:</strong> $15,750</li>",
+      "<li><strong>Married Filing Combined / Qualifying Widow(er):</strong> $31,500</li>",
+      "<li><strong>Head of Household:</strong> $23,625</li>",
+      "</ul>",
+      "<p>Additional standard deduction amounts may apply if you’re <strong>65+</strong> or blind.</p>",
+
+      "<h2>A uniquely Missouri move: the Federal Income Tax Deduction</h2>",
+      "<p>Missouri allows a deduction for <strong>federal income tax you actually paid</strong> (not simply what was withheld from paychecks). This deduction is commonly miscalculated and can delay return processing if done incorrectly.</p>",
+      "<p>Important: Missouri rules also apply limits (caps) and may reduce the deduction depending on your Missouri adjusted gross income. That means two taxpayers with the same federal tax paid might not get the same Missouri deduction.</p>",
+
+      "<h2>Common Missouri credits and deductions people miss</h2>",
+      "<p>Depending on your situation, Missouri may offer credits/deductions that are worth checking carefully before you file:</p>",
+      "<ul>",
+      "<li><strong>Property Tax Credit:</strong> a credit for certain seniors and 100% disabled individuals for a portion of real estate taxes or rent paid (maximum credit amounts apply).</li>",
+      "<li><strong>Public pension + Social Security/SSDI deductions:</strong> Missouri updated how these are calculated beginning with tax years on/after 2024, and the changes can materially reduce Missouri taxable income for eligible taxpayers.</li>",
+      "<li><strong>Military-related deductions:</strong> Missouri has several military income deduction rules, and recent changes expanded certain deductions for qualifying service members.</li>",
+      "</ul>",
+
+      "<h2>Recent Missouri tax law changes worth knowing</h2>",
+      "<p>Missouri has made several updates that can affect your 2025 return and your long-term planning:</p>",
+      "<ul>",
+      "<li><strong>Capital gains subtraction:</strong> Missouri allows a subtraction of <strong>100%</strong> of federally reported capital gains when determining Missouri adjusted gross income (effective for individuals beginning January 1, 2025).</li>",
+      "<li><strong>Military deduction expansion:</strong> legislation expanded the Inactive Duty Military income deduction to include certain signing bonuses (effective January 1, 2025).</li>",
+      "<li><strong>Missouri vs new federal deductions:</strong> Missouri has noted that certain recent federal deductions (like “no tax on tips” style provisions) <strong>do not apply to Missouri individual income tax returns</strong> because Missouri statutes don’t provide correspondence provisions for them.</li>",
+      "</ul>",
+
+      "<h2>If you owe Missouri income tax: your realistic options</h2>",
+      "<p>If you file your Missouri return and you owe, the best first step is to <strong>file on time</strong> (even if you can’t pay in full). Then choose the best-fit path:</p>",
+      "<ul>",
+      "<li><strong>Pay in full:</strong> cleanest outcome; stops collection escalation fastest.</li>",
+      "<li><strong>Payment plan:</strong> Missouri offers online payment plan options, and in many cases you can request an installment agreement.</li>",
+      "<li><strong>Offer in Compromise (OIC):</strong> Missouri has an OIC program that can settle for less than the full amount owed in qualifying situations, but it’s not a shortcut and eligibility requirements matter.</li>",
+      "</ul>",
+
+      "<h2>Missouri DOR collections: what happens if you ignore notices</h2>",
+      "<p>If you don’t take action, Missouri DOR can escalate collections. Their own notice guidance explains that escalation can include:</p>",
+      "<ul>",
+      "<li>Issuing a <strong>tax lien</strong> or administrative judgment</li>",
+      "<li>Beginning the <strong>garnishment</strong> process</li>",
+      "<li>Referring the account to the county prosecutor’s office or a collection agency</li>",
+      "</ul>",
+      "<p>A Missouri tax lien can attach to real or personal property, and if it’s filed as a judgment it may enable collection through garnishment, executions, and levies. Missouri also notes that a lien generally won’t be released until the debt is paid in full, though partial releases may be considered in limited circumstances.</p>",
+
+      "<h2>Payment plans in Missouri: what to expect</h2>",
+      "<p>Missouri allows taxpayers to request installment agreements. A common requirement is that you must be <strong>filed on all required returns</strong> before an agreement will be considered.</p>",
+      "<p>Missouri’s installment request form indicates that a payment plan can be established for <strong>no longer than 36 months</strong> and that the <strong>monthly amount cannot be less than $50</strong>. Interest continues to accrue while you’re paying.</p>",
+
+      "<h2>Offer in Compromise (Missouri OIC): what the state looks at</h2>",
+      "<p>Missouri’s Offer in Compromise program allows qualifying taxpayers an opportunity to settle unpaid tax accounts for less than the full amount owed.</p>",
+      "<p>For many OIC submissions (such as “doubt as to collectability” or hardship-based offers), Missouri’s guidance indicates the offer may be considered only <strong>after other payment options have been exhausted</strong>. They also list baseline eligibility items such as:</p>",
+      "<ul>",
+      "<li>Being fully filed on all required tax returns</li>",
+      "<li>No open bankruptcy</li>",
+      "<li>Being current on estimated tax payments if required</li>",
+      "</ul>",
+      "<p>Missouri also notes that there is <strong>no right of appeal</strong> if an OIC is rejected.</p>",
+
+      "<h2>Why hiring a professional can help in Missouri (especially once collections start)</h2>",
+      "<p>Many taxpayers can file and pay on their own — until the situation turns into notices, liens, garnishments, or years of unfiled returns. At that point, the biggest risks are usually:</p>",
+      "<ul>",
+      "<li>Missing deadlines and letting the state escalate collections</li>",
+      "<li>Entering a payment plan that isn’t realistic, causing default later</li>",
+      "<li>Submitting an OIC that was never viable and losing time while enforcement pressure grows</li>",
+      "<li>Misunderstanding what documentation Missouri actually needs to release or resolve a lien</li>",
+      "</ul>",
+
+      "<h2>How Wynn Tax Solutions helps Missouri taxpayers</h2>",
+      "<p>Wynn Tax Solutions helps clients resolve Missouri Department of Revenue tax problems by building a clear plan — whether that means catching up on filings, requesting a payment plan, addressing liens/garnishments, or evaluating whether a Missouri Offer in Compromise is realistic.</p>",
+      "<p>If we’re engaged and you authorize representation, we can communicate with the Missouri DOR on your behalf and help you move toward a stable resolution instead of guessing your way through notices.</p>",
+
+      "<h2>Need help with Missouri income taxes or Missouri tax debt?</h2>",
+      "<p>If you owe Missouri income tax, received a Missouri DOR notice, or feel like you’re falling behind, reach out to Wynn Tax Solutions. A clear plan now is usually cheaper than waiting until liens or garnishments start.</p>",
+    ],
+  },
+  {
     id: "california-income-tax-guide-debt-relief-what-to-know",
     title:
       "California Income Tax 101: Rates, Deductions, Recent Changes, and What to Do If You Owe the FTB",
