@@ -657,7 +657,7 @@ body.modal-open {
   margin-bottom: 6px;
 }
 
-.embedded-lead-form select:focus,
+/* Radio label styling */
 .radio-label {
   display: flex;
   align-items: center;
@@ -811,9 +811,6 @@ body.modal-open {
 }
 
 /* ========== EMBEDDED FORM STYLES ========== */
-
-.embedded-lead-form select:focus,
-
 
 /* Modal styles */
 .stewart-modal-overlay {
