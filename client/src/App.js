@@ -41,7 +41,8 @@ export default function App() {
           {/*   PDF ROUTE (no layout)       */}
           {/* ----------------------------- */}
           <Route path="/services-brochure" element={<PDFViewer />} />
-
+          <Route path="/qualify-now" element={<LandingPage1 />} />
+          <Route path="/thank-you" element={<ThankYou />} />
           {/* ----------------------------- */}
           {/*   STANDARD SITE ROUTES       */}
           {/* ----------------------------- */}
@@ -54,8 +55,7 @@ export default function App() {
                 <div className="page-wrapper">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/qualify-now" element={<LandingPage1 />} />
-                    <Route path="/thank-you" element={<ThankYou />} />
+
                     <Route path="/tax-faqs" element={<TaxFaqs />} />
                     <Route path="/about-us" element={<AboutUs />} />
                     <Route

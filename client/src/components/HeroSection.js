@@ -250,7 +250,7 @@ const HeroSection = () => {
         <div className="hero__media">
           <img
             src="/images/hero-8.png"
-            alt=""
+            alt="Wynn Tax"
             className="hero__image"
             aria-hidden="true"
           />
