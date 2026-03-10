@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "./SEO";
+
 const AboutUs = () => {
   return (
     <div className="about-page-container">
+      <SEO
+        title="About Us | Licensed Tax Relief Professionals | Wynn Tax Solutions"
+        description="Meet the experienced enrolled agents, forensic accountants, and financial consultants at Wynn Tax Solutions. BBB A+ rated, serving all 50 states."
+        canonical="/about-us"
+      />
       {/* About Page Hero Section */}
       <section
         className="about-hero"
