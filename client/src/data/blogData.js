@@ -1,5 +1,77 @@
 const blogData = [
   {
+    id: "texas-no-state-income-tax-guide-franchise-tax-and-tax-debt-help",
+    title:
+      "Texas Tax Guide: No State Income Tax, Franchise Tax Basics, and What to Do If You Owe the Texas Comptroller",
+    image: "/images/wynn-texas-state-tax-guide.png",
+    teaser:
+      "Texas has no state personal income tax — but that does not mean no state tax problems. Here is a practical guide to Texas franchise tax, common sales and use tax issues, and what to do if you owe the Texas Comptroller.",
+    contentTitle:
+      "Texas Tax Guide: No State Income Tax, Franchise Tax Basics, and What to Do If You Owe the Texas Comptroller",
+    contentBody: [
+      "<p><em>Quick note:</em> This is general information and educational content, not tax or legal advice. Texas tax results depend on your facts, the tax type involved, your entity structure, your filing history, and the notices you have received.</p>",
+
+      "<h2>Texas in plain English: no state personal income tax does not mean no state tax problems</h2>",
+      "<p>Texas does not impose a state individual income tax on wages or self-employment income. That is great news for many residents, but people still get into serious tax trouble in Texas through franchise tax, sales and use tax, old business accounts, and ignored Comptroller notices.</p>",
+      "<p>That is especially common for LLC owners, S corp owners, contractors, e-commerce sellers, and businesses that assumed no income tax meant nothing to file.</p>",
+
+      "<h2>Does Texas have a 2025 income tax rate?</h2>",
+      "<p>No. Texas does <strong>not</strong> have a state personal income tax rate for 2025. Most individual Texas tax issues are really business-tax or sales-tax problems, not a state income-tax-return problem.</p>",
+
+      "<h2>The Texas tax most business owners actually run into: franchise tax</h2>",
+      "<p>Texas franchise tax can apply to many LLCs, corporations, and other taxable entities even when no tax is ultimately due. For recent report years, the <strong>no-tax-due threshold has been $2.47 million</strong>, but that does not automatically eliminate the filing obligation.</p>",
+      "<p>Once a business is above the threshold, Texas generally applies a lower franchise-tax rate to qualifying retail and wholesale businesses and a higher rate to most other taxable entities. That is one reason Texas returns are often more technical than they first appear.</p>",
+
+      "<h2>Common Texas tax issues people miss</h2>",
+      "<ul>",
+      "<li><strong>Franchise tax report even when no tax is due:</strong> many entities still need to file a report or information return.</li>",
+      "<li><strong>Sales and use tax issues:</strong> businesses can build up liability surprisingly fast if they collected tax and did not remit it, or should have registered but never did.</li>",
+      "<li><strong>Old closed businesses:</strong> the account may still be open with the Comptroller if final filings were never handled correctly.</li>",
+      "<li><strong>Federal vs state confusion:</strong> taxpayers sometimes focus on the IRS while ignoring Texas notices that are moving on a separate track.</li>",
+      "</ul>",
+
+      "<h2>Recent Texas planning points worth knowing</h2>",
+      "<p>Texas remains a no-personal-income-tax state, but franchise-tax thresholds and reporting rules still matter. For many smaller businesses, the real question is not just how much tax is due? but did we file the right report, on time, under the right entity?</p>",
+      "<p>That is why Texas tax debt cases often start with a compliance clean-up before they turn into a payment-plan or collection problem.</p>",
+
+      "<h2>If you owe Texas tax: your realistic options</h2>",
+      "<p>If the Comptroller says you owe, the best first step is usually to <strong>file any missing returns or reports</strong> and verify the account balance before arguing over resolution. Then the main paths are:</p>",
+      "<ul>",
+      "<li><strong>Pay in full:</strong> the cleanest result if you can do it.</li>",
+      "<li><strong>Payment plan:</strong> Texas does allow payment arrangements in many cases, but approval is case-by-case.</li>",
+      "<li><strong>Penalty relief:</strong> in the right facts, a penalty waiver request may be worth exploring.</li>",
+      "</ul>",
+
+      "<h2>What happens if you ignore Texas Comptroller notices</h2>",
+      "<p>Texas collections can escalate quickly. Depending on the tax type and account history, the Comptroller can file a tax lien, freeze or seize non-exempt assets, require a security bond, suspend permits or licenses, hold state payments, and pursue other enforcement tools.</p>",
+      "<p>In other words, a Texas balance that looked administrative can become a real collections problem if it sits too long.</p>",
+
+      "<h2>Texas payment plans: what to expect</h2>",
+      "<p>Texas payment arrangements are generally handled case-by-case. That means the terms are not as cookie-cutter as in some states, and the Comptroller may still treat the account as delinquent while the balance is being paid.</p>",
+      "<p>Interest keeps running, and in some situations collection pressure does not fully disappear just because a payment plan was requested. That is one reason it helps to negotiate from accurate numbers instead of guesses.</p>",
+
+      "<h2>Other relief in Texas: do not overlook penalty-waiver requests</h2>",
+      "<p>Texas is not known for a broad consumer-style Offer in Compromise program the way some states are. But taxpayers sometimes miss a more realistic option: requesting abatement or waiver of penalties when the facts support it.</p>",
+      "<p>That does not erase the tax itself, but it can materially reduce the total bill in the right case.</p>",
+
+      "<h2>Why hiring a professional can help once collections start</h2>",
+      "<p>Many taxpayers can file and pay on their own — until the situation turns into notices, liens, levies, garnishments, warrants, or years of unfiled returns. At that point, the biggest risks are usually:</p>",
+      "<ul>",
+      "<li>Missing deadlines and letting the state escalate collections</li>",
+      "<li>Entering a payment plan that is not realistic, causing default later</li>",
+      "<li>Asking for relief that was never viable and losing time while enforcement pressure grows</li>",
+      "<li>Misunderstanding what records the state actually wants before it will approve a resolution</li>",
+      "</ul>",
+
+      "<h2>How Wynn Tax Solutions helps Texas taxpayers</h2>",
+      "<p>Wynn Tax Solutions helps clients resolve the Texas Comptroller tax problems by building a clear plan — whether that means catching up on filings, requesting a payment plan, responding to notices, or evaluating whether a compromise or other relief path is realistic.</p>",
+      "<p>If we're engaged and you authorize representation, we can communicate with the Texas Comptroller on your behalf and help you move toward a stable resolution instead of guessing your way through Comptroller notices, delinquent tax letters, and payment-plan negotiations.</p>",
+
+      "<h2>Need help with Texas taxes or Texas tax debt?</h2>",
+      "<p>If you owe Texas tax, received a notice, or feel like you're falling behind, reach out to Wynn Tax Solutions. A clear plan now is usually cheaper than waiting until collections get more aggressive.</p>",
+    ],
+  },
+  {
     id: "missouri-income-tax-guide-rates-deductions-tax-debt-help",
     title:
       "Missouri Income Tax Guide: 2025 Rates, Key Deductions, and What to Do If You Owe the Missouri DOR",
@@ -1357,8 +1429,8 @@ const blogData = [
       "<h2>The Takeaway</h2>",
       "<p>The affordability crisis is real—and for many households, it’s creating financial stress unlike any other time in the last decade. But it’s also making IRS hardship relief more attainable. Taking action now can stabilize your finances, protect your household, and make the holiday season not just survivable, but hopeful.</p>",
 
-      "<h2>How Tax Advocate Group Can Help</h2>",
-      "<p>At <strong>Tax Advocate Group</strong>, we work with individuals facing rising costs and rising pressure. Our team helps you understand your IRS options, document your financial reality, and secure relief that matches your situation. Whether you're considering CNC, a reduced payment plan, or full tax resolution, we’re here to support you every step of the way.</p>",
+      "<h2>How Wynn Tax Solutions Can Help</h2>",
+      "<p>At <strong>Wynn Tax Solutions</strong>, we work with individuals facing rising costs and rising pressure. Our team helps you understand your IRS options, document your financial reality, and secure relief that matches your situation. Whether you're considering CNC, a reduced payment plan, or full tax resolution, we’re here to support you every step of the way.</p>",
       "<p>If you're ready to explore your options and make life more affordable, contact us today. The sooner you take that first step, the more breathing room you'll have this season—and into the new year.</p>",
     ],
   },
