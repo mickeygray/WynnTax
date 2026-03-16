@@ -38,14 +38,14 @@ const AboutUs = () => {
         {" "}
         <h2 className="about-title">
           <i className="fa fa-check-circle" aria-hidden="true"></i> Protecting
-          You from IRS and State Tax Collections
+          You from IRS and State Tax Collections.
         </h2>
         <p>
           At Wynn Tax Solutions, we know that few things cause more stress than
           IRS wage garnishments, bank levies, and aggressive collection actions.
           If you're worried about losing your paycheck or having your bank
           account frozen, you're not alone. We've seen firsthand how devastating
-          these actions can be—especially when they prevent you from covering
+          these actions can be, especially when they prevent you from covering
           essentials like rent, utilities, or groceries.
         </p>
         <p>

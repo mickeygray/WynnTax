@@ -1,5 +1,75 @@
 const blogData = [
   {
+    id: "iowa-income-tax-guide-rates-deductions-tax-debt-help",
+    title:
+      "Iowa Income Tax Guide: 2025 Rate, Key Credits, and What to Do If You Owe Iowa Department of Revenue",
+    image: "/images/wynn-iowa-state-tax-guide.png",
+    teaser:
+      "Iowa shifted to a flat individual income tax rate for 2025, but many taxpayers still miss credits, underestimate quarterly payments, or fall behind after a balance due. Here is a practical guide to Iowa's 2025 rate, common adjustments and credits, and what to do if you owe Iowa Department of Revenue.",
+    contentTitle:
+      "Iowa Income Tax Guide: 2025 Rate, Key Credits, and What to Do If You Owe Iowa Department of Revenue",
+    contentBody: [
+      "<p><em>Quick note:</em> This is general information and educational content, not tax or legal advice. Iowa tax results depend on your filing status, residency, income mix, estimated payments, filing history, and the notices you have received.</p>",
+
+      "<h2>Iowa income tax in plain English</h2>",
+      "<p>For tax year 2025, Iowa uses a <strong>flat individual income tax rate of 3.8%</strong>. That sounds simple, but people still end up with balances due when withholding was too low, estimated payments were missed, or credits and adjustments were handled incorrectly.</p>",
+      "<p>That is especially common for 1099 workers, business owners, investors, and retirees with uneven income.</p>",
+
+      "<h2>What is Iowa's 2025 income tax rate?</h2>",
+      "<p>Iowa's individual income tax rate for 2025 is a flat <strong>3.8%</strong> of Iowa taxable income. That means bracket planning matters less than it used to, but accurate taxable-income calculation matters more.</p>",
+
+      "<h2>How deductions work in Iowa</h2>",
+      "<p>Iowa generally starts from your federal return, so the way your federal taxable income is built still matters. If you claim the federal standard deduction or itemize federally, that can affect how Iowa taxable income flows through the return before Iowa-specific adjustments and credits are applied.</p>",
+      "<p>For many taxpayers, the bigger mistakes are not the federal deductions themselves — they are Iowa-specific credits, estimate issues, and missed paperwork.</p>",
+
+      "<h2>Common Iowa credits and deductions people miss</h2>",
+      "<ul>",
+      "<li><strong>Iowa Earned Income Tax Credit:</strong> Iowa's EITC is tied to the federal EITC and can be meaningful for eligible working households.</li>",
+      "<li><strong>College savings deduction:</strong> Iowa updates the deductible contribution amount for qualifying 529-plan contributions each year.</li>",
+      "<li><strong>Retirement-related rules:</strong> recent Iowa changes have made retirement-income treatment more favorable for many taxpayers, so older filers should check the current rules carefully.</li>",
+      "</ul>",
+
+      "<h2>Recent Iowa tax changes worth knowing</h2>",
+      "<p>The big headline is the move to a flat <strong>3.8%</strong> individual income tax for 2025. That lowers the top rate from Iowa's older system, but it does <strong>not</strong> eliminate the need for proper withholding or quarterly estimates.</p>",
+      '<p>In other words, Iowa may be simpler than it used to be, but it is not "automatic."</p>',
+
+      "<h2>If you owe Iowa income tax: your realistic options</h2>",
+      "<p>If you file and owe Iowa tax, the best first step is to <strong>file on time</strong> and confirm the assessment. Then the main paths are:</p>",
+      "<ul>",
+      "<li><strong>Pay in full:</strong> the cheapest option if available.</li>",
+      "<li><strong>Payment arrangement:</strong> Iowa does allow taxpayers to resolve balances over time in many cases.</li>",
+      "<li><strong>Offer in Compromise:</strong> Iowa has a formal OIC path in qualifying hardship or collectability cases.</li>",
+      "</ul>",
+
+      "<h2>Iowa collections: what happens if you ignore notices</h2>",
+      "<p>Iowa warns taxpayers to act quickly when they receive collection notices. If you do not, the state can move into enforced collection, including taking money from accounts or otherwise seizing funds.</p>",
+      "<p>Waiting usually makes the case more expensive, not easier.</p>",
+
+      "<h2>Iowa payment plans: what to expect</h2>",
+      "<p>Iowa installment arrangements are usually most realistic after returns are filed and the balance is known. Interest continues while the debt is being paid, so a plan helps with cash flow but does not freeze the bill in place.</p>",
+
+      "<h2>Iowa Offer in Compromise: when it may work</h2>",
+      "<p>Iowa's Offer in Compromise program can apply to <strong>assessed</strong> tax debt in cases involving doubtful collectability or severe economic hardship. That means it is not a shortcut for anyone who simply prefers not to pay.</p>",
+      "<p>A strong Iowa OIC usually depends on accurate financial disclosure and a realistic explanation for why full collection is unlikely.</p>",
+
+      "<h2>Why hiring a professional can help once collections start</h2>",
+      "<p>Many taxpayers can file and pay on their own — until the situation turns into notices, liens, levies, garnishments, warrants, or years of unfiled returns. At that point, the biggest risks are usually:</p>",
+      "<ul>",
+      "<li>Missing deadlines and letting the state escalate collections</li>",
+      "<li>Entering a payment plan that is not realistic, causing default later</li>",
+      "<li>Asking for relief that was never viable and losing time while enforcement pressure grows</li>",
+      "<li>Misunderstanding what records the state actually wants before it will approve a resolution</li>",
+      "</ul>",
+
+      "<h2>How Wynn Tax Solutions helps Iowa taxpayers</h2>",
+      "<p>Wynn Tax Solutions helps clients resolve Iowa Department of Revenue tax problems by building a clear plan — whether that means catching up on filings, requesting a payment plan, responding to notices, or evaluating whether a compromise or other relief path is realistic.</p>",
+      "<p>If we're engaged and you authorize representation, we can communicate with Iowa Department of Revenue on your behalf and help you move toward a stable resolution instead of guessing your way through state notices, levy threats, and resolution requests.</p>",
+
+      "<h2>Need help with Iowa taxes or Iowa tax debt?</h2>",
+      "<p>If you owe Iowa tax, received a notice, or feel like you're falling behind, reach out to Wynn Tax Solutions. A clear plan now is usually cheaper than waiting until collections get more aggressive.</p>",
+    ],
+  },
+  {
     id: "texas-no-state-income-tax-guide-franchise-tax-and-tax-debt-help",
     title:
       "Texas Tax Guide: No State Income Tax, Franchise Tax Basics, and What to Do If You Owe the Texas Comptroller",
