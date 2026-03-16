@@ -134,7 +134,7 @@ const OurTaxServices = () => {
 
       <section className="services-cta-section">
         <div className="services-cta-container">
-          <p className="services-cta-text">Contact To Book an Appointment</p>
+          <p className="services-cta-text">Contact Us To Book an Appointment</p>
           <a href="tel:+18449966829" className="services-cta-button">
             <i className="fas fa-phone-alt"></i>(844) 996-6829
           </a>
