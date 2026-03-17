@@ -22,6 +22,107 @@ const {
 } = require("./utils/verification");
 const { resolveUtm, SOURCE_NAMES } = require("./utils/irsLogicsService");
 
+const AFFILIATE_POSTBACK_BASE =
+  process.env.AFFILIATE_POSTBACK_BASE || "https://www.oev4ll6o.com/";
+const AFFILIATE_NID = process.env.AFFILIATE_NID || "3702";
+const AFFILIATE_COOKIE_NAME = "affiliate_click_id";
+
+function getCookieValue(req, cookieName) {
+  if (req.signedCookies?.[cookieName]) return req.signedCookies[cookieName];
+  if (req.cookies?.[cookieName]) return req.cookies[cookieName];
+  return "";
+}
+
+function getAffiliateClickId(req, explicitClickId = "") {
+  const fromBody = explicitClickId || req.body?.affiliateClickId || "";
+  const fromQuery =
+    req.query?.transaction_id ||
+    req.query?.click_id ||
+    req.query?.clickid ||
+    req.query?.cid ||
+    "";
+  const fromCookie = getCookieValue(req, AFFILIATE_COOKIE_NAME);
+
+  const clickId = String(fromBody || fromQuery || fromCookie || "").trim();
+  return clickId;
+}
+
+function persistAffiliateClickIdServer(res, clickId) {
+  if (!clickId) return;
+
+  res.cookie(AFFILIATE_COOKIE_NAME, clickId, {
+    httpOnly: true,
+    sameSite: "Lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    path: "/",
+  });
+}
+
+async function fireAffiliatePostback(clickId, nid) {
+  if (!clickId) {
+    console.log("[AFFILIATE] No click ID present, skipping postback");
+    return { ok: false, skipped: true, reason: "missing_click_id" };
+  }
+
+  if (!nid) {
+    console.log("[AFFILIATE] No nid present, skipping postback");
+    return { ok: false, skipped: true, reason: "missing_nid" };
+  }
+
+  const url = `${AFFILIATE_POSTBACK_BASE}?nid=${encodeURIComponent(
+    nid,
+  )}&transaction_id=${encodeURIComponent(clickId)}`;
+
+  try {
+    console.log("[AFFILIATE] Firing postback:", url);
+
+    const response = await axios.get(url, {
+      timeout: 10000,
+      maxRedirects: 5,
+      validateStatus: () => true,
+    });
+
+    console.log("[AFFILIATE] Postback status:", response.status);
+
+    return {
+      ok: response.status >= 200 && response.status < 300,
+      status: response.status,
+      body:
+        typeof response.data === "string"
+          ? response.data.slice(0, 500)
+          : response.data,
+    };
+  } catch (error) {
+    console.error("[AFFILIATE] Postback failed:", error.message);
+    return { ok: false, error: error.message };
+  }
+}
+
+function getAffiliateData(req) {
+  const referer = req.headers?.referer || "";
+  const affiliateNid = String(
+    req.query?.nid || req.body?.affiliateNid || "",
+  ).trim();
+  const affiliateClickId = getAffiliateClickId(req);
+
+  const AFFILIATE_NID_MAP = {
+    3702: "oev4ll6o",
+  };
+
+  let affiliatePartner = AFFILIATE_NID_MAP[affiliateNid] || "";
+
+  if (!affiliatePartner) {
+    if (referer.includes("oev4ll6o")) affiliatePartner = "oev4ll6o";
+  }
+
+  return {
+    affiliatePartner,
+    affiliateNid,
+    affiliateClickId,
+    affiliateReferer: referer,
+  };
+}
 /* -------------------------------------------------------------------------- */
 /*                           HANDLEBARS TEMPLATES                             */
 /* -------------------------------------------------------------------------- */
@@ -679,16 +780,16 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
 /* -------------------------------------------------------------------------- */
 
 app.post("/api/lead-form", async (req, res) => {
-  const { debtAmount, filedAllTaxes, name, phone, email, bestTime, utm } =
-    req.body;
-
-  console.log("[LEAD-FORM] Submission:", {
-    name,
-    email,
-    phone,
+  const {
     debtAmount,
     filedAllTaxes,
-  });
+    name,
+    phone,
+    email,
+    bestTime,
+    utm,
+    affiliateClickId: rawAffiliateClickId,
+  } = req.body;
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
     return res
@@ -699,17 +800,83 @@ app.post("/api/lead-form", async (req, res) => {
   try {
     const resolvedUtm = resolveUtm(utm, req);
 
-    // POST to webhook for CRM + outreach + dialing
-    const message = `Debt: ${debtAmount} | Filed All: ${filedAllTaxes}${bestTime ? ` | Best Time: ${bestTime}` : ""}`;
+    if (rawAffiliateClickId) {
+      persistAffiliateClickIdServer(res, rawAffiliateClickId);
+    }
+
+    const resolvedAffiliate = getAffiliateData(req);
+    const resolvedAffiliatePartner = resolvedAffiliate.affiliatePartner;
+    const resolvedAffiliateNid = resolvedAffiliate.affiliateNid;
+    const resolvedAffiliateClickId = resolvedAffiliate.affiliateClickId;
+    const resolvedAffiliateReferer = resolvedAffiliate.affiliateReferer;
+
+    if (resolvedAffiliateClickId) {
+      persistAffiliateClickIdServer(res, resolvedAffiliateClickId);
+    }
+
+    const messageParts = [
+      `Debt: ${debtAmount}`,
+      `Filed All: ${filedAllTaxes}`,
+      bestTime ? `Best Time: ${bestTime}` : "",
+      resolvedAffiliatePartner
+        ? `Affiliate Partner: ${resolvedAffiliatePartner}`
+        : "",
+      resolvedAffiliateNid ? `Affiliate NID: ${resolvedAffiliateNid}` : "",
+      resolvedAffiliateClickId
+        ? `Affiliate Click ID: ${resolvedAffiliateClickId}`
+        : "",
+    ].filter(Boolean);
+
+    const message = messageParts.join(" | ");
+
     const webhookResult = await postToWebhook(
-      { name, email, phone, company: "WYNN", city: "", state: "", message },
-      "lead-form",
+      {
+        name,
+        email,
+        phone,
+        company: "WYNN",
+        city: "",
+        state: "",
+        message,
+        trafficSource: resolvedAffiliatePartner ? "affiliate" : "direct",
+        affiliatePartner: resolvedAffiliatePartner,
+        affiliateNid: resolvedAffiliateNid,
+        affiliateClickId: resolvedAffiliateClickId,
+        affiliateReferer: resolvedAffiliateReferer,
+        affiliateHasClickId: !!resolvedAffiliateClickId,
+      },
+      "lead-form-affiliate",
     );
 
     console.log(
       "[LEAD-FORM] ✓ Webhook:",
       webhookResult.ok ? "Success" : webhookResult.error,
     );
+
+    let affiliatePostbackResult = {
+      ok: false,
+      skipped: true,
+      reason: "webhook_not_successful",
+    };
+
+    if (webhookResult.ok && resolvedAffiliateClickId && resolvedAffiliateNid) {
+      affiliatePostbackResult = await fireAffiliatePostback(
+        resolvedAffiliateClickId,
+        resolvedAffiliateNid,
+      );
+    } else if (!resolvedAffiliateClickId) {
+      affiliatePostbackResult = {
+        ok: false,
+        skipped: true,
+        reason: "missing_click_id",
+      };
+    } else if (!resolvedAffiliateNid) {
+      affiliatePostbackResult = {
+        ok: false,
+        skipped: true,
+        reason: "missing_nid",
+      };
+    }
 
     clearFormTrackingCookie(res, "landing-popup");
 
@@ -723,21 +890,40 @@ app.post("/api/lead-form", async (req, res) => {
       {
         $set: {
           status: "submitted",
-          formData: { debtAmount, filedAllTaxes, name, phone, email, bestTime },
+          formData: {
+            debtAmount,
+            filedAllTaxes,
+            name,
+            phone,
+            email,
+            bestTime,
+            affiliateClickId: resolvedAffiliateClickId,
+            affiliatePartner: resolvedAffiliatePartner,
+            affiliateNid: resolvedAffiliateNid,
+          },
         },
       },
     );
 
-    console.log("[LEAD-FORM] ✓ Complete — CaseID:", webhookResult.caseId);
-    res.status(200).json({ success: "Lead form submitted successfully!" });
+    return res.status(200).json({
+      success: "Lead form submitted successfully!",
+      affiliate: {
+        clickIdCaptured: !!resolvedAffiliateClickId,
+        nidCaptured: !!resolvedAffiliateNid,
+        postbackFired: !!affiliatePostbackResult.ok,
+        postbackStatus: affiliatePostbackResult.status || null,
+        postbackSkippedReason: affiliatePostbackResult.skipped
+          ? affiliatePostbackResult.reason
+          : null,
+      },
+    });
   } catch (error) {
     console.error("[LEAD-FORM] Error:", error?.message || error);
-    res
+    return res
       .status(500)
       .json({ error: "Error processing lead form. Try again later." });
   }
 });
-
 /* -------------------------------------------------------------------------- */
 /*                          STATE TAX FORM                                    */
 /* -------------------------------------------------------------------------- */
@@ -1528,147 +1714,6 @@ function sendWithStamp(res, payload, stamp) {
 /*  REPLACE the existing /api/track-form-input route in server.js with this   */
 /* -------------------------------------------------------------------------- */
 
-app.post("/api/track-form-input", async (req, res) => {
-  try {
-    const { formType, formData, abandoned, timestamp } = req.body;
-
-    if (!formType || !formData) {
-      return res
-        .status(400)
-        .json({ ok: false, error: "formType and formData required" });
-    }
-
-    const cookieName = `form_${formType}`;
-    const cookieData = {
-      formType,
-      formData,
-      abandoned: abandoned || false,
-      timestamp: timestamp || Date.now(),
-      lastUpdated: Date.now(),
-    };
-
-    res.cookie(cookieName, JSON.stringify(cookieData), {
-      httpOnly: true,
-      sameSite: "Lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      signed: true,
-      path: "/",
-    });
-
-    if (abandoned) {
-      const FormSubmission = require("./models/FormSubmission");
-      const ipAddress =
-        req.ip ||
-        req.headers["x-forwarded-for"] ||
-        req.connection.remoteAddress;
-      const userAgent = req.headers["user-agent"];
-
-      let existing = null;
-      if (formData.email) {
-        existing = await FormSubmission.findOne({
-          formType,
-          "formData.email": formData.email,
-          status: "abandoned",
-        }).sort({ createdAt: -1 });
-      }
-
-      if (existing) {
-        existing.formData = formData;
-        existing.timestamp = new Date(timestamp || Date.now());
-        existing.ipAddress = ipAddress;
-        existing.userAgent = userAgent;
-        await existing.save();
-        console.log(
-          `[TRACK-FORM] ${formType} - Updated abandoned:`,
-          existing._id,
-        );
-      } else {
-        const submission = new FormSubmission({
-          formType,
-          formData,
-          status: "abandoned",
-          ipAddress,
-          userAgent,
-          timestamp: new Date(timestamp || Date.now()),
-        });
-        await submission.save();
-        console.log(
-          `[TRACK-FORM] ${formType} - Saved abandoned:`,
-          submission._id,
-        );
-      }
-
-      /* ── Abandonment notification email ─────────────────────────── */
-      const hasContact = formData.email || formData.phone;
-      const hasName =
-        formData.name ||
-        formData.firstName ||
-        (formData.firstName && formData.lastName);
-
-      if (hasContact) {
-        const displayName =
-          formData.name ||
-          [formData.firstName, formData.lastName].filter(Boolean).join(" ") ||
-          "Unknown";
-
-        const filledFields = Object.entries(formData)
-          .filter(([, v]) => v && String(v).trim())
-          .map(
-            ([k, v]) =>
-              `<tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;text-transform:capitalize;">${k.replace(/([A-Z])/g, " $1").trim()}</td><td style="padding:4px 0;color:#222;">${String(v).slice(0, 200)}</td></tr>`,
-          )
-          .join("");
-
-        const formLabel = formType
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, (c) => c.toUpperCase());
-
-        const emailHtml = `
-          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;">
-            <h2 style="color:#c0392b;margin-bottom:4px;">⚠️ Form Abandonment Alert</h2>
-            <p style="color:#555;margin-top:0;">A visitor started the <strong>${formLabel}</strong> form but left without submitting.</p>
-            <table style="border-collapse:collapse;width:100%;margin:16px 0;">
-              <tbody>
-                <tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;">Form</td><td style="padding:4px 0;color:#222;">${formLabel}</td></tr>
-                <tr><td style="padding:4px 12px 4px 0;font-weight:600;color:#555;">Time</td><td style="padding:4px 0;color:#222;">${new Date(timestamp || Date.now()).toLocaleString("en-US", { timeZone: "America/Los_Angeles" })} PT</td></tr>
-                ${filledFields}
-              </tbody>
-            </table>
-            <p style="font-size:13px;color:#888;">This is an automated notification from the Wynn Tax Solutions website form tracking system.</p>
-          </div>
-        `;
-
-        transporter
-          .sendMail({
-            from: "Wynn Tax Solutions <inquiry@WynnTaxSolutions.com>",
-            to: "inquiry@WynnTaxSolutions.com",
-            subject: `⚠️ Abandoned ${formLabel} — ${displayName}`,
-            html: emailHtml,
-          })
-          .then(() =>
-            console.log(
-              `[TRACK-FORM] ✓ Abandonment email sent for ${formType} — ${displayName}`,
-            ),
-          )
-          .catch((emailErr) =>
-            console.error(
-              `[TRACK-FORM] ✗ Abandonment email failed:`,
-              emailErr.message,
-            ),
-          );
-      }
-      /* ── End abandonment email ──────────────────────────────────── */
-    }
-
-    return res.json({ ok: true, message: "Form data tracked" });
-  } catch (error) {
-    console.error("[/track-form-input] error:", error);
-    return res
-      .status(500)
-      .json({ ok: false, error: "Failed to track form data" });
-  }
-});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

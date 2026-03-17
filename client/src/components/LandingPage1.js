@@ -6,11 +6,138 @@ import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
+const AFFILIATE_CLICK_KEYS = ["transaction_id", "click_id", "clickid", "cid"];
 
-/**
- * Standalone Lead Form - Multi-step with progress
- */
+function getAffiliateClickIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+
+  for (const key of AFFILIATE_CLICK_KEYS) {
+    const value = params.get(key);
+    if (value && String(value).trim()) {
+      return String(value).trim();
+    }
+  }
+  return "";
+}
+
+function persistAffiliateClickId(clickId) {
+  if (!clickId) return;
+
+  try {
+    localStorage.setItem("affiliate_click_id", clickId);
+    sessionStorage.setItem("affiliate_click_id", clickId);
+
+    document.cookie = [
+      `affiliate_click_id=${encodeURIComponent(clickId)}`,
+      "Path=/",
+      "Max-Age=2592000",
+      "SameSite=Lax",
+      window.location.protocol === "https:" ? "Secure" : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+  } catch (err) {
+    console.error("[AFFILIATE] Failed to persist click ID:", err);
+  }
+}
+
+function getStoredAffiliateClickId() {
+  try {
+    const fromSession = sessionStorage.getItem("affiliate_click_id");
+    if (fromSession) return fromSession;
+
+    const fromLocal = localStorage.getItem("affiliate_click_id");
+    if (fromLocal) return fromLocal;
+
+    const cookieMatch = document.cookie.match(
+      /(?:^|;\s*)affiliate_click_id=([^;]+)/,
+    );
+    if (cookieMatch?.[1]) {
+      return decodeURIComponent(cookieMatch[1]);
+    }
+  } catch (err) {
+    console.error("[AFFILIATE] Failed to read stored click ID:", err);
+  }
+
+  return "";
+}
+
+function getAffiliateNidFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const nid = params.get("nid");
+  return nid && String(nid).trim() ? String(nid).trim() : "";
+}
+
+function persistAffiliateNid(nid) {
+  if (!nid) return;
+
+  try {
+    localStorage.setItem("affiliate_nid", nid);
+    sessionStorage.setItem("affiliate_nid", nid);
+
+    document.cookie = [
+      `affiliate_nid=${encodeURIComponent(nid)}`,
+      "Path=/",
+      "Max-Age=2592000",
+      "SameSite=Lax",
+      window.location.protocol === "https:" ? "Secure" : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+  } catch (err) {
+    console.error("[AFFILIATE] Failed to persist nid:", err);
+  }
+}
+
+function getStoredAffiliateNid() {
+  try {
+    const fromSession = sessionStorage.getItem("affiliate_nid");
+    if (fromSession) return fromSession;
+
+    const fromLocal = localStorage.getItem("affiliate_nid");
+    if (fromLocal) return fromLocal;
+
+    const cookieMatch = document.cookie.match(
+      /(?:^|;\s*)affiliate_nid=([^;]+)/,
+    );
+    if (cookieMatch?.[1]) {
+      return decodeURIComponent(cookieMatch[1]);
+    }
+  } catch (err) {
+    console.error("[AFFILIATE] Failed to read stored nid:", err);
+  }
+
+  return "";
+}
 const LeadForm = ({ variant = "hero" }) => {
+  useEffect(() => {
+    const incomingClickId = getAffiliateClickIdFromUrl();
+    const incomingNid = getAffiliateNidFromUrl();
+
+    if (incomingClickId) {
+      persistAffiliateClickId(incomingClickId);
+      setAffiliateClickId(incomingClickId);
+      console.log("[AFFILIATE] Captured click ID from URL:", incomingClickId);
+    } else {
+      const storedClickId = getStoredAffiliateClickId();
+      if (storedClickId) {
+        setAffiliateClickId(storedClickId);
+        console.log("[AFFILIATE] Loaded click ID from storage:", storedClickId);
+      }
+    }
+
+    if (incomingNid) {
+      persistAffiliateNid(incomingNid);
+      setAffiliateNid(incomingNid);
+      console.log("[AFFILIATE] Captured nid from URL:", incomingNid);
+    } else {
+      const storedNid = getStoredAffiliateNid();
+      if (storedNid) {
+        setAffiliateNid(storedNid);
+        console.log("[AFFILIATE] Loaded nid from storage:", storedNid);
+      }
+    }
+  }, []);
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
   const [step, setStep] = useState(1);
@@ -23,7 +150,8 @@ const LeadForm = ({ variant = "hero" }) => {
     phone: "",
     email: "",
   });
-
+  const [affiliateClickId, setAffiliateClickId] = useState("");
+  const [affiliateNid, setAffiliateNid] = useState("");
   useFormTracking(formData, `landing-${variant}`, !submitted);
 
   useEffect(() => {
@@ -44,7 +172,12 @@ const LeadForm = ({ variant = "hero" }) => {
     if (!consentChecked) return;
 
     setSubmitted(true);
-    sendLeadForm({ ...formData, consentGiven: true });
+    sendLeadForm({
+      ...formData,
+      consentGiven: true,
+      affiliateClickId: affiliateClickId || getStoredAffiliateClickId(),
+      affiliateNid: affiliateNid || getStoredAffiliateNid(),
+    });
     trackCustomEvent("LandingFormSubmitted", {
       source: "LandingPage1",
       has_email: !!formData.email,
