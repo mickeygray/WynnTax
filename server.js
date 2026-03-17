@@ -24,7 +24,6 @@ const { resolveUtm, SOURCE_NAMES } = require("./utils/irsLogicsService");
 
 const AFFILIATE_POSTBACK_BASE =
   process.env.AFFILIATE_POSTBACK_BASE || "https://www.oev4ll6o.com/";
-const AFFILIATE_NID = process.env.AFFILIATE_NID || "3702";
 const AFFILIATE_COOKIE_NAME = "affiliate_click_id";
 
 function getCookieValue(req, cookieName) {
