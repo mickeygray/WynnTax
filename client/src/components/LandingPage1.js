@@ -110,7 +110,11 @@ function getStoredAffiliateNid() {
   return "";
 }
 const LeadForm = ({ variant = "hero" }) => {
+  // ── Affiliate capture + form pre-fill from URL params ───────
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // 1. Capture & persist affiliate tracking IDs
     const incomingClickId = getAffiliateClickIdFromUrl();
     const incomingNid = getAffiliateNidFromUrl();
 
@@ -135,6 +139,40 @@ const LeadForm = ({ variant = "hero" }) => {
       if (storedNid) {
         setAffiliateNid(storedNid);
         console.log("[AFFILIATE] Loaded nid from storage:", storedNid);
+      }
+    }
+
+    // 2. Pre-fill form fields from URL params
+    const prefill = {};
+    let hasAny = false;
+
+    const paramMap = {
+      name: "name",
+      email: "email",
+      phone: "phone",
+      debtAmount: "debtAmount",
+      debt_amount: "debtAmount",
+      debt: "debtAmount",
+      filedAllTaxes: "filedAllTaxes",
+      filed_all_taxes: "filedAllTaxes",
+      filed: "filedAllTaxes",
+      state: "state",
+    };
+
+    for (const [paramKey, formKey] of Object.entries(paramMap)) {
+      const value = params.get(paramKey);
+      if (value && String(value).trim()) {
+        prefill[formKey] = String(value).trim();
+        hasAny = true;
+      }
+    }
+
+    if (hasAny) {
+      console.log("[AFFILIATE] Pre-filling form from URL params:", prefill);
+      setFormData((prev) => ({ ...prev, ...prefill }));
+
+      if (prefill.debtAmount && prefill.filedAllTaxes) {
+        setStep(2);
       }
     }
   }, []);
