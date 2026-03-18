@@ -26,6 +26,10 @@ const AFFILIATE_POSTBACK_BASE =
   process.env.AFFILIATE_POSTBACK_BASE || "https://www.oev4ll6o.com/";
 const AFFILIATE_COOKIE_NAME = "affiliate_click_id";
 
+const AFFILIATE_PARTNERS = {
+  oev4ll6o: { nid: "3702", domain: "oev4ll6o" },
+};
+const DEFAULT_AFFILIATE_PARTNER = "oev4ll6o";
 function getCookieValue(req, cookieName) {
   if (req.signedCookies?.[cookieName]) return req.signedCookies[cookieName];
   if (req.cookies?.[cookieName]) return req.cookies[cookieName];
@@ -36,14 +40,14 @@ function getAffiliateClickId(req, explicitClickId = "") {
   const fromBody = explicitClickId || req.body?.affiliateClickId || "";
   const fromQuery =
     req.query?.transaction_id ||
+    req.query?.TID ||
     req.query?.click_id ||
     req.query?.clickid ||
     req.query?.cid ||
     "";
   const fromCookie = getCookieValue(req, AFFILIATE_COOKIE_NAME);
 
-  const clickId = String(fromBody || fromQuery || fromCookie || "").trim();
-  return clickId;
+  return String(fromBody || fromQuery || fromCookie || "").trim();
 }
 
 function persistAffiliateClickIdServer(res, clickId) {
@@ -100,24 +104,26 @@ async function fireAffiliatePostback(clickId, nid) {
 
 function getAffiliateData(req) {
   const referer = req.headers?.referer || "";
-  const affiliateNid = String(
-    req.query?.nid || req.body?.affiliateNid || "",
-  ).trim();
   const affiliateClickId = getAffiliateClickId(req);
 
-  const AFFILIATE_NID_MAP = {
-    3702: "oev4ll6o",
-  };
-
-  let affiliatePartner = AFFILIATE_NID_MAP[affiliateNid] || "";
-
-  if (!affiliatePartner) {
-    if (referer.includes("oev4ll6o")) affiliatePartner = "oev4ll6o";
+  let partnerKey = "";
+  if (affiliateClickId) {
+    for (const [key, config] of Object.entries(AFFILIATE_PARTNERS)) {
+      if (referer.includes(config.domain)) {
+        partnerKey = key;
+        break;
+      }
+    }
+    if (!partnerKey) {
+      partnerKey = DEFAULT_AFFILIATE_PARTNER;
+    }
   }
 
+  const partner = AFFILIATE_PARTNERS[partnerKey] || null;
+
   return {
-    affiliatePartner,
-    affiliateNid,
+    affiliatePartner: partnerKey,
+    affiliateNid: partner?.nid || "",
     affiliateClickId,
     affiliateReferer: referer,
   };
@@ -859,25 +865,20 @@ app.post("/api/lead-form", async (req, res) => {
       reason: "webhook_not_successful",
     };
 
-    if (webhookResult.ok && resolvedAffiliateClickId && resolvedAffiliateNid) {
+    if (webhookResult.ok && resolvedAffiliateClickId) {
       affiliatePostbackResult = await fireAffiliatePostback(
         resolvedAffiliateClickId,
         resolvedAffiliateNid,
       );
-    } else if (!resolvedAffiliateClickId) {
+    } else {
       affiliatePostbackResult = {
         ok: false,
         skipped: true,
-        reason: "missing_click_id",
-      };
-    } else if (!resolvedAffiliateNid) {
-      affiliatePostbackResult = {
-        ok: false,
-        skipped: true,
-        reason: "missing_nid",
+        reason: resolvedAffiliateClickId
+          ? "webhook_failed"
+          : "missing_click_id",
       };
     }
-
     clearFormTrackingCookie(res, "landing-popup");
 
     const FormSubmission = require("./models/FormSubmission");

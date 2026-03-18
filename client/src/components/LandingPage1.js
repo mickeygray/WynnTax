@@ -6,7 +6,13 @@ import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
-const AFFILIATE_CLICK_KEYS = ["transaction_id", "click_id", "clickid", "cid"];
+const AFFILIATE_CLICK_KEYS = [
+  "transaction_id",
+  "TID",
+  "click_id",
+  "clickid",
+  "cid",
+];
 
 function getAffiliateClickIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
