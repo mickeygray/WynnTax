@@ -151,6 +151,7 @@ const formLimiter = rateLimit({
 });
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 const cookieParser = require("cookie-parser");
 const questionCounter = require("./middleware/questionCounter");
@@ -1714,5 +1715,5 @@ function sendWithStamp(res, payload, stamp) {
 /* -------------------------------------------------------------------------- */
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} patch live!!!`);
 });

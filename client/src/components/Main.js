@@ -7,7 +7,7 @@ const Main = () => {
       <section className="welcome-section">
         <div className="welcome-grid">
           <div className="welcome-text">
-            <h2>We Help Businesses and Individuals Succeed</h2>
+            <h2>We Protect Businesses and Individuals</h2>
             <p>With tailored solutions from industry leading experts.</p>
           </div>
           <div className="consultation-card">

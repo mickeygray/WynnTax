@@ -7,17 +7,16 @@ const mongoose = require("mongoose");
  */
 const formSubmissionSchema = new mongoose.Schema(
   {
-    // Form identification
+    // Form identification — accepts any string
     formType: {
       type: String,
       required: true,
-      enum: ["contact-us", "landing-popup", "tax-stewart", "other"],
       index: true,
     },
 
     // Form data (flexible to accommodate different forms)
     formData: {
-      type: mongoose.Schema.Types.Mixed, // Can store any structure
+      type: mongoose.Schema.Types.Mixed,
       required: true,
     },
 
@@ -47,7 +46,7 @@ const formSubmissionSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Indexes for common queries
@@ -60,7 +59,7 @@ formSubmissionSchema.index({ createdAt: -1 });
 formSubmissionSchema.statics.getStatsByForm = async function (
   formType,
   startDate,
-  endDate
+  endDate,
 ) {
   const dateFilter = { formType };
 
