@@ -12,7 +12,7 @@ const blogData = [
       "<p><em>Quick note:</em> This article is general information, not tax or legal advice. If you received LT11 or Letter 1058, treat it as time-sensitive.</p>",
 
       "<h2>What LT11 / Letter 1058 actually means</h2>",
-      "<p>LT11 / Letter 1058 is a <strong>final notice of intent to levy</strong>. In plain English, the IRS is telling you that it intends to <strong>seize your property or rights to property</strong> if you do not respond.</p>",
+      "<p>LT11 / Letter 1058 is a <strong>final notice of intent to levy</strong>. The IRS is telling you that it intends to <strong>seize your property or rights to property</strong> if you do not respond.</p>",
       "<p>This is not just another balance-due reminder. It is one of the most serious collection letters the IRS sends before levy action can move forward.</p>",
 
       "<h2>What “levy” means in real life</h2>",
