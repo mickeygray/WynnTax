@@ -1,5 +1,71 @@
 const blogData = [
   {
+    id: "lt11-letter-1058-final-notice-of-intent-to-levy",
+    title:
+      "LT11 / Letter 1058 Explained: What This Final IRS Notice Means and Why You Shouldn’t Wait",
+    image: "/images/lt11-letter-1058.png",
+    teaser:
+      "LT11 / Letter 1058 is one of the most serious IRS collection notices you can receive. It means the IRS intends to levy your property or rights to property if you don’t act. Here’s what the letter means, what your deadline may be, and the smartest next steps if you owe.",
+    contentTitle:
+      "LT11 / Letter 1058 Explained: What This Final IRS Notice Means and Why You Shouldn’t Wait",
+    contentBody: [
+      "<p><em>Quick note:</em> This article is general information, not tax or legal advice. If you received LT11 or Letter 1058, treat it as time-sensitive.</p>",
+
+      "<h2>What LT11 / Letter 1058 actually means</h2>",
+      "<p>LT11 / Letter 1058 is a <strong>final notice of intent to levy</strong>. In plain English, the IRS is telling you that it intends to <strong>seize your property or rights to property</strong> if you do not respond.</p>",
+      "<p>This is not just another balance-due reminder. It is one of the most serious collection letters the IRS sends before levy action can move forward.</p>",
+
+      "<h2>What “levy” means in real life</h2>",
+      "<p>A levy is when the IRS takes money or property to satisfy a tax debt. Depending on the situation, that can mean:</p>",
+      "<ul>",
+      "<li>Taking money from a bank account</li>",
+      "<li>Levying wages or other income</li>",
+      "<li>Seizing certain property rights</li>",
+      "</ul>",
+      "<p>That’s why LT11 / Letter 1058 gets so much attention: it’s the point where the problem stops being “mail from the IRS” and starts becoming a real collection threat.</p>",
+
+      "<h2>What the IRS says you should do immediately</h2>",
+      "<p>The IRS’s own notice guidance says to <strong>contact them immediately</strong>. If you can pay the balance in full, doing so stops additional interest and applicable penalties from continuing to build. If you can’t pay in full, the IRS says you should still pay what you can and, if you’re current on required filings, you may be able to request an installment agreement.</p>",
+      "<p>If you already paid or believe the IRS hasn’t credited a payment, the IRS instructs taxpayers to send proof of payment to the address shown on the notice.</p>",
+
+      "<h2>Your hearing rights: why the 30-day window matters</h2>",
+      "<p>One of the biggest reasons LT11 / Letter 1058 matters is that it includes your right to request a <strong>Collection Due Process (CDP) hearing</strong>. The IRS Appeals guidance explains that you generally have <strong>30 days from receipt</strong> of LT11 / Letter 1058 to request that hearing using <strong>Form 12153</strong>.</p>",
+      "<p>If you make a <strong>timely</strong> CDP request, the IRS says levy action is generally prohibited in most cases while the hearing process is pending.</p>",
+
+      "<h2>Important warning: a hearing request does not stop everything</h2>",
+      "<p>A lot of taxpayers assume that once they ask for a hearing, the entire collection process freezes. That is not always true.</p>",
+      "<p>The IRS states that a timely CDP request on a levy notice generally prohibits levy action in most cases — but it <strong>does not prohibit the IRS from filing a Notice of Federal Tax Lien</strong>.</p>",
+      "<p>In other words: asking for a hearing can protect you from immediate levy in many situations, but it does not mean the account is harmless or that all collection pressure disappears.</p>",
+
+      "<h2>What you can raise at a CDP hearing</h2>",
+      "<p>If you request a hearing, Appeals may consider issues such as:</p>",
+      "<ul>",
+      "<li>Whether the levy action is appropriate</li>",
+      "<li>Collection alternatives, like an installment agreement</li>",
+      "<li>Whether the underlying tax is correct — but only in limited circumstances</li>",
+      "</ul>",
+      "<p>That last point matters: not every taxpayer can use the hearing to fully re-argue the tax bill itself. In many cases, Appeals limits when the underlying amount can be challenged.</p>",
+
+      "<h2>What if you miss the 30-day deadline?</h2>",
+      "<p>If you miss the deadline for a timely CDP hearing request, the situation gets weaker from your side. The IRS still allows many taxpayers to request what’s called an <strong>equivalent hearing</strong> within a longer period, but an equivalent hearing does <strong>not</strong> generally stop levy action and does not carry the same court rights.</p>",
+      "<p>That’s why waiting is such a costly mistake: your best appeal protections usually exist at the front end of the notice period, not after the deadline has passed.</p>",
+
+      "<h2>Best practices if you receive LT11 / Letter 1058</h2>",
+      "<ol>",
+      "<li><strong>Open the letter immediately.</strong> Do not assume it is just another payment reminder.</li>",
+      "<li><strong>Confirm the tax year and amount.</strong> Make sure you understand what debt the IRS is collecting.</li>",
+      "<li><strong>Do not ignore it because you can’t pay.</strong> The IRS itself tells taxpayers to contact them if they cannot pay the balance due.</li>",
+      "<li><strong>Preserve your rights quickly.</strong> If you believe a hearing is needed, move fast enough to protect the 30-day window.</li>",
+      "<li><strong>Get organized before you call.</strong> Have the notice, prior-year filing information, and any proof of payment or hardship ready.</li>",
+      "</ol>",
+
+      "<h2>How Wynn Tax Solutions can help</h2>",
+      "<p>If you received LT11 / Letter 1058, the goal is to move quickly, protect your rights, and avoid making the situation worse by guessing.</p>",
+      "<p>Wynn Tax Solutions can help you understand what the notice means, what deadlines matter, and whether a payment arrangement, hearing request, or another strategy makes the most sense. If you authorize us and we’re engaged, we can communicate with the IRS on your behalf and help you work toward a realistic solution.</p>",
+      "<p><strong>Bottom line:</strong> LT11 / Letter 1058 is not the time to wait and hope. It’s the time to act.</p>",
+    ],
+  },
+  {
     id: "iowa-income-tax-guide-rates-deductions-tax-debt-help",
     title:
       "Iowa Income Tax Guide: 2025 Rate, Key Credits, and What to Do If You Owe Iowa Department of Revenue",
