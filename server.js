@@ -39,6 +39,7 @@ function getCookieValue(req, cookieName) {
 function getAffiliateClickId(req, explicitClickId = "") {
   const fromBody = explicitClickId || req.body?.affiliateClickId || "";
   const fromQuery =
+    req.query?.source_id || // ← new primary
     req.query?.transaction_id ||
     req.query?.TID ||
     req.query?.click_id ||
@@ -795,6 +796,8 @@ app.post("/api/lead-form", async (req, res) => {
     bestTime,
     utm,
     affiliateClickId: rawAffiliateClickId,
+    affiliateSub1, // ← new
+    affiliateSub2, // ← new
   } = req.body;
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
@@ -831,6 +834,8 @@ app.post("/api/lead-form", async (req, res) => {
       resolvedAffiliateClickId
         ? `Affiliate Click ID: ${resolvedAffiliateClickId}`
         : "",
+      affiliateSub1 ? `Affiliate Sub1: ${affiliateSub1}` : "",
+      affiliateSub2 ? `Affiliate Sub2: ${affiliateSub2}` : "",
     ].filter(Boolean);
 
     const message = messageParts.join(" | ");
@@ -850,6 +855,8 @@ app.post("/api/lead-form", async (req, res) => {
         affiliateClickId: resolvedAffiliateClickId,
         affiliateReferer: resolvedAffiliateReferer,
         affiliateHasClickId: !!resolvedAffiliateClickId,
+        affiliateSub1: affiliateSub1 || "",
+        affiliateSub2: affiliateSub2 || "",
       },
       "lead-form-affiliate",
     );

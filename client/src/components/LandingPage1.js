@@ -7,6 +7,7 @@ import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
 const AFFILIATE_CLICK_KEYS = [
+  "source_id",
   "transaction_id",
   "TID",
   "click_id",
@@ -196,6 +197,8 @@ const LeadForm = ({ variant = "hero" }) => {
   });
   const [affiliateClickId, setAffiliateClickId] = useState("");
   const [affiliateNid, setAffiliateNid] = useState("");
+  const [affiliateSub1, setAffiliateSub1] = useState("");
+  const [affiliateSub2, setAffiliateSub2] = useState("");
   useFormTracking(formData, `landing-${variant}`, !submitted);
 
   useEffect(() => {
@@ -221,6 +224,8 @@ const LeadForm = ({ variant = "hero" }) => {
       consentGiven: true,
       affiliateClickId: affiliateClickId || getStoredAffiliateClickId(),
       affiliateNid: affiliateNid || getStoredAffiliateNid(),
+      affiliateSub1: affiliateSub1,
+      affiliateSub2: affiliateSub2,
     });
     trackCustomEvent("LandingFormSubmitted", {
       source: "LandingPage1",
