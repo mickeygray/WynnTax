@@ -3,10 +3,11 @@ import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
+import { useTrustedForm } from "../hooks/useTrustedForm";
 
 const ContactUs = () => {
   const { sendEmail } = useContext(leadContext);
-
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -39,6 +40,7 @@ const ContactUs = () => {
       email: formData.email,
       phone: formData.phone,
       message: formData.message,
+      trustedFormCertUrl: certUrl,
     };
 
     setFormData({
@@ -158,6 +160,7 @@ const ContactUs = () => {
               value={formData.message}
               onChange={handleChange}
             ></textarea>
+            <input {...tfInputProps} />
             <button type="submit">Submit</button>
           </form>
         </div>

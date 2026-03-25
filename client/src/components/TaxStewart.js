@@ -9,7 +9,7 @@ import {
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */
 /* -------------------------------------------------------------------------- */
-
+import { useTrustedForm } from "../hooks/useTrustedForm";
 const PHASE = {
   INTAKE_ISSUES: "intake_issues",
   INTAKE_QUESTIONS: "intake_questions",
@@ -260,8 +260,8 @@ function rebuildMessagesFromSavedData(saved) {
       saved.contactPref === "email"
         ? "Great! What's your email address?"
         : saved.contactPref === "phone"
-        ? "Perfect! What's your cell number?"
-        : "Wonderful! Let's start with your email address.";
+          ? "Perfect! What's your cell number?"
+          : "Wonderful! Let's start with your email address.";
 
     msgs.push({
       id: genId(),
@@ -342,7 +342,7 @@ function buildIntakeSummary(guided) {
       audit: "Audit/Exam",
     };
     parts.push(
-      `Issues: ${guided.issues.map((i) => issueLabels[i] || i).join(", ")}`
+      `Issues: ${guided.issues.map((i) => issueLabels[i] || i).join(", ")}`,
     );
   }
 
@@ -354,7 +354,7 @@ function buildIntakeSummary(guided) {
       unsure: "Not sure",
     };
     parts.push(
-      `Amount: ${amountLabels[guided.balanceBand] || guided.balanceBand}`
+      `Amount: ${amountLabels[guided.balanceBand] || guided.balanceBand}`,
     );
   }
 
@@ -390,8 +390,8 @@ function humanSummary(form = {}) {
           form.state ? ` (${STATE_LABELS[form.state]})` : ""
         }`
       : form.taxScope === "state"
-      ? `your state${form.state ? ` (${STATE_LABELS[form.state]})` : ""}`
-      : "the IRS";
+        ? `your state${form.state ? ` (${STATE_LABELS[form.state]})` : ""}`
+        : "the IRS";
 
   const whoText =
     form.filerType === "business"
@@ -421,10 +421,10 @@ function humanSummary(form = {}) {
           form.noticeType === "cp504"
             ? "CP504"
             : form.noticeType === "levy"
-            ? "Levy / Final notice"
-            : form.noticeType === "other"
-            ? "Something else"
-            : "No notice"
+              ? "Levy / Final notice"
+              : form.noticeType === "other"
+                ? "Something else"
+                : "No notice"
         })`
       : "";
 
@@ -439,7 +439,7 @@ function humanSummary(form = {}) {
 export default function TaxStewart() {
   // ========================== CONTEXT ==========================
   const { askTaxQuestion, sendQuestion } = useContext(leadContext);
-
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   // ========================== STATE ==========================
   const [phase, setPhase] = useState(PHASE.INTAKE_ISSUES);
   const [resendLoading, setResendLoading] = useState(false);
@@ -632,7 +632,7 @@ export default function TaxStewart() {
 
         console.log(
           "[RESTORE] Progress restored silently to phase:",
-          saved.lastPhase
+          saved.lastPhase,
         );
       }
     };
@@ -756,7 +756,7 @@ export default function TaxStewart() {
     // Wait a moment, then check for next step (after form updates)
     setTimeout(() => {
       const nextActiveSteps = INTAKE_STEPS.filter(
-        (step) => !step.showIf || step.showIf({ ...form, [stepKey]: value })
+        (step) => !step.showIf || step.showIf({ ...form, [stepKey]: value }),
       );
 
       if (nextStepIndex < nextActiveSteps.length) {
@@ -889,8 +889,8 @@ export default function TaxStewart() {
           pref === "email"
             ? "Great! What's your email address?"
             : pref === "phone"
-            ? "Perfect! What's your cell number?"
-            : "Wonderful! Let's start with your email address.",
+              ? "Perfect! What's your cell number?"
+              : "Wonderful! Let's start with your email address.",
       },
     ]);
     setPhase(PHASE.CONTACT_DETAILS);
@@ -1137,6 +1137,7 @@ export default function TaxStewart() {
           state: form.state,
           filerType: form.filerType,
           intakeSummary: summary,
+          trustedFormCertUrl: certUrl,
         }),
       });
 
@@ -1319,26 +1320,26 @@ export default function TaxStewart() {
     phase === PHASE.INTAKE_ISSUES
       ? "Continue"
       : phase === PHASE.INTAKE_QUESTIONS
-      ? "Continue"
-      : phase === PHASE.VERIFICATION
-      ? "Verify"
-      : phase === PHASE.NAME || phase === PHASE.CONTACT_DETAILS
-      ? "Send"
-      : phase === PHASE.QUESTION
-      ? "Send"
-      : "Continue";
+        ? "Continue"
+        : phase === PHASE.VERIFICATION
+          ? "Verify"
+          : phase === PHASE.NAME || phase === PHASE.CONTACT_DETAILS
+            ? "Send"
+            : phase === PHASE.QUESTION
+              ? "Send"
+              : "Continue";
 
   const placeholder =
     phase === PHASE.QUESTION
       ? "Type your question…"
       : phase === PHASE.NAME
-      ? "Enter your name…"
-      : phase === PHASE.CONTACT_DETAILS
-      ? form.contactPref === "phone" ||
-        (form.contactPref === "both" && form.email)
-        ? "Your cell number…"
-        : "Your email address…"
-      : "";
+        ? "Enter your name…"
+        : phase === PHASE.CONTACT_DETAILS
+          ? form.contactPref === "phone" ||
+            (form.contactPref === "both" && form.email)
+            ? "Your cell number…"
+            : "Your email address…"
+          : "";
 
   return (
     <div style={styles.shell}>
@@ -1409,13 +1410,13 @@ export default function TaxStewart() {
                         value={form[step.key] || ""}
                         onChange={(e) => {
                           const selectedOption = step.options.find(
-                            (opt) => opt.id === e.target.value
+                            (opt) => opt.id === e.target.value,
                           );
                           if (selectedOption) {
                             handleIntakeStepAnswer(
                               step.key,
                               e.target.value,
-                              selectedOption.label
+                              selectedOption.label,
                             );
                           }
                         }}
@@ -1604,6 +1605,7 @@ export default function TaxStewart() {
             style={styles.input}
             autoFocus={false}
           />
+          <input {...tfInputProps} />
           <button
             type="submit"
             disabled={phase === PHASE.DONE}

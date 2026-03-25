@@ -6,6 +6,8 @@ import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
 import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
+import { useTrustedForm } from "../hooks/useTrustedForm";
+
 const AFFILIATE_CLICK_KEYS = [
   "source_id",
   "transaction_id",
@@ -118,6 +120,7 @@ function getStoredAffiliateNid() {
 }
 const LeadForm = ({ variant = "hero" }) => {
   // ── Affiliate capture + form pre-fill from URL params ───────
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
@@ -226,6 +229,7 @@ const LeadForm = ({ variant = "hero" }) => {
       affiliateNid: affiliateNid || getStoredAffiliateNid(),
       affiliateSub1: affiliateSub1,
       affiliateSub2: affiliateSub2,
+      trustedFormCertUrl: certUrl, // ← ADD THIS
     });
     trackCustomEvent("LandingFormSubmitted", {
       source: "LandingPage1",
@@ -361,7 +365,7 @@ const LeadForm = ({ variant = "hero" }) => {
               purchase.
             </span>
           </label>
-
+          <input {...tfInputProps} />
           <button
             type="submit"
             className="lp-form__btn lp-form__btn--submit"

@@ -729,7 +729,7 @@ app.post("/api/send-form-verification", async (req, res) => {
 /* -------------------------------------------------------------------------- */
 
 app.post("/api/contact-form", formLimiter, async (req, res) => {
-  const { name, email, phone, message, utm } = req.body;
+  const { name, email, phone, message, utm, trustedFormCertUrl } = req.body;
 
   console.log("[CONTACT-FORM] Submission:", { name, email, phone });
 
@@ -752,6 +752,7 @@ app.post("/api/contact-form", formLimiter, async (req, res) => {
         city: "",
         state: "",
         message,
+        trustedFormCertUrl: trustedFormCertUrl || "",
       },
       "contact-form",
     );
@@ -798,6 +799,7 @@ app.post("/api/lead-form", async (req, res) => {
     affiliateClickId: rawAffiliateClickId,
     affiliateSub1, // ← new
     affiliateSub2, // ← new
+    trustedFormCertUrl,
   } = req.body;
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
@@ -857,6 +859,7 @@ app.post("/api/lead-form", async (req, res) => {
         affiliateHasClickId: !!resolvedAffiliateClickId,
         affiliateSub1: affiliateSub1 || "",
         affiliateSub2: affiliateSub2 || "",
+        trustedFormCertUrl: trustedFormCertUrl || "", // ← add
       },
       "lead-form-affiliate",
     );
@@ -947,6 +950,7 @@ app.post("/api/state-tax-form", async (req, res) => {
     description,
     source,
     utm,
+    trustedFormCertUrl,
   } = req.body;
 
   console.log("[STATE-TAX-FORM] Submission:", { name, email, phone, state });
@@ -978,7 +982,16 @@ app.post("/api/state-tax-form", async (req, res) => {
 
     // POST to webhook for CRM + outreach + dialing
     const webhookResult = await postToWebhook(
-      { name, email, company: "WYNN", phone, city: "", state, message },
+      {
+        name,
+        email,
+        company: "WYNN",
+        phone,
+        city: "",
+        state,
+        message,
+        trustedFormCertUrl: trustedFormCertUrl || "", // ← add
+      },
       source || "state-tax-guide",
     );
 
@@ -1413,6 +1426,7 @@ app.post("/api/finalize-submission", async (req, res) => {
       filerType,
       intakeSummary,
       utm,
+      trustedFormCertUrl,
     } = req.body;
 
     if (email && !isVerified(email)) {
@@ -1479,8 +1493,16 @@ app.post("/api/finalize-submission", async (req, res) => {
     const resolvedUtm = resolveUtm(utm, req);
 
     // POST to webhook for CRM + outreach + dialing
-    const webhookResult = await postToWebhook(
-      { name, email, phone, city: "", state: state || "", message: aiSummary },
+    await postToWebhook(
+      {
+        name,
+        email,
+        phone,
+        city: "",
+        state: state || "",
+        message: aiSummary,
+        trustedFormCertUrl: trustedFormCertUrl || "", // ← add
+      },
       "tax-stewart-verified",
     );
 

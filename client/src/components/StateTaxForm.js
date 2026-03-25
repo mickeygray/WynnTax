@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTrustedForm } from "../hooks/useTrustedForm";
 
 /**
  * StateTaxForm — Multi-step state-specific intake form
@@ -11,7 +12,9 @@ import { Link } from "react-router-dom";
  *   4. Consent + submit
  */
 const StateTaxForm = ({ stateName, stateAbbr, taxAuthority }) => {
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   const [step, setStep] = useState(1);
+
   const totalSteps = 4;
 
   const [form, setForm] = useState({
@@ -97,6 +100,7 @@ const StateTaxForm = ({ stateName, stateAbbr, taxAuthority }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          trustedFormCertUrl: certUrl,
           source: `State Tax Guide — ${stateName} (${stateAbbr})`,
           problemTypes: form.problemTypes.join(", "),
           consent: true,
@@ -344,19 +348,23 @@ const StateTaxForm = ({ stateName, stateAbbr, taxAuthority }) => {
           </button>
         )}
         {step === totalSteps && (
-          <button
-            type="submit"
-            className="stf__submit"
-            disabled={submitting || !consentChecked}
-          >
-            {submitting ? (
-              "Sending..."
-            ) : (
-              <>
-                <i className="fas fa-paper-plane"></i> Get My Free Consultation
-              </>
-            )}
-          </button>
+          <>
+            <input {...tfInputProps} />
+            <button
+              type="submit"
+              className="stf__submit"
+              disabled={submitting || !consentChecked}
+            >
+              {submitting ? (
+                "Sending..."
+              ) : (
+                <>
+                  <i className="fas fa-paper-plane"></i> Get My Free
+                  Consultation
+                </>
+              )}
+            </button>
+          </>
         )}
       </div>
 
