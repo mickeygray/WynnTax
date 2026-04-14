@@ -1,5 +1,69 @@
 const blogData = [
   {
+    id: "tax-day-april-15-havent-filed-what-to-do",
+    title:
+      "Tax Day Is Tomorrow — And If You Haven't Filed Yet, Here's What the Next 3 Days Actually Cost You",
+    image: "/images/tax-day-deadline.png",
+    teaser:
+      "April 15 is tomorrow. If your return isn't filed and you owe, the IRS clock is already running. Here's exactly what happens in the next 72 hours, what it costs you per day, and how to limit the damage right now.",
+    contentTitle:
+      "Tax Day Is Tomorrow — And If You Haven't Filed Yet, Here's What the Next 3 Days Actually Cost You",
+    contentBody: [
+      "<p><em>Quick note:</em> This article is general information, not tax or legal advice. If you owe and haven't filed, time is working against you right now.</p>",
+
+      "<h2>Today is April 14. Tomorrow is April 15. That gap matters more than you think.</h2>",
+      "<p>Every year, millions of taxpayers hit April 14 having not filed. Some are waiting on a document. Some are avoiding the number. Some just ran out of time. Whatever the reason, today is the last day you can act without triggering IRS late-filing and late-payment consequences — and there's a meaningful difference between filing tonight and filing Thursday.</p>",
+
+      "<h2>What 'Tax Day' actually triggers</h2>",
+      "<p>April 15 is the deadline for most individual taxpayers to either <strong>file their return</strong> or <strong>file an extension</strong>. What most people misunderstand is that an extension of time to file is <strong>not</strong> an extension of time to pay. If you owe and you don't pay by April 15, interest and the failure-to-pay penalty begin accruing — even if you have a valid extension on file.</p>",
+      "<p>That's the part that quietly costs people money for months after the fact.</p>",
+
+      "<h2>What the next 3 days actually cost you</h2>",
+      "<p>Here's how the damage compounds after April 15 if you owe and haven't acted:</p>",
+      "<ul>",
+      "<li><strong>Failure-to-file penalty:</strong> 5% of the unpaid tax per month (or part of a month) your return is late — up to 25%. This is the bigger of the two penalties and it starts the day after the deadline.</li>",
+      "<li><strong>Failure-to-pay penalty:</strong> 0.5% of the unpaid tax per month the balance remains unpaid after the due date. It's smaller than failure-to-file, but it stacks on top.</li>",
+      "<li><strong>Interest:</strong> Compounds daily on unpaid balances at the federal short-term rate plus 3%. Interest doesn't stop until the balance is paid in full.</li>",
+      "</ul>",
+      "<p>On a $5,000 balance, failure-to-file alone is $250 in the first month. On $20,000, it's $1,000. Every day you're in that window costs you real money.</p>",
+
+      "<h2>The one move that cuts the failure-to-file penalty to near zero</h2>",
+      "<p>If you cannot finish your return in time, <strong>file Form 4868 tonight or tomorrow morning.</strong> A valid extension eliminates the failure-to-file penalty for six months. It does <strong>not</strong> eliminate the failure-to-pay penalty or interest on what you owe — but cutting a 5% monthly penalty down to 0.5% is a meaningful difference on any balance over a few thousand dollars.</p>",
+      "<p>You can file Form 4868 electronically through IRS Free File at no cost, even if you don't use Free File for your actual return. The extension buys you until October 15 to file — but again, you still owe by April 15.</p>",
+
+      "<h2>What if you can't pay what you owe?</h2>",
+      "<p>This is where most people freeze — and freezing is the costliest move possible. The IRS has options for taxpayers who cannot pay in full. Filing your return (or an extension) on time and then dealing with the balance is almost always better than doing nothing.</p>",
+      "<ul>",
+      "<li><strong>Short-term payment plan:</strong> If you can pay within 180 days, the IRS offers an online payment plan. Interest and the failure-to-pay penalty continue, but you avoid aggressive collection action.</li>",
+      "<li><strong>Installment agreement:</strong> If you need more time, a formal installment agreement lets you pay monthly. The IRS generally requires this to be set up through an application.</li>",
+      "<li><strong>Currently Not Collectible (CNC):</strong> If paying would cause genuine financial hardship, the IRS can temporarily pause collection. This doesn't eliminate the debt, but it stops active collection while your situation stabilizes.</li>",
+      "<li><strong>Offer in Compromise:</strong> For qualifying taxpayers, this lets you settle your tax debt for less than the full amount owed. The IRS has a pre-qualifier tool online — but this is not a quick or guaranteed process.</li>",
+      "</ul>",
+
+      "<h2>What if you're due a refund?</h2>",
+      "<p>Good news: if the IRS owes <em>you</em> money, the failure-to-file penalty generally does not apply. The IRS cannot penalize you for filing late when no tax is due. That said, you do have a three-year window to claim a refund — after that, the IRS keeps it. So while the urgency is lower, filing is still in your interest.</p>",
+
+      "<h2>The 3-day window that actually matters</h2>",
+      "<p>Today through April 17 is a critical window. Here's how each day plays out:</p>",
+      "<ol>",
+      "<li><strong>April 14 (today):</strong> Last day to file your return or extension without any late penalty. Every action you can take today is the cheapest version of that action.</li>",
+      "<li><strong>April 15 (tomorrow):</strong> Tax Day. File by end of day if you can. If you can't finish the return, get Form 4868 submitted. Penalties and interest begin accruing on any unpaid balance after midnight.</li>",
+      "<li><strong>April 16–17:</strong> Every additional day without a filed return and without a payment adds to the accruing failure-to-file penalty, failure-to-pay penalty, and daily compounding interest. The meter doesn't pause on weekends.</li>",
+      "</ol>",
+
+      "<h2>What not to do</h2>",
+      "<ul>",
+      "<li><strong>Don't assume ignoring it buys time.</strong> It doesn't. It just makes the eventual resolution more expensive.</li>",
+      "<li><strong>Don't assume you have to have it perfect to file.</strong> An extension filed tonight gives you six months to get the numbers right — but stops the biggest penalty clock.</li>",
+      "<li><strong>Don't assume you can't get help this late.</strong> Tax professionals work through and past April 15 every year specifically for situations like this.</li>",
+      "</ul>",
+
+      "<h2>How Wynn Tax Solutions can help</h2>",
+      "<p>If you're sitting on an unfiled return, an amount you can't pay, or both — this is exactly the kind of situation Wynn Tax Solutions handles. We help taxpayers understand what they owe, what their options are, and what the fastest path to resolution looks like. If you authorize us and we're engaged, we can communicate directly with the IRS on your behalf.</p>",
+      "<p><strong>Bottom line:</strong> The next 72 hours are the most important window you have. The cheapest version of this problem is the one you solve today.</p>",
+    ],
+  },
+  {
     id: "lt11-letter-1058-final-notice-of-intent-to-levy",
     title:
       "LT11 / Letter 1058 Explained: What This Final IRS Notice Means and Why You Shouldn’t Wait",
