@@ -1,5 +1,66 @@
 const blogData = [
   {
+    id: "tax-day-april-15-today-is-the-deadline",
+    title:
+      "Today Is Tax Day: If You Haven't Filed or Paid Yet, Here's What Happens Next",
+    image: "/images/wynn-tax-day-banner.png",
+    teaser:
+      "April 15 is today. The IRS filing deadline is tonight. If you owe and haven't acted, penalties and interest begin accruing at midnight — but there are still moves you can make right now to limit the damage.",
+    contentTitle:
+      "Today Is Tax Day: If You Haven't Filed or Paid Yet, Here's What Happens Next",
+    contentBody: [
+      "<p><em>Quick note:</em> This article is general information, not tax or legal advice. If you owe and haven't filed, today is your last day to act without penalty.</p>",
+
+      "<h2>It's April 15. The deadline is today.</h2>",
+      "<p>If your return isn't filed and you owe money, every hour left today is still an opportunity to avoid or reduce IRS penalties. The failure-to-file and failure-to-pay penalties don't begin until the deadline passes — which means whatever you do before midnight tonight costs less than the same action taken tomorrow morning.</p>",
+      "<p>This isn't a warning about a deadline coming. The deadline is now. Here's what still matters today.</p>",
+
+      "<h2>The two things the IRS wants from you by midnight</h2>",
+      "<p>The IRS is looking for two distinct actions by April 15:</p>",
+      "<ul>",
+      "<li><strong>A filed return (or extension):</strong> Your completed Form 1040, or Form 4868 if you need more time to finish.</li>",
+      "<li><strong>Payment of any balance owed:</strong> Even a partial payment reduces the balance penalties and interest will accrue on.</li>",
+      "</ul>",
+      "<p>Missing either one has separate consequences. You can file on time and still owe a failure-to-pay penalty. You can pay on time and still owe a failure-to-file penalty. The IRS treats them independently.</p>",
+
+      "<h2>If you can't finish your return today: file Form 4868 right now</h2>",
+      "<p>Form 4868 is a six-month extension of time to file — <strong>not</strong> an extension of time to pay. But filing it today is still one of the most valuable actions you can take, because it eliminates the failure-to-file penalty for the extension period. That penalty runs at 5% of unpaid tax per month, up to 25%. The failure-to-pay penalty is only 0.5% per month. Getting 4868 in today cuts your penalty exposure by roughly 90% on the filing side.</p>",
+      "<p>You can file Form 4868 through IRS Free File at no cost. You do not need your return completed. You do not need an exact number — an estimate of what you owe is acceptable. File it now, finish the return by October 15.</p>",
+
+      "<h2>If you can't pay what you owe: pay something anyway</h2>",
+      "<p>Even a partial payment today reduces the balance that penalties and interest will compound on. If you owe $8,000 and pay $3,000 today, the IRS penalty and interest calculations run on $5,000 — not $8,000. That difference compounds every month.</p>",
+      "<p>The IRS accepts direct pay through IRS.gov at no charge. You can also pay by debit or credit card through an authorized provider, though processing fees apply. Any amount you pay today is worth more than the same amount paid next week.</p>",
+
+      "<h2>What happens starting tomorrow if you don't act today</h2>",
+      "<ul>",
+      "<li><strong>Failure-to-file penalty:</strong> 5% of unpaid tax per month (or partial month) your return is late, up to 25%.</li>",
+      "<li><strong>Failure-to-pay penalty:</strong> 0.5% per month on the unpaid balance, continuing until paid in full.</li>",
+      "<li><strong>Daily compounding interest:</strong> Federal short-term rate plus 3%, applied to the full unpaid balance every day.</li>",
+      "</ul>",
+      "<p>On a $15,000 balance, the first month of failure-to-file alone is $750. After five months with no resolution, that penalty alone hits its 25% cap — $3,750 added to a balance that's also been accruing interest the entire time.</p>",
+
+      "<h2>If you can't pay at all: your options don't disappear after today</h2>",
+      "<p>Filing today — even without payment — is still far better than not filing. Once you have a return on file, the IRS collection process follows a defined path that includes options:</p>",
+      "<ul>",
+      "<li><strong>Installment agreement:</strong> Monthly payments on the balance owed. The IRS generally allows this for balances under $50,000 with all returns filed.</li>",
+      "<li><strong>Currently Not Collectible (CNC):</strong> If paying would cause genuine hardship, the IRS can pause active collection. The debt doesn't go away, but the pressure does temporarily.</li>",
+      "<li><strong>Offer in Compromise:</strong> Settle for less than the full balance if you qualify. Not fast, not guaranteed, but a real option for the right situations.</li>",
+      "</ul>",
+      "<p>None of these options require you to have paid in full by today. They do require a filed return.</p>",
+
+      "<h2>What not to do today</h2>",
+      "<ul>",
+      "<li><strong>Don't wait until tomorrow to file an extension.</strong> Form 4868 filed tomorrow doesn't eliminate today's missed deadline. It has to go in by tonight.</li>",
+      "<li><strong>Don't assume owing means you shouldn't file.</strong> The failure-to-file penalty is ten times larger than failure-to-pay. Filing without paying is almost always better than not filing at all.</li>",
+      "<li><strong>Don't assume you need a professional to file today.</strong> IRS Free File is available now. An extension can be submitted in minutes.</li>",
+      "</ul>",
+
+      "<h2>How Wynn Tax Solutions can help</h2>",
+      "<p>If you're facing a balance you can't pay, an unfiled return, or both — Wynn Tax Solutions can help you understand your options and move toward a real resolution. We work with taxpayers at every stage of IRS collection, from first notices to active levies. If you authorize us and we're engaged, we communicate with the IRS directly so you don't have to.</p>",
+      "<p><strong>Bottom line:</strong> Today is the deadline. Whatever action you take before midnight is cheaper than the same action taken tomorrow. Don't let tonight pass without doing something.</p>",
+    ],
+  },
+  {
     id: "tax-day-april-15-havent-filed-what-to-do",
     title:
       "Tax Day Is Tomorrow — And If You Haven't Filed Yet, Here's What the Next 3 Days Actually Cost You",
