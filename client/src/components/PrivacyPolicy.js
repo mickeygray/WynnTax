@@ -127,7 +127,27 @@ const PrivacyPolicy = () => {
           </a>
           .
         </p>
-
+        <h2>SMS & Electronic Marketing Communications</h2>
+        <p>
+          When you provide your phone number and consent via a form on this
+          Site, we may use that information to send you marketing text messages
+          (SMS/MMS), calls, and emails, including via automated systems. We do
+          not sell or share your phone number with third parties for their own
+          marketing purposes.
+        </p>
+        <p>
+          You may opt out of SMS messages at any time by replying STOP to any
+          message you receive from us. You may also opt out of email
+          communications by clicking the unsubscribe link in any email. Opting
+          out of one channel does not automatically unsubscribe you from others.
+        </p>
+        <p>
+          For questions about your communication preferences, contact us at{" "}
+          <a href="mailto:inquiry@WynnTaxSolutions.com">
+            inquiry@WynnTaxSolutions.com
+          </a>
+          .
+        </p>
         <h2>Do Not Track</h2>
         <p>
           We do not alter our data collection practices when we see a Do Not

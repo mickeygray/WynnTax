@@ -360,9 +360,13 @@ const LeadForm = ({ variant = "hero" }) => {
               required
             />
             <span>
-              I agree to be contacted by Wynn Tax Solutions via phone, email, or
-              text. Message/data rates may apply. Consent not required to
-              purchase.
+              I consent to receive marketing calls, text messages, and emails
+              from Wynn Tax Solutions at the contact information I provided,
+              including via an automatic telephone dialing system and/or
+              artificial or prerecorded voice. Message and data rates may apply.
+              Consent is not a condition of purchase. View our{" "}
+              <Link to="/privacy-policy">Privacy Policy</Link> and{" "}
+              <Link to="/terms-of-service">Terms of Service</Link>.
             </span>
           </label>
           <input {...tfInputProps} />

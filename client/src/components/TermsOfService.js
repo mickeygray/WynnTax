@@ -171,7 +171,24 @@ const TermsOfService = () => {
           These terms constitute the entire agreement between you and Wynn Tax
           Solutions.
         </p>
-
+        <h2>Electronic Communications & SMS</h2>
+        <p>
+          By providing your phone number and checking the consent box on any
+          form on this website, you expressly consent to receive marketing
+          calls, text messages (SMS/MMS), and emails from Wynn Tax Solutions,
+          including via an automatic telephone dialing system and/or artificial
+          or prerecorded voice, at the number and email address provided.
+          Message and data rates may apply. Message frequency varies. Consent is
+          not a condition of purchase or service.
+        </p>
+        <p>
+          To opt out of SMS messages at any time, reply STOP to any message. For
+          help, reply HELP or contact us at{" "}
+          <a href="mailto:inquiry@WynnTaxSolutions.com">
+            inquiry@WynnTaxSolutions.com
+          </a>
+          . Opting out of SMS does not affect other forms of communication.
+        </p>
         <h2>Contact Information</h2>
         <p>
           <strong>Wynn Tax Solutions</strong>
