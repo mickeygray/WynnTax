@@ -1,0 +1,120 @@
+name: Deploy WYNN
+
+# Triggered by the 3001 control-plane via GitHub's workflow_dispatch API.
+# Input contract (matches packages/shared-services/src/deployOrchestrationService.js):
+#
+#   full    — git pull, npm install (also builds the client via root install hook),
+#             pm2 restart. Full deploy.
+#   content — git checkout only content paths, no service restart.
+#   restart — pm2 restart only, no code change.
+#
+# Defaults below come from the live TagContactBridge/.env:
+#   REPO_PATH   = /var/www/WynnTax   (DEPLOY_WYNN_PATH root; client build is in client/build inside)
+#   PM2_PROCESS = backend            (DEPLOY_WYNN_PM2)
+#
+# Required Actions secrets (GitHub → Settings → Secrets and variables → Actions):
+#   AWS_HOST              = 18.216.244.101      (DEPLOY_WYNN_HOST)
+#   AWS_USER              = ubuntu              (DEPLOY_WYNN_USER)
+#   AWS_SSH_PRIVATE_KEY   = contents of C:\Users\Admin\Code\TagContactBridge\.ssh\wynntax2.pem
+#   AWS_SSH_PORT          = optional, defaults to 22
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "What to deploy"
+        required: true
+        default: "full"
+        type: choice
+        options:
+          - full
+          - content
+          - restart
+      target:
+        description: "Target key from control-plane (e.g. wynn-site)"
+        required: true
+        default: "wynn-site"
+      brand:
+        description: "Brand code"
+        required: false
+        default: "WYNN"
+
+concurrency:
+  group: deploy-${{ inputs.target }}
+  cancel-in-progress: false
+
+env:
+  REPO_PATH: /var/www/WynnTax
+  PM2_PROCESS: backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Announce
+        run: |
+          echo "target=${{ inputs.target }}"
+          echo "brand=${{ inputs.brand }}"
+          echo "action=${{ inputs.action }}"
+
+      - name: Full deploy
+        if: ${{ inputs.action == 'full' }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT || 22 }}
+          script_stop: true
+          envs: REPO_PATH,PM2_PROCESS
+          script: |
+            set -e
+            cd "$REPO_PATH"
+            echo "=== git pull ==="
+            git fetch --all
+            git reset --hard origin/main
+            echo "=== install (runs client build via root install hook) ==="
+            npm install
+            echo "=== restart ==="
+            pm2 restart "$PM2_PROCESS" || pm2 start server.js --name "$PM2_PROCESS"
+            pm2 save
+            pm2 status | grep "$PM2_PROCESS" || true
+
+      - name: Content push
+        if: ${{ inputs.action == 'content' }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT || 22 }}
+          script_stop: true
+          envs: REPO_PATH
+          script: |
+            set -e
+            cd "$REPO_PATH"
+            echo "=== content-only pull ==="
+            git fetch --all
+            # Narrow to just content paths. Adjust this list if your content
+            # lives elsewhere (e.g. add client/public or library/ if that
+            # folder is where you stage editable text).
+            git checkout origin/main -- client/src/pages client/src/content 2>/dev/null || \
+              git checkout origin/main -- client/public library || true
+            echo "content push complete — no service restart"
+
+      - name: Restart service
+        if: ${{ inputs.action == 'restart' }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT || 22 }}
+          script_stop: true
+          envs: PM2_PROCESS
+          script: |
+            set -e
+            pm2 restart "$PM2_PROCESS"
+            pm2 save
+            pm2 status | grep "$PM2_PROCESS" || true

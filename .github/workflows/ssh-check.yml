@@ -1,0 +1,52 @@
+name: SSH check
+
+# No-op verification workflow. Triggered by the 3001 control-plane against the
+# `wynn-ssh-check` target. Proves every credential in the chain (PAT, SSH key,
+# host, user, security group) without touching production.
+#
+# Required Actions secrets in this repo:
+#   AWS_HOST              ec2-...compute.amazonaws.com or public IP
+#   AWS_USER              ubuntu or ec2-user
+#   AWS_SSH_PRIVATE_KEY   full -----BEGIN OPENSSH PRIVATE KEY----- block
+#   AWS_SSH_PORT          optional, defaults to 22
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Action (accepted for API compat; ssh-check ignores it)"
+        required: false
+        default: "full"
+      target:
+        description: "Target key (for audit, ignored here)"
+        required: false
+
+jobs:
+  ssh-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Echo inputs (for audit)
+        run: |
+          echo "Dispatched by control-plane"
+          echo "action=${{ inputs.action }}"
+          echo "target=${{ inputs.target }}"
+
+      - name: Verify SSH reaches the instance
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            echo "=== SSH OK ==="
+            echo "user=$(whoami)"
+            echo "host=$(hostname)"
+            echo "uptime=$(uptime -p)"
+            echo "disk:"
+            df -h / | sed 's/^/  /'
+            echo "node=$(command -v node && node -v || echo 'node not installed')"
+            echo "pm2=$(command -v pm2 && pm2 -v || echo 'pm2 not installed')"
+            echo "git=$(command -v git && git --version || echo 'git not installed')"
