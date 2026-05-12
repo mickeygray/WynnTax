@@ -530,29 +530,41 @@ const transporter = nodemailer.createTransport({
 /*                         WEBHOOK HELPER                                     */
 /* -------------------------------------------------------------------------- */
 
+// Public hostname of the Parallel inbound-gateway (proxied at the edge
+// by nginx → control-plane :5001 → inbound-gateway :4001). Used as a
+// hard fallback if WEBHOOK_URL is unset or stale (e.g. EC2 .env still
+// pointing at the dead legacy tunnel). Override via env when staging
+// against a non-prod tunnel.
+const DEFAULT_WEBHOOK_BASE_URL = "https://tagcontactbridge.ngrok.app";
+
 async function postToWebhook(fields, source = "website") {
   console.log(`[WEBHOOK] ========== START postToWebhook ==========`);
   console.log(`[WEBHOOK] Source: ${source}`);
   console.log(`[WEBHOOK] Fields:`, JSON.stringify(fields, null, 2));
   console.log(
-    `[WEBHOOK] WEBHOOK_URL env: ${process.env.WEBHOOK_URL || "NOT SET"}`,
+    `[WEBHOOK] WEBHOOK_URL env: ${process.env.WEBHOOK_URL || "NOT SET (using default)"}`,
   );
   console.log(
     `[WEBHOOK] LEAD_WEBHOOK_SECRET env: ${process.env.LEAD_WEBHOOK_SECRET ? "SET (length: " + process.env.LEAD_WEBHOOK_SECRET.length + ")" : "NOT SET"}`,
   );
 
   try {
-    if (!process.env.WEBHOOK_URL || !process.env.LEAD_WEBHOOK_SECRET) {
-      console.warn("[WEBHOOK] ✗ Missing WEBHOOK_URL or LEAD_WEBHOOK_SECRET");
+    if (!process.env.LEAD_WEBHOOK_SECRET) {
+      console.warn("[WEBHOOK] ✗ Missing LEAD_WEBHOOK_SECRET");
       return { ok: false, error: "Webhook not configured" };
     }
 
-    const url = `${process.env.WEBHOOK_URL}/lead-contact`;
+    const baseUrl = process.env.WEBHOOK_URL || DEFAULT_WEBHOOK_BASE_URL;
+    const url = `${baseUrl}/lead-contact`;
     console.log(`[WEBHOOK] Posting to URL: ${url}`);
 
+    // Always stamp company on the outbound payload so the receiver's
+    // resolveCompanyFromPayload picks WYNN even if the caller forgot.
+    // The receiver's /lead-contact handler also reads `company` to
+    // namespace the pre-ping lookup.
     const response = await axios.post(
       url,
-      { ...fields, source },
+      { ...fields, source, company: fields.company || "WYNN" },
       {
         headers: {
           "Content-Type": "application/json",
