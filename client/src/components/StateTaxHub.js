@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SEO from "./SEO";
 import { orgSchema } from "../utils/structuredData";
 import stateData, { getStateByAbbreviation } from "../data/stateData";
-import USMapSVG from "./USMapSVG";
+import USMapSVG from "./UsMapSvg";
 
 const StateTaxHub = () => {
   const navigate = useNavigate();
