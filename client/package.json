@@ -34,6 +34,10 @@
     "inlineCss": false,
     "fixWebpackChunksIssue": "CRA2",
     "minifyCss": false,
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
     "include": [
       "/thank-you",
       "/qualify-now",
