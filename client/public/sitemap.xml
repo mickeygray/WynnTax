@@ -151,6 +151,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.wynntaxsolutions.com/tax-news/what-the-irs-actually-checks-in-an-audit</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.wynntaxsolutions.com/tax-news/what-an-extension-actually-buys-you-form-4868</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
