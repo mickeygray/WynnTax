@@ -1,33 +1,35 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import PageViewTracker from "./components/PageViewTracker";
-import StewartWidget from "./components/StewartWidget";
 import ScrollToTop from "./hooks/scrollToTop";
-
-import Home from "./components/Home";
-import TaxFaqs from "./components/TaxFaqs";
-import AboutUs from "./components/AboutUs";
-import OurTaxServices from "./components/OurTaxServices";
-import TaxRelief from "./components/TaxRelief";
-import TaxResolution from "./components/TaxResolution";
-import TaxNegotiation from "./components/TaxNegotiation";
-import TaxProtectionPlans from "./components/TaxProtectionPlans";
-import SubPageWrapper from "./components/SubPageWrapper";
-import ContactUs from "./components/ContactUs";
-import TaxNews from "./components/TaxNews";
-import TaxNewsArticle from "./components/TaxNewsArticle";
-import PrivacyPolicy from "./components/PrivacyPolicy";
-import TermsOfService from "./components/TermsOfService";
-import LandingPage1 from "./components/LandingPage1";
-import ThankYou from "./components/ThankYou";
-import PDFViewer from "./components/PDFViewer";
-import StateTaxHub from "./components/StateTaxHub";
-import StateTaxPage from "./components/StateTaxPage";
 import LeadState from "./context/LeadState";
+
+const Navbar = lazy(() => import("./components/Navbar"));
+const Footer = lazy(() => import("./components/Footer"));
+const StewartWidget = lazy(() => import("./components/StewartWidget"));
+const Home = lazy(() => import("./components/Home"));
+const TaxFaqs = lazy(() => import("./components/TaxFaqs"));
+const AboutUs = lazy(() => import("./components/AboutUs"));
+const OurTaxServices = lazy(() => import("./components/OurTaxServices"));
+const TaxRelief = lazy(() => import("./components/TaxRelief"));
+const TaxResolution = lazy(() => import("./components/TaxResolution"));
+const TaxNegotiation = lazy(() => import("./components/TaxNegotiation"));
+const TaxProtectionPlans = lazy(() =>
+  import("./components/TaxProtectionPlans"),
+);
+const SubPageWrapper = lazy(() => import("./components/SubPageWrapper"));
+const ContactUs = lazy(() => import("./components/ContactUs"));
+const TaxNews = lazy(() => import("./components/TaxNews"));
+const TaxNewsArticle = lazy(() => import("./components/TaxNewsArticle"));
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./components/TermsOfService"));
+const LandingPage1 = lazy(() => import("./components/LandingPage1"));
+const ThankYou = lazy(() => import("./components/ThankYou"));
+const PDFViewer = lazy(() => import("./components/PDFViewer"));
+const StateTaxHub = lazy(() => import("./components/StateTaxHub"));
+const StateTaxPage = lazy(() => import("./components/StateTaxPage"));
 
 export default function App() {
   return (
@@ -36,7 +38,14 @@ export default function App() {
         <PageViewTracker />
         <ScrollToTop />
 
-        <Routes>
+        <Suspense
+          fallback={
+            <div className="route-loading" role="status" aria-live="polite">
+              Loading…
+            </div>
+          }
+        >
+          <Routes>
           {/* ----------------------------- */}
           {/*   PDF ROUTE (no layout)       */}
           {/* ----------------------------- */}
@@ -102,7 +111,8 @@ export default function App() {
               </>
             }
           />
-        </Routes>
+          </Routes>
+        </Suspense>
       </Router>
     </LeadState>
   );

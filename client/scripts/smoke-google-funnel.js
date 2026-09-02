@@ -75,6 +75,18 @@ function conversionCount(page) {
   );
 }
 
+function analyticsEventCount(page, eventName) {
+  return page.evaluate(
+    (name) =>
+      (window.dataLayer || []).filter(
+        (entry) =>
+          (entry?.[0] === "event" && entry?.[1] === name) ||
+          entry?.event === name,
+      ).length,
+    eventName,
+  );
+}
+
 async function run() {
   if (!fs.existsSync(path.join(buildDir, "index.html"))) {
     throw new Error("Build output is missing. Run npm run build first.");
@@ -104,8 +116,44 @@ async function run() {
     await page.goto(`${origin}/qualify-now?gclid=smoke-click&utm_campaign=smoke`, {
       waitUntil: "networkidle0",
     });
+    const headState = await page.evaluate(() => ({
+      descriptions: document.querySelectorAll('meta[name="description"]').length,
+      robots: Array.from(document.querySelectorAll('meta[name="robots"]')).map(
+        (tag) => tag.content,
+      ),
+    }));
+    if (headState.descriptions !== 1) {
+      throw new Error("Paid landing page has duplicate meta descriptions");
+    }
+    if (
+      headState.robots.length !== 1 ||
+      headState.robots[0] !== "noindex, nofollow"
+    ) {
+      throw new Error("Paid landing page has conflicting robots directives");
+    }
+
+    await page.evaluate(() => {
+      const phoneLink = document.querySelector(".lp__header-phone");
+      phoneLink.addEventListener("click", (event) => event.preventDefault(), {
+        once: true,
+      });
+      phoneLink.click();
+    });
+    if ((await analyticsEventCount(page, "contact")) !== 1) {
+      throw new Error("Paid phone click was not tracked");
+    }
+
     await completeForm(page);
     await page.waitForSelector(".lp-form__error");
+    if ((await analyticsEventCount(page, "paid_form_start")) !== 1) {
+      throw new Error("Paid form start was not tracked exactly once");
+    }
+    if ((await analyticsEventCount(page, "paid_form_step_complete")) !== 1) {
+      throw new Error("Paid form step completion was not tracked");
+    }
+    if ((await analyticsEventCount(page, "paid_lead_submit_error")) !== 1) {
+      throw new Error("Paid form failure was not tracked");
+    }
     if (new URL(page.url()).pathname !== "/qualify-now") {
       throw new Error("Failed submission left the form page");
     }
@@ -121,6 +169,9 @@ async function run() {
         (entry) => entry?.[0] === "event" && entry?.[1] === "conversion",
       ),
     );
+    if ((await analyticsEventCount(page, "generate_lead")) !== 1) {
+      throw new Error("Accepted lead was not tracked in analytics");
+    }
     if (lastLeadPayload?.utm?.gclid !== "smoke-click") {
       throw new Error("Google click ID was not included in the lead payload");
     }

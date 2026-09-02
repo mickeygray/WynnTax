@@ -1,11 +1,33 @@
 // components/LandingPage1.jsx
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import leadContext from "../context/leadContext";
 import { useNavigate, Link } from "react-router-dom";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
 import { useTrustedForm } from "../hooks/useTrustedForm";
 import { storeSubmissionReceipt } from "../utils/submissionReceipt";
+
+const WYNN_PHONE_DISPLAY = "(844) 996-6829";
+const WYNN_PHONE_HREF = "tel:18449966829";
+const WYNN_BBB_PROFILE =
+  "https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121";
+
+function trackPaidLandingEvent(eventName, params = {}) {
+  if (typeof window === "undefined") return;
+
+  const eventParams = {
+    event_category: "paid_landing",
+    ...params,
+  };
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, eventParams);
+    return;
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: eventName, ...eventParams });
+}
 
 const AFFILIATE_CLICK_KEYS = [
   "source_id",
@@ -197,9 +219,32 @@ const LeadForm = () => {
   const [affiliateNid, setAffiliateNid] = useState("");
   const [affiliateSub1] = useState("");
   const [affiliateSub2] = useState("");
+  const hasTrackedStart = useRef(false);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const markFormStarted = () => {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackPaidLandingEvent("paid_form_start");
+  };
+
+  const handleChange = (e) => {
+    markFormStarted();
+    setFormData((current) => ({
+      ...current,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const chooseFiledStatus = (value) => {
+    markFormStarted();
+    setFormData((current) => ({ ...current, filedAllTaxes: value }));
+  };
+
+  const continueToContactDetails = () => {
+    if (!isStep1Valid) return;
+    trackPaidLandingEvent("paid_form_step_complete", { step: 1 });
+    setStep(2);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -207,6 +252,7 @@ const LeadForm = () => {
 
     setIsSubmitting(true);
     setSubmitError("");
+    trackPaidLandingEvent("paid_lead_submit_attempt");
 
     try {
       const result = await sendLeadForm({
@@ -224,32 +270,43 @@ const LeadForm = () => {
         throw new Error("Submission receipt was not available");
       }
       storeSubmissionReceipt(receipt);
+      trackPaidLandingEvent("generate_lead", { method: "web_form" });
 
       navigate("/thank-you", {
         replace: true,
         state: { submissionReceipt: receipt },
       });
     } catch {
+      trackPaidLandingEvent("paid_lead_submit_error");
       setSubmitError(
-        "We could not confirm your request. Please try again or call (844) 996-6829.",
+        `We could not confirm your request. Please try again or call ${WYNN_PHONE_DISPLAY}.`,
       );
       setIsSubmitting(false);
     }
   };
 
   const isStep1Valid = formData.debtAmount && formData.filedAllTaxes;
+  const phoneDigits = formData.phone.replace(/\D/g, "");
+  const isPhoneValid =
+    phoneDigits.length === 10 ||
+    (phoneDigits.length === 11 && phoneDigits.startsWith("1"));
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+    formData.email.trim(),
+  );
   const isStep2Valid =
-    formData.name.trim() &&
-    formData.phone.trim() &&
-    formData.email.trim() &&
+    formData.name.trim().length >= 2 &&
+    isPhoneValid &&
+    isEmailValid &&
     consentChecked;
 
   return (
     <div className="lp-form">
       <div className="lp-form__header">
-        <div className="lp-form__badge">Free Case Review</div>
-        <h3 className="lp-form__title">See If You Qualify</h3>
-        <p className="lp-form__subtitle">Takes less than 60 seconds</p>
+        <div className="lp-form__badge">Consultation: $0</div>
+        <h3 className="lp-form__title" id="paid-lead-form-title">
+          Request A Free Tax Case Review
+        </h3>
+        <p className="lp-form__subtitle">Two quick steps · No obligation</p>
       </div>
 
       {/* Progress */}
@@ -264,7 +321,11 @@ const LeadForm = () => {
       </div>
 
       {step === 1 ? (
-        <form className="lp-form__step" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="lp-form__step"
+          aria-labelledby="paid-lead-form-title"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div className="lp-form__field">
             <label>How much do you owe the IRS?</label>
             <select
@@ -288,18 +349,14 @@ const LeadForm = () => {
               <button
                 type="button"
                 className={`lp-form__option ${formData.filedAllTaxes === "yes" ? "selected" : ""}`}
-                onClick={() =>
-                  setFormData({ ...formData, filedAllTaxes: "yes" })
-                }
+                onClick={() => chooseFiledStatus("yes")}
               >
                 Yes
               </button>
               <button
                 type="button"
                 className={`lp-form__option ${formData.filedAllTaxes === "no" ? "selected" : ""}`}
-                onClick={() =>
-                  setFormData({ ...formData, filedAllTaxes: "no" })
-                }
+                onClick={() => chooseFiledStatus("no")}
               >
                 No
               </button>
@@ -309,50 +366,78 @@ const LeadForm = () => {
           <button
             type="button"
             className="lp-form__btn"
-            onClick={() => setStep(2)}
+            onClick={continueToContactDetails}
             disabled={!isStep1Valid}
           >
-            Continue →
+            Continue To Contact Details →
           </button>
         </form>
       ) : (
-        <form className="lp-form__step" onSubmit={handleSubmit}>
+        <form
+          className="lp-form__step"
+          aria-labelledby="paid-lead-form-title"
+          onSubmit={handleSubmit}
+        >
           <div className="lp-form__field">
+            <label htmlFor="paid-lead-name">Full name</label>
             <input
+              id="paid-lead-name"
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Your Full Name"
+              autoComplete="name"
+              minLength={2}
               required
             />
           </div>
           <div className="lp-form__field">
+            <label htmlFor="paid-lead-phone">Best phone number</label>
             <input
+              id="paid-lead-phone"
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Phone Number"
+              autoComplete="tel"
+              inputMode="tel"
+              placeholder="(555) 555-1234"
+              aria-describedby="paid-lead-phone-help"
               required
             />
+            <span className="lp-form__field-help" id="paid-lead-phone-help">
+              We’ll use this number to contact you about your request.
+            </span>
           </div>
           <div className="lp-form__field">
+            <label htmlFor="paid-lead-email">Email address</label>
             <input
+              id="paid-lead-email"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Email Address"
+              autoComplete="email"
               required
             />
+          </div>
+
+          <div className="lp-form__next-step">
+            <strong>What happens next?</strong>
+            <span>
+              A Wynn Tax professional will contact you to discuss the tax
+              matter and possible next steps. Hiring us is optional.
+            </span>
           </div>
 
           <label className="lp-form__consent">
             <input
               type="checkbox"
               checked={consentChecked}
-              onChange={(e) => setConsentChecked(e.target.checked)}
+              onChange={(e) => {
+                markFormStarted();
+                setConsentChecked(e.target.checked);
+              }}
               required
             />
             <span>
@@ -371,7 +456,7 @@ const LeadForm = () => {
             className="lp-form__btn lp-form__btn--submit"
             disabled={!isStep2Valid || isSubmitting}
           >
-            {isSubmitting ? "Submitting…" : "Get My Free Consultation"}
+            {isSubmitting ? "Submitting…" : "Request My Free Consultation"}
           </button>
 
           {submitError && (
@@ -397,7 +482,7 @@ const LeadForm = () => {
       </div>
       <p className="lp-form__disclosure">
         Wynn Tax Solutions is a private tax resolution firm, not the IRS or a
-        government agency. The consultation is free. If services are
+        government agency. The consultation costs $0. If paid services are
         recommended, scope and fees are provided in writing before engagement.
         Results vary by circumstances.
       </p>
@@ -428,14 +513,28 @@ const LandingPage1 = () => {
 
       {/* Minimal Header */}
       <header className="lp__header">
-        <img
-          src="/images/logo-wynn.png"
-          alt="Wynn Tax Solutions"
-          className="lp__logo"
-        />
-        <a href="tel:18449966829" className="lp__header-phone">
+        <a href="/" className="lp__brand" aria-label="Wynn Tax Solutions home">
+          <img
+            src="/images/logo-wynn.png"
+            alt=""
+            className="lp__logo"
+          />
+          <span className="lp__brand-name">
+            Wynn Tax <strong>Solutions</strong>
+          </span>
+        </a>
+        <a
+          href={WYNN_PHONE_HREF}
+          className="lp__header-phone"
+          onClick={() =>
+            trackPaidLandingEvent("contact", {
+              method: "phone",
+              placement: "header",
+            })
+          }
+        >
           <span className="lp__header-phone-label">Call Now:</span>
-          <span className="lp__header-phone-number">(844) 996-6829</span>
+          <span className="lp__header-phone-number">{WYNN_PHONE_DISPLAY}</span>
         </a>
       </header>
 
@@ -514,8 +613,17 @@ const LandingPage1 = () => {
                 </div>
               </div>
 
-              <a href="tel:18449966829" className="lp__hero-phone">
-                📞 Prefer to talk? Call <strong>(844) 996-6829</strong>
+              <a
+                href={WYNN_PHONE_HREF}
+                className="lp__hero-phone"
+                onClick={() =>
+                  trackPaidLandingEvent("contact", {
+                    method: "phone",
+                    placement: "hero",
+                  })
+                }
+              >
+                📞 Prefer to talk? Call <strong>{WYNN_PHONE_DISPLAY}</strong>
               </a>
             </div>
           </div>
@@ -735,10 +843,17 @@ const LandingPage1 = () => {
           </div>
 
           <div className="lp__trust-logos">
-            <img
-              src="/images/bbb-accredited-business.png"
-              alt="BBB Accredited Business"
-            />
+            <a
+              href={WYNN_BBB_PROFILE}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Wynn Tax Solutions BBB profile"
+            >
+              <img
+                src="/images/bbb-accredited-business.png"
+                alt="BBB Accredited Business"
+              />
+            </a>
           </div>
         </div>
       </section>
@@ -794,8 +909,17 @@ const LandingPage1 = () => {
             </p>
 
             <div className="lp__final-cta-actions">
-              <a href="tel:18449966829" className="lp__cta-phone">
-                📞 Call (844) 996-6829
+              <a
+                href={WYNN_PHONE_HREF}
+                className="lp__cta-phone"
+                onClick={() =>
+                  trackPaidLandingEvent("contact", {
+                    method: "phone",
+                    placement: "final_cta",
+                  })
+                }
+              >
+                📞 Call {WYNN_PHONE_DISPLAY}
               </a>
               <span className="lp__cta-or">or</span>
               <a href="#top" className="lp__cta-form">
@@ -829,7 +953,7 @@ const LandingPage1 = () => {
           <p className="lp__footer-disclaimer">
             21625 Prairie Street, Suite 200, Chatsworth, CA 91311 ·{" "}
             <a
-              href="https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121"
+              href={WYNN_BBB_PROFILE}
               target="_blank"
               rel="noopener noreferrer"
             >
