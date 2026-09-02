@@ -235,7 +235,9 @@
 
     <!-- Meta Pixel Code -->
     <script>
-      if (!["/qualify-now", "/thank-you"].includes(window.location.pathname)) {
+      const metaPixelPath =
+        window.location.pathname.replace(/\/+$/, "") || "/";
+      if (!["/qualify-now", "/thank-you"].includes(metaPixelPath)) {
         !(function (f, b, e, v, n, t, s) {
           if (f.fbq) return;
           n = f.fbq = function () {
