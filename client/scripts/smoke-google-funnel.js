@@ -135,8 +135,8 @@ async function run() {
     ) {
       throw new Error("Paid landing page has conflicting robots directives");
     }
-    if (headState.directGtagLoaders !== 0 || !headState.hasAnalyticsQueue) {
-      throw new Error("Analytics is not exclusively owned by GTM");
+    if (headState.directGtagLoaders !== 1 || !headState.hasAnalyticsQueue) {
+      throw new Error("Analytics does not have exactly one gtag bootstrap");
     }
 
     await page.evaluate(() => {
