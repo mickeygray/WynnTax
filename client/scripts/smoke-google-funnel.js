@@ -121,6 +121,10 @@ async function run() {
       robots: Array.from(document.querySelectorAll('meta[name="robots"]')).map(
         (tag) => tag.content,
       ),
+      directGtagLoaders: document.querySelectorAll(
+        'script[src*="googletagmanager.com/gtag/js"]',
+      ).length,
+      hasAnalyticsQueue: typeof window.gtag === "function",
     }));
     if (headState.descriptions !== 1) {
       throw new Error("Paid landing page has duplicate meta descriptions");
@@ -130,6 +134,9 @@ async function run() {
       headState.robots[0] !== "noindex, nofollow"
     ) {
       throw new Error("Paid landing page has conflicting robots directives");
+    }
+    if (headState.directGtagLoaders !== 0 || !headState.hasAnalyticsQueue) {
+      throw new Error("Analytics is not exclusively owned by GTM");
     }
 
     await page.evaluate(() => {
