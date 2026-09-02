@@ -25,7 +25,8 @@ const PrivacyPolicy = () => {
         <h2>Introduction</h2>
         <p>
           This Privacy Policy describes how your personal information is
-          collected, used, and shared when you visit or make a purchase from{" "}
+          collected, used, and shared when you visit, request a consultation,
+          or use services available through{" "}
           <strong>WynnTaxSolutions.com</strong> (the “Site”).
         </p>
 
@@ -40,26 +41,34 @@ const PrivacyPolicy = () => {
           <li>Time zone</li>
           <li>Cookies installed on your device</li>
         </ul>
-        <p>Additionally, we collect:</p>
+        <p>We may also collect:</p>
         <ul>
-          <li>Web pages or products viewed</li>
+          <li>Web pages viewed and interactions with the Site</li>
           <li>Referral sources (websites or search terms)</li>
-          <li>Interaction details on the Site</li>
+          <li>Advertising campaign and click identifiers</li>
+          <li>
+            Information you submit, such as your name, email address, phone
+            number, and details you choose to provide about a tax matter
+          </li>
         </ul>
 
         <h2>How We Use Your Personal Information</h2>
         <p>We use your information to:</p>
         <ul>
-          <li>
-            Fulfill orders (payment processing, shipping, order confirmations)
-          </li>
-          <li>Communicate with you</li>
+          <li>Respond to consultation and service requests</li>
+          <li>Communicate with you when you have provided consent</li>
           <li>Screen for fraud and risk</li>
           <li>Improve and optimize our Site</li>
+          <li>Measure advertising and website performance</li>
         </ul>
 
         <h2>Sharing Your Information</h2>
-        <p>We share your Personal Information with third parties, including:</p>
+        <p>
+          We may share personal information with service providers that help us
+          operate the Site, process consultation requests, maintain records,
+          communicate with you, prevent fraud, and measure performance. These
+          may include:
+        </p>
         <ul>
           <li>
             <strong>Google Analytics</strong> for tracking (
@@ -72,6 +81,9 @@ const PrivacyPolicy = () => {
             </a>
             )
           </li>
+          <li>Advertising platforms used for campaign measurement</li>
+          <li>Customer relationship and communications providers</li>
+          <li>Consent-certificate and website hosting providers</li>
         </ul>
         <p>
           You can opt out of Google Analytics{" "}
@@ -85,8 +97,12 @@ const PrivacyPolicy = () => {
           .
         </p>
 
-        <h2>Behavioral Advertising</h2>
-        <p>We use targeted advertising. You can opt out via:</p>
+        <h2>Advertising and Measurement</h2>
+        <p>
+          We use advertising and measurement tools to understand whether an ad
+          led to a Site visit or consultation request. You can manage ad
+          preferences through:
+        </p>
         <ul>
           <li>
             <a
@@ -156,13 +172,18 @@ const PrivacyPolicy = () => {
 
         <h2>Your Rights</h2>
         <p>
-          If you are a European resident, you have the right to access, update,
-          or delete your personal data. Please contact us using the details
-          below.
+          Depending on where you live, you may have rights to request access,
+          correction, or deletion of certain personal information. Please
+          contact us using the details below. We may need to verify your request
+          and may retain information when required by law.
         </p>
 
         <h2>Data Retention</h2>
-        <p>We retain your order information unless you request its deletion.</p>
+        <p>
+          We retain personal information as reasonably necessary to provide
+          services, meet legal obligations, resolve disputes, and enforce
+          agreements, subject to applicable law.
+        </p>
 
         <h2>Changes</h2>
         <p>
@@ -183,7 +204,7 @@ const PrivacyPolicy = () => {
           <br />
           21625 Prairie Street, Suite #200
           <br />
-          Chatsworth, CA 91331, United States
+          Chatsworth, CA 91311, United States
         </p>
 
         <p>© 2025 Wynn Tax Solutions. All Rights Reserved.</p>

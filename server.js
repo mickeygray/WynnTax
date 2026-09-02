@@ -10,6 +10,7 @@ const OpenAI = require("openai");
 const rateLimit = require("express-rate-limit");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const handlebars = require("handlebars");
 const { sendTextMessageAPI } = require("./utils/callrail");
 const {
@@ -538,15 +539,11 @@ const transporter = nodemailer.createTransport({
 const DEFAULT_WEBHOOK_BASE_URL = "https://tagcontactbridge.ngrok.app";
 
 async function postToWebhook(fields, source = "website") {
-  console.log(`[WEBHOOK] ========== START postToWebhook ==========`);
-  console.log(`[WEBHOOK] Source: ${source}`);
-  console.log(`[WEBHOOK] Fields:`, JSON.stringify(fields, null, 2));
-  console.log(
-    `[WEBHOOK] WEBHOOK_URL env: ${process.env.WEBHOOK_URL || "NOT SET (using default)"}`,
-  );
-  console.log(
-    `[WEBHOOK] LEAD_WEBHOOK_SECRET env: ${process.env.LEAD_WEBHOOK_SECRET ? "SET (length: " + process.env.LEAD_WEBHOOK_SECRET.length + ")" : "NOT SET"}`,
-  );
+  console.log("[WEBHOOK] Posting lead", {
+    source,
+    company: fields.company || "WYNN",
+    hasTrustedForm: Boolean(fields.trustedFormCertUrl),
+  });
 
   try {
     if (!process.env.LEAD_WEBHOOK_SECRET) {
@@ -556,7 +553,6 @@ async function postToWebhook(fields, source = "website") {
 
     const baseUrl = process.env.WEBHOOK_URL || DEFAULT_WEBHOOK_BASE_URL;
     const url = `${baseUrl}/lead-contact`;
-    console.log(`[WEBHOOK] Posting to URL: ${url}`);
 
     // Always stamp company on the outbound payload so the receiver's
     // resolveCompanyFromPayload picks WYNN even if the caller forgot.
@@ -574,21 +570,18 @@ async function postToWebhook(fields, source = "website") {
       },
     );
 
-    console.log(`[WEBHOOK] ✓ Response status: ${response.status}`);
-    console.log(
-      `[WEBHOOK] ✓ Response data:`,
-      JSON.stringify(response.data, null, 2),
-    );
-    console.log(`[WEBHOOK] ========== END postToWebhook ==========`);
+    console.log("[WEBHOOK] Lead response", {
+      status: response.status,
+      ok: response.data?.ok === true,
+      accepted: response.data?.accepted === true,
+    });
     return response.data;
   } catch (err) {
-    console.error(`[WEBHOOK] ✗ Error: ${err.message}`);
-    console.error(`[WEBHOOK] ✗ Error code: ${err.code || "N/A"}`);
-    console.error(
-      `[WEBHOOK] ✗ Response status: ${err.response?.status || "N/A"}`,
-    );
-    console.error(`[WEBHOOK] ✗ Response data:`, err.response?.data || "N/A");
-    console.log(`[WEBHOOK] ========== END postToWebhook (ERROR) ==========`);
+    console.error("[WEBHOOK] Lead post failed", {
+      errorClass: err.name || "Error",
+      code: err.code || null,
+      status: err.response?.status || null,
+    });
     return { ok: false, error: err.message };
   }
 }
@@ -812,12 +805,17 @@ app.post("/api/lead-form", async (req, res) => {
     affiliateSub1, // ← new
     affiliateSub2, // ← new
     trustedFormCertUrl,
+    consentGiven,
   } = req.body;
 
   if (!debtAmount || !filedAllTaxes || !name || !phone || !email) {
     return res
       .status(400)
       .json({ error: "All required fields must be provided!" });
+  }
+
+  if (consentGiven !== true) {
+    return res.status(400).json({ error: "Consent is required." });
   }
 
   try {
@@ -832,6 +830,22 @@ app.post("/api/lead-form", async (req, res) => {
     const resolvedAffiliateNid = resolvedAffiliate.affiliateNid;
     const resolvedAffiliateClickId = resolvedAffiliate.affiliateClickId;
     const resolvedAffiliateReferer = resolvedAffiliate.affiliateReferer;
+    const isAffiliate = Boolean(resolvedAffiliateClickId);
+    const normalizedUtmSource = String(resolvedUtm.utmSource || "")
+      .trim()
+      .toLowerCase();
+    const trafficSource = isAffiliate
+      ? "affiliate"
+      : normalizedUtmSource || "direct";
+    const sourceName = isAffiliate
+      ? "Affiliate - OEV4LL6O"
+      : normalizedUtmSource === "google"
+        ? SOURCE_NAMES[34]
+        : normalizedUtmSource === "facebook"
+          ? SOURCE_NAMES[35]
+          : normalizedUtmSource === "tiktok"
+            ? SOURCE_NAMES[36]
+            : "Wynn Website";
 
     if (resolvedAffiliateClickId) {
       persistAffiliateClickIdServer(res, resolvedAffiliateClickId);
@@ -863,7 +877,20 @@ app.post("/api/lead-form", async (req, res) => {
         city: "",
         state: "",
         message,
-        trafficSource: resolvedAffiliatePartner ? "affiliate" : "direct",
+        trafficSource,
+        sourceName,
+        sourceUrl: resolvedUtm.landingPageUrl || "",
+        utmSource: resolvedUtm.utmSource || "",
+        utmMedium: resolvedUtm.utmMedium || "",
+        utmCampaign: resolvedUtm.utmCampaign || "",
+        utmTerm: resolvedUtm.utmTerm || "",
+        utmContent: resolvedUtm.utmContent || "",
+        gclid: resolvedUtm.gclid || "",
+        gbraid: resolvedUtm.gbraid || "",
+        wbraid: resolvedUtm.wbraid || "",
+        landingPageUrl: resolvedUtm.landingPageUrl || "",
+        referrerUrl: resolvedUtm.referrerUrl || "",
+        consentGiven: true,
         affiliatePartner: resolvedAffiliatePartner,
         affiliateNid: resolvedAffiliateNid,
         affiliateClickId: resolvedAffiliateClickId,
@@ -871,15 +898,21 @@ app.post("/api/lead-form", async (req, res) => {
         affiliateHasClickId: !!resolvedAffiliateClickId,
         affiliateSub1: affiliateSub1 || "",
         affiliateSub2: affiliateSub2 || "",
-        trustedFormCertUrl: trustedFormCertUrl || "", // ← add
+        trustedFormCertUrl: trustedFormCertUrl || "",
       },
-      "lead-form-affiliate",
+      isAffiliate ? "affiliate" : "website",
     );
 
-    console.log(
-      "[LEAD-FORM] ✓ Webhook:",
-      webhookResult.ok ? "Success" : webhookResult.error,
-    );
+    console.log("[LEAD-FORM] Webhook result", {
+      ok: webhookResult.ok === true,
+      accepted: webhookResult.accepted === true,
+    });
+
+    if (!webhookResult.ok) {
+      return res.status(502).json({
+        error: "We could not confirm your request. Please try again.",
+      });
+    }
 
     let affiliatePostbackResult = {
       ok: false,
@@ -903,33 +936,9 @@ app.post("/api/lead-form", async (req, res) => {
     }
     clearFormTrackingCookie(res, "landing-popup");
 
-    const FormSubmission = require("./models/FormSubmission");
-    await FormSubmission.updateOne(
-      {
-        formType: "landing-popup",
-        "formData.email": email,
-        status: "abandoned",
-      },
-      {
-        $set: {
-          status: "submitted",
-          formData: {
-            debtAmount,
-            filedAllTaxes,
-            name,
-            phone,
-            email,
-            bestTime,
-            affiliateClickId: resolvedAffiliateClickId,
-            affiliatePartner: resolvedAffiliatePartner,
-            affiliateNid: resolvedAffiliateNid,
-          },
-        },
-      },
-    );
-
     return res.status(200).json({
       success: "Lead form submitted successfully!",
+      submissionReceipt: crypto.randomUUID(),
       affiliate: {
         clickIdCaptured: !!resolvedAffiliateClickId,
         nidCaptured: !!resolvedAffiliateNid,
@@ -941,7 +950,9 @@ app.post("/api/lead-form", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("[LEAD-FORM] Error:", error?.message || error);
+    console.error("[LEAD-FORM] Request failed", {
+      errorClass: error?.name || "Error",
+    });
     return res
       .status(500)
       .json({ error: "Error processing lead form. Try again later." });

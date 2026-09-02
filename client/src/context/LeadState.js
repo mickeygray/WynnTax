@@ -14,7 +14,6 @@ const LeadState = (props) => {
   }, []);
 
   const sendEmail = async (emailPayload) => {
-    console.log(emailPayload);
     dispatch({ type: "SENDING_EMAILS" });
     try {
       const response = await axios.post("/api/contact-form", {
@@ -35,11 +34,15 @@ const LeadState = (props) => {
         ...formData,
         utm: getUtmParams(),
       });
-      console.log("Form Data:", formData);
-      dispatch({ type: "FORM_SENT", payload: response.data.message });
+      dispatch({
+        type: "FORM_SENT",
+        payload: response.data.message || response.data.success,
+      });
+      return response.data;
     } catch (error) {
       console.error("Error sending lead form:", error);
       dispatch({ type: "FORM_ERROR", payload: "Failed to send form data." });
+      throw error;
     }
   };
 

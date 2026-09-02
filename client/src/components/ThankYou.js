@@ -1,28 +1,66 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import leadContext from "../context/leadContext";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import PhoneLink from "./PhoneLink";
+import SEO from "./SEO";
+import {
+  getSubmissionReceipt,
+  hasTrackedSubmissionReceipt,
+  markSubmissionReceiptTracked,
+} from "../utils/submissionReceipt";
 
 const ThankYou = () => {
-  const [showPopup, setShowPopup] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const navigationReceipt = location.state?.submissionReceipt;
+
   useEffect(() => {
-    window.gtag &&
-      window.gtag("event", "conversion", {
-        send_to: "AW-16728121004/alH8CODZhIEbEKy9y6g-",
-        value: 1.0,
-        currency: "USD",
-      });
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const receipt =
+      String(navigationReceipt || "").trim() || getSubmissionReceipt();
+    if (!receipt) {
+      navigate("/qualify-now", { replace: true });
+      return undefined;
+    }
+
+    let attempts = 0;
+    const sendConversion = () => {
+      attempts += 1;
+      if (window.gtag && !hasTrackedSubmissionReceipt(receipt)) {
+        window.gtag("event", "conversion", {
+          send_to: "AW-16728121004/alH8CODZhIEbEKy9y6g-",
+          value: 1.0,
+          currency: "USD",
+          transaction_id: receipt,
+        });
+        markSubmissionReceiptTracked(receipt);
+        return true;
+      }
+      return hasTrackedSubmissionReceipt(receipt) || attempts >= 20;
     };
 
+    const conversionTimer = sendConversion()
+      ? null
+      : window.setInterval(() => {
+          if (sendConversion()) window.clearInterval(conversionTimer);
+        }, 250);
+
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
+    return () => {
+      if (conversionTimer) window.clearInterval(conversionTimer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [navigationReceipt, navigate]);
 
   return (
     <div className="landing-page-root">
+      <SEO
+        title="Request Received | Wynn Tax Solutions"
+        description="Your consultation request was received by Wynn Tax Solutions."
+        canonical="/thank-you"
+        noindex
+      />
       <div className="landing-page-content">
         {/* Hero Section */}
         <section className="landing-page-hero">
@@ -79,10 +117,10 @@ const ThankYou = () => {
                 src="https://d9hhrg4mnvzow.cloudfront.net/hire.wynntaxsolutions.com/consultation/a9bbfa4e-frame-15031-1.svg"
                 alt="Guaranteed compliance icon"
               />
-              <h3 className="step-title">Guaranteed Compliance</h3>
+              <h3 className="step-title">Compliance Review</h3>
               <p className="step-description">
-                As part of our commitment to you we will make sure your filings
-                are correct and current.
+                If you engage us, we review filing requirements and explain the
+                work needed to become current.
               </p>
             </div>
             <div className="step">
@@ -91,10 +129,10 @@ const ThankYou = () => {
                 src="https://d9hhrg4mnvzow.cloudfront.net/hire.wynntaxsolutions.com/consultation/a9bbfa4e-frame-15031-1.svg"
                 alt="Best resolution icon"
               />
-              <h3 className="step-title">Best Resolution</h3>
+              <h3 className="step-title">Resolution Options</h3>
               <p className="step-description">
-                Where possible we will reduce your liability by aggressive
-                application of tax law.
+                We evaluate the resolution paths available for your specific
+                facts and explain the tradeoffs.
               </p>
             </div>
           </section>
@@ -103,8 +141,8 @@ const ThankYou = () => {
           <div className="features-header">
             <h2 className="features-title">What makes Wynn Tax Different?</h2>
             <p className="features-subtitle">
-              Our Attorneys are some of the best in the nation with decades of
-              tax experience
+              Our tax professionals review each matter based on its individual
+              facts and available options.
             </p>
           </div>
 
@@ -129,20 +167,20 @@ const ThankYou = () => {
               <div className="feature-box">
                 <span className="feature-icon">✔</span>
                 <div className="feature-text">
-                  <h4 className="feature-title">Quick and Accurate Results</h4>
+                  <h4 className="feature-title">Prompt Case Review</h4>
                   <p className="feature-description">
-                    We will help you fix your state and federal tax liabilities
-                    starting on day one.
+                    We help you understand the next steps for state and federal
+                    tax matters.
                   </p>
                 </div>
               </div>
               <div className="feature-box">
                 <span className="feature-icon">✔</span>
                 <div className="feature-text">
-                  <h4 className="feature-title">100% Guarantee</h4>
+                  <h4 className="feature-title">Clear Engagement Terms</h4>
                   <p className="feature-description">
-                    We will provide a resolution to your case, and if you aren't
-                    satisfied you can have your money back.
+                    Before paid work begins, we explain the proposed scope and
+                    fees in writing.
                   </p>
                 </div>
               </div>
@@ -228,8 +266,8 @@ const ThankYou = () => {
               Take the Next Step Toward Tax Relief
             </h2>
             <p className="landing-callout-subtitle">
-              Our experts are ready to help you reduce and resolve your IRS tax
-              liability.
+              Our team is ready to review your IRS tax matter and explain the
+              available next steps.
             </p>
             <PhoneLink
               rawNumber="18449966829"

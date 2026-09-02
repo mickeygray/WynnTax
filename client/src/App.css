@@ -8905,6 +8905,51 @@ a.stp__pill-value i {
   color: var(--lp-gray-500);
 }
 
+.landing-popup-form .landing-popup-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.25rem 0 1rem;
+  color: #444;
+  font-size: 0.73rem;
+  line-height: 1.35;
+}
+
+.landing-popup-form .landing-popup-consent input[type="checkbox"] {
+  width: auto;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.landing-popup-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.landing-popup-error {
+  margin: 0.75rem 0 0;
+  color: #a61b1b;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.lp-form__error {
+  margin: 0;
+  color: #a61b1b;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.lp-form__disclosure {
+  margin: 0.8rem 0 0;
+  color: #59636e;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    PROBLEMS SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -9351,6 +9396,11 @@ a.stp__pill-value i {
   max-width: 700px;
   margin: 0 auto 16px;
   line-height: 1.6;
+}
+
+.lp__footer-disclaimer a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .lp__footer-links {

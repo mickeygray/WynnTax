@@ -2,11 +2,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import leadContext from "../context/leadContext";
 import { useNavigate, Link } from "react-router-dom";
-import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
-import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 import SEO from "./SEO";
 import { Helmet } from "react-helmet-async";
 import { useTrustedForm } from "../hooks/useTrustedForm";
+import { storeSubmissionReceipt } from "../utils/submissionReceipt";
 
 const AFFILIATE_CLICK_KEYS = [
   "source_id",
@@ -118,7 +117,7 @@ function getStoredAffiliateNid() {
 
   return "";
 }
-const LeadForm = ({ variant = "hero" }) => {
+const LeadForm = () => {
   // ── Affiliate capture + form pre-fill from URL params ───────
   const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   useEffect(() => {
@@ -131,24 +130,20 @@ const LeadForm = ({ variant = "hero" }) => {
     if (incomingClickId) {
       persistAffiliateClickId(incomingClickId);
       setAffiliateClickId(incomingClickId);
-      console.log("[AFFILIATE] Captured click ID from URL:", incomingClickId);
     } else {
       const storedClickId = getStoredAffiliateClickId();
       if (storedClickId) {
         setAffiliateClickId(storedClickId);
-        console.log("[AFFILIATE] Loaded click ID from storage:", storedClickId);
       }
     }
 
     if (incomingNid) {
       persistAffiliateNid(incomingNid);
       setAffiliateNid(incomingNid);
-      console.log("[AFFILIATE] Captured nid from URL:", incomingNid);
     } else {
       const storedNid = getStoredAffiliateNid();
       if (storedNid) {
         setAffiliateNid(storedNid);
-        console.log("[AFFILIATE] Loaded nid from storage:", storedNid);
       }
     }
 
@@ -178,7 +173,6 @@ const LeadForm = ({ variant = "hero" }) => {
     }
 
     if (hasAny) {
-      console.log("[AFFILIATE] Pre-filling form from URL params:", prefill);
       setFormData((prev) => ({ ...prev, ...prefill }));
 
       if (prefill.debtAmount && prefill.filedAllTaxes) {
@@ -189,7 +183,8 @@ const LeadForm = ({ variant = "hero" }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
   const [step, setStep] = useState(1);
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [consentChecked, setConsentChecked] = useState(false);
   const [formData, setFormData] = useState({
     debtAmount: "",
@@ -200,45 +195,46 @@ const LeadForm = ({ variant = "hero" }) => {
   });
   const [affiliateClickId, setAffiliateClickId] = useState("");
   const [affiliateNid, setAffiliateNid] = useState("");
-  const [affiliateSub1, setAffiliateSub1] = useState("");
-  const [affiliateSub2, setAffiliateSub2] = useState("");
-  useFormTracking(formData, `landing-${variant}`, !submitted);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (!submitted && (formData.debtAmount || formData.email)) {
-        trackFormAbandon(`landing-${variant}`, formData);
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [formData, submitted, variant]);
+  const [affiliateSub1] = useState("");
+  const [affiliateSub2] = useState("");
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!consentChecked) return;
+    if (!consentChecked || isSubmitting) return;
 
-    setSubmitted(true);
-    sendLeadForm({
-      ...formData,
-      consentGiven: true,
-      affiliateClickId: affiliateClickId || getStoredAffiliateClickId(),
-      affiliateNid: affiliateNid || getStoredAffiliateNid(),
-      affiliateSub1: affiliateSub1,
-      affiliateSub2: affiliateSub2,
-      trustedFormCertUrl: certUrl, // ← ADD THIS
-    });
-    trackCustomEvent("LandingFormSubmitted", {
-      source: "LandingPage1",
-      has_email: !!formData.email,
-      has_phone: !!formData.phone,
-      debt_amount: formData.debtAmount || null,
-    });
-    trackStandardEvent("Lead");
-    navigate("/thank-you");
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const result = await sendLeadForm({
+        ...formData,
+        consentGiven: true,
+        affiliateClickId: affiliateClickId || getStoredAffiliateClickId(),
+        affiliateNid: affiliateNid || getStoredAffiliateNid(),
+        affiliateSub1,
+        affiliateSub2,
+        trustedFormCertUrl: certUrl,
+      });
+
+      const receipt = String(result?.submissionReceipt || "").trim();
+      if (!receipt) {
+        throw new Error("Submission receipt was not available");
+      }
+      storeSubmissionReceipt(receipt);
+
+      navigate("/thank-you", {
+        replace: true,
+        state: { submissionReceipt: receipt },
+      });
+    } catch {
+      setSubmitError(
+        "We could not confirm your request. Please try again or call (844) 996-6829.",
+      );
+      setIsSubmitting(false);
+    }
   };
 
   const isStep1Valid = formData.debtAmount && formData.filedAllTaxes;
@@ -373,15 +369,22 @@ const LeadForm = ({ variant = "hero" }) => {
           <button
             type="submit"
             className="lp-form__btn lp-form__btn--submit"
-            disabled={!isStep2Valid}
+            disabled={!isStep2Valid || isSubmitting}
           >
-            Get My Free Consultation
+            {isSubmitting ? "Submitting…" : "Get My Free Consultation"}
           </button>
+
+          {submitError && (
+            <p className="lp-form__error" role="alert">
+              {submitError}
+            </p>
+          )}
 
           <button
             type="button"
             className="lp-form__back"
             onClick={() => setStep(1)}
+            disabled={isSubmitting}
           >
             ← Back
           </button>
@@ -389,9 +392,15 @@ const LeadForm = ({ variant = "hero" }) => {
       )}
 
       <div className="lp-form__trust">
-        <span>🔒 256-bit Encryption</span>
+        <span>🔒 Secure Form</span>
         <span>✓ No Obligation</span>
       </div>
+      <p className="lp-form__disclosure">
+        Wynn Tax Solutions is a private tax resolution firm, not the IRS or a
+        government agency. The consultation is free. If services are
+        recommended, scope and fees are provided in writing before engagement.
+        Results vary by circumstances.
+      </p>
     </div>
   );
 };
@@ -402,10 +411,10 @@ const LeadForm = ({ variant = "hero" }) => {
  */
 const LandingPage1 = () => {
   return (
-    <div className="lp">
+    <div className="lp" id="top">
       <SEO
-        title="IRS Tax Debt Relief | Free Consultation | Wynn Tax Solutions"
-        description="Owe the IRS $10,000+? You may qualify for tax relief programs. Get a free, confidential consultation with our tax experts today."
+        title="IRS Tax Resolution Consultation | Wynn Tax Solutions"
+        description="Discuss IRS tax debt, unfiled returns, liens, levies, and available resolution options with Wynn Tax Solutions. Start with a free, confidential consultation."
         canonical="/qualify-now"
       />
       <Helmet>
@@ -435,7 +444,12 @@ const LandingPage1 = () => {
       ══════════════════════════════════════════════════════════════ */}
       <section className="lp__hero">
         <div className="lp__hero-bg">
-          <img src="/images/wynn-landing-hero.png" alt="" aria-hidden="true" />
+          <img
+            src="/images/wynn-landing-hero.png"
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+          />
           <div className="lp__hero-overlay" />
         </div>
 
@@ -444,12 +458,12 @@ const LandingPage1 = () => {
           <div className="lp__hero-header">
             <div className="lp__urgency-badge">
               <span className="lp__urgency-dot" />
-              Limited Time: IRS Fresh Start Program Available
+              Confidential IRS Tax Resolution Consultation
             </div>
 
             <h1 className="lp__headline">
-              Owe The IRS <span className="lp__highlight">$10,000+</span>? You
-              May Qualify For Relief.
+              Owe The IRS <span className="lp__highlight">$10,000+</span>?
+              Understand Your Resolution Options.
             </h1>
           </div>
 
@@ -463,36 +477,36 @@ const LandingPage1 = () => {
             {/* RIGHT - Supporting info */}
             <div className="lp__hero-right">
               <p className="lp__subheadline">
-                Our tax attorneys have helped 2,000+ Americans resolve over $50
-                million in IRS debt. Find out if you qualify in under 60
-                seconds.
+                Wynn Tax Solutions helps individuals and businesses review
+                federal and state tax matters and understand the available next
+                steps.
               </p>
 
               <div className="lp__hero-proof">
                 <div className="lp__proof-item">
-                  <span className="lp__proof-number">$50M+</span>
-                  <span className="lp__proof-label">Tax Debt Resolved</span>
+                  <span className="lp__proof-number">Federal</span>
+                  <span className="lp__proof-label">IRS Tax Matters</span>
                 </div>
                 <div className="lp__proof-divider" />
                 <div className="lp__proof-item">
-                  <span className="lp__proof-number">98%</span>
-                  <span className="lp__proof-label">Success Rate</span>
+                  <span className="lp__proof-number">State</span>
+                  <span className="lp__proof-label">Tax Matters</span>
                 </div>
                 <div className="lp__proof-divider" />
                 <div className="lp__proof-item">
-                  <span className="lp__proof-number">A+</span>
-                  <span className="lp__proof-label">BBB Rating</span>
+                  <span className="lp__proof-number">Nationwide</span>
+                  <span className="lp__proof-label">Consultations</span>
                 </div>
               </div>
 
               <div className="lp__hero-trust">
                 <div className="lp__trust-item">
-                  <span className="lp__trust-icon">⚖️</span>
-                  <span>Licensed Tax Attorneys</span>
+                  <span className="lp__trust-icon">📋</span>
+                  <span>Individual Case Review</span>
                 </div>
                 <div className="lp__trust-item">
                   <span className="lp__trust-icon">🛡️</span>
-                  <span>100% Money-Back Guarantee</span>
+                  <span>Written Scope &amp; Fees</span>
                 </div>
                 <div className="lp__trust-item">
                   <span className="lp__trust-icon">🇺🇸</span>
@@ -521,12 +535,12 @@ const LandingPage1 = () => {
             <div className="lp__problem">
               <div className="lp__problem-icon">⚠️</div>
               <h3>Wage Garnishment</h3>
-              <p>The IRS is taking money directly from your paycheck</p>
+              <p>You received notice of an IRS wage levy</p>
             </div>
             <div className="lp__problem">
               <div className="lp__problem-icon">🏦</div>
               <h3>Bank Levy</h3>
-              <p>Your bank account has been frozen or seized</p>
+              <p>You received notice involving funds in a bank account</p>
             </div>
             <div className="lp__problem">
               <div className="lp__problem-icon">🏠</div>
@@ -536,7 +550,7 @@ const LandingPage1 = () => {
             <div className="lp__problem">
               <div className="lp__problem-icon">📬</div>
               <h3>IRS Letters</h3>
-              <p>You're receiving threatening notices from the IRS</p>
+              <p>You're receiving collection or balance-due notices</p>
             </div>
             <div className="lp__problem">
               <div className="lp__problem-icon">📋</div>
@@ -551,9 +565,9 @@ const LandingPage1 = () => {
           </div>
 
           <p className="lp__problems-cta">
-            <strong>You're not alone.</strong> Millions of Americans face IRS
-            problems every year. The good news? There are legitimate programs
-            that can help.
+            <strong>You have options.</strong> The appropriate path depends on
+            filing status, finances, collection activity, and the facts of the
+            case.
           </p>
         </div>
       </section>
@@ -567,53 +581,52 @@ const LandingPage1 = () => {
             <div className="lp__solution-content">
               <span className="lp__eyebrow">The Wynn Tax Difference</span>
               <h2 className="lp__section-title lp__section-title--left">
-                We Fight The IRS <em>For</em> You
+                We Represent Your Interests <em>Before</em> The IRS
               </h2>
               <p className="lp__solution-text">
-                When you work with Wynn Tax Solutions, you're not just getting
-                tax help—you're getting a dedicated team of tax attorneys and
-                enrolled agents who will go head-to-head with the IRS on your
-                behalf.
+                If you engage Wynn Tax Solutions, our tax professionals review
+                your records, explain available paths, and represent you within
+                the agreed scope of work.
               </p>
 
               <ul className="lp__benefits">
                 <li>
                   <span className="lp__benefit-check">✓</span>
                   <div>
-                    <strong>Stop IRS Collections</strong>
+                    <strong>Address Collection Action</strong>
                     <p>
-                      We can halt wage garnishments, bank levies, and liens
-                      while we work your case
+                      We review notices, deadlines, and available responses to
+                      levies, garnishments, and liens
                     </p>
                   </div>
                 </li>
                 <li>
                   <span className="lp__benefit-check">✓</span>
                   <div>
-                    <strong>Reduce What You Owe</strong>
+                    <strong>Evaluate Resolution Options</strong>
                     <p>
-                      Many clients settle for a fraction of their original tax
-                      debt
+                      We evaluate payment plans, penalty relief, offers in
+                      compromise, and other options when applicable
                     </p>
                   </div>
                 </li>
                 <li>
                   <span className="lp__benefit-check">✓</span>
                   <div>
-                    <strong>Get Current & Stay Current</strong>
+                    <strong>Work Toward Compliance</strong>
                     <p>
-                      We file any missing returns and set you up for ongoing
-                      compliance
+                      We identify missing returns and other filing requirements
+                      that may need to be addressed
                     </p>
                   </div>
                 </li>
                 <li>
                   <span className="lp__benefit-check">✓</span>
                   <div>
-                    <strong>100% Satisfaction Guarantee</strong>
+                    <strong>Understand Scope &amp; Fees</strong>
                     <p>
-                      If you're not satisfied with our services, we'll refund
-                      your money
+                      Recommended services, scope, and fees are provided in
+                      writing before engagement
                     </p>
                   </div>
                 </li>
@@ -635,7 +648,7 @@ const LandingPage1 = () => {
           <span className="lp__eyebrow lp__eyebrow--center">
             Simple 3-Step Process
           </span>
-          <h2 className="lp__section-title">How We Resolve Your Tax Debt</h2>
+          <h2 className="lp__section-title">How The Review Process Works</h2>
 
           <div className="lp__steps">
             <div className="lp__step">
@@ -643,9 +656,8 @@ const LandingPage1 = () => {
               <div className="lp__step-content">
                 <h3>Free Consultation</h3>
                 <p>
-                  We review your situation, call the IRS on your behalf, and
-                  determine exactly what programs you qualify for—at no cost or
-                  obligation.
+                  We review the information you provide and discuss the tax
+                  issue during a no-cost, no-obligation consultation.
                 </p>
               </div>
             </div>
@@ -657,8 +669,8 @@ const LandingPage1 = () => {
               <div className="lp__step-content">
                 <h3>Investigation & Strategy</h3>
                 <p>
-                  We file a Power of Attorney, pull your tax records, and build
-                  a comprehensive strategy to minimize your liability.
+                  If you engage us, we obtain the authorized records needed to
+                  evaluate the matter and develop a case strategy.
                 </p>
               </div>
             </div>
@@ -670,8 +682,8 @@ const LandingPage1 = () => {
               <div className="lp__step-content">
                 <h3>Resolution</h3>
                 <p>
-                  We negotiate with the IRS to settle your debt, set up a
-                  manageable payment plan, or achieve penalty abatement.
+                  We pursue the agreed resolution path and keep you informed.
+                  Available options and outcomes depend on your circumstances.
                 </p>
               </div>
             </div>
@@ -684,45 +696,40 @@ const LandingPage1 = () => {
       ══════════════════════════════════════════════════════════════ */}
       <section className="lp__testimonials">
         <div className="lp__container">
-          <span className="lp__eyebrow lp__eyebrow--center">Real Results</span>
-          <h2 className="lp__section-title">What Our Clients Say</h2>
+          <span className="lp__eyebrow lp__eyebrow--center">What To Expect</span>
+          <h2 className="lp__section-title">A Clear, Case-Specific Review</h2>
 
           <div className="lp__testimonials-grid">
             <div className="lp__testimonial">
-              <div className="lp__testimonial-stars">★★★★★</div>
+              <h3>Listen First</h3>
               <blockquote>
-                "I owed the IRS over $47,000. Wynn Tax got it reduced to under
-                $8,000. I couldn't believe it. They saved my business and my
-                sanity."
+                We start with the facts of your tax matter, your filing status,
+                and any active collection notices.
               </blockquote>
               <div className="lp__testimonial-author">
-                <strong>Michael R.</strong>
-                <span>Small Business Owner, Texas</span>
+                <strong>No one-size-fits-all promises</strong>
               </div>
             </div>
 
             <div className="lp__testimonial">
-              <div className="lp__testimonial-stars">★★★★★</div>
+              <h3>Explain The Options</h3>
               <blockquote>
-                "After years of ignoring IRS letters, I was terrified. Wynn Tax
-                handled everything. They filed my back taxes and negotiated a
-                payment plan I can actually afford."
+                We explain which resolution paths may be available, what they
+                require, and what the next steps would be.
               </blockquote>
               <div className="lp__testimonial-author">
-                <strong>Sarah K.</strong>
-                <span>Freelance Designer, California</span>
+                <strong>Plain-language guidance</strong>
               </div>
             </div>
 
             <div className="lp__testimonial">
-              <div className="lp__testimonial-stars">★★★★★</div>
+              <h3>Put It In Writing</h3>
               <blockquote>
-                "The IRS was garnishing my wages. Within 2 weeks of hiring Wynn
-                Tax, the garnishment stopped. They gave me my life back."
+                If paid services are recommended, the proposed scope and fees
+                are provided before you decide whether to proceed.
               </blockquote>
               <div className="lp__testimonial-author">
-                <strong>David M.</strong>
-                <span>Sales Manager, Florida</span>
+                <strong>No obligation to hire us</strong>
               </div>
             </div>
           </div>
@@ -730,7 +737,7 @@ const LandingPage1 = () => {
           <div className="lp__trust-logos">
             <img
               src="/images/bbb-accredited-business.png"
-              alt="BBB Accredited Business A+"
+              alt="BBB Accredited Business"
             />
           </div>
         </div>
@@ -744,10 +751,9 @@ const LandingPage1 = () => {
           <div className="lp__credentials-grid">
             <div className="lp__credential">
               <div className="lp__credential-icon">⚖️</div>
-              <h3>Licensed Tax Attorneys</h3>
+              <h3>Tax Resolution Team</h3>
               <p>
-                Our team includes attorneys with decades of IRS negotiation
-                experience
+                Professionals focused on federal and state tax matters
               </p>
             </div>
             <div className="lp__credential">
@@ -768,8 +774,8 @@ const LandingPage1 = () => {
             </div>
             <div className="lp__credential">
               <div className="lp__credential-icon">🛡️</div>
-              <h3>Money-Back Guarantee</h3>
-              <p>We stand behind our work with a 100% satisfaction guarantee</p>
+              <h3>Written Engagement Terms</h3>
+              <p>Review the proposed services and fees before work begins</p>
             </div>
           </div>
         </div>
@@ -781,11 +787,10 @@ const LandingPage1 = () => {
       <section className="lp__final-cta">
         <div className="lp__container">
           <div className="lp__final-cta-content">
-            <h2>Don't Wait Until It's Too Late</h2>
+            <h2>Start With A Clear Review</h2>
             <p>
-              The IRS won't stop until they collect. Every day you wait,
-              penalties and interest keep growing. Take the first step toward
-              tax relief today.
+              A consultation can help you understand notices, deadlines, and
+              the resolution paths that may fit your circumstances.
             </p>
 
             <div className="lp__final-cta-actions">
@@ -800,7 +805,7 @@ const LandingPage1 = () => {
 
             <p className="lp__final-cta-reassurance">
               ✓ Free consultation &nbsp;&nbsp; ✓ No obligation &nbsp;&nbsp; ✓
-              100% confidential
+              Confidential consultation
             </p>
           </div>
         </div>
@@ -820,6 +825,16 @@ const LandingPage1 = () => {
             Solutions is a tax resolution firm and is not affiliated with the
             IRS or any government agency. Results vary based on individual
             circumstances.
+          </p>
+          <p className="lp__footer-disclaimer">
+            21625 Prairie Street, Suite 200, Chatsworth, CA 91311 ·{" "}
+            <a
+              href="https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View our BBB profile
+            </a>
           </p>
           <div className="lp__footer-links">
             <Link to="/privacy-policy">Privacy Policy</Link>

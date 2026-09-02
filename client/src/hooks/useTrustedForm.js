@@ -15,7 +15,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const TRUSTEDFORM_FIELD_NAME = "xxTrustedFormCertUrl";
-const TRUSTEDFORM_TOKEN_FIELD = "xxTrustedFormToken";
 
 export function useTrustedForm() {
   const [certUrl, setCertUrl] = useState("");
@@ -45,7 +44,6 @@ export function useTrustedForm() {
     document.body.appendChild(script);
     scriptLoaded.current = true;
 
-    console.log("[TRUSTEDFORM] Script loaded");
   }, []);
 
   // Poll for the cert URL after script loads
@@ -71,7 +69,6 @@ export function useTrustedForm() {
           setToken(match[1]);
         }
 
-        console.log("[TRUSTEDFORM] ✓ Cert URL captured:", field.value);
         clearInterval(interval);
         return;
       }

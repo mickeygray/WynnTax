@@ -73,7 +73,7 @@ jobs:
             cd "$REPO_PATH"
             echo "=== git pull ==="
             git fetch --all
-            git reset --hard origin/main
+            git reset --hard origin/master
             echo "=== install (runs client build via root install hook) ==="
             npm install
             echo "=== restart ==="
@@ -99,8 +99,8 @@ jobs:
             # Narrow to just content paths. Adjust this list if your content
             # lives elsewhere (e.g. add client/public or library/ if that
             # folder is where you stage editable text).
-            git checkout origin/main -- client/src/pages client/src/content 2>/dev/null || \
-              git checkout origin/main -- client/public library || true
+            git checkout origin/master -- client/src/pages client/src/content 2>/dev/null || \
+              git checkout origin/master -- client/public library || true
             echo "content push complete — no service restart"
 
       - name: Restart service

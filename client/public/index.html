@@ -13,7 +13,6 @@
       name="keywords"
       content="tax relief, IRS tax help, tax resolution, tax debt relief, offer in compromise, wage garnishment relief, tax preparation, back taxes help, IRS negotiation, tax attorney, Wynn Tax Solutions"
     />
-    <link rel="stylesheet" href="/main.css" />
     <meta name="author" content="Wynn Tax Solutions" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="en" />
@@ -94,7 +93,11 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
+      gtag("set", "allow_ad_personalization_signals", false);
       gtag("config", "G-2Q0D9HSZ1S");
+      gtag("config", "AW-16728121004", {
+        allow_ad_personalization_signals: false,
+      });
     </script>
 
     <!-- Structured Data: Organization -->
@@ -134,13 +137,11 @@
                 "addressCountry": "US"
               },
               "sameAs": [
-           "sameAs": [
-        "https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121",
-        "https://www.yelp.com/biz/wynn-tax-solutions-irvine",
-        "https://www.facebook.com/wynntaxsolutions",
-        "https://www.tiktok.com/@wynntaxsolutions",
-        "https://www.instagram.com/wynntaxsolutions"
-      ],
+                "https://www.bbb.org/us/ca/chatsworth/profile/tax-consultant/wynn-tax-solutions-inc-1216-1000042121",
+                "https://www.yelp.com/biz/wynn-tax-solutions-irvine",
+                "https://www.facebook.com/wynntaxsolutions",
+                "https://www.tiktok.com/@wynntaxsolutions",
+                "https://www.instagram.com/wynntaxsolutions"
               ],
               "hasOfferCatalog": {
                 "@type": "OfferCatalog",
@@ -179,13 +180,6 @@
                     }
                   }
                 ]
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.3",
-                "reviewCount": "11",
-                "bestRating": "5",
-                "worstRating": "1"
               }
             }
     </script>
@@ -241,39 +235,34 @@
 
     <!-- Meta Pixel Code -->
     <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(
-        window,
-        document,
-        "script",
-        "https://connect.facebook.net/en_US/fbevents.js",
-      );
-      fbq("init", "1281331483719697");
-      fbq("track", "PageView");
+      if (!["/qualify-now", "/thank-you"].includes(window.location.pathname)) {
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(
+          window,
+          document,
+          "script",
+          "https://connect.facebook.net/en_US/fbevents.js",
+        );
+        fbq("init", "1281331483719697");
+        fbq("track", "PageView");
+      }
     </script>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display: none"
-        src="https://www.facebook.com/tr?id=1281331483719697&ev=PageView&noscript=1"
-    /></noscript>
     <!-- End Meta Pixel Code -->
 
     <!-- Favicon -->

@@ -93,44 +93,61 @@ const SOURCE_NAMES = {
 /* -------------------------------------------------------------------------- */
 
 function resolveUtm(clientUtm, req) {
-  console.log("[LOGICS:resolveUtm] Client UTM received:", clientUtm);
-
   const referer = req?.headers?.referer || req?.headers?.referrer || "";
-  console.log("[LOGICS:resolveUtm] Referer header:", referer || "(none)");
-
-  let backendSource = "";
-  let backendMedium = "";
-  let backendCampaign = "";
+  const clean = (value, maxLength = 500) =>
+    String(value || "").trim().slice(0, maxLength);
+  const fallback = {
+    utmSource: "",
+    utmMedium: "",
+    utmCampaign: "",
+    utmTerm: "",
+    utmContent: "",
+    gclid: "",
+    gbraid: "",
+    wbraid: "",
+    landingPageUrl: clean(referer, 2048),
+    referrerUrl: "",
+  };
 
   if (referer) {
     try {
       const p = new URL(referer).searchParams;
-      backendSource = p.get("utm_source") || "";
-      backendMedium = p.get("utm_medium") || "";
-      backendCampaign = p.get("utm_campaign") || "";
-      if (!backendSource) {
-        if (p.get("gclid")) backendSource = "google";
-        else if (p.get("fbclid")) backendSource = "facebook";
-        else if (p.get("ttclid")) backendSource = "tiktok";
+      fallback.utmSource = clean(p.get("utm_source"), 120);
+      fallback.utmMedium = clean(p.get("utm_medium"), 120);
+      fallback.utmCampaign = clean(p.get("utm_campaign"), 240);
+      fallback.utmTerm = clean(p.get("utm_term"), 240);
+      fallback.utmContent = clean(p.get("utm_content"), 240);
+      fallback.gclid = clean(p.get("gclid"), 256);
+      fallback.gbraid = clean(p.get("gbraid"), 256);
+      fallback.wbraid = clean(p.get("wbraid"), 256);
+      if (!fallback.utmSource) {
+        if (fallback.gclid || fallback.gbraid || fallback.wbraid) {
+          fallback.utmSource = "google";
+        } else if (p.get("fbclid")) fallback.utmSource = "facebook";
+        else if (p.get("ttclid")) fallback.utmSource = "tiktok";
       }
-      console.log("[LOGICS:resolveUtm] Parsed from Referer:", {
-        backendSource,
-        backendMedium,
-        backendCampaign,
-      });
-    } catch (e) {
-      console.log("[LOGICS:resolveUtm] Failed to parse Referer:", e.message);
-    }
+    } catch {}
   }
 
   const resolved = {
-    utmSource: clientUtm?.utmSource || backendSource, // TODO: remove "facebook" default after local testing
-    utmMedium: clientUtm?.utmMedium || backendMedium,
-    utmCampaign: clientUtm?.utmCampaign || backendCampaign,
-    referrerUrl: clientUtm?.referrerUrl || referer,
+    utmSource: clean(clientUtm?.utmSource || fallback.utmSource, 120),
+    utmMedium: clean(clientUtm?.utmMedium || fallback.utmMedium, 120),
+    utmCampaign: clean(clientUtm?.utmCampaign || fallback.utmCampaign, 240),
+    utmTerm: clean(clientUtm?.utmTerm || fallback.utmTerm, 240),
+    utmContent: clean(clientUtm?.utmContent || fallback.utmContent, 240),
+    gclid: clean(clientUtm?.gclid || fallback.gclid, 256),
+    gbraid: clean(clientUtm?.gbraid || fallback.gbraid, 256),
+    wbraid: clean(clientUtm?.wbraid || fallback.wbraid, 256),
+    landingPageUrl: clean(
+      clientUtm?.landingPageUrl || fallback.landingPageUrl,
+      2048,
+    ),
+    referrerUrl: clean(clientUtm?.referrerUrl || fallback.referrerUrl, 2048),
   };
 
-  console.log("[LOGICS:resolveUtm] Final resolved UTM:", resolved);
+  if (!resolved.utmMedium && resolved.utmSource === "google") {
+    resolved.utmMedium = "cpc";
+  }
   return resolved;
 }
 

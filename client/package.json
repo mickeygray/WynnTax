@@ -27,6 +27,7 @@
     "prebuild": "node scripts/generate-sitemap.js",
     "build": "react-scripts build",
     "postbuild": "react-snap",
+    "smoke:google": "node scripts/smoke-google-funnel.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,7 +40,6 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
-      "/thank-you",
       "/qualify-now",
       "/state-tax-guide",
       "/state-tax-guide/state-income-tax-help-alabama",

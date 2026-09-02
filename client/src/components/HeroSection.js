@@ -1,9 +1,10 @@
 // components/HeroSection.jsx
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import leadContext from "../context/leadContext";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
-import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+import { useTrustedForm } from "../hooks/useTrustedForm";
+import { storeSubmissionReceipt } from "../utils/submissionReceipt";
 
 /**
  * EmbeddedLeadForm - Reusable form component
@@ -11,8 +12,10 @@ import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
 export const EmbeddedLeadForm = ({ variant = "default" }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   const [step, setStep] = useState(1);
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [consentChecked, setConsentChecked] = useState(false);
   const [formData, setFormData] = useState({
     debtAmount: "",
@@ -23,39 +26,41 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
     bestTime: "",
   });
 
-  useFormTracking(formData, "embedded-hero", !submitted);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (!submitted && (formData.debtAmount || formData.email)) {
-        trackFormAbandon("embedded-hero", formData);
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [formData, submitted]);
-
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleNext = () => setStep(2);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Double-check consent is given
-    if (!consentChecked) return;
+    if (!consentChecked || isSubmitting) return;
 
-    setSubmitted(true);
-    sendLeadForm({ ...formData, consentGiven: true });
-    trackCustomEvent("LandingFormSubmitted", {
-      source: "EmbeddedHeroForm",
-      has_email: !!formData.email,
-      has_phone: !!formData.phone,
-      debt_amount: formData.debtAmount || null,
-    });
-    trackStandardEvent("Lead");
-    navigate("/thank-you");
+    setIsSubmitting(true);
+    setSubmitError("");
+    try {
+      const result = await sendLeadForm({
+        ...formData,
+        consentGiven: true,
+        trustedFormCertUrl: certUrl,
+      });
+      const receipt = String(result?.submissionReceipt || "").trim();
+      if (!receipt) {
+        throw new Error("Submission receipt was not available");
+      }
+      storeSubmissionReceipt(receipt);
+      trackCustomEvent("LandingFormSubmitted", { source: "EmbeddedHeroForm" });
+      trackStandardEvent("Lead");
+      navigate("/thank-you", {
+        replace: true,
+        state: { submissionReceipt: receipt },
+      });
+    } catch {
+      setSubmitError(
+        "We could not confirm your request. Please try again or call (844) 996-6829.",
+      );
+      setIsSubmitting(false);
+    }
   };
 
   // Check if step 2 form is valid (all required fields + consent)
@@ -137,6 +142,8 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
             </div>
           </div>
 
+          <input {...tfInputProps} />
+
           <button
             type="button"
             className="form-btn"
@@ -215,14 +222,20 @@ export const EmbeddedLeadForm = ({ variant = "default" }) => {
           <button
             type="submit"
             className="form-btn form-btn-submit"
-            disabled={!isStep2Valid}
+            disabled={!isStep2Valid || isSubmitting}
           >
-            Get Free Consultation
+            {isSubmitting ? "Submitting…" : "Get Free Consultation"}
           </button>
+          {submitError && (
+            <p className="form-error" role="alert">
+              {submitError}
+            </p>
+          )}
           <button
             type="button"
             className="form-btn-back"
             onClick={() => setStep(1)}
+            disabled={isSubmitting}
           >
             ← Back
           </button>
@@ -292,8 +305,19 @@ const HeroSection = () => {
       {/* ========== DESKTOP VERSION ========== */}
       <section className="hero hero-desktop-version">
         <div className="hero__media">
-          <video autoPlay muted loop playsInline className="hero__video">
-            <source src="/images/Wynn-Hero-01.mp4" type="video/mp4" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="hero__video"
+          >
+            <source
+              src="/images/Wynn-Hero-01.mp4"
+              type="video/mp4"
+              media="(min-width: 769px)"
+            />
           </video>
           <div className="hero__overlay"></div>
         </div>
@@ -335,8 +359,8 @@ const HeroSection = () => {
                   <span className="hero__stat-label">Clients Helped</span>
                 </div>
                 <div className="hero__stat">
-                  <span className="hero__stat-value">98%</span>
-                  <span className="hero__stat-label">Success Rate</span>
+                  <span className="hero__stat-value">Nationwide</span>
+                  <span className="hero__stat-label">Consultations</span>
                 </div>
               </div>
 

@@ -1,12 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import leadContext from "../context/leadContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { trackCustomEvent, trackStandardEvent } from "../utils/fbq";
-import { useFormTracking, trackFormAbandon } from "../hooks/useFormTracking";
+import { useTrustedForm } from "../hooks/useTrustedForm";
+import { storeSubmissionReceipt } from "../utils/submissionReceipt";
 
 const LandingPopupForm = ({ onClose }) => {
   const navigate = useNavigate();
   const { sendLeadForm } = useContext(leadContext);
+  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     debtAmount: "",
@@ -16,59 +18,54 @@ const LandingPopupForm = ({ onClose }) => {
     email: "",
     bestTime: "",
   });
-  const [submitted, setSubmitted] = useState(false);
-
-  // 🎯 Track form inputs (but don't restore)
-  useFormTracking(formData, "landing-popup", !submitted);
-
-  // 🎯 Track abandonment on close or page leave
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      // Only track if they entered something
-      if (
-        !submitted &&
-        (formData.debtAmount || formData.name || formData.email)
-      ) {
-        trackFormAbandon("landing-popup", formData);
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [formData, submitted]);
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleNext = () => setStep(2);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!consentChecked || isSubmitting) return;
 
-    const { debtAmount, filedAllTaxes, name, phone, email, bestTime } =
-      formData;
+    setIsSubmitting(true);
+    setSubmitError("");
+    try {
+      const result = await sendLeadForm({
+        ...formData,
+        consentGiven: true,
+        trustedFormCertUrl: certUrl,
+      });
+      const receipt = String(result?.submissionReceipt || "").trim();
+      if (!receipt) throw new Error("Submission receipt was not available");
 
-    // 🔹 Pixel: advanced lead form submitted
-
-    sendLeadForm(formData);
-    trackCustomEvent("LandingFormSubmitted", {
-      source: "AdvancedLeadForm", // identify this specific form
-      has_email: !!email,
-      has_phone: !!phone,
-      contact_type:
-        phone && email ? "both" : phone ? "phone" : email ? "email" : "none",
-      debt_amount: debtAmount || null,
-      filed_all_taxes: filedAllTaxes || null,
-      best_time: bestTime || null,
-    });
-    trackStandardEvent("Lead");
-    onClose();
-    navigate("/thank-you");
+      storeSubmissionReceipt(receipt);
+      trackCustomEvent("LandingFormSubmitted", { source: "AdvancedLeadForm" });
+      trackStandardEvent("Lead");
+      onClose();
+      navigate("/thank-you", {
+        replace: true,
+        state: { submissionReceipt: receipt },
+      });
+    } catch {
+      setSubmitError(
+        "We could not confirm your request. Please try again or call (844) 996-6829.",
+      );
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="landing-popup-overlay">
       <div className="landing-popup-form">
-        <button className="landing-popup-close" onClick={onClose}>
+        <button
+          className="landing-popup-close"
+          onClick={onClose}
+          disabled={isSubmitting}
+          aria-label="Close consultation form"
+        >
           ✕
         </button>
         {step === 1 && (
@@ -158,9 +155,36 @@ const LandingPopupForm = ({ onClose }) => {
               onChange={handleChange}
               placeholder="Best Time to Contact"
             />
-            <button type="submit" className="landing-popup-submit">
-              Submit
+            <label className="landing-popup-consent">
+              <input
+                type="checkbox"
+                checked={consentChecked}
+                onChange={(e) => setConsentChecked(e.target.checked)}
+                required
+              />
+              <span>
+                I consent to receive marketing calls, text messages, and emails
+                from Wynn Tax Solutions at the contact information I provided,
+                including via an automatic telephone dialing system and/or
+                artificial or prerecorded voice. Message and data rates may
+                apply. Consent is not a condition of purchase. View our{" "}
+                <Link to="/privacy-policy">Privacy Policy</Link> and{" "}
+                <Link to="/terms-of-service">Terms of Service</Link>.
+              </span>
+            </label>
+            <input {...tfInputProps} />
+            <button
+              type="submit"
+              className="landing-popup-submit"
+              disabled={!consentChecked || isSubmitting}
+            >
+              {isSubmitting ? "Submitting…" : "Submit"}
             </button>
+            {submitError && (
+              <p className="landing-popup-error" role="alert">
+                {submitError}
+              </p>
+            )}
           </form>
         )}
       </div>
