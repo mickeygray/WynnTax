@@ -197,7 +197,7 @@
     <script>
       const metaPixelPath =
         window.location.pathname.replace(/\/+$/, "") || "/";
-      if (!["/qualify-now", "/thank-you"].includes(metaPixelPath)) {
+      if (!["/tax-lien-help", "/qualify-now", "/thank-you"].includes(metaPixelPath)) {
         !(function (f, b, e, v, n, t, s) {
           if (f.fbq) return;
           n = f.fbq = function () {
@@ -238,7 +238,7 @@
     <script>
       (function () {
         var iconPath = window.location.pathname.replace(/\/+$/, "") || "/";
-        if (["/qualify-now", "/thank-you"].includes(iconPath)) return;
+        if (["/tax-lien-help", "/qualify-now", "/thank-you"].includes(iconPath)) return;
 
         var iconScript = document.createElement("script");
         iconScript.src = "https://kit.fontawesome.com/4192dfb4f5.js";

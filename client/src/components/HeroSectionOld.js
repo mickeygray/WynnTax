@@ -223,7 +223,7 @@ const HeroSection = () => {
             <Link to="/our-tax-services" className="hero-btn">
               <i className="fa-solid fa-folder"></i> OUR TAX SERVICES
             </Link>
-            <Link to="/qualify-now" className="hero-btn hero-consultation-btn">
+            <Link to="/tax-lien-help" className="hero-btn hero-consultation-btn">
               <i className="fa-solid fa-phone"></i> FREE CONSULTATION
             </Link>
           </div>

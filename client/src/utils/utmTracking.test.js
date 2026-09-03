@@ -3,14 +3,14 @@ import { captureUtmParams, getUtmParams } from "./utmTracking";
 describe("UTM tracking", () => {
   beforeEach(() => {
     sessionStorage.clear();
-    window.history.replaceState({}, "", "/qualify-now");
+    window.history.replaceState({}, "", "/tax-lien-help");
   });
 
   it("preserves Google click IDs and campaign dimensions", () => {
     window.history.replaceState(
       {},
       "",
-      "/qualify-now?gclid=click-123&utm_campaign=lien-search&utm_term=tax-help&utm_content=ad-a",
+      "/tax-lien-help?gclid=click-123&utm_campaign=lien-search&utm_term=tax-help&utm_content=ad-a",
     );
 
     captureUtmParams();
@@ -26,10 +26,10 @@ describe("UTM tracking", () => {
   });
 
   it("keeps the first touch for the browser session", () => {
-    window.history.replaceState({}, "", "/qualify-now?utm_source=google");
+    window.history.replaceState({}, "", "/tax-lien-help?utm_source=google");
     captureUtmParams();
 
-    window.history.replaceState({}, "", "/qualify-now?utm_source=facebook");
+    window.history.replaceState({}, "", "/tax-lien-help?utm_source=facebook");
     captureUtmParams();
 
     expect(getUtmParams().utmSource).toBe("google");

@@ -106,14 +106,14 @@ async function run() {
     });
 
     await page.goto(`${origin}/thank-you`, { waitUntil: "networkidle0" });
-    await page.waitForFunction(() => window.location.pathname === "/qualify-now");
+    await page.waitForFunction(() => window.location.pathname === "/tax-lien-help");
     if ((await conversionCount(page)) !== 0) {
       throw new Error("Direct thank-you visit fired a conversion");
     }
     await page.evaluate(() => sessionStorage.clear());
 
     apiMode = "failure";
-    await page.goto(`${origin}/qualify-now?gclid=smoke-click&utm_campaign=smoke`, {
+    await page.goto(`${origin}/tax-lien-help?gclid=smoke-click&utm_campaign=smoke`, {
       waitUntil: "networkidle0",
     });
     const headState = await page.evaluate(() => ({
@@ -161,7 +161,7 @@ async function run() {
     if ((await analyticsEventCount(page, "paid_lead_submit_error")) !== 1) {
       throw new Error("Paid form failure was not tracked");
     }
-    if (new URL(page.url()).pathname !== "/qualify-now") {
+    if (new URL(page.url()).pathname !== "/tax-lien-help") {
       throw new Error("Failed submission left the form page");
     }
     if ((await conversionCount(page)) !== 0) {

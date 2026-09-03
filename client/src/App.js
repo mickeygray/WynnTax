@@ -1,5 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 
 import PageViewTracker from "./components/PageViewTracker";
@@ -31,6 +37,11 @@ const PDFViewer = lazy(() => import("./components/PDFViewer"));
 const StateTaxHub = lazy(() => import("./components/StateTaxHub"));
 const StateTaxPage = lazy(() => import("./components/StateTaxPage"));
 
+function PaidLandingRedirect() {
+  const { search, hash } = useLocation();
+  return <Navigate to={`/tax-lien-help${search}${hash}`} replace />;
+}
+
 export default function App() {
   return (
     <LeadState>
@@ -50,7 +61,8 @@ export default function App() {
           {/*   PDF ROUTE (no layout)       */}
           {/* ----------------------------- */}
           <Route path="/services-brochure" element={<PDFViewer />} />
-          <Route path="/qualify-now" element={<LandingPage1 />} />
+          <Route path="/tax-lien-help" element={<LandingPage1 />} />
+          <Route path="/qualify-now" element={<PaidLandingRedirect />} />
           <Route path="/thank-you" element={<ThankYou />} />
           {/* ----------------------------- */}
           {/*   STANDARD SITE ROUTES       */}

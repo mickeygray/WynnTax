@@ -18,7 +18,7 @@ const ThankYou = () => {
     const receipt =
       String(navigationReceipt || "").trim() || getSubmissionReceipt();
     if (!receipt) {
-      navigate("/qualify-now", { replace: true });
+      navigate("/tax-lien-help", { replace: true });
       return undefined;
     }
 

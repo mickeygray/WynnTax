@@ -383,7 +383,7 @@ const HeroSection = () => {
                   </svg>
                 </Link>
                 <Link
-                  to="/qualify-now"
+                  to="/tax-lien-help"
                   className="hero__btn hero__btn--secondary"
                 >
                   <svg

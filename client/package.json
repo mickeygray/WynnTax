@@ -40,6 +40,7 @@
       "--disable-setuid-sandbox"
     ],
     "include": [
+      "/tax-lien-help",
       "/qualify-now",
       "/state-tax-guide",
       "/state-tax-guide/state-income-tax-help-alabama",

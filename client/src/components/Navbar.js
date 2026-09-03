@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  // Check if the current path is /qualify-now
+  // Paid landing routes render without the standard navigation.
 
   // Detect screen width changes for responsive behavior
   useEffect(() => {
