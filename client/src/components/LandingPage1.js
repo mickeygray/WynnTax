@@ -142,7 +142,11 @@ function getStoredAffiliateNid() {
 }
 const LeadForm = () => {
   // ── Affiliate capture + form pre-fill from URL params ───────
-  const { certUrl, inputProps: tfInputProps } = useTrustedForm();
+  const {
+    certUrl,
+    hasTimedOut: trustedFormTimedOut,
+    inputProps: tfInputProps,
+  } = useTrustedForm();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
@@ -250,6 +254,12 @@ const LeadForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!consentChecked || isSubmitting) return;
+    if (!certUrl) {
+      setSubmitError(
+        `We could not secure the form yet. Please refresh the page or call ${WYNN_PHONE_DISPLAY}.`,
+      );
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitError("");
@@ -298,7 +308,8 @@ const LeadForm = () => {
     formData.name.trim().length >= 2 &&
     isPhoneValid &&
     isEmailValid &&
-    consentChecked;
+    consentChecked &&
+    Boolean(certUrl);
 
   return (
     <div className="lp-form">
@@ -457,8 +468,19 @@ const LeadForm = () => {
             className="lp-form__btn lp-form__btn--submit"
             disabled={!isStep2Valid || isSubmitting}
           >
-            {isSubmitting ? "Submitting…" : "Have a Tax Pro Call Me"}
+            {isSubmitting
+              ? "Submitting…"
+              : !certUrl
+                ? "Securing Form…"
+                : "Have a Tax Pro Call Me"}
           </button>
+
+          {trustedFormTimedOut && !certUrl && !submitError && (
+            <p className="lp-form__error" role="alert">
+              We could not secure the form. Please refresh the page or call{" "}
+              {WYNN_PHONE_DISPLAY}.
+            </p>
+          )}
 
           {submitError && (
             <p className="lp-form__error" role="alert">

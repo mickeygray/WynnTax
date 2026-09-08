@@ -15,29 +15,48 @@
 import { useState, useEffect, useRef } from "react";
 
 const TRUSTEDFORM_FIELD_NAME = "xxTrustedFormCertUrl";
+const TRUSTEDFORM_SCRIPT_ID = "trustedform-script";
+const TRUSTEDFORM_SCRIPT_BASE_URL =
+  "https://api.trustedform.com/trustedform.js";
+
+function isTrustedFormCertificate(value) {
+  return /^https:\/\/cert\.trustedform\.com\//i.test(String(value || "").trim());
+}
 
 export function useTrustedForm() {
   const [certUrl, setCertUrl] = useState("");
   const [token, setToken] = useState("");
+  const [hasTimedOut, setHasTimedOut] = useState(false);
   const inputRef = useRef(null);
   const scriptLoaded = useRef(false);
 
   useEffect(() => {
     // Avoid loading script twice
     if (scriptLoaded.current) return;
-    if (document.getElementById("trustedform-script")) {
+
+    let existingScript = document.getElementById(TRUSTEDFORM_SCRIPT_ID);
+    if (existingScript?.src?.startsWith("http://")) {
+      // react-snap prerenders on an HTTP localhost origin. Older builds
+      // serialized that protocol into the production HTTPS page, where the
+      // browser blocked it as active mixed content. Replace any stale element
+      // rather than treating its ID as proof that TrustedForm is available.
+      existingScript.remove();
+      existingScript = null;
+    }
+
+    if (existingScript) {
       scriptLoaded.current = true;
       return;
     }
 
     // Load TrustedForm script
     const script = document.createElement("script");
-    script.id = "trustedform-script";
+    script.id = TRUSTEDFORM_SCRIPT_ID;
     script.type = "text/javascript";
     script.async = true;
     script.src =
-      (document.location.protocol === "https:" ? "https" : "http") +
-      "://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&use_tagged_consent=true&l=" +
+      `${TRUSTEDFORM_SCRIPT_BASE_URL}?field=${TRUSTEDFORM_FIELD_NAME}` +
+      "&use_tagged_consent=true&l=" +
       new Date().getTime() +
       Math.random();
 
@@ -54,17 +73,21 @@ export function useTrustedForm() {
     const interval = setInterval(() => {
       attempts++;
 
-      // Check the hidden input that TrustedForm populates
-      const field = document.querySelector(
-        `input[name="${TRUSTEDFORM_FIELD_NAME}"]`,
-      );
+      // TrustedForm can inject more than one matching field when a page has
+      // multiple or dynamically replaced forms. Use the populated certificate
+      // instead of assuming the first matching input is authoritative.
+      const field = Array.from(
+        document.querySelectorAll(`input[name="${TRUSTEDFORM_FIELD_NAME}"]`),
+      ).find((candidate) => isTrustedFormCertificate(candidate.value));
 
-      if (field && field.value) {
-        setCertUrl(field.value);
+      if (field) {
+        const nextCertUrl = String(field.value).trim();
+        setCertUrl(nextCertUrl);
+        setHasTimedOut(false);
 
         // Extract token from cert URL
         // Format: https://cert.trustedform.com/TOKEN
-        const match = field.value.match(/trustedform\.com\/([a-f0-9]+)/);
+        const match = nextCertUrl.match(/trustedform\.com\/([^/?#]+)/i);
         if (match) {
           setToken(match[1]);
         }
@@ -75,6 +98,7 @@ export function useTrustedForm() {
 
       if (attempts >= maxAttempts) {
         console.warn("[TRUSTEDFORM] ✗ Cert URL not available after 15s");
+        setHasTimedOut(true);
         clearInterval(interval);
       }
     }, 500);
@@ -94,6 +118,7 @@ export function useTrustedForm() {
   return {
     certUrl,
     token,
+    hasTimedOut,
     inputProps,
   };
 }

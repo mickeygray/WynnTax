@@ -60,6 +60,15 @@ async function completeForm(page) {
   await page.select('select[name="debtAmount"]', "10000-25000");
   await page.click(".lp-form__option");
   await page.click(".lp-form__btn");
+  await page.evaluate(() => {
+    const input = document.querySelector('input[name="xxTrustedFormCertUrl"]');
+    input.value = "https://cert.trustedform.com/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  });
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".lp-form__btn--submit")?.textContent.trim() ===
+      "Have a Tax Pro Call Me",
+  );
   await page.type('input[name="name"]', "Smoke Test");
   await page.type('input[name="phone"]', "5555550100");
   await page.type('input[name="email"]', "smoke@example.com");
@@ -90,6 +99,17 @@ function analyticsEventCount(page, eventName) {
 async function run() {
   if (!fs.existsSync(path.join(buildDir, "index.html"))) {
     throw new Error("Build output is missing. Run npm run build first.");
+  }
+
+  const paidLandingHtml = fs.readFileSync(
+    path.join(buildDir, "tax-lien-help", "index.html"),
+    "utf8",
+  );
+  if (paidLandingHtml.includes("http://api.trustedform.com")) {
+    throw new Error("Paid landing page contains an insecure TrustedForm script");
+  }
+  if (!paidLandingHtml.includes("https://api.trustedform.com/trustedform.js")) {
+    throw new Error("Paid landing page is missing the HTTPS TrustedForm script");
   }
 
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -184,6 +204,13 @@ async function run() {
     }
     if (lastLeadPayload?.consentGiven !== true) {
       throw new Error("Consent flag was not included in the lead payload");
+    }
+    if (
+      !String(lastLeadPayload?.trustedFormCertUrl || "").startsWith(
+        "https://cert.trustedform.com/",
+      )
+    ) {
+      throw new Error("TrustedForm certificate was not included in the lead payload");
     }
 
     await page.reload({ waitUntil: "networkidle0" });
