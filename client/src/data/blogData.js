@@ -1,5 +1,28 @@
 const blogData = [
 {
+  "id": "tax-filing-help-vs-irs-problem",
+  "title": "Need Help Filing, or Help With an IRS Problem?",
+  "teaser": "Free tax preparation and help with an IRS notice are not the same thing. Here’s how to tell which kind of help you need, especially when both involve the same tax year.",
+  "contentTitle": "Need Help Filing, or Help With an IRS Problem?",
+  "contentBody": [
+    "<p>If you need to file a return and there’s an IRS letter on your counter, it can feel like one big tax problem. It may actually be two separate jobs. One is getting the return filed. The other is answering the letter by the date it gives you. Getting help with the first doesn’t necessarily take care of the second.</p>",
+    "<p>On November 18, the IRS announced $58 million in grants to organizations, with 331 awards: 282 through Volunteer Income Tax Assistance (VITA) and 49 through Tax Counseling for the Elderly (TCE). The grants support free tax preparation programs. They’re not payments to individual taxpayers or a program for settling tax debt.</p>",
+    "<h2>If the job is to prepare and file a return</h2>",
+    "<p>Start by identifying the tax year and checking whether you need a current-year or prior-year return. The IRS’s VITA and TCE programs offer free basic return preparation to qualifying taxpayers. TCE focuses especially on people age 60 and older, including pension and retirement questions. What a volunteer site can handle varies. Before you book, ask: “Can you prepare a return for this year, and can you handle my types of income?” That’s especially useful if you have an older unfiled return or self-employment income. Gather your income forms and any prior return that relates to the year you’re filing.</p>",
+    "<h2>If the job is to respond to the IRS</h2>",
+    "<p>Open the notice and write down three things: the tax year, what the IRS says it needs, and the response date. Then pull together the full notice, any return already filed for that year, and prior correspondence. A proposed adjustment, a balance you disagree with, and a request for a missing return aren’t the same job. Ask whoever helps you: “Are you preparing the return, helping me respond to this notice, or both?” Make sure you know who is handling the response and by when.</p>",
+    "<p>If you have a tax dispute and need a lower-cost option, an independent Low Income Taxpayer Clinic may be able to help for free or a small fee. The clinic decides whether you qualify and whether it can take your case.</p>",
+    "<h2>If both jobs apply, keep them on separate tracks</h2>",
+    "<p>For example, say you still need to file a return, but the IRS has also sent a notice proposing changes for a different year. Book the filing help and make a separate plan for the notice. Even if the notice and return involve the same year, don’t assume a preparation appointment changes your response date or that filing alone addresses everything in the letter. If you’re not sure what your notice requires or whether filing will address it, contact us for a consultation. Have the notice and response date handy so we can help you sort out which steps belong on each track.</p>",
+    "<p>General educational information, not individualized tax advice.</p>",
+    "<h2>Sources</h2>",
+    "<p><a href=\"&#104;ttps://www.irs.gov/newsroom/irs-announces-2027-tax-counseling-for-t&#104;e-elderly-and-volunteer-income-tax-assistance-program-grants\" rel=\"noopener noreferrer\" target=\"&#95;blank\">IRS announcement: 2027 VITA and TCE grants</a></p>",
+    "<p><a href=\"&#104;ttps://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers\" rel=\"noopener noreferrer\" target=\"&#95;blank\">IRS guide to free tax preparation and site locator</a></p>",
+    "<p><a href=\"&#104;ttps://www.taxpayeradvocate.irs.gov/litc/\" rel=\"noopener noreferrer\" target=\"&#95;blank\">Taxpayer Advocate Service guide to Low Income Taxpayer Clinics</a></p>"
+  ],
+  "image": "/images/tax-filing-help-vs-irs-problem.png"
+},
+{
   "id": "paycheck-gig-income-year-end-tax-check",
   "title": "A Paycheck and a Side Gig? Check for a 2026 Tax Gap Before Year-End",
   "teaser": "A paycheck may not cover the federal tax on side income. Use three sets of records to check for a 2026 tax gap before you file.",
