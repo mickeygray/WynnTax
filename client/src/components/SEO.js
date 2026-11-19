@@ -5,6 +5,7 @@ const SEO = ({
   description,
   canonical,
   ogImage,
+  ogType = "website",
   structuredData,
   noindex,
 }) => (
@@ -21,7 +22,7 @@ const SEO = ({
       property="og:url"
       content={`https://www.wynntaxsolutions.com${canonical}`}
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta
       property="og:image"
       content={

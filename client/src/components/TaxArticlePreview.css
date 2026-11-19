@@ -1,0 +1,11 @@
+.tax-news-detail .tax-article-summary {
+  border-left: 4px solid #306cac;
+  padding-left: 1rem;
+  margin-bottom: 1.1rem;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #162d45;
+}
+.tax-news-detail .tax-article-related { margin-top: 2rem; }
+.tax-news-detail .tax-article-related a { text-underline-offset: 0.18em; }
+.tax-news-detail .tax-article-related li { margin-block: 0.6rem; }

@@ -22,7 +22,7 @@ const SubPageWrapper = () => {
     );
   }
 
-  return <SubPage {...pageData} />;
+  return <SubPage {...pageData} category={category} slug={slug} />;
 };
 
 export default SubPageWrapper;
