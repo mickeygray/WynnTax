@@ -15,7 +15,7 @@ const TaxNewsArticle = () => {
   if (!blog) return <p>Blog not found.</p>;
 
   const heroImage = blog.image || FALLBACK_HERO;
-  const canonical = `/tax-news/${blog.id}`;
+  const canonical = `/tax-news/${blog.id}/`;
   const articleUrl = SITE_ORIGIN + canonical;
   const articleImage = blog.image ? new URL(blog.image, SITE_ORIGIN).href : undefined;
   const breadcrumbSchema = {
@@ -23,7 +23,7 @@ const TaxNewsArticle = () => {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE_ORIGIN + "/" },
-      { "@type": "ListItem", position: 2, name: "Tax News", item: SITE_ORIGIN + "/tax-news" },
+      { "@type": "ListItem", position: 2, name: "Tax News", item: SITE_ORIGIN + "/tax-news/" },
       { "@type": "ListItem", position: 3, name: blog.contentTitle, item: articleUrl },
     ],
   };
@@ -86,7 +86,7 @@ const TaxNewsArticle = () => {
           <h1>{blog.contentTitle}</h1>
           <nav className="tax-news-breadcrumbs" aria-label="Breadcrumb">
             <Link to="/">Home</Link> <span>/</span>
-            <Link to="/tax-news">Tax News</Link> <span>/</span>
+            <Link to="/tax-news/">Tax News</Link> <span>/</span>
             <span aria-current="page">{blog.title}</span>
           </nav>
         </div>
@@ -105,7 +105,7 @@ const TaxNewsArticle = () => {
             <h2>{related.some(({ weight }) => weight > 0) ? "Related reading" : "More from Tax News"}</h2>
             <ul>
               {related.map(({ other }) => (
-                <li key={other.id}><Link to={`/tax-news/${other.id}`}>{other.title}</Link></li>
+                <li key={other.id}><Link to={`/tax-news/${other.id}/`}>{other.title}</Link></li>
               ))}
             </ul>
           </nav>

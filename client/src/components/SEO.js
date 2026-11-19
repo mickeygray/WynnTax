@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { canonicalTaxPath } from "../utils/indexableTaxPath";
 
 const SEO = ({
   title,
@@ -9,18 +10,19 @@ const SEO = ({
   structuredData,
   noindex,
 }) => (
-  <Helmet>
+  // ReactSnap may save the body before the next animation frame.
+  <Helmet defer={false}>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link
       rel="canonical"
-      href={`https://www.wynntaxsolutions.com${canonical}`}
+      href={`https://www.wynntaxsolutions.com${canonicalTaxPath(canonical)}`}
     />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta
       property="og:url"
-      content={`https://www.wynntaxsolutions.com${canonical}`}
+      content={`https://www.wynntaxsolutions.com${canonicalTaxPath(canonical)}`}
     />
     <meta property="og:type" content={ogType} />
     <meta

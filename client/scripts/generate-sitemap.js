@@ -5,6 +5,8 @@ const path = require("path");
 const subPageData = require("../src/data/subPageData");
 const blogData = require("../src/data/blogData");
 
+const { canonicalTaxPath } = require("../src/utils/indexableTaxPath");
+
 const DOMAIN = "https://www.wynntaxsolutions.com";
 
 const states = [
@@ -58,7 +60,6 @@ const states = [
   "west-virginia",
   "wisconsin",
   "wyoming",
-  "district-of-columbia",
 ];
 
 const staticPages = [
@@ -79,7 +80,7 @@ const staticPages = [
 
 const toEntry = ({ loc, priority, changefreq }) =>
   `  <url>
-    <loc>${DOMAIN}${loc}</loc>
+    <loc>${DOMAIN}${canonicalTaxPath(loc)}</loc>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`;

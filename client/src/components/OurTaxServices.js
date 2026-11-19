@@ -8,28 +8,28 @@ const services = [
     title: "Tax Relief",
     description:
       "Dealing with tax issues can feel overwhelming, but you're not alone. We specialize in providing personalized tax relief services that help individuals and businesses resolve their tax challenges efficiently and effectively.",
-    link: "/tax-relief",
+    link: "/tax-relief/",
     icon: "fas fa-shield-alt",
   },
   {
     title: "Tax Resolution",
     description:
       "Dealing with tax challenges can feel like an uphill battle, but we are here to help. Our tax resolution services provide expert guidance and comprehensive solutions to help you regain financial peace of mind.",
-    link: "/tax-resolution",
+    link: "/tax-resolution/",
     icon: "fas fa-balance-scale",
   },
   {
     title: "Tax Negotiation",
     description:
       "Facing tax debt can be overwhelming, but we provide the solutions you need. Our tax negotiation services are designed to help you resolve your tax issues and regain financial stability.",
-    link: "/tax-negotiation",
+    link: "/tax-negotiation/",
     icon: "fas fa-handshake",
   },
   {
     title: "Tax Protection Plans",
     description:
       "We believe in providing peace of mind through proactive support and protection. Our Tax Protection Plans are designed to safeguard your financial well-being with varying levels of service.",
-    link: "/tax-protection-plans",
+    link: "/tax-protection-plans/",
     icon: "fas fa-lock",
   },
 ];

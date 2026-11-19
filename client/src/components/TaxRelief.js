@@ -7,7 +7,7 @@ const TaxRelief = () => {
       <SEO
         title="Tax Relief Services | Reduce Your IRS Debt | Wynn Tax Solutions"
         description="Struggling with IRS tax debt? Our licensed enrolled agents help you reduce what you owe through proven relief programs. Free consultation available."
-        canonical="/tax-relief"
+        canonical="/tax-relief/"
         structuredData={[
           orgSchema,
           serviceSchema(
@@ -68,7 +68,7 @@ const TaxRelief = () => {
           <h3 className="blue-subtitle">✔ Tax Consultation</h3>
           <p>
             Navigating the complexities of taxes can be overwhelming, but our
-            <a href="/tax-relief/tax-consultation"> tax consultation</a>{" "}
+            <a href="/tax-relief/tax-consultation/"> tax consultation</a>{" "}
             services are here to help. At <strong>Wynn Tax Solutions</strong>,
             we offer personalized guidance to address your unique tax needs,
             whether you're an individual or a business.
@@ -91,7 +91,7 @@ const TaxRelief = () => {
             Filing taxes doesn't have to be stressful.{" "}
             <strong>Wynn Tax Solutions</strong>
             offers professional
-            <a href="/tax-relief/tax-preparation"> tax preparation</a> services
+            <a href="/tax-relief/tax-preparation/"> tax preparation</a> services
             designed to simplify the process and maximize your savings.
           </p>
           <p>
@@ -109,7 +109,7 @@ const TaxRelief = () => {
           <p>
             If you're facing tax debt or struggling to resolve a dispute with
             the IRS, our
-            <a href="/tax-relief/tax-settlement"> tax settlement services</a>
+            <a href="/tax-relief/tax-settlement/"> tax settlement services</a>
             are here to help. At <strong>Wynn Tax Solutions</strong>, we
             specialize in negotiating with the IRS on your behalf to reach a
             resolution that works for you.

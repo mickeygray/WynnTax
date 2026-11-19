@@ -39,9 +39,9 @@ function summaryFor(slug, body, title) {
 }
 
 const SubPage = ({ heroImage, heroTitle, title, body = [], category, slug }) => {
-  const canonical = `/${category}/${slug}`;
+  const canonical = `/${category}/${slug}/`;
   const categoryLabel = categoryLabels[category] || "Tax Services";
-  const categoryPath = categoryLabels[category] ? `/${category}` : "/our-tax-services";
+  const categoryPath = categoryLabels[category] ? `/${category}/` : "/our-tax-services";
   const pageTitle = title || heroTitle;
   const summary = summaryFor(slug, body, pageTitle);
   const crumbs = [

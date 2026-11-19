@@ -11,7 +11,7 @@ const StateTaxHub = () => {
   const handleStateClick = (abbr) => {
     const state = getStateByAbbreviation(abbr);
     if (state) {
-      navigate(`/state-tax-guide/${state.slug}`);
+      navigate(`/state-tax-guide/${state.slug}/`);
     }
   };
 
@@ -92,7 +92,7 @@ const StateTaxHub = () => {
                   <ul>
                     {states.map((s) => (
                       <li key={s.slug}>
-                        <Link to={`/state-tax-guide/${s.slug}`}>
+                        <Link to={`/state-tax-guide/${s.slug}/`}>
                           <span className="state-hub__abbr">
                             {s.abbreviation}
                           </span>

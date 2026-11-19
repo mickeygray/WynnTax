@@ -7,7 +7,7 @@ const TaxResolution = () => {
       <SEO
         title="Tax Resolution Services | Resolve IRS Issues | Wynn Tax Solutions"
         description="Resolve unpaid taxes, audits, liens, and levies with Wynn Tax Solutions. Decades of experience negotiating with the IRS on behalf of taxpayers nationwide."
-        canonical="/tax-resolution"
+        canonical="/tax-resolution/"
         structuredData={[
           orgSchema,
           serviceSchema(
@@ -58,7 +58,7 @@ const TaxResolution = () => {
           <h3 className="tax-resolution-subtitle">✔ Tax Representation</h3>
           <p>
             When you're facing the IRS, having professional
-            <a href="/tax-resolution/tax-representation">
+            <a href="/tax-resolution/tax-representation/">
               {" "}
               tax representation
             </a>{" "}
@@ -69,7 +69,7 @@ const TaxResolution = () => {
 
           <h3 className="tax-resolution-subtitle">✔ Dealing with the IRS</h3>
           <p>
-            Responding to IRS notices, audits, or collection efforts can be
+            <a href="/tax-resolution/dealing-with-the-irs/">Responding to IRS notices</a>, audits, or collection efforts can be
             stressful and confusing. We simplify the process by managing all
             communications with the IRS, ensuring that your case is handled
             efficiently and effectively, so you don't have to face it alone.
@@ -79,7 +79,7 @@ const TaxResolution = () => {
           <p>
             If you're being unfairly held responsible for a spouse's or
             ex-spouse's tax debt, you may qualify for
-            <a href="/tax-resolution/irs-innocent-spouse">
+            <a href="/tax-resolution/irs-innocent-spouse/">
               {" "}
               Innocent Spouse Relief
             </a>
@@ -90,8 +90,8 @@ const TaxResolution = () => {
 
           <h3 className="tax-resolution-subtitle">✔ State Tax Relief</h3>
           <p>
-            Tax issues aren't limited to the IRS. If you're dealing with state
-            tax problems, we can help you navigate the unique rules and
+            Tax issues aren't limited to the IRS. If you're dealing with <a href="/tax-resolution/state-tax-relief/">state tax problems</a>, we can help you navigate the rules
+            and
             requirements of your state's tax authority. From negotiating
             settlements to resolving back taxes, we'll work to find the best
             solution.
@@ -101,7 +101,7 @@ const TaxResolution = () => {
           <p>
             Tax debt doesn't last forever. If your tax liabilities are
             approaching their expiration date under the
-            <a href="/tax-resolution/statute-of-limitations">
+            <a href="/tax-resolution/statute-of-limitations/">
               {" "}
               statute of limitations
             </a>
@@ -114,7 +114,7 @@ const TaxResolution = () => {
           </h3>
           <p>
             Proper
-            <a href="/tax-resolution/tax-prep-and-planning">
+            <a href="/tax-resolution/tax-prep-and-planning/">
               {" "}
               tax preparation and planning
             </a>
@@ -127,7 +127,7 @@ const TaxResolution = () => {
           <p>
             If you need to consolidate multiple tax filings or correct errors
             from past returns, our
-            <a href="/tax-resolution/unified-tax-returns">
+            <a href="/tax-resolution/unified-tax-returns/">
               {" "}
               unified tax return
             </a>{" "}
@@ -140,7 +140,7 @@ const TaxResolution = () => {
             Certain tax debts may be eligible for discharge through bankruptcy
             or other resolution methods. We'll evaluate your case and determine
             if an
-            <a href="/tax-resolution/irs-tax-discharge">
+            <a href="/tax-resolution/irs-tax-discharge/">
               {" "}
               IRS tax discharge
             </a>{" "}
@@ -150,7 +150,7 @@ const TaxResolution = () => {
 
           <h3 className="tax-resolution-subtitle">✔ Payroll Tax Relief</h3>
           <p>
-            Unpaid payroll taxes can lead to significant penalties and IRS
+            <a href="/tax-resolution/payroll-tax-relief/">Unpaid payroll taxes</a> can lead to significant penalties and IRS
             action. We'll work with you to resolve payroll tax issues quickly,
             protecting your business from further liabilities and keeping your
             operations running smoothly.
@@ -159,7 +159,7 @@ const TaxResolution = () => {
           <h3 className="tax-resolution-subtitle">✔ Wage Garnishment Relief</h3>
           <p>
             If the IRS is garnishing your wages, it's time to take action. Our
-            <a href="/tax-resolution/wage-garnishment-relief">
+            <a href="/tax-resolution/wage-garnishment-relief/">
               {" "}
               wage garnishment relief
             </a>{" "}

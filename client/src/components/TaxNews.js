@@ -34,7 +34,7 @@ const TaxNews = () => {
 
       <main className="tax-news__main">
         {featured && (
-          <Link to={`/tax-news/${featured.id}`} className="tax-news__featured">
+          <Link to={`/tax-news/${featured.id}/`} className="tax-news__featured">
             <div className="tax-news__featured-image">
               <img src={featured.image} alt={featured.title} />
               <div className="tax-news__featured-overlay" />
@@ -53,7 +53,7 @@ const TaxNews = () => {
         <div className="tax-news__grid">
           {rest.map((blog, index) => (
             <Link
-              to={`/tax-news/${blog.id}`}
+              to={`/tax-news/${blog.id}/`}
               key={blog.id}
               className="tax-news__card"
               style={{ animationDelay: `${index * 0.1}s` }}

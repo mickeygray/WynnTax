@@ -7,7 +7,7 @@ const TaxNegotiation = () => {
       <SEO
         title="IRS Tax Negotiation | Settlements & Payment Plans | Wynn Tax Solutions"
         description="Expert IRS negotiation services to secure reduced payments, extended deadlines, or settlements. Licensed enrolled agents representing your interests."
-        canonical="/tax-negotiation"
+        canonical="/tax-negotiation/"
         structuredData={[
           orgSchema,
           serviceSchema(
@@ -63,7 +63,7 @@ const TaxNegotiation = () => {
           <p>
             If you're unable to pay your tax debt due to financial hardship, the
             IRS may grant you
-            <a href="/tax-negotiation/currently-not-collectible">
+            <a href="/tax-negotiation/currently-not-collectible/">
               {" "}
               Currently Not Collectible
             </a>{" "}
@@ -76,7 +76,7 @@ const TaxNegotiation = () => {
           <h2 className="tax-negotiation-subtitle">✔ IRS Installment Plans</h2>
           <p>
             When paying your tax debt in full isn't possible, an
-            <a href="/tax-negotiation/irs-installment-plans">
+            <a href="/tax-negotiation/irs-installment-plans/">
               {" "}
               IRS installment plan
             </a>{" "}
@@ -90,7 +90,7 @@ const TaxNegotiation = () => {
           <p>
             IRS penalties can significantly increase your tax debt, but you may
             be eligible for
-            <a href="/tax-negotiation/penalty-abatement">
+            <a href="/tax-negotiation/penalty-abatement/">
               {" "}
               penalty abatement
             </a>{" "}
@@ -103,7 +103,7 @@ const TaxNegotiation = () => {
           <h2 className="tax-negotiation-subtitle">✔ Offer in Compromise</h2>
           <p>
             An
-            <a href="/tax-negotiation/offer-in-compromise">
+            <a href="/tax-negotiation/offer-in-compromise/">
               {" "}
               Offer in Compromise
             </a>{" "}
